@@ -1,0 +1,165 @@
+//
+//  OrderingView.swift
+//  HouseholdBills (iOS)
+//
+//  Created by Pablo Albella on 9/4/21.
+//
+
+import SwiftUI
+import UniformTypeIdentifiers
+import CoreData
+
+struct OrderingView: View {
+    
+    @StateObject var settings: UserSettings = UserSettings()
+    @StateObject var ui: AppUI = AppUI()
+    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.managedObjectContext) private var viewContext
+    
+    @Binding var items : [String]
+    @State var draggedItem : String?
+    
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "order", ascending: true)])
+    var cardsFetch: FetchedResults<Card>
+    
+    init(items: Binding<[String]> ) {
+        
+           self._items = items
+        
+        UINavigationBar.appearance().isTranslucent = false
+       }
+    
+    func onAppear() {
+        let appearance = UINavigationBarAppearance()
+        appearance.shadowColor = colorScheme != .dark ? .lightGray : .darkGray
+        appearance.backgroundColor = colorScheme != .dark ? UIColor(Color.white): UIColor(ui.darkBackgroundColor)
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
+    
+    
+    var body: some View {
+        NavigationView {
+        VStack {
+          
+            Spacer()
+        LazyVStack(spacing : 15) {
+            ForEach(items, id:\.self) { item in
+                
+                HStack {
+//                    Image(systemName: "line.horizontal.3")
+//                                    .foregroundColor(.blue)
+//                        .font(.system(size: 15, weight: .heavy))
+//                        .padding()
+                    
+                    Text(item)
+                        .frame(minWidth:0, maxWidth:.infinity, minHeight:50)
+                    
+//                    CheckBoxView(checked: $checked)
+                }
+                .background(colorScheme != .dark ? ui.lightItemBackgroundColor: Color(UIColor.systemGray5))
+                .onDrag({
+                self.draggedItem = item
+                return NSItemProvider(item: nil, typeIdentifier: item)
+                }) .onDrop(of: [UTType.text], delegate: MyDropDelegate(viewContext: viewContext, item: item, items: $items, draggedItem: $draggedItem))
+                  
+                 
+            }
+          
+        }
+            Spacer()
+        }
+        .background(NavigationConfigurator { nc in
+            let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
+                        nc.navigationBar.barTintColor = UIColor(color)
+                    })
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("Cards Order")
+                    .font(ui.title)
+                    .accessibilityAddTraits(.isHeader)
+                    .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+            }
+        }
+        .background(colorScheme != .dark ? ui.darkItemBackgroundColor: ui.darkMainBackgroundColor)
+        }
+        .onAppear {
+            self.onAppear()
+            getCards()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+            getCards()
+        
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
+            getCards()
+            }
+        
+    }
+    
+    func getCards()
+    {
+        let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
+        self.items = [String]()
+        
+        do {
+            let savedCards =  try viewContext.fetch(fetchRequest)
+       
+                            for index in 0..<savedCards.count {
+                                let card = self.cardsFetch[index]
+                                self.items.append(card.name! as String)
+                                    }
+        } catch {
+           
+        }
+
+    }
+    
+
+}
+
+struct MyDropDelegate : DropDelegate {
+
+    
+    @State var viewContext: NSManagedObjectContext
+    
+    let item : String
+    @Binding var items : [String]
+    @Binding var draggedItem : String?
+
+    func performDrop(info: DropInfo) -> Bool {
+        
+        return true
+    }
+
+    func dropEntered(info: DropInfo) {
+        guard let draggedItem = self.draggedItem else {
+            return
+        }
+
+        if draggedItem != item {
+            let from = items.firstIndex(of: draggedItem)!
+            let to = items.firstIndex(of: item)!
+            withAnimation(.default) {
+                self.items.move(fromOffsets: IndexSet(integer: from), toOffset: to > from ? to + 1 : to)
+            }
+        }
+    }
+    
+    
+ 
+}
+
+
+//struct CheckBoxView: View {
+//    @Binding var checked: Bool
+//
+//    var body: some View {
+//        Image(systemName: checked ? "checkmark.square.fill" : "square")
+//            .foregroundColor(checked ? Color(UIColor.systemBlue) : Color.secondary)
+//            .onTapGesture {
+//                self.checked.toggle()
+//            }
+//    }
+//}
