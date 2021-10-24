@@ -37,7 +37,7 @@ struct TextInput: View {
             Spacer()
                 CustomTextfield(label: label, text: $value, keyType: UIKeyboardType.alphabet, textAlignment: .right,
                                 maxLength: maxLength).padding(5).padding(.leading, 5).padding(.trailing, 5)
-                        .multilineTextAlignment(.trailing)
+//                        .multilineTextAlignment(.trailing)
                         .foregroundColor(fontColor)
 
         

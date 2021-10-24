@@ -24,7 +24,7 @@ struct DailyBalanceTask {
     }
     
     func run() {
-        
+       
         do {
 
             
@@ -69,6 +69,8 @@ struct DailyBalanceTask {
     func getBalance() -> Double {
         var balance: Double = 0
         let currencies = GetCurrencies()
+        let fetchCurrencies = FetchCurrencies()
+        currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
         
         
         let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
@@ -77,7 +79,7 @@ struct DailyBalanceTask {
             let savedAccounts =  try viewContext.fetch(fetchRequest)
 
                             for index in 0..<savedAccounts.count {
-
+                                print(savedAccounts[index].currency!)
                                 let amount: Double = currencies.convert(currencyFrom: savedAccounts[index].currency!, currencyTo: settings.currency, value: savedAccounts[index].amount)
                                 
                                 balance = balance + amount

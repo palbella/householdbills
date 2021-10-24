@@ -159,7 +159,7 @@ struct MoreView: View {
                         
                         Spacer()
                         Button(action: {
-                            print(settings.subscribed)
+                          
                             if(settings.subscribed) {
                             self.isShowing = true
                             } else {

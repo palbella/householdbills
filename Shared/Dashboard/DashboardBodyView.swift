@@ -35,6 +35,7 @@ struct DashboardBodyView: View {
     
     @Binding var isShowingToast: Bool
     @Binding var toastMessasge: String
+    @Binding var toastError: Bool
     
     @Binding var currentMonthName: String
     
@@ -91,7 +92,7 @@ struct DashboardBodyView: View {
                 if(card.name == "Accounts") {
                     
                     if(card.visible == true) {
-                        AccountListView(totalAccounts: self.$totalAccounts, totalGoalAccounts: self.$totalGoalAccounts, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData, isShowingToast: $isShowingToast, toastMessasge: $toastMessasge)
+                        AccountListView(totalAccounts: self.$totalAccounts, totalGoalAccounts: self.$totalGoalAccounts, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData, isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError)
                             .padding(.top, 10)
 
                          Spacer()

@@ -18,21 +18,21 @@ struct CryptocurrencyView: View {
    
     @Binding var account: AccountModel
    
-    @State var deleteCrypto: Bool = false
-    @State var modalCrypto: Bool = false
     
     @ObservedObject var icons = GetIcons()
     @ObservedObject var colors = GetColors()
     
-    @State var isShowing: Bool = false
-    @State var isShowingNew: Bool = false
+    @Binding var isShowing: Bool
+    @Binding var isShowingNew: Bool
+    @Binding var deleteCrypto: Bool
+    @Binding var modalCrypto: Bool
     
-    @State var isShowingToast: Bool = false
-    @State var toastMessasge: String = ""
-    @State var cryptoSelected : CryptocurrencyModel = CryptocurrencyModel()
+    @Binding var cryptoSelected : CryptocurrencyModel
     
-    @State var totalPrices: Double = 0
-    @State var totalInvestments: Double = 0
+    @Binding var totalPrices: Double
+    @Binding var totalInvestments: Double
+    
+    @State var cryptoData : CryptocurrencyData = CryptocurrencyData()
     
     public let predicate: NSPredicate
 //    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
@@ -41,11 +41,18 @@ struct CryptocurrencyView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
         var cryptoFetchResult: FetchedResults<Cryptocurrency>
     
-//    @State var market: [CryptocurrencyMarketModel] = []
+
     
-    init(account: Binding<AccountModel> ) {
+    init(account: Binding<AccountModel>, cryptoSelected: Binding<CryptocurrencyModel>, isShowingNew: Binding<Bool>, isShowingUpdate: Binding<Bool>, deleteCrypto: Binding<Bool>, modalCrypto: Binding<Bool>, totalPrices: Binding<Double>, totalInvestments: Binding<Double> ) {
         
         self._account = account
+        self._cryptoSelected = cryptoSelected
+        self._isShowingNew = isShowingNew
+        self._isShowing = isShowingUpdate
+        self._deleteCrypto = deleteCrypto
+        self._modalCrypto = modalCrypto
+        self._totalInvestments = totalInvestments
+        self._totalPrices = totalPrices
         
         UINavigationBar.appearance().isTranslucent = false
         
@@ -84,18 +91,6 @@ struct CryptocurrencyView: View {
                                         
                                         CommandButton(content: "plus.circle")
                                     }
-                                    .sheet(isPresented: self.$isShowingNew, onDismiss: {
-                                     
-                                      
-                                                       if(self.$cryptoSelected.name.wrappedValue != "") {
-                                                        addCrypto(crypto: self.$cryptoSelected.wrappedValue)
-                                                       }
-                                            
-
-                                        }) {
-                                        CryptocurrencyAddView(crypto: self.$cryptoSelected)
-                                        
-                                    }
                                     .frame(width: 15, height: 15)
                                     .padding(.leading, 10)
                                     .padding(.trailing, 17)
@@ -120,7 +115,7 @@ struct CryptocurrencyView: View {
                                               let fontColor = item.amount >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
                                               
                                                                   Button(action: {
-                                                                    self.cryptoSelected = map(crypto: item)
+                                                                      self.cryptoSelected = cryptoData.map(crypto: item)
                                                                       self.deleteCrypto = false
                                                                       self.isShowing = true
                                                                   }) {
@@ -166,24 +161,8 @@ struct CryptocurrencyView: View {
                                                                       .frame(maxWidth: .infinity)
 
                                                                       }
-    
+                                                                      
                                                                   }
-                                                                  .sheet(isPresented: self.$isShowing, onDismiss: {
-                                                                      
-                                                                      
-                                                                      if(self.deleteCrypto) {
-                                                                          deleteCrypto(crypto: self.$cryptoSelected.wrappedValue)
-                                                                      } else {
-                                                                          updateCrypto(crypto: self.$cryptoSelected.wrappedValue)
-                                                                      }
-
-                                                                  }) {
-                                                                    
-                                                                    CryptocurrencyUpdateView(crypto: self.$cryptoSelected, modal: self.$isShowing, delete: self.$deleteCrypto)
-                                                                        
-                                                                    
-                                                                      
-                                                }
                                           
                         }
                                           }
@@ -347,117 +326,10 @@ struct CryptocurrencyView: View {
         
     }
     
-    private func addCrypto(crypto: CryptocurrencyModel)
-    {
-      
-            withAnimation {
-             
-                let newCrypto = Cryptocurrency(context: viewContext)
-                newCrypto.id = UUID()
-                newCrypto.accountId = self.$account.wrappedValue.id
-                newCrypto.name = crypto.name
-                newCrypto.amount = crypto.amount
-                newCrypto.symbol = crypto.symbol
-                newCrypto.avgPurchase = crypto.avgPurchase
-                newCrypto.price = crypto.price
-                newCrypto.notificated = false
-                newCrypto.notificationPriceUp = crypto.notificationPriceUp
-                newCrypto.notificationPriceDown = crypto.notificationPriceDown
+  
 
-      SaveContext()
-            }
-        GetMarketCriptocurrencies(viewContext: viewContext).run()
-        getTotals()
-
-    }
     
-    private func updateCrypto(crypto: CryptocurrencyModel)
-    {
-      
-          
-        do {
-                let request: NSFetchRequest<Cryptocurrency> = Cryptocurrency.fetchRequest()
-                request.predicate = NSPredicate(format: "id == %@", crypto.id as CVarArg)
-                
-                let savedCrypto = try  self.viewContext.fetch(request)[0]
-                
-            savedCrypto.name = crypto.name
-            savedCrypto.accountId = self.$account.wrappedValue.id
-            savedCrypto.amount = crypto.amount
-            savedCrypto.symbol = crypto.symbol
-            savedCrypto.amount = crypto.amount
-            savedCrypto.avgPurchase = crypto.avgPurchase
-            savedCrypto.price = crypto.price
-            savedCrypto.notificated = false
-            savedCrypto.notificationPriceUp = crypto.notificationPriceUp
-            savedCrypto.notificationPriceDown = crypto.notificationPriceDown
-            
-        } catch {
-            print(error)
-        }
 
-      SaveContext()
-        GetMarketCriptocurrencies(viewContext: viewContext).run()
-        getTotals()
-
-    }
-    
-    private func deleteCrypto(crypto: CryptocurrencyModel)
-    {
-            withAnimation {
-                
-                let request: NSFetchRequest<Cryptocurrency> = Cryptocurrency.fetchRequest()
-                request.predicate = NSPredicate(format: "id == %@", crypto.id as CVarArg)
-
-                    do {
-                        let savedCryptos = try  self.viewContext.fetch(request)
-                        
-                        for crypto in savedCryptos {
-                            self.viewContext.delete(crypto)
-                        }
-                        try self.viewContext.save()
-                    } catch {
-                        print(error)
-                    }
-                
-            }
-SaveContext()
-        GetMarketCriptocurrencies(viewContext: viewContext).run()
-        getTotals()
-       
-    }
-    
-    private func SaveContext () {
-    do {
-
-  try viewContext.save()
-        
-
-        }
-                            
-    
-    catch {
-      
-    }
-    }
-    
-    private func map(crypto: Cryptocurrency) -> CryptocurrencyModel
-    {
-        var cryptoModel = CryptocurrencyModel()
-        
-        cryptoModel.id = crypto.id!
-        cryptoModel.name = crypto.name ?? ""
-        cryptoModel.symbol = crypto.symbol ?? ""
-        cryptoModel.amount = crypto.amount
-        cryptoModel.accountId = crypto.accountId!
-        cryptoModel.avgPurchase = crypto.avgPurchase
-        cryptoModel.price = crypto.price
-        cryptoModel.notificated = crypto.notificated
-        cryptoModel.notificationPriceUp = crypto.notificationPriceUp
-        cryptoModel.notificationPriceDown = crypto.notificationPriceDown
-
-        return cryptoModel
-    }
     
   
     

@@ -62,14 +62,16 @@ struct PaymentAddView: View {
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         
-        for index in 0..<accounts.items.count {
-          
-            accountList.append(accounts.items[index].name)
+        if(accountList.count != accounts.items.count) {
+            for index in 0..<accounts.items.count {
+              
+                accountList.append(accounts.items[index].name)
+            }
+            accountIndex = 0
+            accountSelected = accountList[0]
+            transaction.account = accounts.items[0].name
+            payment.account = accounts.items[0].id
         }
-        accountIndex = 0
-        accountSelected = accountList[0]
-        transaction.account = accounts.items[0].name
-        payment.account = accounts.items[0].id
         
         for index in 0..<categories.items.count {
             if(categories.items[index].id != 99) {

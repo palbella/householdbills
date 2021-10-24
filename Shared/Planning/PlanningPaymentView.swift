@@ -347,6 +347,8 @@ struct PlanningPaymentBodyView: View {
         paymentModel.iconColor = payment.iconColor ?? ""
         paymentModel.iconContent = payment.iconContent ?? ""
         paymentModel.account = payment.account!
+        paymentModel.notificationDay = payment.notificationDay
+        paymentModel.notificated = payment.notificated
 
         return paymentModel
     }

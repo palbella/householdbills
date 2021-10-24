@@ -18,21 +18,23 @@ struct StockView: View {
    
     @Binding var account: AccountModel
    
-    @State var deleteStock: Bool = false
-    @State var modalStock: Bool = false
+    @Binding var deleteStock: Bool
+    @Binding var modalStock: Bool
     
     @ObservedObject var icons = GetIcons()
     @ObservedObject var colors = GetColors()
     
-    @State var isShowing: Bool = false
-    @State var isShowingNew: Bool = false
+    @Binding var isShowing: Bool
+    @Binding var isShowingNew: Bool
+    
+    @State var stockData : StockData = StockData()
     
     @State var isShowingToast: Bool = false
     @State var toastMessasge: String = ""
-    @State var stockSelected : StockModel = StockModel()
+    @Binding var stockSelected : StockModel
     
-    @State var totalPrices: Double = 0
-    @State var totalInvestments: Double = 0
+    @Binding var totalPrices: Double
+    @Binding var totalInvestments: Double
     
     public let predicate: NSPredicate
 
@@ -43,9 +45,17 @@ struct StockView: View {
     
 
     
-    init(account: Binding<AccountModel> ) {
+    init(account: Binding<AccountModel>, stockSelected: Binding<StockModel>, isShowingNew: Binding<Bool>, isShowingUpdate: Binding<Bool>, deleteStock: Binding<Bool>, modalStock: Binding<Bool>
+         , totalPrices: Binding<Double>, totalInvestments: Binding<Double>) {
         
         self._account = account
+        self._stockSelected = stockSelected
+        self._isShowingNew = isShowingNew
+        self._isShowing = isShowingUpdate
+        self._deleteStock = deleteStock
+        self._modalStock = modalStock
+        self._totalInvestments = totalInvestments
+        self._totalPrices = totalPrices
         
         UINavigationBar.appearance().isTranslucent = false
         
@@ -83,18 +93,6 @@ struct StockView: View {
                                         
                                         CommandButton(content: "plus.circle")
                                     }
-                                    .sheet(isPresented: self.$isShowingNew, onDismiss: {
-                                     
-                                      
-                                                       if(self.$stockSelected.name.wrappedValue != "") {
-                                                        addStock(stock: self.$stockSelected.wrappedValue)
-                                                       }
-                                            
-
-                                        }) {
-                                        StockAddView(stock: self.$stockSelected)
-                                        
-                                    }
                                     .frame(width: 15, height: 15)
                                     .padding(.leading, 10)
                                     .padding(.trailing, 17)
@@ -119,7 +117,7 @@ struct StockView: View {
                                               let fontColor = item.amount >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
                                               
                                                                   Button(action: {
-                                                                    self.stockSelected = map(stock: item)
+                                                                      self.stockSelected = stockData.map(stock: item)
                                                                       self.deleteStock = false
                                                                       self.isShowing = true
                                                                   }) {
@@ -167,22 +165,7 @@ struct StockView: View {
                                                                       }
     
                                                                   }
-                                                                  .sheet(isPresented: self.$isShowing, onDismiss: {
-                                                                      
-                                                                      
-                                                                      if(self.deleteStock) {
-                                                                          deleteStock(stock: self.$stockSelected.wrappedValue)
-                                                                      } else {
-                                                                          updateStock(stock: self.$stockSelected.wrappedValue)
-                                                                      }
-
-                                                                  }) {
-                                                                    
-                                                                StockUpdateView(stock: self.$stockSelected, modal: self.$isShowing, delete: self.$deleteStock)
-                                                                        
-                                                                    
-                                                                      
-                                                }
+                                                                  
                                           
                         }
                                           }
@@ -314,6 +297,7 @@ struct StockView: View {
             .padding(.top, 40)
             .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
             .onAppear() {
+                stockData.initialize(viewContext: viewContext)
                 getTotals()
                         }
         }
@@ -343,111 +327,111 @@ struct StockView: View {
         
     }
     
-    private func addStock(stock: StockModel)
-    {
-      
-            withAnimation {
-              
-                let newStock = Stock(context: viewContext)
-                newStock.id = UUID()
-                newStock.accountId = self.$account.wrappedValue.id
-                newStock.name = stock.name
-                newStock.amount = stock.amount
-                newStock.symbol = stock.symbol
-                newStock.avgPurchase = stock.avgPurchase
-                newStock.price = stock.price
-            
-
-      SaveContext()
-            }
-        GetMarketStocks(viewContext: viewContext).run()
-        getTotals()
-
-    }
-    
-    private func updateStock(stock: StockModel)
-    {
-      
-          
-        do {
-                let request: NSFetchRequest<Stock> = Stock.fetchRequest()
-                request.predicate = NSPredicate(format: "id = %@", stock.id as CVarArg)
-                
-                let savedStock = try  self.viewContext.fetch(request)[0]
-                
-            savedStock.name = stock.name
-            savedStock.accountId = self.$account.wrappedValue.id
-            savedStock.amount = stock.amount
-            savedStock.symbol = stock.symbol
-            savedStock.amount = stock.amount
-            savedStock.avgPurchase = stock.avgPurchase
-            savedStock.price = stock.price
-            
-            
-        } catch {
-            print(error)
-        }
-
-      SaveContext()
-        GetMarketStocks(viewContext: viewContext).run()
-        getTotals()
-
-    }
-    
-    private func deleteStock(stock: StockModel)
-    {
-            withAnimation {
-                
-                let request: NSFetchRequest<Stock> = Stock.fetchRequest()
-                request.predicate = NSPredicate(format: "id = %@", stock.id as CVarArg)
-
-                    do {
-                        let savedStocks = try  self.viewContext.fetch(request)
-                        
-                        for stock in savedStocks {
-                            self.viewContext.delete(stock)
-                        }
-                        try self.viewContext.save()
-                    } catch {
-                        print(error)
-                    }
-                
-            }
-SaveContext()
-        GetMarketStocks(viewContext: viewContext).run()
-        getTotals()
-       
-    }
-    
-    private func SaveContext () {
-    do {
-
-  try viewContext.save()
-        
-
-        }
-                            
-    
-    catch {
-      
-    }
-    }
-    
-    private func map(stock: Stock) -> StockModel
-    {
-        var stockModel = StockModel()
-        
-        stockModel.id = stock.id!
-        stockModel.name = stock.name ?? ""
-        stockModel.symbol = stock.symbol ?? ""
-        stockModel.amount = stock.amount
-        stockModel.accountId = stock.accountId!
-        stockModel.avgPurchase = stock.avgPurchase
-        stockModel.price = stock.price
-
-        return stockModel
-    }
-    
+//    private func addStock(stock: StockModel)
+//    {
+//
+//            withAnimation {
+//
+//                let newStock = Stock(context: viewContext)
+//                newStock.id = UUID()
+//                newStock.accountId = self.$account.wrappedValue.id
+//                newStock.name = stock.name
+//                newStock.amount = stock.amount
+//                newStock.symbol = stock.symbol
+//                newStock.avgPurchase = stock.avgPurchase
+//                newStock.price = stock.price
+//
+//
+//      SaveContext()
+//            }
+//        GetMarketStocks(viewContext: viewContext).run()
+//        getTotals()
+//
+//    }
+//
+//    private func updateStock(stock: StockModel)
+//    {
+//
+//
+//        do {
+//                let request: NSFetchRequest<Stock> = Stock.fetchRequest()
+//                request.predicate = NSPredicate(format: "id = %@", stock.id as CVarArg)
+//
+//                let savedStock = try  self.viewContext.fetch(request)[0]
+//
+//            savedStock.name = stock.name
+//            savedStock.accountId = self.$account.wrappedValue.id
+//            savedStock.amount = stock.amount
+//            savedStock.symbol = stock.symbol
+//            savedStock.amount = stock.amount
+//            savedStock.avgPurchase = stock.avgPurchase
+//            savedStock.price = stock.price
+//
+//
+//        } catch {
+//            print(error)
+//        }
+//
+//      SaveContext()
+//        GetMarketStocks(viewContext: viewContext).run()
+//        getTotals()
+//
+//    }
+//
+//    private func deleteStock(stock: StockModel)
+//    {
+//            withAnimation {
+//
+//                let request: NSFetchRequest<Stock> = Stock.fetchRequest()
+//                request.predicate = NSPredicate(format: "id = %@", stock.id as CVarArg)
+//
+//                    do {
+//                        let savedStocks = try  self.viewContext.fetch(request)
+//
+//                        for stock in savedStocks {
+//                            self.viewContext.delete(stock)
+//                        }
+//                        try self.viewContext.save()
+//                    } catch {
+//                        print(error)
+//                    }
+//
+//            }
+//SaveContext()
+//        GetMarketStocks(viewContext: viewContext).run()
+//        getTotals()
+//
+//    }
+//
+//    private func SaveContext () {
+//    do {
+//
+//  try viewContext.save()
+//
+//
+//        }
+//
+//
+//    catch {
+//
+//    }
+//    }
+//
+//    private func map(stock: Stock) -> StockModel
+//    {
+//        var stockModel = StockModel()
+//
+//        stockModel.id = stock.id!
+//        stockModel.name = stock.name ?? ""
+//        stockModel.symbol = stock.symbol ?? ""
+//        stockModel.amount = stock.amount
+//        stockModel.accountId = stock.accountId!
+//        stockModel.avgPurchase = stock.avgPurchase
+//        stockModel.price = stock.price
+//
+//        return stockModel
+//    }
+//
    
     
 }

@@ -45,6 +45,8 @@ struct MonthBalance {
             let paymentRequest: NSFetchRequest<Payment> = Payment.fetchRequest()
             let savedPayments = try  viewContext.fetch(paymentRequest)
         
+        
+            
         for i in 0..<savedMonthyPayments.count {
             
             var exist = false
@@ -52,6 +54,22 @@ struct MonthBalance {
             for ii in 0..<savedPayments.count {
                 if(savedPayments[ii].name == savedMonthyPayments[i].name) {
                     exist = true
+                    
+                    savedPayments[ii].amount = savedMonthyPayments[i].amount
+                    savedPayments[ii].symbol = savedMonthyPayments[i].symbol
+                    savedPayments[ii].currency = savedMonthyPayments[i].currency
+                    savedPayments[ii].isGoal = savedMonthyPayments[i].isGoal
+                    savedPayments[ii].isPaid = savedMonthyPayments[i].isPaid
+                    savedPayments[ii].goalId = savedMonthyPayments[i].goalId
+                    savedPayments[ii].iconColor = savedMonthyPayments[i].iconColor
+                    savedPayments[ii].iconContent = savedMonthyPayments[i].iconContent
+                    savedPayments[ii].notificated = false
+                    savedPayments[ii].notificationDay = savedMonthyPayments[i].notificationDay
+                    savedPayments[ii].order = savedMonthyPayments[i].order
+                    savedPayments[ii].priority = savedMonthyPayments[i].priority
+                    savedPayments[ii].account = savedMonthyPayments[i].account
+                    
+                    SaveContext()
                 }
             }
             
@@ -68,7 +86,6 @@ struct MonthBalance {
             newPayment.goalId = savedMonthyPayments[i].goalId
             newPayment.iconColor = savedMonthyPayments[i].iconColor
             newPayment.iconContent = savedMonthyPayments[i].iconContent
-                
                 newPayment.notificated = false
                 newPayment.notificationDay = savedMonthyPayments[i].notificationDay
                 newPayment.order = savedMonthyPayments[i].order

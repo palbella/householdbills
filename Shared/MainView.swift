@@ -49,7 +49,7 @@ struct MainView: View {
                     GeometryReader { geometry in
                         TabView(selection: $selection) {
 
-                            DashboardView(isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, showUser: $showUser, showSubscribe: $showSubscribe)
+                            DashboardView(isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, showUser: $showUser, showSubscribe: $showSubscribe)
                                 .tag(Tab.dashboard)
                             .tabItem {
                                 Image(systemName: "house")
@@ -57,16 +57,19 @@ struct MainView: View {
                                 Text("Dashboard")
                             }
                             
-                            PlanningView(isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: $toastError, showSubscribe: $showSubscribe)
+                            PlanningView(isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, showSubscribe: $showSubscribe)
                                 .tag(Tab.planning)
                             .tabItem {
                                 Image(systemName: "list.number")
                                 Text("Planning")
                             }
                      
-                            Text("")
-                                .frame(width: 1, height: 10)
-                           
+                            DashboardView(isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, showUser: $showUser, showSubscribe: $showSubscribe)
+                                .tag(Tab.dashboard)
+                            .tabItem {
+                               
+                            }
+                             
 
                             TransactionView(showSubscribe: $showSubscribe)
                                 .tag(Tab.transactions)
@@ -86,7 +89,10 @@ struct MainView: View {
                                 }
 //                        .tabViewStyle()
                         .accentColor(colorScheme != .dark ? ui.lightFontColor: ui.darkFontColor)
-                        .modifier(Toast(isShowing: $isShowingToast, message: self.toastMessasge, isError: self.$toastError))
+                        
+                        .onAppear(){
+                            settings.lastLogin = Date()
+                        }
                         
                         Image(systemName: "plus.circle")
                             .resizable()
@@ -99,7 +105,10 @@ struct MainView: View {
                                 self.transactionAccountId = UUID()
                                 self.showActionSheet.toggle()
                         }
+                           
+                            
                     }
+                    .modifier(Toast(isShowing: $isShowingToast, message: self.toastMessasge, isError: self.$toastError))
 
                 }
         .fullScreenCover(isPresented: $showSubscribe, content: SubscribeView.init)
@@ -123,6 +132,7 @@ struct MainView: View {
                 }
                
     }
+        
     
     private func updateAccount()
     {

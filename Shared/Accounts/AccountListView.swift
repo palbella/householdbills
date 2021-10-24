@@ -47,6 +47,7 @@
      
         @Binding var isShowingToast: Bool
         @Binding var toastMessasge: String
+        @Binding var toastError: Bool
         
         func onAppear () {
             self.categories.items = fetchCategories.fetch(viewContext: viewContext)
@@ -401,8 +402,21 @@
         
         private func deleteAccount(account: AccountModel)
         {
-           
-            if(self.accountsFetch.count > 1) {
+           var existOne = false
+            
+            
+            for index in 0..<self.accountsFetch.count {
+
+                if(self.accountsFetch[index].id != account.id) {
+                    if(self.accountsFetch[index].type == "saving" || self.accountsFetch[index].type == "checking" || self.accountsFetch[index].type == "cash") {
+                        existOne = true
+                    }
+                }
+                
+             }
+            
+            
+            if(existOne) {
                 withAnimation {
                     
                     let request: NSFetchRequest<Account> = Account.fetchRequest()
@@ -424,8 +438,9 @@
 
             getTotals()
             } else {
-                self.toastMessasge = "At least one account must be created"
+                self.toastMessasge = "At least one bank or cash account must be created"
                 self.isShowingToast = true
+                self.toastError = true
             }
         }
         

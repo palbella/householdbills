@@ -14,7 +14,7 @@ struct ToastView: View {
   
   var body: some View {
       
-      let color = isError ? Color.red : Color.green
+      let color = isError == false ? Color(UIColor(red: 2,green: 179,blue: 0)) : Color.red
       
     HStack {
       Text(message)
@@ -23,21 +23,22 @@ struct ToastView: View {
         .padding(.leading, 10)
         .padding(.trailing, 10)
         .foregroundColor(Color.white)
-        .background(
-          Rectangle()
-            .fill(color)
-            .cornerRadius(5)
-            .shadow(color: .black, radius: 0.3, x: 0.0, y: 1.0)
-        )
+       
         
         Button(action: {
             onDismissAction()
         }) {
             Icon(content: "multiply", color: color).padding(5).padding(.leading, 5).padding(.trailing, 5)
-                .shadow(color: .black, radius: 0.3, x: 0.0, y: 1.0)
+//                .shadow(color: .black, radius: 0.3, x: 0.0, y: 1.0)
         }
 
     }
+    .background(
+      Rectangle()
+        .fill(color)
+        .cornerRadius(5)
+        .shadow(color: .black, radius: 0.3, x: 0.0, y: 1.0)
+    )
   }
 }
 

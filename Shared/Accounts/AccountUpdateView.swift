@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import CoreData
 
 struct AccountUpdateView: View {
     
@@ -19,6 +19,24 @@ struct AccountUpdateView: View {
     @Binding var transaction: TransactionModel
     @Binding var modal: Bool
     @Binding var delete: Bool
+    
+    @State var isShowingCryptoNew: Bool = false
+    @State var isShowingCryptoUpdate: Bool = false
+    @State var deleteCrypto: Bool = false
+    @State var modalCrypto: Bool = false
+    @State var cryptoSelected : CryptocurrencyModel = CryptocurrencyModel()
+    @State var cryptoData : CryptocurrencyData = CryptocurrencyData()
+    @State var totalPricesCrypto: Double = 0
+    @State var totalInvestmentsCrypto: Double = 0
+    
+    @State var isShowingStockNew: Bool = false
+    @State var isShowingStockUpdate: Bool = false
+    @State var deleteStock: Bool = false
+    @State var modalStock: Bool = false
+    @State var stockSelected : StockModel = StockModel()
+    @State var stockData : StockData = StockData()
+    @State var totalPricesStock: Double = 0
+    @State var totalInvestmentsStock: Double = 0
     
     @ObservedObject var icons = GetIcons()
     @ObservedObject var colors = GetColors()
@@ -68,6 +86,9 @@ struct AccountUpdateView: View {
             categoryList.append(categories.items[index].name)
             }
         }
+        
+        cryptoData.initialize(viewContext: viewContext)
+        stockData.initialize(viewContext: viewContext)
 
     }
     
@@ -196,14 +217,16 @@ struct AccountUpdateView: View {
             
             if(self.account.type == "crypto")
             {
-                CryptocurrencyView(account: self.$account)
+                CryptocurrencyView(account: self.$account, cryptoSelected: self.$cryptoSelected, isShowingNew: self.$isShowingCryptoNew, isShowingUpdate: self.$isShowingCryptoUpdate,
+                                   deleteCrypto: self.$deleteCrypto, modalCrypto: self.$modalCrypto, totalPrices: self.$totalPricesCrypto, totalInvestments: self.$totalInvestmentsCrypto)
                     .environmentObject(self.ui)
                         .environmentObject(self.settings)
             }
             
             if(self.account.type == "stock")
             {
-                StockView(account: self.$account)
+                StockView(account: self.$account, stockSelected: self.$stockSelected, isShowingNew: self.$isShowingStockNew, isShowingUpdate: self.$isShowingStockUpdate,
+                          deleteStock: self.$deleteStock, modalStock: self.$modalStock, totalPrices: self.$totalPricesStock, totalInvestments: self.$totalInvestmentsStock)
                     .environmentObject(self.ui)
                         .environmentObject(self.settings)
             }
@@ -240,19 +263,113 @@ struct AccountUpdateView: View {
             self.onAppear()
             
         }
-        .onTapGesture {
-            UIApplication.shared.endEditing()
-        }
+        
             
 
             
         }
-//        .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
         .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
-        
+        .sheet(isPresented: self.$isShowingCryptoNew, onDismiss: {
+         
+            if(self.$cryptoSelected.name.wrappedValue != "") {
+                var crypto = self.$cryptoSelected.wrappedValue
+                crypto.accountId = self.$account.wrappedValue.id
+                cryptoData.addCrypto(crypto: crypto)
+                                                                  }
+            getTotalsCrypto()
+            }) {
+            CryptocurrencyAddView(crypto: self.$cryptoSelected)
+            
+        }
+         .sheet(isPresented: self.$isShowingCryptoUpdate, onDismiss: {
+                
+                
+                if(self.deleteCrypto) {
+                    cryptoData.deleteCrypto(crypto: self.$cryptoSelected.wrappedValue)
+                } else {
+                    var crypto = self.$cryptoSelected.wrappedValue
+                    crypto.accountId = self.$account.wrappedValue.id
+                    cryptoData.updateCrypto(crypto: crypto)
+                }
+                getTotalsCrypto()
+            }) {
+              CryptocurrencyUpdateView(crypto: self.$cryptoSelected, modal: self.$isShowingCryptoUpdate, delete: self.$deleteCrypto)
+         }
+            .sheet(isPresented: self.$isShowingStockNew, onDismiss: {
+             
+                var stock = self.$stockSelected.wrappedValue
+                stock.accountId = self.$account.wrappedValue.id
+              
+                               if(self.$stockSelected.name.wrappedValue != "") {
+                                   stockData.addStock(stock: stock)
+                               }
+                getTotalsStock()
+
+                }) {
+                StockAddView(stock: self.$stockSelected)
+                
+            }
+                .sheet(isPresented: self.$isShowingStockUpdate, onDismiss: {
+                    
+                    
+                    if(self.deleteStock) {
+                        stockData.deleteStock(stock: self.$stockSelected.wrappedValue)
+                    } else {
+                        stockData.updateStock(stock: self.$stockSelected.wrappedValue)
+                    }
+                    getTotalsStock()
+                }) {
+                  
+              StockUpdateView(stock: self.$stockSelected, modal: self.$isShowingStockUpdate, delete: self.$deleteStock)
+                      
+                  
+                    
+}
         
         }
     
+    private func getTotalsCrypto() {
+        
+        self.totalPricesCrypto = 0
+        self.totalInvestmentsCrypto = 0
+        let request: NSFetchRequest<Cryptocurrency> = Cryptocurrency.fetchRequest()
+
+        request.predicate = NSPredicate(format: "accountId = %@", self.$account.wrappedValue.id as CVarArg)
+
+            do {
+                let savedCryptos = try self.viewContext.fetch(request)
+                
+                for item in savedCryptos {
+                    self.totalPricesCrypto = self.totalPricesCrypto + (item.price * item.amount)
+                    self.totalInvestmentsCrypto = self.totalInvestmentsCrypto + (item.avgPurchase * item.amount)
+                }
+               
+            } catch {
+                print(error)
+            }
+        
+    }
+    
+    private func getTotalsStock() {
+        
+        self.totalPricesStock = 0
+        self.totalInvestmentsStock = 0
+        let request: NSFetchRequest<Stock> = Stock.fetchRequest()
+        request.predicate = NSPredicate(format: "accountId = %@", self.$account.wrappedValue.id as CVarArg)
+
+            do {
+                let savedStocks = try self.viewContext.fetch(request)
+                
+                for item in savedStocks {
+                    self.totalPricesStock = self.totalPricesStock + (item.price * item.amount)
+                    self.totalInvestmentsStock = self.totalInvestmentsStock + (item.avgPurchase * item.amount)
+                }
+               
+            } catch {
+                print(error)
+            }
+        
+    }
 
 
     }

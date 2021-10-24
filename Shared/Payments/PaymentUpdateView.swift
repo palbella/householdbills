@@ -252,6 +252,7 @@ struct PaymentSettingsView: View {
         
         getGoals()
         
+      
         expirationDayIndex = Int(payment.notificationDay)
         expirationDaySelected = monthDays.items[expirationDayIndex]
         
