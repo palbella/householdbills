@@ -457,7 +457,6 @@
 				6E3F0C7126C99CD400A807BE /* Persistence.swift */,
 				6E3F0C7226C99CD600A807BE /* Assets.xcassets */,
 				6E3F0C6D26C99CD400A807BE /* HouseholdBills.xcdatamodeld */,
-				6E92589A2700DB0500D9CEEF /* Charts */,
 				6E5965C626F8F0AD00010966 /* Data */,
 				6E71902726DC03A000E1CB48 /* Helpers */,
 				6E22BCDD26D921F600C8A67B /* Model */,
@@ -480,6 +479,7 @@
 		6E3F0C7926C99CD600A807BE /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				6E92589A2700DB0500D9CEEF /* Charts */,
 				6EE4FB9826CBEC3E00C6F987 /* Controls */,
 				6E7DDA47272873D2006697FB /* Helpers */,
 				6EB9C014271387A700FB234C /* Login */,
