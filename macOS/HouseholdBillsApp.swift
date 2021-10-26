@@ -165,15 +165,17 @@ struct StartView: View {
 
     var body: some View {
         if (settings.welcome) {
-           
+           return DashboardView()
 //            return AnyView(WelcomeView())
         } else {
             let calendar = Calendar.current
             let date = calendar.date(byAdding: .minute, value: -30, to: Date())
             if (settings.loggedIn && settings.lastLogin != nil && settings.lastLogin! > date!){
 //                return AnyView(MainView())
+                return DashboardView()
             }else {
 //                return AnyView(LogInView())
+                return DashboardView()
             }
         }
        

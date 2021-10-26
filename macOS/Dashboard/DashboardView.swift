@@ -30,11 +30,11 @@ struct DashboardView: View {
     
     @State var hideData: Bool = false
     
-    @Binding var isShowingToast: Bool
-    @Binding var toastMessasge: String
-    @Binding var toastError: Bool
-    @Binding var showUser: Bool
-    @Binding var showSubscribe: Bool
+//    @Binding var isShowingToast: Bool
+//    @Binding var toastMessasge: String
+//    @Binding var toastError: Bool
+//    @Binding var showUser: Bool
+//    @Binding var showSubscribe: Bool
   
     
     @State var currentMonthName: String = ""
@@ -54,13 +54,17 @@ struct DashboardView: View {
 
             VStack(spacing: 0) {
             
-            GeometryReader { proxy in
-                
-             
-
-            }
-            .frame(height: ui.headerHeight)
-            .zIndex(1)
+                Text(String(self.incomes))
+//            GeometryReader { proxy in
+//                Text("")
+//                Text("")
+//                Text("")
+//                Text("")
+//
+//
+//            }
+//            .frame(height: ui.headerHeight)
+//            .zIndex(1)
 
         ScrollView(.vertical, showsIndicators: false) {
 
@@ -69,8 +73,8 @@ struct DashboardView: View {
       
                 
             }
-            .ignoresSafeArea()
-            .edgesIgnoringSafeArea([.top, .bottom])
+//            .ignoresSafeArea()
+//            .edgesIgnoringSafeArea([.top, .bottom])
             .onAppear() {
                 self.onAppear()
             }
