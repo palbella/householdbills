@@ -50,6 +50,7 @@ struct AccountUpdateView: View {
     @State var transactionTypeId: Int = 0
     @State var accountIndex: Int = 0
     @State var accountList: [String] = []
+    @State var accountIds: [UUID] = []
     @State var accountSelected: String? = ""
     @State var categoryIndex: Int = 0
     @State var categoryList: [String] = []
@@ -77,8 +78,14 @@ struct AccountUpdateView: View {
         
         transactionType = transaction.type
         
+        accountList = []
+        accountIds = []
+        
         for index in 0..<accounts.items.count {
-            accountList.append(accounts.items[index].name)
+            if(accounts.items[index].type != "crypto" && accounts.items[index].type != "stock" && accounts.items[index].id != account.id) {
+                accountList.append(accounts.items[index].name)
+                accountIds.append(accounts.items[index].id)
+            }
         }
         
         for index in 0..<categories.items.count {
@@ -195,8 +202,8 @@ struct AccountUpdateView: View {
                             .padding(5)
                     PickerInput(iconContent: "", iconColor: .blue, label: "Destination", placeholder: LocalizedStringKey("Account").toString(), data: $accountList, value: $accountSelected, index: $accountIndex)
                         .onChange(of: accountIndex, perform: { value in
-                            transaction.destinationId = accounts.items[accountIndex].id
-                            
+                            transaction.destinationId = accountIds[accountIndex]
+                           
                         })
                         
                     }

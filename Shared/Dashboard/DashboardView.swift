@@ -88,6 +88,7 @@ struct DashboardView: View {
                                             .opacity(Double(getHeaderOpacity()))
                                         
                                         if(!self.hideData) {
+                                           
                                             Text("\((self.totalGoalAccounts - self.totalGoals - self.totalBudgets - self.totalPayments), specifier: "%.2f")")
                                                 .font(.system(size: 10))
                                                 .foregroundColor(fontColorMonth)

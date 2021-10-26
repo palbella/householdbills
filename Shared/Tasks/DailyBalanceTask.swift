@@ -79,7 +79,7 @@ struct DailyBalanceTask {
             let savedAccounts =  try viewContext.fetch(fetchRequest)
 
                             for index in 0..<savedAccounts.count {
-                                print(savedAccounts[index].currency!)
+                              
                                 let amount: Double = currencies.convert(currencyFrom: savedAccounts[index].currency!, currencyTo: settings.currency, value: savedAccounts[index].amount)
                                 
                                 balance = balance + amount

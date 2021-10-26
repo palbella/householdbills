@@ -102,7 +102,7 @@
                                                                    self.transaction.currency = self.$accountSelected.currency.wrappedValue
                                                                     self.transaction.iconContent = self.$accountSelected.iconContent.wrappedValue
                                                                     self.transaction.iconColor = self.$accountSelected.iconColor.wrappedValue
-                                                                    self.transaction.category = 0
+                                                                    self.transaction.category = 99
                                                                     self.transaction.timestamp = Date()
                                                                     saveTransaction(transaction: self.transaction)
                                                                }
@@ -378,14 +378,14 @@
         private func transferAccount(destination: UUID, amount: Double, currencyFrom: String)
         {
           
-              
+           
             do {
                     let request: NSFetchRequest<Account> = Account.fetchRequest()
                     request.predicate = NSPredicate(format: "id = %@", destination as CVarArg)
                     
                     let savedAccount = try  self.viewContext.fetch(request)[0]
                 
-                let amountConverted: Double = currencies.convert(currencyFrom: currencyFrom, currencyTo: savedAccount.currency!, value: amount)
+                let amountConverted: Double = currencies.convert(currencyFrom: currencyFrom, currencyTo: savedAccount.currency!, value: abs(amount))
                     
                 savedAccount.amount = savedAccount.amount + amountConverted
                 

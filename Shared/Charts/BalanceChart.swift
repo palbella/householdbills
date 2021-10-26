@@ -190,7 +190,7 @@ struct LineChartSwiftUI: UIViewRepresentable {
                 let timeInterval = object.date!.timeIntervalSince1970
                 let xValue = (timeInterval - referenceTimeInterval) / (3600 * 12)
 
-                let yValue = object.balance
+                let yValue = Double(object.balance).rounded(toPlaces: 2)
                 sessions.append(xValue)
                 values.append(yValue)
                 let formatter1 = DateFormatter()

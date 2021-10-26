@@ -61,7 +61,11 @@ struct TopBar: View {
                                 .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor)
                             
                             if(!self.hideData) {
-                                Text(settings.symbol + " " + String(incomes))
+                                
+                                Text(settings.symbol + " ")
+                                    .font(.system(size: 25))
+                                    .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor) +
+                                Text("\((incomes), specifier: "%.2f")")
                                     .font(.system(size: 25))
                                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
                             } else {
@@ -117,7 +121,10 @@ struct TopBar: View {
                                 .font(.system(size: 10))
                                 .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor)
                             if(!self.hideData) {
-                            Text(settings.symbol + " " + String(expenses))
+                            Text(settings.symbol + " ")
+                                    .font(.system(size: 25))
+                                    .foregroundColor(colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor) +
+                                Text("\((expenses), specifier: "%.2f")")
                                 .font(.system(size: 25))
                                 .foregroundColor(colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor)
                             } else {
