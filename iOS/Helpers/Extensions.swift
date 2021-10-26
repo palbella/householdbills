@@ -2,18 +2,12 @@
 //  Extensions.swift
 //  HouseholdBills (iOS)
 //
-//  Created by Pablo Albella on 8/29/21.
+//  Created by Pablo Albella on 10/26/21.
 //
 
-import SwiftUI
+import Foundation
 import UIKit
-
-extension Double {
-    func truncate(places : Int)-> Double {
-        return Double(floor(pow(10.0, Double(places)) * self)/pow(10.0, Double(places)))
-    }
-}
-
+import SwiftUI
 
 extension UIColor {
    convenience init(red: Int, green: Int, blue: Int) {
@@ -33,33 +27,9 @@ extension UIColor {
    }
 }
 
-
-extension TabView {
-
-    func tabViewStyle() -> some View {
-        self
-            .opacity(1)
-
-    }
-}
-
-
-
 extension UIApplication {
     func endEditing() {
         sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-}
-
-
-extension Data {
-    
-    var hexString: String {
-        return map { String(format: "%02hhx", $0)}.joined()
-    }
-    
-    var stringHex: String {
-        return map { String(format: "%02hhx", $0) }.joined()
     }
 }
 
@@ -80,7 +50,6 @@ extension String {
 
 }
 
-
 let navigationNormalHeight: CGFloat = 44
 let navigationExtendHeight: CGFloat = 84
 
@@ -94,59 +63,6 @@ extension UINavigationBar {
     
         let newSize: CGSize = CGSize(width: self.frame.size.width, height: barHeight)
         return newSize
-    }
-}
-
-
-
-
-
-
-// This is taken from the Release Notes, with a typo correction, marked below
-struct IndexedCollection<Base: RandomAccessCollection>: RandomAccessCollection {
-    typealias Index = Base.Index
-    typealias Element = (index: Index, element: Base.Element)
-
-    let base: Base
-
-    var startIndex: Index { base.startIndex }
-
-   // corrected typo: base.endIndex, instead of base.startIndex
-    var endIndex: Index { base.endIndex }
-
-    func index(after i: Index) -> Index {
-        base.index(after: i)
-    }
-
-    func index(before i: Index) -> Index {
-        base.index(before: i)
-    }
-
-    func index(_ i: Index, offsetBy distance: Int) -> Index {
-        base.index(i, offsetBy: distance)
-    }
-
-    subscript(position: Index) -> Element {
-        (index: position, element: base[position])
-    }
-}
-
-extension RandomAccessCollection {
-    func indexed() -> IndexedCollection<Self> {
-        IndexedCollection(base: self)
-    }
-}
-
-
-
-
-extension Binding where Value == String? {
-    func onNil(_ fallback: String) -> Binding<String> {
-        return Binding<String>(get: {
-            return self.wrappedValue ?? fallback
-        }) { value in
-            self.wrappedValue = value
-        }
     }
 }
 
@@ -202,42 +118,6 @@ extension UIFont {
         return uiFont
     }
 }
-
-//struct CustomTextfield: UIViewRepresentable {
-//    @State var label: String
-//    @Binding var text: String
-//    var keyType: UIKeyboardType
-//    func makeUIView(context: Context) -> UITextField {
-//        let textfield = UITextField()
-//      textfield.keyboardType = keyType
-
-//        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: textfield.frame.size.width, height: 44))
-//        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(textfield.doneButtonTapped(button:)))
-//        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-//        toolBar.items = [doneButton]
-//        toolBar.setItems([flexibleSpace, doneButton], animated: true)
-//
-//        textfield.inputAccessoryView = toolBar
-//        textfield.placeholder = label
-//        textfield.textAlignment = .right
-//
-//        return textfield
-//    }
-//
-//    func updateUIView(_ uiView: UITextField, context: Context) {
-//        uiView.text = text
-//
-//    }
-//}
-
-extension  UITextField{
-    @objc func doneButtonTapped(button:UIBarButtonItem) -> Void {
-       self.resignFirstResponder()
-    }
-
-}
-
-
 
 struct CustomTextfield: UIViewRepresentable {
     @State var label: String
@@ -447,18 +327,6 @@ extension CustomTextfield {
 }
 
 
-extension Date {
-    func get(_ components: Calendar.Component..., calendar: Calendar = Calendar.current) -> DateComponents {
-        return calendar.dateComponents(Set(components), from: self)
-    }
-
-    func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
-        return calendar.component(component, from: self)
-    }
-}
-
-
-
 
 extension UIImage {
 
@@ -477,48 +345,12 @@ extension UIImage {
 }
 
 
-extension LocalizedStringKey {
-    var stringKey: String {
-        let description = "\(self)"
-
-        let components = description.components(separatedBy: "key: \"")
-            .map { $0.components(separatedBy: "\",") }
-
-        return components[1][0]
+extension  UITextField{
+    @objc func doneButtonTapped(button:UIBarButtonItem) -> Void {
+       self.resignFirstResponder()
     }
+
 }
 
-extension String {
-    static func localizedString(for key: String,
-                                locale: Locale = .current) -> String {
 
-        var language = locale.languageCode
-        if(language == "zh") {
-            if(locale.scriptCode != nil) {
-                language = "zh-" + locale.scriptCode!
-            } else {
-                language = "zh-Hans"
-            }
-            
-        }
-        let path = Bundle.main.path(forResource: language, ofType: "lproj")!
-        let bundle = Bundle(path: path)!
-        let localizedString = NSLocalizedString(key, bundle: bundle, comment: "")
-        
-        return localizedString
-    }
-}
 
-extension LocalizedStringKey {
-    func toString(locale: Locale = .current) -> String {
-        return .localizedString(for: self.stringKey, locale: locale)
-    }
-}
-
-extension Double {
-    /// Rounds the double to decimal places value
-    func rounded(toPlaces places:Int) -> Double {
-        let divisor = pow(10.0, Double(places))
-        return (self * divisor).rounded() / divisor
-    }
-}

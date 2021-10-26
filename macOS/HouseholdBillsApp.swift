@@ -85,14 +85,13 @@ struct HouseholdBillsApp: App {
 
     var body: some Scene {
         WindowGroup {
-         Text("Pablo")
-//                StartView()
-//                    .environmentObject(settings)
-//                    .environmentObject(appUI)
-//                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
-//                    .onAppear {
-//                        dataStart()
-//                    }
+                StartView()
+                    .environmentObject(settings)
+                    .environmentObject(appUI)
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                    .onAppear {
+                        dataStart()
+                    }
 //                    .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
 //                        dataStart()
 //                    }
@@ -166,6 +165,7 @@ struct StartView: View {
 
     var body: some View {
         if (settings.welcome) {
+           
 //            return AnyView(WelcomeView())
         } else {
             let calendar = Calendar.current
