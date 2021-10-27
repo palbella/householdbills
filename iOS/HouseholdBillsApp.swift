@@ -4,7 +4,6 @@
 //
 //  Created by Pablo Albella on 8/15/21.
 //
-
 import SwiftUI
 import Combine
 import CoreData
@@ -184,4 +183,3 @@ struct StartView: View {
 //    }
 //}
 //#endif
-

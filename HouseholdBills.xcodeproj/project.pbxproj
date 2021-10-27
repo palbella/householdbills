@@ -98,7 +98,6 @@
 		6E8C468326D6D3D3004917D1 /* PlanningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C468226D6D3D3004917D1 /* PlanningView.swift */; };
 		6E8D0AEF2723645800A2067B /* CryptoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8D0AEE2723645800A2067B /* CryptoData.swift */; };
 		6E8D0AF12724646400A2067B /* StockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8D0AF02724646400A2067B /* StockData.swift */; };
-		6E91C8552728678B00EF4C52 /* HouseholdBillsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8D0B2827285A2900A2067B /* HouseholdBillsApp.swift */; };
 		6E9258992700D93900D9CEEF /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 6E9258982700D93900D9CEEF /* Charts */; };
 		6E92589C2700DB2900D9CEEF /* BalanceChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E92589B2700DB2900D9CEEF /* BalanceChart.swift */; };
 		6E9A133B26E29DAD00D3C827 /* BudgetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9A133A26E29DAD00D3C827 /* BudgetListView.swift */; };
@@ -168,6 +167,7 @@
 		6ED2AE3B2728ACED007D275C /* MonthlyBudgetFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4B919A27056C5A00E627E4 /* MonthlyBudgetFetch.swift */; };
 		6ED2AE3C2728ACF3007D275C /* CryptoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8D0AEE2723645800A2067B /* CryptoData.swift */; };
 		6ED2AE3D2728ACF7007D275C /* StockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8D0AF02724646400A2067B /* StockData.swift */; };
+		6ED2AE412729795A007D275C /* HouseholdBillsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED2AE402729795A007D275C /* HouseholdBillsApp.swift */; };
 		6EE4FB9A26CBEC6900C6F987 /* SwipeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE4FB9926CBEC6900C6F987 /* SwipeItem.swift */; };
 		6EE4FB9D26CBEFAA00C6F987 /* DashboardBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE4FB9C26CBEFAA00C6F987 /* DashboardBodyView.swift */; };
 		6EE4FB9F26CBEFE700C6F987 /* DashboardHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE4FB9E26CBEFE700C6F987 /* DashboardHeaderView.swift */; };
@@ -284,7 +284,6 @@
 		6E8C468226D6D3D3004917D1 /* PlanningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningView.swift; sourceTree = "<group>"; };
 		6E8D0AEE2723645800A2067B /* CryptoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoData.swift; sourceTree = "<group>"; };
 		6E8D0AF02724646400A2067B /* StockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockData.swift; sourceTree = "<group>"; };
-		6E8D0B2827285A2900A2067B /* HouseholdBillsApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HouseholdBillsApp.swift; path = ../../../.Trash/HouseholdBillsApp.swift; sourceTree = "<group>"; };
 		6E9258962700D90200D9CEEF /* Charts-master */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Charts-master"; path = "../../../Downloads/Charts-master"; sourceTree = "<group>"; };
 		6E92589B2700DB2900D9CEEF /* BalanceChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceChart.swift; sourceTree = "<group>"; };
 		6E9A133A26E29DAD00D3C827 /* BudgetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetListView.swift; sourceTree = "<group>"; };
@@ -334,6 +333,7 @@
 		6ED1907026D7E3F6001D1C2D /* TransactionBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionBodyView.swift; sourceTree = "<group>"; };
 		6ED1907426D7EC4D001D1C2D /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		6ED1907626D7EE08001D1C2D /* PlanningBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningBodyView.swift; sourceTree = "<group>"; };
+		6ED2AE402729795A007D275C /* HouseholdBillsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseholdBillsApp.swift; sourceTree = "<group>"; };
 		6EE4FB9926CBEC6900C6F987 /* SwipeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeItem.swift; sourceTree = "<group>"; };
 		6EE4FB9C26CBEFAA00C6F987 /* DashboardBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardBodyView.swift; sourceTree = "<group>"; };
 		6EE4FB9E26CBEFE700C6F987 /* DashboardHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardHeaderView.swift; sourceTree = "<group>"; };
@@ -499,8 +499,8 @@
 				6EB9C01D2714905D00FB234C /* UserView.swift */,
 				6EB9C01B27148EBA00FB234C /* SubscribeView.swift */,
 				6E3F0CB126C99D2E00A807BE /* MainView.swift */,
-				6E8D0B2827285A2900A2067B /* HouseholdBillsApp.swift */,
 				6E3F0C7A26C99CD600A807BE /* Info.plist */,
+				6ED2AE402729795A007D275C /* HouseholdBillsApp.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -928,6 +928,7 @@
 				6E41343F26E6629A004BEE5C /* AccountTypesModel.swift in Sources */,
 				6E5965BF26F8C04300010966 /* CurrencyTask.swift in Sources */,
 				6E3F0CB826C99EEF00A807BE /* DashboardView.swift in Sources */,
+				6ED2AE412729795A007D275C /* HouseholdBillsApp.swift in Sources */,
 				6E8D0AF12724646400A2067B /* StockData.swift in Sources */,
 				6EB9C018271387E400FB234C /* WelcomeView.swift in Sources */,
 				6EE4FB9A26CBEC6900C6F987 /* SwipeItem.swift in Sources */,
@@ -1030,7 +1031,6 @@
 				6E9A133D26E29E1100D3C827 /* BudgetAddView.swift in Sources */,
 				6E9DBA8D26E1207400F0F15C /* CarModel.swift in Sources */,
 				6E8C468326D6D3D3004917D1 /* PlanningView.swift in Sources */,
-				6E91C8552728678B00EF4C52 /* HouseholdBillsApp.swift in Sources */,
 				6EB21A4E26E69AA5000AE5F3 /* CryptocurrencyModel.swift in Sources */,
 				6E5965CA26F91C5600010966 /* CurrencyView.swift in Sources */,
 				6E9DBA8B26E110C600F0F15C /* PaymentAddView.swift in Sources */,
