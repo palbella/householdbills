@@ -46,7 +46,7 @@ struct TopBar: View {
             Spacer()
             
             VStack {
-                
+         
                
                 HStack {
                     Spacer()
@@ -77,38 +77,7 @@ struct TopBar: View {
                         }
                  
                     }
-                    Spacer()
-                    VStack{
-                    Image(systemName: "arrow.clockwise.circle.fill")
-                        .foregroundColor(fontColorMonth)
-                        .font(.system(size: 25))
-                        .padding(5)
-                        VStack(alignment: .center){
-                            Text("Available Balance")
-                                .font(.system(size: 10))
-                                .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor)
-                            
-                            
-                            if(!self.hideData) {
-                                Text(settings.symbol + " ")
-                                    .font(.system(size: 25))
-                                    .foregroundColor(fontColorMonth) +
-                                Text("\((self.totalGoalAccounts - self.totalGoals - self.totalBudgets - self.totalPayments), specifier: "%.2f")")
-                                    .font(.system(size: 25))
-                                    .foregroundColor(fontColorMonth)
-                            } else {
-                                Text(settings.symbol + " ")
-                                    .font(.system(size: 25))
-                                    .foregroundColor(fontColorMonth) +
-                                Text("---")
-                                    .font(.system(size: 25))
-                                    .foregroundColor(fontColorMonth)
-                            }
-                            
-                           
-                        }
-                 
-                    }
+                   
                     Spacer()
                        
                     VStack{
@@ -140,6 +109,7 @@ struct TopBar: View {
                 .padding(.bottom, 10)
                 .opacity(Double(getOpacityFast()))
                 
+          
               
                 Button(action: {
                     self.hideData.toggle()

@@ -73,6 +73,9 @@ struct SettingsView: View {
             Toggle("Update Currency", isOn: $settings.currencyUpdate)
                 .padding()
             
+            Toggle("Show Month Balance", isOn: $settings.showMonthBalance)
+                .padding()
+            
             VStack {
 
                 
@@ -100,10 +103,20 @@ struct SettingsView: View {
                 }
                 
                
+             
+                
                 
                 
             }
             .alert(isPresented: $showConfirm, content: { confirmChange })
+            
+            
+//            Button(action: {
+//                migration()
+//            }) {
+//                Text("Migration")
+//                    .foregroundColor(labelColor)
+//            }
         }
         .background(NavigationConfigurator { nc in
             let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
@@ -127,6 +140,12 @@ struct SettingsView: View {
            
     
 }
+    
+//    func migration() {
+//        deleteAllData(entity: "Settings")
+//        initialDataCards()
+//    }
+
     
     var confirmChange: Alert {
         Alert(title: Text("Delete All Data?"), message: Text("This application needs to restart to update the configuration.\n\nDo you want to restart the application?"),

@@ -52,7 +52,7 @@ class BackgroundThreadTask: ObservableObject {
            
             for i in 0..<savedPayments.count {
                
-                if(Date().get(.day) >= savedPayments[i].notificationDay && savedPayments[i].notificated != true && savedPayments[i].isPaid != true) {
+                if(savedPayments[i].notificationDay > 0 && Date().get(.day) >= savedPayments[i].notificationDay && savedPayments[i].notificated != true && savedPayments[i].isPaid != true) {
                     NotificationTask().run(title: "Payment Notification", subtitle: savedPayments[i].name!)
                     savedPayments[i].notificated = true
                     SaveContext ()

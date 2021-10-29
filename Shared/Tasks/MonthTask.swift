@@ -55,12 +55,14 @@ struct MonthBalance {
                 if(savedPayments[ii].name == savedMonthyPayments[i].name) {
                     exist = true
                     
-                    savedPayments[ii].amount = savedMonthyPayments[i].amount
-                    savedPayments[ii].symbol = savedMonthyPayments[i].symbol
-                    savedPayments[ii].currency = savedMonthyPayments[i].currency
-                    savedPayments[ii].isGoal = savedMonthyPayments[i].isGoal
-                    savedPayments[ii].isPaid = savedMonthyPayments[i].isPaid
-                    savedPayments[ii].goalId = savedMonthyPayments[i].goalId
+                    if(savedMonthyPayments[i].isPaid != true) {
+                        savedPayments[ii].amount = savedMonthyPayments[i].amount
+                        savedPayments[ii].symbol = savedMonthyPayments[i].symbol
+                        savedPayments[ii].currency = savedMonthyPayments[i].currency
+                        savedPayments[ii].isGoal = savedMonthyPayments[i].isGoal
+                        savedPayments[ii].goalId = savedMonthyPayments[i].goalId
+                    }
+                   
                     savedPayments[ii].iconColor = savedMonthyPayments[i].iconColor
                     savedPayments[ii].iconContent = savedMonthyPayments[i].iconContent
                     savedPayments[ii].notificated = false
@@ -153,7 +155,7 @@ struct MonthBalance {
             var dateComponent = DateComponents()
             dateComponent.month = 1
             
-            if(Date().get(.day) > dayChangeMonth) {
+            if(Date().get(.day) >= dayChangeMonth) {
                 nextMonth = Calendar.current.date(byAdding: dateComponent, to: Date())
             } else {
                 nextMonth = Date()

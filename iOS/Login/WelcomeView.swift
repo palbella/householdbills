@@ -18,6 +18,8 @@ struct OnboardingModel {
 
 struct WelcomeView: View {
     @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var ui: AppUI
+    @Environment(\.colorScheme) var colorScheme
     
     var onboardingDataArray: [OnboardingModel] = [
         OnboardingModel(id: 1, image: "photography", titleText: "WelcomeTitle1", descriptionText: "WelcomeDescription1"),
@@ -27,8 +29,9 @@ struct WelcomeView: View {
     ]
     
     var body: some View {
-    GeometryReader { geometry in
         NavigationView {
+    GeometryReader { geometry in
+   
                 ZStack {
                     NavigationLink(destination: LogInView(), isActive: self.$settings.navigateNowToLogIn) { EmptyView() }
                     NavigationLink(destination: SignUpView(), isActive: self.$settings.navigateNowToSignup) { EmptyView() }
@@ -42,8 +45,11 @@ struct WelcomeView: View {
                                 }
                             }.frame(width: geometry.size.width, height: geometry.size.height)
                 }
+             
+                
             }
         }
+        .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
     }
 }
 
@@ -112,8 +118,9 @@ class WelcomeUIScrollViewController<Content: View>: UIViewController, UIScrollVi
         let view = UIScrollView()
         view.delegate = self
         view.isPagingEnabled = pagingEnabled
-        view.showsVerticalScrollIndicator = !hideScrollIndicators
-        view.showsHorizontalScrollIndicator = !hideScrollIndicators
+        view.showsVerticalScrollIndicator = false
+        view.showsHorizontalScrollIndicator = true
+        view.alwaysBounceVertical = false
         return view
     }()
 
@@ -176,6 +183,8 @@ class WelcomeUIScrollViewController<Content: View>: UIViewController, UIScrollVi
         switch axis {
             case .horizontal:
                 self.pageControl.currentPage = Int(currentIndexHorizontal)
+                self.pageControl.isHidden = Int(currentIndexHorizontal) == self.numberOfPages - 1
+        
                 break
             case .vertical:
                 self.pageControl.currentPage = Int(currentIndexVertical)
@@ -190,6 +199,8 @@ class WelcomeUIScrollViewController<Content: View>: UIViewController, UIScrollVi
 struct OnboardingView: View {
     var onboardingData: OnboardingModel
     @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var ui: AppUI
+    @Environment(\.managedObjectContext) private var viewContext
     
     var body: some View {
         GeometryReader { geometry in
@@ -225,7 +236,7 @@ struct OnboardingView: View {
                                    Text("Log In")
                                }.frame(width: geometry.size.width - 200, height: 40)
                                .foregroundColor(Color(.white))
-                               .background(Color(UIColor.gray))
+                               .background(ui.lightPrimaryColor)
                                .cornerRadius(10)
                                .padding(.bottom, 5)
                            }
@@ -237,11 +248,11 @@ struct OnboardingView: View {
                                        Text("Sign Up")
                                 }.frame(width: geometry.size.width - 200, height: 40)
                                   .foregroundColor(Color(.white))
-                                  .background(Color(UIColor.gray))
+                                  .background(ui.lightPrimaryColor)
                                   .cornerRadius(10)
                            }
                         
-                    }.padding(.bottom, 30)
+                    }.padding(.bottom, 0)
                 }
                 
                 Spacer()

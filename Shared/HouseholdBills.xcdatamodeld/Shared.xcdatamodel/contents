@@ -220,6 +220,7 @@
         <attribute name="notificationService" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="notificationStock" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="password" optional="YES" attributeType="String"/>
+        <attribute name="showMonthBalance" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="subscribed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="symbol" optional="YES" attributeType="String"/>
         <attribute name="unit" optional="YES" attributeType="String"/>
@@ -272,7 +273,7 @@
         <element name="MonthlyPayment" positionX="0" positionY="153" width="128" height="284"/>
         <element name="Password" positionX="-18" positionY="144" width="128" height="89"/>
         <element name="Payment" positionX="-36" positionY="99" width="128" height="284"/>
-        <element name="Settings" positionX="-27" positionY="144" width="128" height="254"/>
+        <element name="Settings" positionX="-27" positionY="144" width="128" height="269"/>
         <element name="Stock" positionX="0" positionY="171" width="128" height="194"/>
         <element name="Transaction" positionX="-18" positionY="153" width="128" height="209"/>
     </elements>

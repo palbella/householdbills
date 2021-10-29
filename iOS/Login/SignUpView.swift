@@ -10,6 +10,9 @@ import SwiftUI
 struct SignUpView: View {
     @EnvironmentObject var settings: UserSettings
     @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject var ui: AppUI
+    @Environment(\.colorScheme) var colorScheme
+   
     
     @State var emailAddress: String = ""
     @State var name: String = ""
@@ -58,19 +61,21 @@ struct SignUpView: View {
                 CustomTextfield(label: "Name", text: $name, keyType: UIKeyboardType.alphabet, textAlignment: .left,
                                 maxLength: 20)
                         .frame(width: geometry.size.width - 45, height: 50)
+                      
                         .textContentType(.emailAddress)
                         .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
                         .accentColor(.red)
-                        .background(Color(red: 242 / 255, green: 242 / 255, blue: 242 / 255))
+                        .background(colorScheme != .dark ? Color(UIColor.systemGray6): Color(UIColor.systemGray2))
                         .cornerRadius(5)
             
                 CustomTextfield(label: "Email", text: $emailAddress, keyType: UIKeyboardType.alphabet, textAlignment: .left,
                                 maxLength: 20)
                     .frame(width: geometry.size.width - 45, height: 50)
+                 
                     .textContentType(.emailAddress)
                     .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
                     .accentColor(.red)
-                    .background(Color(red: 242 / 255, green: 242 / 255, blue: 242 / 255))
+                    .background(colorScheme != .dark ? Color(UIColor.systemGray6): Color(UIColor.systemGray2))
                     .cornerRadius(5)
                 
             
@@ -81,7 +86,7 @@ struct SignUpView: View {
             }
 
             Text("Terms of Service and Privacy Policy")
-                .foregroundColor(Color.blue)
+                .foregroundColor(ui.lightPrimaryColor)
                 .padding(.bottom, 40)
                 .font(.system(size: 12))
             
@@ -93,6 +98,7 @@ struct SignUpView: View {
                 settings.name = name
                 settings.password = password
                 settings.email = emailAddress
+                settings.showMonthBalance = true
                     settings.welcome = false
                 
             }) {
@@ -102,7 +108,7 @@ struct SignUpView: View {
                 .padding()
                 .frame(width: geometry.size.width - 40, height: 40)
                 .foregroundColor(Color.white)
-                .background(Color.blue)
+                .background(ui.lightPrimaryColor)
                 .cornerRadius(5)
             }.padding(.bottom, 40)
                 .disabled(disableForm)

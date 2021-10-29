@@ -80,6 +80,8 @@ struct DashboardView: View {
                                 }
                                 Spacer()
                                 
+                             
+                               
                                 VStack {
                                     
                                     HStack(spacing: 0) {
@@ -124,7 +126,7 @@ struct DashboardView: View {
                                        
                                     }
                                 }
-                              
+                                
                                 Spacer()
                                 Text(currentMonthName)
                                     .font(.system(size: 14))
@@ -214,6 +216,7 @@ struct DashboardView: View {
     func getHeaderOpacity() -> Double {
         
         let progress = (-offset - ui.headerHeight * 1.5) / 99
+       
         
         let opacity = getHeaderLineOpacity() != 1 ? progress : 1
         

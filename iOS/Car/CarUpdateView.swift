@@ -303,7 +303,7 @@ struct CarUpdateView: View {
                         newService.carId = car.id
                         newService.date = nil
                         let serv = CarServiceModel(
-                            id: UUID(),
+                            id: newService.id!,
                             name: service.name!,
                             months: service.months, 
                             amount: 0,

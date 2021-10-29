@@ -37,6 +37,7 @@ struct DashboardBodyView: View {
     @Binding var toastMessasge: String
     @Binding var toastError: Bool
     
+    
     @Binding var currentMonthName: String
     
     @State var showConfirmBalance: Bool = false
@@ -85,9 +86,22 @@ struct DashboardBodyView: View {
                 .background(Color.blue)
                 }
                 .padding(.top, 20)
+                .padding(.bottom, 20)
             }
             
             ForEach(self.cardsFetch.indexed(), id: \.1.id) { index, card in
+                
+                if(card.name == "Month Available Balance") {
+                    
+                    if(card.visible == true && settings.showMonthBalance == true) {
+                     
+                        MonthBalanceView(totalAccounts: self.$totalAccounts, totalGoalAccounts: self.$totalGoalAccounts, totalGoals: self.$totalGoals, totalPayments: self.$totalPayments, totalBudgets: self.$totalBudgets, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData)
+                            .padding(.top, 10)
+
+                         Spacer()
+                    
+                    }
+                }
                 
                 if(card.name == "Accounts") {
                     
@@ -211,13 +225,7 @@ Divider()
             var dateComponent = DateComponents()
             dateComponent.month = 1
             
-            if(Date().get(.day) > settings.dayChangeMonth) {
-                nextMonth = Calendar.current.date(byAdding: dateComponent, to: Date())
-                nextMonthName = dateFormarterLabel.string(from: nextMonth!)
-            } else {
-                nextMonth = Date()
-                nextMonthName = dateFormarterLabel.string(from: nextMonth!)
-            }
+           
             
             let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -230,6 +238,14 @@ Divider()
                 self.monthChange = true
             } else {
                 self.monthChange = false
+            }
+            
+            if(self.monthChange) {
+                nextMonth = Calendar.current.date(byAdding: dateComponent, to: Date())
+                nextMonthName = dateFormarterLabel.string(from: nextMonth!)
+            } else {
+                nextMonth = Date()
+                nextMonthName = dateFormarterLabel.string(from: nextMonth!)
             }
             
         } catch {

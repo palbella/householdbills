@@ -40,6 +40,7 @@ struct InitialData {
         newSetting.unit = "Km"
         newSetting.currency = "USD"
         newSetting.subscribed = false
+        newSetting.showMonthBalance = true
         newSetting.dayChangeMonth = 28
         newSetting.monthIncome = 0
         
@@ -358,11 +359,20 @@ struct InitialData {
     func initialDataCards()
     {
         
+        let newCardBalance = Card(context: viewContext)
+      
+        newCardBalance.name = "Month Available Balance"
+        newCardBalance.id = 0
+        newCardBalance.order = 0
+        newCardBalance.visible = true
+     
+ SaveContext()
+        
         let newCardAccount = Card(context: viewContext)
       
         newCardAccount.name = "Accounts"
-        newCardAccount.id = 0
-        newCardAccount.order = 0
+        newCardAccount.id = 1
+        newCardAccount.order = 1
         newCardAccount.visible = true
      
  SaveContext()
@@ -370,8 +380,8 @@ struct InitialData {
         let newCardGoal = Card(context: viewContext)
       
         newCardGoal.name = "Goals"
-        newCardGoal.id = 1
-        newCardGoal.order = 1
+        newCardGoal.id = 2
+        newCardGoal.order = 2
         newCardGoal.visible = true
      
  SaveContext()
@@ -379,8 +389,8 @@ struct InitialData {
         let newCardBudget = Card(context: viewContext)
       
         newCardBudget.name = "Budgets"
-        newCardBudget.id = 2
-        newCardBudget.order = 2
+        newCardBudget.id = 3
+        newCardBudget.order = 3
         newCardBudget.visible = true
      
  SaveContext()
@@ -388,8 +398,8 @@ struct InitialData {
         let newCardPayment = Card(context: viewContext)
       
         newCardPayment.name = "Payments"
-        newCardPayment.id = 3
-        newCardPayment.order = 3
+        newCardPayment.id = 4
+        newCardPayment.order = 4
         newCardPayment.visible = true
      
  SaveContext()
@@ -397,8 +407,8 @@ struct InitialData {
         let newCardCars = Card(context: viewContext)
       
         newCardCars.name = "Cars"
-        newCardCars.id = 4
-        newCardCars.order = 4
+        newCardCars.id = 5
+        newCardCars.order = 5
         newCardCars.visible = true
      
  SaveContext()
@@ -406,8 +416,8 @@ struct InitialData {
         let newCardChart = Card(context: viewContext)
       
         newCardChart.name = "Chart"
-        newCardChart.id = 5
-        newCardChart.order = 5
+        newCardChart.id = 6
+        newCardChart.order = 6
         newCardChart.visible = true
      
  SaveContext()

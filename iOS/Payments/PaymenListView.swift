@@ -283,10 +283,11 @@ struct PaymentListView: View {
             let savedPayments =  try viewContext.fetch(fetchRequest)
        
                             for index in 0..<savedPayments.count {
-                                
+                                if(self.paymentsFetch[index].isPaid != true) {
                                 let amount: Double = currencies.convert(currencyFrom: self.paymentsFetch[index].currency!, currencyTo: settings.currency, value: self.paymentsFetch[index].amount)
 
                                 self.totalPayments = self.totalPayments + amount
+                                }
                                     }
         } catch {
             print(error)

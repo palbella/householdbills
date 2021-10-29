@@ -30,6 +30,7 @@ class UserSettings: ObservableObject {
     @Published var notificationCrypto: Bool = false
     @Published var notificationService: Bool = false
     @Published var notificationPayment: Bool = false
+    @Published var showMonthBalance: Bool = false
 }
 
 class AppUI: ObservableObject {
@@ -123,6 +124,7 @@ struct HouseholdBillsApp: App {
                 self.settings.estimatedMontlyIncomes = savedSettings[0].monthIncome
                 self.settings.subscribed = savedSettings[0].subscribed
                 self.settings.dayChangeMonth = savedSettings[0].dayChangeMonth
+                self.settings.showMonthBalance = savedSettings[0].showMonthBalance
                 self.settings.notificationStock = savedSettings[0].notificationStock
                 self.settings.notificationCrypto = savedSettings[0].notificationCrypto
                 self.settings.notificationPayment = savedSettings[0].notificationPayment
