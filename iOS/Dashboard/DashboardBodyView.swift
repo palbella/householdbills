@@ -42,6 +42,8 @@ struct DashboardBodyView: View {
     
     @State var showConfirmBalance: Bool = false
     
+    @Binding var showSubscribe: Bool
+    
     func onAppear() {
      
         self.setMonthName()
@@ -106,7 +108,7 @@ struct DashboardBodyView: View {
                 if(card.name == "Accounts") {
                     
                     if(card.visible == true) {
-                        AccountListView(totalAccounts: self.$totalAccounts, totalGoalAccounts: self.$totalGoalAccounts, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData, isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError)
+                        AccountListView(totalAccounts: self.$totalAccounts, totalGoalAccounts: self.$totalGoalAccounts, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData, isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, showSubscribe: self.$showSubscribe)
                             .padding(.top, 10)
 
                          Spacer()
@@ -117,7 +119,7 @@ struct DashboardBodyView: View {
                 if(card.name == "Goals") {
                     
                     if(card.visible == true) {
-                        GoalListView(totalGoals: self.$totalGoals, hideData: self.$hideData)
+                        GoalListView(totalGoals: self.$totalGoals, hideData: self.$hideData, showSubscribe: self.$showSubscribe)
                            .padding(.top, 10)
 
 
@@ -129,7 +131,7 @@ struct DashboardBodyView: View {
                 if(card.name == "Budgets") {
                     
                     if(card.visible == true) {
-                        BudgetListView(totalBudgets: self.$totalBudgets, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData)
+                        BudgetListView(totalBudgets: self.$totalBudgets, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData, showSubscribe: self.$showSubscribe)
                             .padding(.top, 10)
 
                         Spacer()
@@ -140,7 +142,7 @@ struct DashboardBodyView: View {
                 if(card.name == "Payments") {
                     
                     if(card.visible == true) {
-                        PaymentListView(totalPayments: self.$totalPayments, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData)
+                        PaymentListView(totalPayments: self.$totalPayments, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData, showSubscribe: self.$showSubscribe)
                             .padding(.top, 10)
 
                         Spacer()
@@ -152,7 +154,7 @@ struct DashboardBodyView: View {
                 if(card.name == "Cars") {
                     
                     if(card.visible == true) {
-                        CarListView()
+                        CarListView(showSubscribe: self.$showSubscribe)
                             .padding(.top, 10)
                         
                         Spacer()
@@ -230,10 +232,24 @@ Divider()
             let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd"
             
-            let toDate = dateFormatter.date(from:
+            let toDateFormat = dateFormatter.date(from:
                                                 String(currentMonth.timestamp!.get(.year)) + "-" +
                                                 String(currentMonth.timestamp!.get(.month)) + "-" +
-                                                String(settings.dayChangeMonth))! as NSDate
+                                                String(settings.dayChangeMonth))
+            
+            let calendar = Calendar(identifier: .gregorian)
+            var components = calendar.dateComponents([.year, .month], from: currentMonth.timestamp!)
+
+            let startOfMonth =  calendar.date(from: components)!
+            
+             components = DateComponents()
+                    components.month = 1
+                    components.second = -1
+                    let endMonth = Calendar(identifier: .gregorian).date(byAdding: components, to: startOfMonth)!
+            
+            
+            let toDate : NSDate = toDateFormat != nil ? toDateFormat! as NSDate : endMonth as NSDate
+            
             if(Date() > toDate as Date || Date().get(.month) > (currentMonth.timestamp?.get(.month))! || Date().get(.year) > (currentMonth.timestamp?.get(.year))!) {
                 self.monthChange = true
             } else {

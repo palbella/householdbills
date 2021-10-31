@@ -108,8 +108,6 @@ struct AccountUpdateView: View {
             budgetList.append(budgets.items[index].name)
         }
         
-        cryptoData.initialize(viewContext: viewContext)
-        stockData.initialize(viewContext: viewContext)
 
     }
     

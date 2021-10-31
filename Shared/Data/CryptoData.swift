@@ -10,13 +10,10 @@ import CoreData
 
 class CryptocurrencyData: ObservableObject {
     @Published var items = [CryptocurrencyModel]()
-    var viewContext: NSManagedObjectContext?
+    var viewContext: NSManagedObjectContext = PersistenceController.shared.container.viewContext
 
     let request: NSFetchRequest<Cryptocurrency> = Cryptocurrency.fetchRequest()
   
-    func initialize(viewContext: NSManagedObjectContext) {
-        self.viewContext = viewContext
-    }
     
     init() {
         self.items = []
@@ -25,7 +22,7 @@ class CryptocurrencyData: ObservableObject {
     func fetch() ->  [CryptocurrencyModel]{
         
         do {
-            let savedRecords = try  viewContext!.fetch(request)
+            let savedRecords = try  viewContext.fetch(request)
         self.items = []
             
             for i in 0..<savedRecords.count {
@@ -45,7 +42,7 @@ class CryptocurrencyData: ObservableObject {
      
            withAnimation {
             
-               let newCrypto = Cryptocurrency(context: viewContext!)
+               let newCrypto = Cryptocurrency(context: viewContext)
                newCrypto.id = UUID()
                newCrypto.accountId = crypto.accountId
                newCrypto.name = crypto.name
@@ -59,7 +56,7 @@ class CryptocurrencyData: ObservableObject {
 
      SaveContext()
            }
-       GetMarketCriptocurrencies(viewContext: viewContext!).run()
+       GetMarketCriptocurrencies(viewContext: viewContext).run()
 //       getTotals()
 
    }
@@ -73,7 +70,7 @@ class CryptocurrencyData: ObservableObject {
                 let request: NSFetchRequest<Cryptocurrency> = Cryptocurrency.fetchRequest()
                 request.predicate = NSPredicate(format: "id == %@", crypto.id as CVarArg)
                 
-                let savedCrypto = try  self.viewContext!.fetch(request)[0]
+                let savedCrypto = try  self.viewContext.fetch(request)[0]
                 
             savedCrypto.name = crypto.name
             savedCrypto.accountId = crypto.accountId
@@ -91,8 +88,7 @@ class CryptocurrencyData: ObservableObject {
         }
 
       SaveContext()
-        GetMarketCriptocurrencies(viewContext: viewContext!).run()
-//        getTotals()
+        GetMarketCriptocurrencies(viewContext: viewContext).run()
 
     }
     
@@ -104,19 +100,19 @@ class CryptocurrencyData: ObservableObject {
                 request.predicate = NSPredicate(format: "id == %@", crypto.id as CVarArg)
 
                     do {
-                        let savedCryptos = try  self.viewContext!.fetch(request)
+                        let savedCryptos = try  self.viewContext.fetch(request)
                         
                         for crypto in savedCryptos {
-                            self.viewContext!.delete(crypto)
+                            self.viewContext.delete(crypto)
                         }
-                        try self.viewContext!.save()
+                        try self.viewContext.save()
                     } catch {
                         print(error)
                     }
                 
             }
 SaveContext()
-        GetMarketCriptocurrencies(viewContext: viewContext!).run()
+        GetMarketCriptocurrencies(viewContext: viewContext).run()
 //        getTotals()
        
     }
@@ -144,7 +140,7 @@ SaveContext()
     private func SaveContext () {
     do {
 
-  try viewContext!.save()
+  try viewContext.save()
         
 
         }

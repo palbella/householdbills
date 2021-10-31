@@ -51,6 +51,8 @@
         @Binding var toastMessasge: String
         @Binding var toastError: Bool
         
+        @Binding var showSubscribe: Bool
+        
         func onAppear () {
             
             self.categories.items = fetchCategories.fetch(viewContext: viewContext)
@@ -82,6 +84,7 @@
                                     VStack {
                                         Spacer()
                                         Button(action: {
+                                            if(settings.subscribed || self.accountsFetch.count < 1) {
                                             self.accountSelected = AccountModel()
                                             self.transaction = TransactionModel()
                                             self.accountSelected.iconContent = "bank"
@@ -90,6 +93,10 @@
                                             self.accountSelected.currency = settings.currency
                                             self.accountSelected.symbol = settings.symbol
                                             self.isShowingNew = true
+                                            } else {
+                                               
+                                                self.showSubscribe = true
+                                            }
                                         }) {
                                             
                                             CommandButton(content: "plus.circle")
@@ -145,6 +152,7 @@
                                                   let fontColor = item.amount >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
                                                   
                                                                       Button(action: {
+                                                                          if(settings.subscribed || index < 1) {
                                                                           self.accountSelected = self.accountData.map(account: item)
                                                                           self.transaction = TransactionModel()
                                                                           self.transaction.initialAmount = self.$accountSelected.amount.wrappedValue
@@ -152,6 +160,10 @@
                                                                           self.transaction.category = 99
                                                                           self.delete = false
                                                                           self.isShowing = true
+                                                                          } else {
+                                                                              
+                                                                              self.showSubscribe = true
+                                                                          }
                                                                       }) {
                                                                           
                                                                           VStack (spacing: 0) {

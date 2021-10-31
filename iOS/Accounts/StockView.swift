@@ -297,7 +297,7 @@ struct StockView: View {
             .padding(.top, 40)
             .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
             .onAppear() {
-                stockData.initialize(viewContext: viewContext)
+            
                 getTotals()
                         }
         }

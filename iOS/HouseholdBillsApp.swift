@@ -13,7 +13,7 @@ import UserNotifications
 class UserSettings: ObservableObject {
     @Published var loggedIn : Bool = false
     @Published var welcome : Bool = true
-    @Published var subscribed : Bool = false
+    @Published var subscribed : Bool = true
     @Published var navigateNowToLogIn: Bool = false
     @Published var navigateNowToSignup: Bool = false
     @Published var currencyUpdate: Bool = false
@@ -31,6 +31,12 @@ class UserSettings: ObservableObject {
     @Published var notificationService: Bool = false
     @Published var notificationPayment: Bool = false
     @Published var showMonthBalance: Bool = false
+    @Published var passwordQuestion1 : String = ""
+    @Published var passwordQuestion2 : String = ""
+    @Published var passwordQuestion3 : String = ""
+    @Published var passwordAnswer1 : String = ""
+    @Published var passwordAnswer2 : String = ""
+    @Published var passwordAnswer3 : String = ""
 }
 
 class AppUI: ObservableObject {
@@ -122,13 +128,20 @@ struct HouseholdBillsApp: App {
                 self.settings.email = savedSettings[0].email!
                 self.settings.unit = savedSettings[0].unit!
                 self.settings.estimatedMontlyIncomes = savedSettings[0].monthIncome
-                self.settings.subscribed = savedSettings[0].subscribed
+//                self.settings.subscribed = savedSettings[0].subscribed
                 self.settings.dayChangeMonth = savedSettings[0].dayChangeMonth
                 self.settings.showMonthBalance = savedSettings[0].showMonthBalance
                 self.settings.notificationStock = savedSettings[0].notificationStock
                 self.settings.notificationCrypto = savedSettings[0].notificationCrypto
                 self.settings.notificationPayment = savedSettings[0].notificationPayment
                 self.settings.notificationService = savedSettings[0].notificationService
+                
+                self.settings.passwordQuestion1 = savedSettings[0].passwordQuestion1 ?? ""
+                self.settings.passwordQuestion2 = savedSettings[0].passwordQuestion2 ?? ""
+                self.settings.passwordQuestion3 = savedSettings[0].passwordQuestion3 ?? ""
+                self.settings.passwordAnswer1 = savedSettings[0].passwordAnswer1 ?? ""
+                self.settings.passwordAnswer2 = savedSettings[0].passwordAnswer2 ?? ""
+                self.settings.passwordAnswer3 = savedSettings[0].passwordAnswer3 ?? ""
 
             }
 

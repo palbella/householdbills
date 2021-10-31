@@ -208,7 +208,7 @@ struct OnboardingView: View {
                 Spacer()
                 Image("\(self.onboardingData.image)")
                     .resizable()
-                    .frame(width: 300, height: 300)
+                    .frame(width: 300, height: 250)
                     .aspectRatio(contentMode: ContentMode.fill)
                     .clipShape(Circle())
                     .padding(20)

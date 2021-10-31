@@ -45,6 +45,8 @@ struct BudgetListView: View {
     @Binding var expenses: Double
     @Binding var hideData: Bool
     
+    @Binding var showSubscribe: Bool
+    
     func onAppear() {
         
         self.categories.items = fetchCategories.fetch(viewContext: viewContext)
@@ -74,6 +76,7 @@ struct BudgetListView: View {
                                 VStack {
                                     Spacer()
                                     Button(action: {
+                                        if(settings.subscribed || self.budgetsFetch.count < 1) {
                                         self.budgetSelected = BudgetModel()
                                         self.transaction = TransactionModel()
                                         self.budgetSelected.iconContent = "camera"
@@ -81,6 +84,10 @@ struct BudgetListView: View {
                                         self.budgetSelected.currency = settings.currency
                                         self.budgetSelected.symbol = settings.symbol
                                         self.isShowingNewBudgetPlanning = true
+                                        } else {
+                                           
+                                            self.showSubscribe = true
+                                        }
                                     }) {
 
                                         CommandButton(content: "plus.circle")
@@ -122,6 +129,7 @@ struct BudgetListView: View {
 
 
                                             Button(action: {
+                                                if(settings.subscribed || index < 1) {
                                                 self.budgetSelected = map(budget: item)
                                                 self.transaction = TransactionModel()
                                                 self.transaction.type = LocalizedStringKey("Budget Adjustment").toString()
@@ -129,6 +137,10 @@ struct BudgetListView: View {
                                                 self.transaction.category = 1
                                                 self.delete = false
                                                 self.isShowingBudgetPlanning = true
+                                                } else {
+                                                   
+                                                    self.showSubscribe = true
+                                                }
                                             }) {
 
                                                 VStack (spacing: 0) {

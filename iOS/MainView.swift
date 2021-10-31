@@ -121,6 +121,8 @@ struct MainView: View {
 
                              self.transaction.timestamp = Date()
                             self.updateAccount()
+                           
+                           
                             self.transactionData.addTransactions(transaction: transaction)
                         }
                     
@@ -148,7 +150,7 @@ struct MainView: View {
             
             let amountConverted: Double = currencies.convert(currencyFrom: transaction.currency, currencyTo: savedAccount.currency!, value: transaction.amount)
                 
-            if(transaction.type == LocalizedStringKey("Income").toString()) {
+            if(transaction.type == LocalizedStringKey("Expense").toString()) {
                 savedAccount.amount = savedAccount.amount - amountConverted
             }
             if(transaction.type == LocalizedStringKey("Income").toString()) {

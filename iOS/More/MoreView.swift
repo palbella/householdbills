@@ -37,6 +37,8 @@ struct MoreView: View {
     @State var commandRightTrigger: Bool = false
     
     @Binding var showSubscribe: Bool
+    @State var showSubscribeCar: Bool = false
+    
 
     func onAppear() {
         self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext, includeNotSelected: true)
@@ -90,7 +92,11 @@ struct MoreView: View {
                     }) {
                         CardMenu(prompt: "car", title: "Car Management")
                     }
-                        .sheet(isPresented: self.$isShowingCar) { ServicesListView()}
+                    .sheet(isPresented: self.$isShowingCar, onDismiss: {
+                        if(self.showSubscribeCar == true) {
+                            self.showSubscribe = true
+                        }
+                    }) { ServicesListView(showSubscribe: self.$showSubscribeCar, isShowingCar: self.$isShowingCar)}
                         
                     }
                 .padding(.leading, 20)
@@ -144,7 +150,11 @@ struct MoreView: View {
                        
                         
                         Button(action: {
+                            if(settings.subscribed) {
                             self.isShowingPassword = true
+                            } else {
+                                self.showSubscribe = true
+                            }
                         }) {
                             CardMenu(prompt: "pencil.and.ellipsis.rectangle", title: "Passwords Management")
                         }

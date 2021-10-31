@@ -41,6 +41,8 @@ struct GoalListView: View {
     @Binding var totalGoals: Double
     @Binding var hideData: Bool
     
+    @Binding var showSubscribe: Bool
+    
     var body: some View {
         
         VStack(spacing: 0) {
@@ -79,6 +81,7 @@ struct GoalListView: View {
                                     .padding(.bottom, 12)
                                     
                                     Button(action: {
+                                        if(settings.subscribed || self.goalsFetch.count < 1) {
                                         self.goalSelected = GoalModel()
                                         self.transaction = TransactionModel()
                                         self.goalSelected.iconContent = "vacation"
@@ -86,6 +89,10 @@ struct GoalListView: View {
                                         self.goalSelected.currency = settings.currency
                                         self.goalSelected.symbol = settings.symbol
                                         self.isShowingNew = true
+                                        } else {
+                                           
+                                            self.showSubscribe = true
+                                        }
                                     }) {
                                         
                                         CommandButton(content: "plus.circle")
@@ -135,10 +142,15 @@ struct GoalListView: View {
                     
                     
                                         Button(action: {
+                                            if(settings.subscribed || index < 1) {
                                             self.goalSelected = map(goal: item)
                                             self.transaction = TransactionModel()
                                             self.delete = false
                                             self.isShowing = true
+                                            } else {
+                                               
+                                                self.showSubscribe = true
+                                            }
                                         }) {
 
                                             

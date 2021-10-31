@@ -42,6 +42,7 @@ struct PaymentListView: View {
     @Binding var expenses: Double
     @Binding var hideData: Bool
     
+    @Binding var showSubscribe: Bool
     
     func onAppear() {
         
@@ -74,6 +75,7 @@ struct PaymentListView: View {
                                 VStack {
                                     Spacer()
                                     Button(action: {
+                                        if(settings.subscribed || self.paymentsFetch.count < 2) {
                                         self.paymentSelected = PaymentModel()
                                         self.transaction = TransactionModel()
                                         self.paymentSelected.iconContent = "lightbulb"
@@ -81,6 +83,10 @@ struct PaymentListView: View {
                                         self.paymentSelected.currency = settings.currency
                                         self.paymentSelected.symbol = settings.symbol
                                         self.isShowingNew = true
+                                        } else {
+                                           
+                                            self.showSubscribe = true
+                                        }
                                     }) {
 
                                         CommandButton(content: "plus.circle")
@@ -115,10 +121,15 @@ struct PaymentListView: View {
 
 
                                             Button(action: {
+                                                if(settings.subscribed || index < 1) {
                                                 self.paymentSelected = map(payment: item)
                                                 self.transaction = TransactionModel()
                                                 self.delete = false
                                                 self.isShowing = true
+                                                } else {
+                                                   
+                                                    self.showSubscribe = true
+                                                }
                                             }) {
 
                                                 VStack (spacing: 0) {

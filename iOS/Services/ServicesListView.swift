@@ -32,10 +32,12 @@ struct ServicesListView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
         var serviceFetchResult: FetchedResults<CarService>
     
-
+    @Binding var showSubscribe: Bool
+    @Binding var isShowingCar: Bool
     
-    init() {
-    
+    init(showSubscribe: Binding<Bool>, isShowingCar: Binding<Bool>) {
+        self._showSubscribe = showSubscribe
+        self._isShowingCar = isShowingCar
         UINavigationBar.appearance().isTranslucent = false
         
        }
@@ -75,10 +77,15 @@ struct ServicesListView: View {
                                 VStack {
                                    
                                     Button(action: {
+                                        if(settings.subscribed || self.serviceFetchResult.count < 1) {
                                         self.serviceSelected = ServiceModel()
                                         self.unit = settings.unit
                                         self.isShowingNew = true
                                         self.delete = nil
+                                        } else {
+                                            self.isShowingCar = false
+                                            self.showSubscribe = true
+                                        }
                                     }) {
                                         
                                         CommandButton(content: "plus.circle")
@@ -115,10 +122,15 @@ struct ServicesListView: View {
 
 
                                                                   Button(action: {
+                                                                      if(settings.subscribed || index < 1) {
                                                                     self.serviceSelected = map(service: item)
                                                                       self.delete = false
                                                                     self.unit = settings.unit
                                                                       self.isShowing = true
+                                                                      } else {
+                                                                          self.isShowingCar = false
+                                                                          self.showSubscribe = true
+                                                                      }
                                                                   }) {
 
                                                                       VStack (spacing: 0) {

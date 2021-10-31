@@ -185,7 +185,7 @@ class TransactionData: ObservableObject {
     
     func addTransactions(transaction: TransactionModel) {
         
-        if(transaction.amount == 0 || transaction.name == "") {
+        if(transaction.amount == 0) {
             return
         }
         

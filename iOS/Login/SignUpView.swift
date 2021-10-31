@@ -61,7 +61,6 @@ struct SignUpView: View {
                 CustomTextfield(label: "Name", text: $name, keyType: UIKeyboardType.alphabet, textAlignment: .left,
                                 maxLength: 20)
                         .frame(width: geometry.size.width - 45, height: 50)
-                      
                         .textContentType(.emailAddress)
                         .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
                         .accentColor(.red)
@@ -71,7 +70,6 @@ struct SignUpView: View {
                 CustomTextfield(label: "Email", text: $emailAddress, keyType: UIKeyboardType.alphabet, textAlignment: .left,
                                 maxLength: 20)
                     .frame(width: geometry.size.width - 45, height: 50)
-                 
                     .textContentType(.emailAddress)
                     .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
                     .accentColor(.red)

@@ -31,6 +31,8 @@
         @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
         var carsFetch: FetchedResults<Car>
         
+        @Binding var showSubscribe: Bool
+      
         
         var body: some View {
             
@@ -54,11 +56,19 @@
                                     VStack {
                                         Spacer()
                                         Button(action: {
-                                            self.carSelected = CarModel()
-                                            self.carSelected.iconContent = "car"
-                                            self.carSelected.iconColor = "green"
-                                            self.carSelected.symbol = settings.unit
-                                            self.isShowingNew = true
+                                            
+                                            if(settings.subscribed || self.carsFetch.count < 1) {
+                                                self.carSelected = CarModel()
+                                                self.carSelected.iconContent = "car"
+                                                self.carSelected.iconColor = "green"
+                                                self.carSelected.symbol = settings.unit
+                                                self.isShowingNew = true
+                                                                      } else {
+                                                                         
+                                                                          self.showSubscribe = true
+                                                                      }
+                                            
+                                          
                                         }) {
                                             
                                             CommandButton(content: "plus.circle")

@@ -55,6 +55,7 @@
 		6E5965CA26F91C5600010966 /* CurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5965C926F91C5600010966 /* CurrencyView.swift */; };
 		6E5965CC26FA2CC500010966 /* TransactionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5965CB26FA2CC500010966 /* TransactionData.swift */; };
 		6E6F0EE6272C5CFD002EEAC0 /* DashboardMonthBalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6F0EE5272C5CFD002EEAC0 /* DashboardMonthBalanceView.swift */; };
+		6E6F0EE8272F1BB6002EEAC0 /* SettingsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6F0EE7272F1BB6002EEAC0 /* SettingsData.swift */; };
 		6E71902626DBF93C00E1CB48 /* CurrencyField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E71902526DBF93C00E1CB48 /* CurrencyField.swift */; };
 		6E71902926DC03C000E1CB48 /* SharedExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E71902826DC03C000E1CB48 /* SharedExtensions.swift */; };
 		6E71902B26DC064300E1CB48 /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E71902A26DC064300E1CB48 /* TransactionModel.swift */; };
@@ -265,6 +266,7 @@
 		6E5965C926F91C5600010966 /* CurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyView.swift; sourceTree = "<group>"; };
 		6E5965CB26FA2CC500010966 /* TransactionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionData.swift; sourceTree = "<group>"; };
 		6E6F0EE5272C5CFD002EEAC0 /* DashboardMonthBalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardMonthBalanceView.swift; sourceTree = "<group>"; };
+		6E6F0EE7272F1BB6002EEAC0 /* SettingsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsData.swift; sourceTree = "<group>"; };
 		6E71902526DBF93C00E1CB48 /* CurrencyField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyField.swift; sourceTree = "<group>"; };
 		6E71902826DC03C000E1CB48 /* SharedExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedExtensions.swift; sourceTree = "<group>"; };
 		6E71902A26DC064300E1CB48 /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionModel.swift; sourceTree = "<group>"; };
@@ -568,6 +570,7 @@
 				6E4B919A27056C5A00E627E4 /* MonthlyBudgetFetch.swift */,
 				6E8D0AEE2723645800A2067B /* CryptoData.swift */,
 				6E8D0AF02724646400A2067B /* StockData.swift */,
+				6E6F0EE7272F1BB6002EEAC0 /* SettingsData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -975,6 +978,7 @@
 				6EB9C0132712576A00FB234C /* TransactionFilterView.swift in Sources */,
 				6E22BCDF26D9221500C8A67B /* AccountModel.swift in Sources */,
 				6EB9C01A27138EB700FB234C /* SignUpView.swift in Sources */,
+				6E6F0EE8272F1BB6002EEAC0 /* SettingsData.swift in Sources */,
 				6E9DBA8326E016B800F0F15C /* Toast.swift in Sources */,
 				6E3F0CBB26C99FB900A807BE /* TransactionView.swift in Sources */,
 				6E72D2ED26E934B7007C8C17 /* DecimalInput.swift in Sources */,

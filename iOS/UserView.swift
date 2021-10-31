@@ -15,7 +15,7 @@ struct UserView: View {
     @Environment(\.presentationMode) var presentationMode
   
   
- 
+    @State var settingsData : SettingsData = SettingsData()
     
     func onAppear() {
         let appearance = UINavigationBarAppearance()
@@ -28,8 +28,11 @@ struct UserView: View {
     
     var body: some View {
         
-        
+        let labelColor = colorScheme != .dark ? ui.lightItemFontColor: ui.darkItemFontColor
+        let fontColor = colorScheme != .dark ? ui.lightFieldFontColor: ui.darkFieldFontColor
+     
         GeometryReader { geometry in
+            NavigationView {
             VStack (alignment: .center){
                 HStack {
                     Image(systemName: "house")
@@ -70,7 +73,7 @@ struct UserView: View {
                             .textContentType(.emailAddress)
                             .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
                             .accentColor(.red)
-                            .background(Color(red: 242 / 255, green: 242 / 255, blue: 242 / 255))
+                            .background(colorScheme != .dark ? Color(UIColor.systemGray6): Color(UIColor.systemGray2))
                             .cornerRadius(5)
                 
                     CustomTextfield(label: "Email", text: $settings.email, keyType: UIKeyboardType.alphabet, textAlignment: .left,
@@ -79,7 +82,7 @@ struct UserView: View {
                         .textContentType(.emailAddress)
                         .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
                         .accentColor(.red)
-                        .background(Color(red: 242 / 255, green: 242 / 255, blue: 242 / 255))
+                        .background(colorScheme != .dark ? Color(UIColor.systemGray6): Color(UIColor.systemGray2))
                         .cornerRadius(5)
                     
                 
@@ -90,11 +93,37 @@ struct UserView: View {
                 }
 
                 Text("Terms of Service and Privacy Policy")
-                    .foregroundColor(Color.blue)
+//                    .foregroundColor(ui.lightPrimaryColor)
                     .padding(.bottom, 40)
                     .font(.system(size: 12))
                 
+                NavigationLink(destination:
+                                VStack{
+                    VStack {
+                        Text("")
+                            .padding(.bottom, 100)
+                    TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "questionmark.circle", iconColor: .blue, label: "Question 1", value: $settings.passwordQuestion1)
+                    TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "pencil", iconColor: .blue, label: "Answer 1", value: $settings.passwordAnswer1)
+                    TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "questionmark.circle", iconColor: .blue, label: "Question 2", value: $settings.passwordQuestion2)
+                   TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "pencil", iconColor: .blue, label: "Answer 2", value: $settings.passwordAnswer2)
+                    TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "questionmark.circle", iconColor: .blue, label: "Question 3", value: $settings.passwordQuestion3)
+                   TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "pencil", iconColor: .blue, label: "Answer 3", value: $settings.passwordAnswer3)
+                    }
+                    .padding(.bottom, 300)
+                    Spacer()
+                    Text("")
+                 
+                }
+                              
+                               
+                    ) {
+                    Text("Settings Recovery Password")
+                }
+                .padding()
+                .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                
                 Button(action: {
+                    self.settingsData.updateSettings(settings: settings)
                     presentationMode.wrappedValue.dismiss()
                 }) {
                     HStack {
@@ -103,7 +132,7 @@ struct UserView: View {
                     .padding()
                     .frame(width: geometry.size.width - 40, height: 40)
                     .foregroundColor(Color.white)
-                    .background(Color.blue)
+                    .background(ui.lightPrimaryColor)
                     .cornerRadius(5)
                 }.padding(.bottom, 40)
 //                    .disabled(!(self.settings.name != "" && self.settings.email != "" && self.settings.password.count == 6))
@@ -112,13 +141,19 @@ struct UserView: View {
                 Spacer()
                 
             }
+            .navigationBarHidden(true)
+            .navigationBarTitleDisplayMode(.inline)
             .onAppear() {
                 self.onAppear()
             }
         }
-        
+            .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
         }
+    }
 
+    func saveAccount() {
+        
+    }
 
 }
 

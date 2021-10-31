@@ -10,13 +10,10 @@ import CoreData
 
 class StockData: ObservableObject {
     @Published var items = [StockModel]()
-    var viewContext: NSManagedObjectContext?
+    var viewContext: NSManagedObjectContext = PersistenceController.shared.container.viewContext
 
     let request: NSFetchRequest<Stock> = Stock.fetchRequest()
   
-    func initialize(viewContext: NSManagedObjectContext) {
-        self.viewContext = viewContext
-    }
     
     init() {
         self.items = []
@@ -25,7 +22,7 @@ class StockData: ObservableObject {
     func fetch() ->  [StockModel]{
         
         do {
-            let savedRecords = try  viewContext!.fetch(request)
+            let savedRecords = try  viewContext.fetch(request)
         self.items = []
             
             for i in 0..<savedRecords.count {
@@ -45,7 +42,7 @@ class StockData: ObservableObject {
       
             withAnimation {
               
-                let newStock = Stock(context: viewContext!)
+                let newStock = Stock(context: viewContext)
                 newStock.id = UUID()
                 newStock.accountId = stock.accountId
                 newStock.name = stock.name
@@ -57,7 +54,7 @@ class StockData: ObservableObject {
 
       SaveContext()
             }
-        GetMarketStocks(viewContext: viewContext!).run()
+        GetMarketStocks(viewContext: viewContext).run()
 //        getTotals()
 
     }
@@ -71,7 +68,7 @@ class StockData: ObservableObject {
                 let request: NSFetchRequest<Stock> = Stock.fetchRequest()
                 request.predicate = NSPredicate(format: "id = %@", stock.id as CVarArg)
                 
-                let savedStock = try  self.viewContext!.fetch(request)[0]
+                let savedStock = try  self.viewContext.fetch(request)[0]
                 
             savedStock.name = stock.name
             savedStock.accountId = stock.accountId
@@ -87,7 +84,7 @@ class StockData: ObservableObject {
         }
 
       SaveContext()
-        GetMarketStocks(viewContext: viewContext!).run()
+        GetMarketStocks(viewContext: viewContext).run()
 //        getTotals()
 
     }
@@ -100,19 +97,19 @@ class StockData: ObservableObject {
                 request.predicate = NSPredicate(format: "id = %@", stock.id as CVarArg)
 
                     do {
-                        let savedStocks = try  self.viewContext!.fetch(request)
+                        let savedStocks = try  self.viewContext.fetch(request)
                         
                         for stock in savedStocks {
-                            self.viewContext!.delete(stock)
+                            self.viewContext.delete(stock)
                         }
-                        try self.viewContext!.save()
+                        try self.viewContext.save()
                     } catch {
                         print(error)
                     }
                 
             }
 SaveContext()
-        GetMarketStocks(viewContext: viewContext!).run()
+        GetMarketStocks(viewContext: viewContext).run()
 //        getTotals()
        
     }
@@ -137,7 +134,7 @@ SaveContext()
     private func SaveContext () {
     do {
 
-  try viewContext!.save()
+  try viewContext.save()
         
 
         }

@@ -48,6 +48,7 @@ struct TransactionsAddView: View {
     
     func onAppear() {
         
+        self.budgets.items = fetchBudgets.fetch(viewContext: viewContext)
         
         let appearance = UINavigationBarAppearance()
         appearance.shadowColor = colorScheme != .dark ? .lightGray : .darkGray
@@ -70,7 +71,7 @@ struct TransactionsAddView: View {
             }
         }
         
-        budgetList = []
+        budgetList = ["None"]
         for index in 0..<budgets.items.count {
             budgetList.append(budgets.items[index].name)
         }
@@ -181,12 +182,12 @@ struct TransactionsAddView: View {
                         })
                         .padding(.bottom, 5)
                         
-                    if(transaction.type == LocalizedStringKey("Expense").toString()) {
+                    if(transaction.type == LocalizedStringKey("Expense").toString() && budgetList.count > 0) {
                         Divider()
                             .padding(5)
                         PickerInput(iconContent: "", iconColor: .blue, label: "Budget", placeholder: LocalizedStringKey("Budget").toString(), data: $budgetList, value: $budgetSelected, index: $budgetIndex)
                             .onChange(of: budgetIndex, perform: { value in
-                                transaction.budget = budgets.items[budgetIndex].id
+                                transaction.budget = budgets.items[budgetIndex - 1].id
                             })
                             .padding(.bottom, 5)
                         }
