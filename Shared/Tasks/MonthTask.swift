@@ -14,7 +14,7 @@ import CoreData
 struct MonthBalance {
     @State var viewContext: NSManagedObjectContext
     
-    @ObservedObject var fetchAccounts = FetchAccounts()
+    @ObservedObject var fetchAccounts = AccountData()
     @State var accounts = GetAccounts()
     @ObservedObject var fetchPayments = FetchPayments()
     @State var payments = GetPayments()
@@ -30,7 +30,7 @@ struct MonthBalance {
     
     func run(totalBalance: Double, dayChangeMonth: Int32) {
         
-        self.accounts.items = fetchAccounts.fetch(viewContext: viewContext)
+        self.accounts.items = fetchAccounts.fetch()
         self.payments.items = fetchPayments.fetch(viewContext: viewContext)
         self.budgets.items = fetchBudgets.fetch(viewContext: viewContext)
         self.goals.items = fetchGoals.fetch(viewContext: viewContext)

@@ -25,7 +25,7 @@ struct PlanningPaymentBodyView: View {
     @State var accounts = GetAccounts ()
     @State var categories = GetCategories()
     @ObservedObject var fetchCurrencies = FetchCurrencies()
-    @ObservedObject var fetchAccounts = FetchAccounts()
+    @ObservedObject var fetchAccounts = AccountData()
     @ObservedObject var fetchCategories = FetchCategories()
     
     @ObservedObject var payments = GetMontlyPayments()
@@ -37,8 +37,9 @@ struct PlanningPaymentBodyView: View {
     @Binding var totalPayments: Double
     
     func onAppear() {
+        
         self.categories.items = fetchCategories.fetch(viewContext: viewContext)
-        self.accounts.items = fetchAccounts.fetch(viewContext: viewContext)
+        self.accounts.items = fetchAccounts.fetch()
         self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
         getTotals()
     }

@@ -11,8 +11,12 @@ import CoreData
 
 
 
-class FetchTransactions: ObservableObject {
+class TransactionData: ObservableObject {
+    
     @Published var transactions = GetTransactions()
+    var viewContext: NSManagedObjectContext = PersistenceController.shared.container.viewContext
+    
+    @ObservedObject var fetchCurrencies = FetchCurrencies()
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
     var transactionsFetch: FetchedResults<Transaction>
@@ -22,12 +26,11 @@ class FetchTransactions: ObservableObject {
 
     let request: NSFetchRequest<Transaction> = Transaction.fetchRequest()
 
-
+    
     init() {
-//        self.transactions.months = []
     }
 
-    func fetchIncomes(viewContext: NSManagedObjectContext) -> Double{
+    func fetchIncomes() -> Double{
         var total: Double = 0
         
         do {
@@ -48,7 +51,7 @@ class FetchTransactions: ObservableObject {
         return total
     }
     
-    func fetchExpenses(viewContext: NSManagedObjectContext) -> Double{
+    func fetchExpenses() -> Double{
         var total: Double = 0
         do {
             let results : NSArray = try viewContext.fetch(currentMonthTransactionsFetch()) as NSArray
@@ -90,7 +93,7 @@ class FetchTransactions: ObservableObject {
         return fetchRequest
     }
     
-    func fetch(viewContext: NSManagedObjectContext, filters: TransactionFiltersModel) -> GetTransactions{
+    func fetch(filters: TransactionFiltersModel) -> GetTransactions{
 
         do {
         let fetchMonthRequest: NSFetchRequest<Month> = Month.fetchRequest()
@@ -180,7 +183,7 @@ class FetchTransactions: ObservableObject {
     }
     
     
-    func addTransactions(viewContext: NSManagedObjectContext, transaction: TransactionModel) {
+    func addTransactions(transaction: TransactionModel) {
         
         if(transaction.amount == 0 || transaction.name == "") {
             return
@@ -202,7 +205,11 @@ class FetchTransactions: ObservableObject {
         newTransaction.timestamp = Date()
         
 
-        SaveContext(viewContext: viewContext)
+        SaveContext()
+        
+        if(transaction.type == LocalizedStringKey("Expense").toString() && transaction.budget != nil) {
+            budgetTransaction(destination: transaction.budget!, amount: transaction.amount, currencyFrom: transaction.currency)
+        }
     }
 
     func map(transaction: Transaction) -> TransactionModel
@@ -238,10 +245,36 @@ class FetchTransactions: ObservableObject {
         return monthModel
     }
     
-    private func SaveContext (viewContext: NSManagedObjectContext) {
+    func budgetTransaction(destination: UUID, amount: Double, currencyFrom: String)
+    {
+        let currencies = GetCurrencies()
+        currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
+       
+        do {
+                let request: NSFetchRequest<Budget> = Budget.fetchRequest()
+                request.predicate = NSPredicate(format: "id = %@", destination as CVarArg)
+                
+                let savedBudget = try  self.viewContext.fetch(request)[0]
+            
+            let amountConverted: Double = currencies.convert(currencyFrom: currencyFrom, currencyTo: savedBudget.currency!, value: abs(amount))
+                
+            savedBudget.amount = savedBudget.amount - amountConverted
+            
+            
+            
+        } catch {
+            print(error)
+        }
+
+      SaveContext()
+  
+
+    }
+    
+    private func SaveContext () {
     do {
 
-        try viewContext.save()
+  try viewContext.save()
         
 
         }

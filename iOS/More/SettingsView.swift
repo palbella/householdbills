@@ -172,6 +172,7 @@ struct SettingsView: View {
             deleteAllData(entity: "Stock")
                 deleteAllData(entity: "Currency")
             deleteAllData(entity: "DailyBalance")
+            deleteAllData(entity: "Migration")
                 restartApplication ()
             },
             secondaryButton: .cancel(Text("No"))

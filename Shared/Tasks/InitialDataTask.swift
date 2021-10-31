@@ -25,6 +25,7 @@ struct InitialData {
         initialCurrencies()
         initialMonth()
         initialAccount()
+        initialMigration()
     }
     
     
@@ -618,6 +619,15 @@ struct InitialData {
         
       
         
+    }
+    
+    func initialMigration() {
+        let newMigration = Migration(context: viewContext)
+        newMigration.version = 1
+        newMigration.id = UUID()
+        newMigration.date = Date()
+      
+        SaveContext()
     }
     
     private func SaveContext () {

@@ -43,6 +43,7 @@ struct AccountUpdateView: View {
     @Binding var currencies : GetCurrencies
     @Binding var accounts : GetAccounts
     @Binding var categories : GetCategories
+    @Binding var budgets : GetBudgets
     @ObservedObject var transferTypes = GetTransactionTypes(type: "Account")
     
     @State var initialAmountFlag: Bool = false
@@ -55,8 +56,11 @@ struct AccountUpdateView: View {
     @State var categoryIndex: Int = 0
     @State var categoryList: [String] = []
     @State var categorySelected: String? = ""
+    @State var budgetIndex: Int = 0
+    @State var budgetList: [String] = []
+    @State var budgetSelected: String? = ""
   
-    init(account: Binding<AccountModel>, transaction: Binding<TransactionModel>, modal: Binding<Bool>, delete: Binding<Bool>, currencies: Binding<GetCurrencies>, accounts: Binding<GetAccounts>, categories: Binding<GetCategories>) {
+    init(account: Binding<AccountModel>, transaction: Binding<TransactionModel>, modal: Binding<Bool>, delete: Binding<Bool>, currencies: Binding<GetCurrencies>, accounts: Binding<GetAccounts>, categories: Binding<GetCategories>, budgets: Binding<GetBudgets>) {
            self._account = account
            self._transaction = transaction
         self._modal = modal
@@ -64,7 +68,7 @@ struct AccountUpdateView: View {
         self._currencies = currencies
         self._accounts = accounts
         self._categories = categories
-       
+        self._budgets = budgets
 
         UINavigationBar.appearance().isTranslucent = false
        }
@@ -88,10 +92,20 @@ struct AccountUpdateView: View {
             }
         }
         
+        if(accountList.count == 0) {
+            transferTypes.items.remove(at: 2)
+        }
+        
+        categoryList = []
         for index in 0..<categories.items.count {
             if(categories.items[index].id != 99) {
             categoryList.append(categories.items[index].name)
             }
+        }
+        
+        budgetList = ["None"]
+        for index in 0..<budgets.items.count {
+            budgetList.append(budgets.items[index].name)
         }
         
         cryptoData.initialize(viewContext: viewContext)
@@ -215,6 +229,17 @@ struct AccountUpdateView: View {
                             transaction.category = categories.items[categoryIndex + 1].id
                         })
                         .padding(.bottom, 5)
+                    
+                    
+                    if(transaction.type == LocalizedStringKey("Expense").toString() && budgetList.count > 0) {
+                    Divider()
+                        .padding(5)
+                    PickerInput(iconContent: "", iconColor: .blue, label: "Budget", placeholder: LocalizedStringKey("Budget").toString(), data: $budgetList, value: $budgetSelected, index: $budgetIndex)
+                        .onChange(of: budgetIndex, perform: { value in
+                            transaction.budget = budgets.items[budgetIndex - 1].id
+                        })
+                        .padding(.bottom, 5)
+                    }
                    
                   }
                 

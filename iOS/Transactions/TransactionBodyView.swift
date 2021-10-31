@@ -18,7 +18,7 @@ struct TransactionsBodyView: View {
     @State var placeItemSelected: String? = nil
     
     @State var transactions = GetTransactions()
-    @ObservedObject var fetchTransactions = FetchTransactions()
+    @ObservedObject var transactionData = TransactionData()
     
     @State var categories = GetCategories()
     @State var fetchCategories = FetchCategories()
@@ -158,6 +158,7 @@ struct TransactionsBodyView: View {
         }
         .onAppear {
           
+            
             self.categories.items = fetchCategories.fetch(viewContext: viewContext)
             
             dateFormarter.dateStyle = .short
@@ -171,6 +172,8 @@ struct TransactionsBodyView: View {
             getTransactions()
             }
         .onReceive(timer) { _ in
+         
+            
             if(self.loading) {
             getTransactions()
                    self.now = Date()
@@ -198,7 +201,7 @@ struct TransactionsBodyView: View {
      
         self.loading = true
         
-        self.transactions = self.fetchTransactions.fetch(viewContext: viewContext, filters: filters)
+        self.transactions = self.transactionData.fetch(filters: filters)
         
         self.loading = false
 

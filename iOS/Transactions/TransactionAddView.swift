@@ -19,6 +19,7 @@ struct TransactionsAddView: View {
     @State var currencies = GetCurrencies ()
     @State var accounts = GetAccounts ()
     @State var categories = GetCategories ()
+    @State var budgets = GetBudgets ()
     @ObservedObject var transferTypes = GetTransactionTypes(type: "Account")
  
     @Binding var accountId : UUID
@@ -35,14 +36,19 @@ struct TransactionsAddView: View {
     @State var categoryIndex: Int = 0
     @State var categoryList: [String] = []
     @State var categorySelected: String? = ""
+    @State var budgetIndex: Int = 0
+    @State var budgetList: [String] = []
+    @State var budgetSelected: String? = ""
     
-    @ObservedObject var fetchAccounts = FetchAccounts()
+    @ObservedObject var fetchAccounts = AccountData()
     @ObservedObject var fetchCategories = FetchCategories()
     @ObservedObject var fetchCurrencies = FetchCurrencies()
-    
+    @ObservedObject var fetchBudgets = FetchBudgets()
     
     
     func onAppear() {
+        
+        
         let appearance = UINavigationBarAppearance()
         appearance.shadowColor = colorScheme != .dark ? .lightGray : .darkGray
         appearance.backgroundColor = colorScheme != .dark ? UIColor(Color.white): UIColor(ui.darkBackgroundColor)
@@ -50,17 +56,23 @@ struct TransactionsAddView: View {
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         
         self.categories.items = fetchCategories.fetch(viewContext: viewContext)
-        self.accounts.items = fetchAccounts.fetch(viewContext: viewContext)
+        self.accounts.items = fetchAccounts.fetch()
         self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
         
         for index in 0..<accounts.items.count {
             accountList.append(accounts.items[index].name)
         }
         
+        categoryList = []
         for index in 0..<categories.items.count {
             if(categories.items[index].id != 99) {
             categoryList.append(categories.items[index].name)
             }
+        }
+        
+        budgetList = []
+        for index in 0..<budgets.items.count {
+            budgetList.append(budgets.items[index].name)
         }
         
         transaction.iconColor = "blue"
@@ -95,7 +107,6 @@ struct TransactionsAddView: View {
                 
                 VStack(spacing: 0){
                     
-//                    let fontAmount = account.amount >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
 
                     let labelColor = colorScheme != .dark ? ui.lightItemFontColor: ui.darkItemFontColor
                     let fontColor = colorScheme != .dark ? ui.lightFieldFontColor: ui.darkFieldFontColor
@@ -169,6 +180,16 @@ struct TransactionsAddView: View {
                             transaction.iconColor = categories.items[categoryIndex + 1].iconColor
                         })
                         .padding(.bottom, 5)
+                        
+                    if(transaction.type == LocalizedStringKey("Expense").toString()) {
+                        Divider()
+                            .padding(5)
+                        PickerInput(iconContent: "", iconColor: .blue, label: "Budget", placeholder: LocalizedStringKey("Budget").toString(), data: $budgetList, value: $budgetSelected, index: $budgetIndex)
+                            .onChange(of: budgetIndex, perform: { value in
+                                transaction.budget = budgets.items[budgetIndex].id
+                            })
+                            .padding(.bottom, 5)
+                        }
                    
                   }
                 }

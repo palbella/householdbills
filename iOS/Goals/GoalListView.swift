@@ -25,7 +25,7 @@ struct GoalListView: View {
     
     @State var currencies = GetCurrencies()
     @ObservedObject var fetchCurrencies = FetchCurrencies()
-    @ObservedObject var fetchTransactions = FetchTransactions()
+    @ObservedObject var transactionData = TransactionData()
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State var now = Date()
@@ -220,6 +220,7 @@ struct GoalListView: View {
      
     }
         .onAppear {
+         
             self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
             getTotals()
         }
@@ -265,7 +266,7 @@ struct GoalListView: View {
       
             withAnimation {
                
-                self.fetchTransactions.addTransactions(viewContext: viewContext, transaction: transaction)
+                self.transactionData.addTransactions(transaction: transaction)
             }
         getTotals()
     }

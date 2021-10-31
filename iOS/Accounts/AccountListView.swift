@@ -23,8 +23,9 @@
         
         @State var currencies = GetCurrencies()
         @ObservedObject var fetchCurrencies = FetchCurrencies()
-        @ObservedObject var fetchTransactions = FetchTransactions()
-        @ObservedObject var fetchAccounts = FetchAccounts()
+        @ObservedObject var transactionData = TransactionData()
+        @ObservedObject var accountData = AccountData()
+        @ObservedObject var fetchBudgets = FetchBudgets()
         @ObservedObject var fetchCategories = FetchCategories()
         
         let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -35,6 +36,7 @@
         
         @State var accounts = GetAccounts()
         @State var categories = GetCategories()
+        @State var budgets = GetBudgets()
         
         @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
         var accountsFetch: FetchedResults<Account>
@@ -50,8 +52,10 @@
         @Binding var toastError: Bool
         
         func onAppear () {
+            
             self.categories.items = fetchCategories.fetch(viewContext: viewContext)
-            self.accounts.items = fetchAccounts.fetch(viewContext: viewContext)
+            self.accounts.items = accountData.fetch()
+            self.budgets.items = fetchBudgets.fetch(viewContext: viewContext)
             self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
             getTotals()
         }
@@ -91,7 +95,7 @@
                                             CommandButton(content: "plus.circle")
                                         }
                                         .sheet(isPresented: self.$isShowingNew, onDismiss: {
-                                         
+                                        
                                           
                                                            if(self.$accountSelected.name.wrappedValue != "") {
                                                                if(self.$accountSelected.amount.wrappedValue > 0) {
@@ -106,7 +110,9 @@
                                                                     self.transaction.timestamp = Date()
                                                                     saveTransaction(transaction: self.transaction)
                                                                }
-                                                            addAccount(account: self.$accountSelected.wrappedValue)
+                                                               self.accountData.addAccount(account: self.$accountSelected.wrappedValue)
+                                                               self.accounts.items = self.accountData.fetch()
+                                                               getTotals()
                                                            }
                                                 
 
@@ -139,7 +145,7 @@
                                                   let fontColor = item.amount >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
                                                   
                                                                       Button(action: {
-                                                                        self.accountSelected = map(account: item)
+                                                                          self.accountSelected = self.accountData.map(account: item)
                                                                           self.transaction = TransactionModel()
                                                                           self.transaction.initialAmount = self.$accountSelected.amount.wrappedValue
                                                                           self.transaction.type = LocalizedStringKey("Expense").toString()
@@ -184,19 +190,41 @@
                                                                           
                                                                       }
                                                                       .sheet(isPresented: self.$isShowing, onDismiss: {
-                                                                          
+                                                                         
                                                                           
                                                                           if(self.delete) {
-                                                                              self.transaction.name =  self.transferTypes.names[1]
-                                                                              self.transaction.account = self.$accountSelected.name.wrappedValue
-                                                                              self.transaction.amount = self.$accountSelected.amount.wrappedValue
-                                                                              self.transaction.symbol = self.$accountSelected.symbol.wrappedValue
-                                                                              self.transaction.currency = self.$accountSelected.currency.wrappedValue
-                                                                              self.transaction.iconContent = self.$accountSelected.iconContent.wrappedValue
-                                                                              self.transaction.iconColor = self.$accountSelected.iconColor.wrappedValue
-                                                                              self.transaction.timestamp = Date()
-                                                                              saveTransaction(transaction: self.transaction)
-                                                                              deleteAccount(account: self.$accountSelected.wrappedValue)
+                                                                              
+                                                                              var existOne = false
+                                                                               
+                                                                               
+                                                                               for index in 0..<self.accountsFetch.count {
+
+                                                                                   if(self.accountsFetch[index].id != self.$accountSelected.wrappedValue.id) {
+                                                                                       if(self.accountsFetch[index].type == "saving" || self.accountsFetch[index].type == "checking" || self.accountsFetch[index].type == "cash") {
+                                                                                           existOne = true
+                                                                                       }
+                                                                                   }
+                                                                                   
+                                                                                }
+                                                                               
+                                                                               
+                                                                               if(existOne) {
+                                                                                  self.transaction.name =  self.transferTypes.names[1]
+                                                                                  self.transaction.account = self.$accountSelected.name.wrappedValue
+                                                                                  self.transaction.amount = self.$accountSelected.amount.wrappedValue
+                                                                                  self.transaction.symbol = self.$accountSelected.symbol.wrappedValue
+                                                                                  self.transaction.currency = self.$accountSelected.currency.wrappedValue
+                                                                                  self.transaction.iconContent = self.$accountSelected.iconContent.wrappedValue
+                                                                                  self.transaction.iconColor = self.$accountSelected.iconColor.wrappedValue
+                                                                                  self.transaction.timestamp = Date()
+                                                                                  saveTransaction(transaction: self.transaction)
+                                                                                  self.accountData.deleteAccount(account: self.$accountSelected.wrappedValue)
+                                                                                  getTotals()
+                                                                               } else {
+                                                                                   self.toastMessasge = "At least one bank or cash account must be created"
+                                                                                   self.isShowingToast = true
+                                                                                   self.toastError = true
+                                                                               }
                                                                           } else {
                                                                             
                                                                             if(self.$accountSelected.type.wrappedValue == "crypto") {
@@ -221,16 +249,16 @@
                                                                                   
                                                                                   saveTransaction(transaction: self.transaction)
                                                                               }
-                                                                              updateAccount(account: self.$accountSelected.wrappedValue)
+                                                                              self.accountData.updateAccount(account: self.$accountSelected.wrappedValue)
                                                                               if(transaction.type == LocalizedStringKey("Transfer").toString()) {
-                                                                                  transferAccount(destination: self.$transaction.destinationId.wrappedValue, amount: self.$transaction.amount.wrappedValue, currencyFrom: self.$accountSelected.currency.wrappedValue)
+                                                                                  self.accountData.transferAccount(destination: self.$transaction.destinationId.wrappedValue, amount: self.$transaction.amount.wrappedValue, currencyFrom: self.$accountSelected.currency.wrappedValue)
                                                                               }
-
+                                                                                getTotals()
                                                                           }
 
                                                                       }) {
                                                                         
-                                                                          AccountUpdateView(account: self.$accountSelected, transaction: self.$transaction, modal: self.$isShowing, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, categories: $categories)
+                                                                          AccountUpdateView(account: self.$accountSelected, transaction: self.$transaction, modal: self.$isShowing, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, categories: $categories, budgets: $budgets)
                                                                               .environmentObject(self.ui)
                                                                             .environmentObject(self.settings)
                                                                         
@@ -308,172 +336,16 @@
           
                 withAnimation {
                    
-                    self.fetchTransactions.addTransactions(viewContext: viewContext, transaction: transaction)
-                    self.expenses = abs(fetchTransactions.fetchExpenses(viewContext: viewContext))
-                    self.incomes = fetchTransactions.fetchIncomes(viewContext: viewContext)
+                    self.transactionData.addTransactions(transaction: transaction)
+                    self.expenses = abs(transactionData.fetchExpenses())
+                    self.incomes = transactionData.fetchIncomes()
                 }
             
           
             getTotals()
         }
         
-        private func addAccount(account: AccountModel)
-        {
-          
-                withAnimation {
-                    
-                    let newAccount = Account(context: viewContext)
-                      newAccount.id = UUID()
-                      newAccount.name = account.name
-                    newAccount.amount = account.amount
-                    newAccount.symbol = account.symbol
-                    newAccount.currency = account.currency
-                    newAccount.iconColor = account.iconColor
-                    newAccount.iconContent = account.iconContent
-                    newAccount.type = account.type
-                    newAccount.ignoreGoal = account.ignoreGoal
-                    
-
-          SaveContext()
-                    
-                    self.accounts.items = fetchAccounts.fetch(viewContext: viewContext)
-                }
-            
-            getTotals()
-
-        }
-        
-        private func updateAccount(account: AccountModel)
-        {
-          
-              
-            do {
-                    let request: NSFetchRequest<Account> = Account.fetchRequest()
-                    request.predicate = NSPredicate(format: "id = %@", account.id as CVarArg)
-                    
-                    let savedAccount = try  self.viewContext.fetch(request)[0]
-                    
-                    savedAccount.name = account.name
-                if(self.$accountSelected.wrappedValue.type != "crypto") {
-                    savedAccount.amount = account.amount
-                }
-                savedAccount.symbol = account.symbol
-                savedAccount.currency = account.currency
-                savedAccount.amount = account.amount
-                savedAccount.iconColor = account.iconColor
-                savedAccount.iconContent = account.iconContent
-                savedAccount.type = account.type
-                savedAccount.ignoreGoal = account.ignoreGoal
-                
-                
-            } catch {
-                print(error)
-            }
-
-          SaveContext()
-            getTotals()
-
-        }
-        
-        private func transferAccount(destination: UUID, amount: Double, currencyFrom: String)
-        {
-          
-           
-            do {
-                    let request: NSFetchRequest<Account> = Account.fetchRequest()
-                    request.predicate = NSPredicate(format: "id = %@", destination as CVarArg)
-                    
-                    let savedAccount = try  self.viewContext.fetch(request)[0]
-                
-                let amountConverted: Double = currencies.convert(currencyFrom: currencyFrom, currencyTo: savedAccount.currency!, value: abs(amount))
-                    
-                savedAccount.amount = savedAccount.amount + amountConverted
-                
-                
-                
-            } catch {
-                print(error)
-            }
-
-          SaveContext()
-            getTotals()
-
-        }
-        
-        private func deleteAccount(account: AccountModel)
-        {
-           var existOne = false
-            
-            
-            for index in 0..<self.accountsFetch.count {
-
-                if(self.accountsFetch[index].id != account.id) {
-                    if(self.accountsFetch[index].type == "saving" || self.accountsFetch[index].type == "checking" || self.accountsFetch[index].type == "cash") {
-                        existOne = true
-                    }
-                }
-                
-             }
-            
-            
-            if(existOne) {
-                withAnimation {
-                    
-                    let request: NSFetchRequest<Account> = Account.fetchRequest()
-                    request.predicate = NSPredicate(format: "id = %@", account.id as CVarArg)
-                   
-
-                        do {
-                            let savedAccounts = try  self.viewContext.fetch(request)
-                            
-                            for account in savedAccounts {
-                                self.viewContext.delete(account)
-                            }
-                            try self.viewContext.save()
-                        } catch {
-                            print(error)
-                        }
-                    
-                }
-
-            getTotals()
-            } else {
-                self.toastMessasge = "At least one bank or cash account must be created"
-                self.isShowingToast = true
-                self.toastError = true
-            }
-        }
-        
-        private func SaveContext () {
-        do {
-
-      try viewContext.save()
-            
-
-            }
-                                
-        
-        catch {
-          
-        }
-        }
-        
-        private func map(account: Account) -> AccountModel
-        {
-            var accountModel = AccountModel()
-            
-            accountModel.id = account.id!
-            accountModel.name = account.name ?? ""
-            accountModel.symbol = account.symbol ?? ""
-            accountModel.currency = account.currency ?? ""
-            accountModel.amount = account.amount
-            accountModel.iconColor = account.iconColor ?? ""
-            accountModel.iconContent = account.iconContent ?? ""
-            accountModel.type = account.type!
-            accountModel.ignoreGoal = account.ignoreGoal
-
-            return accountModel
-        }
+    
         
       
     }

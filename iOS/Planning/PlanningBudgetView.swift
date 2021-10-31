@@ -24,7 +24,7 @@ struct PlanningBudgetBodyView: View {
     @State var currencies = GetCurrencies()
     @ObservedObject var fetchCurrencies = FetchCurrencies()
     @ObservedObject var fetchCategories = FetchCategories()
-    @ObservedObject var fetchAccounts = FetchAccounts()
+    @ObservedObject var fetchAccounts = AccountData()
 
     @State var categories = GetCategories()
     @ObservedObject var budgets = GetMonthlyBudgets()

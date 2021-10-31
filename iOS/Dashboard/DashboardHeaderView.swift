@@ -36,7 +36,7 @@ struct TopBar: View {
         
         let fontColorAccounts = self.totalAccounts >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
         
-        let fontColorMonth = (self.totalGoalAccounts - self.totalGoals - self.totalBudgets - self.totalPayments) >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
+//        let fontColorMonth = (self.totalGoalAccounts - self.totalGoals - self.totalBudgets - self.totalPayments) >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
         
         
         

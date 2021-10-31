@@ -24,9 +24,9 @@ struct BudgetListView: View {
     
     @State var currencies = GetCurrencies()
     @ObservedObject var fetchCurrencies = FetchCurrencies()
-    @ObservedObject var fetchTransactions = FetchTransactions()
+    @ObservedObject var transactionData = TransactionData()
     @ObservedObject var fetchCategories = FetchCategories()
-    @ObservedObject var fetchAccounts = FetchAccounts()
+    @ObservedObject var fetchAccounts = AccountData()
 
     
     @ObservedObject var transferTypes = GetTransactionTypes(type: "Budget")
@@ -44,6 +44,14 @@ struct BudgetListView: View {
     @Binding var incomes: Double
     @Binding var expenses: Double
     @Binding var hideData: Bool
+    
+    func onAppear() {
+        
+        self.categories.items = fetchCategories.fetch(viewContext: viewContext)
+        self.accounts.items = fetchAccounts.fetch()
+        self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
+        getTotals()
+    }
     
     var body: some View {
         
@@ -78,6 +86,8 @@ struct BudgetListView: View {
                                         CommandButton(content: "plus.circle")
                                     }
                                     .sheet(isPresented: self.$isShowingNewBudgetPlanning, onDismiss: {
+                                    
+                                        
                                         if(self.$budgetSelected.name.wrappedValue != "") {
                                             self.transaction.name =  self.transferTypes.names[0]
                                             self.transaction.account = self.$budgetSelected.name.wrappedValue
@@ -159,6 +169,7 @@ struct BudgetListView: View {
 
                                             }
                                             .sheet(isPresented: self.$isShowingBudgetPlanning, onDismiss: {
+                                           
 
                                                 if(self.delete) {
                                                     self.transaction.name =  self.transferTypes.names[1]
@@ -214,10 +225,7 @@ struct BudgetListView: View {
 
         }
             .onAppear {
-                self.categories.items = fetchCategories.fetch(viewContext: viewContext)
-                self.accounts.items = fetchAccounts.fetch(viewContext: viewContext)
-                self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
-                getTotals()
+                self.onAppear()
             }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                 getTotals()
@@ -240,9 +248,9 @@ struct BudgetListView: View {
       
             withAnimation {
                
-                self.fetchTransactions.addTransactions(viewContext: viewContext, transaction: transaction)
-                self.expenses = abs(fetchTransactions.fetchExpenses(viewContext: viewContext))
-                self.incomes = fetchTransactions.fetchIncomes(viewContext: viewContext)
+                self.transactionData.addTransactions(transaction: transaction)
+                self.expenses = abs(transactionData.fetchExpenses())
+                self.incomes = transactionData.fetchIncomes()
             }
         getTotals()
     }

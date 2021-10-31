@@ -32,6 +32,7 @@ struct MonthBalanceView: View {
     
     var body: some View {
         
+        if(self.totalGoals > 0) {
         VStack {
             Section(header:
                         HStack {
@@ -41,7 +42,6 @@ struct MonthBalanceView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.top, 15)
                             .padding(.leading, 10)
-//                            .padding(.bottom, 0)
                             .font(.system(size: 12))
                             .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor)
             }
@@ -71,6 +71,9 @@ struct MonthBalanceView: View {
                                     Text("TOTAL BALANCE ACCOUNT")
                                         .padding(1)
                                     
+                                    Text("(" + settings.symbol + String(self.totalGoalAccounts) + ")")
+                                        .padding(1)
+                                }
                                     
                                     VStack(alignment: .center, spacing: 0) {
                                         
@@ -79,38 +82,62 @@ struct MonthBalanceView: View {
                                     
                                     Text("MONTLY ESTIMATED INCOME")
                                             .padding(1)
+                                        
+                                        Text("(" + settings.symbol + String(settings.estimatedMontlyIncomes) + ")")
+                                            .padding(1)
+                                        
+                                    }
                                     
+                                VStack(alignment: .center, spacing: 0) {
                                     Text("-")
                                             .padding(1)
                                     
                                     Text("ACQUIRED MONTHLY INCOME")
                                             .padding(1)
                                     
+                                    Text("(" + settings.symbol + String(self.incomes) + ")")
+                                        .padding(1)
+                                }
+                                    
+                                VStack(alignment: .center, spacing: 0) {
                                     Text("-")
                                             .padding(1)
                                     
                                     Text("GOALS")
                                             .padding(1)
-                                    
+                                
+                                Text("(" + settings.symbol + String(self.totalGoals) + ")")
+                                    .padding(1)
+                                }
+                                
+                                VStack(alignment: .center, spacing: 0) {
                                     Text("-")
                                             .padding(1)
                                     
                                     Text("PAYMENTS")
                                             .padding(1)
                                     
+                                    Text("(" + settings.symbol + String(self.totalPayments) + ")")
+                                        .padding(1)
+                                }
+                                 
+                                VStack(alignment: .center, spacing: 0) {
                                     Text("-")
                                             .padding(1)
                                     
                                     Text("BUDGETS")
                                             .padding(1)
                                     
-                                    }
+                                    Text("(" + settings.symbol + String(self.totalBudgets) + ")")
+                                        .padding(1)
+                                }
+                                    
                                     
                                     Text("It represents the money available to spend in the month without compromising goals")
                                         .padding()
                                         .multilineTextAlignment(.center)
 
-                                }
+                                
                             
                         }
                         .frame(width: 15, height: 15)
@@ -127,7 +154,7 @@ struct MonthBalanceView: View {
                     Spacer()
 
                     
-                    let fontColorMonth = (self.totalGoalAccounts - self.totalGoals - self.totalBudgets - self.totalPayments) >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
+                    let fontColorMonth = (self.totalGoalAccounts + settings.estimatedMontlyIncomes - self.incomes - self.totalGoals - self.totalBudgets - self.totalPayments) >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
 
                             VStack(alignment: .center){
                                 
@@ -135,7 +162,7 @@ struct MonthBalanceView: View {
                                     Text(settings.symbol + " ")
                                         .font(.system(size: 18))
                                         .foregroundColor(fontColorMonth) +
-                                    Text("\((self.totalGoalAccounts - self.totalGoals - self.totalBudgets - self.totalPayments), specifier: "%.2f")")
+                                    Text("\((self.totalGoalAccounts + settings.estimatedMontlyIncomes - self.incomes - self.totalGoals - self.totalBudgets - self.totalPayments), specifier: "%.2f")")
                                         .font(.system(size: 18))
                                         .foregroundColor(fontColorMonth)
                                 } else {
@@ -162,6 +189,11 @@ struct MonthBalanceView: View {
 
         }
         .padding(.top, 10)
+        } else {
+            VStack(spacing: 0) {
+                
+            }
+        }
        
     }
 }

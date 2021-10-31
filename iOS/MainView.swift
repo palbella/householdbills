@@ -34,7 +34,7 @@ struct MainView: View {
     @State var showUser: Bool = false
     
     @State var currencies = GetCurrencies()
-    @ObservedObject var fetchTransactions = FetchTransactions()
+    @ObservedObject var transactionData = TransactionData()
     @State var transactionAccountId: UUID = UUID()
     @State var transaction : TransactionModel = TransactionModel()
     
@@ -91,6 +91,7 @@ struct MainView: View {
                         .accentColor(colorScheme != .dark ? ui.lightFontColor: ui.darkFontColor)
                         
                         .onAppear(){
+                          
                             settings.lastLogin = Date()
                         }
                         
@@ -120,7 +121,7 @@ struct MainView: View {
 
                              self.transaction.timestamp = Date()
                             self.updateAccount()
-                            self.fetchTransactions.addTransactions(viewContext: viewContext, transaction: transaction)
+                            self.transactionData.addTransactions(transaction: transaction)
                         }
                     
                     

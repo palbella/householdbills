@@ -25,8 +25,8 @@ struct PaymentListView: View {
     @State var currencies = GetCurrencies()
     @State var accounts = GetAccounts ()
     @ObservedObject var fetchCurrencies = FetchCurrencies()
-    @ObservedObject var fetchTransactions = FetchTransactions()
-    @ObservedObject var fetchAccounts = FetchAccounts()
+    @ObservedObject var transactionData = TransactionData()
+    @ObservedObject var fetchAccounts = AccountData()
     @ObservedObject var fetchCategories = FetchCategories()
 
     
@@ -44,9 +44,10 @@ struct PaymentListView: View {
     
     
     func onAppear() {
+        
         self.categories.items = fetchCategories.fetch(viewContext: viewContext)
         self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
-        self.accounts.items = fetchAccounts.fetch(viewContext: viewContext)
+        self.accounts.items = fetchAccounts.fetch()
         getTotals()
     }
     
@@ -269,7 +270,7 @@ struct PaymentListView: View {
       
             withAnimation {
                
-                self.fetchTransactions.addTransactions(viewContext: viewContext, transaction: transaction)
+                self.transactionData.addTransactions(transaction: transaction)
             }
         getTotals()
     }
@@ -397,8 +398,8 @@ struct PaymentListView: View {
                 savedAccount.amount = savedAccount.amount + amount
                 SaveContext()
                 
-                self.expenses = abs(fetchTransactions.fetchExpenses(viewContext: viewContext))
-                self.incomes = fetchTransactions.fetchIncomes(viewContext: viewContext)
+                self.expenses = abs(transactionData.fetchExpenses())
+                self.incomes = transactionData.fetchIncomes()
                 
                 if(payment.isGoal == true) {
                     let request: NSFetchRequest<Goal> = Goal.fetchRequest()

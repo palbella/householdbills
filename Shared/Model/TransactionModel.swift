@@ -24,6 +24,7 @@ struct TransactionModel: Hashable, Identifiable {
     var timestamp: Date?
     var category: Int32
     var month: Int32
+    var budget: UUID?
     
 
     
@@ -43,6 +44,7 @@ struct TransactionModel: Hashable, Identifiable {
         self.category = 0
         self.month = 0
         self.initialAmount = 0
+        self.budget = nil
     }
     
 }
