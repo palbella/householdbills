@@ -47,9 +47,9 @@ struct PasswordListView: View {
 
     var body: some View {
        
-        NavigationView {
+        VStack {
 
-          
+            HeaderTabView(title: "Passwords")
             
             ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 0) {
@@ -259,32 +259,15 @@ struct PasswordListView: View {
          
             }
             .padding(.top, 40)
-            .navigationBarTitle("Back")
-            .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
-            .navigationBarTitleDisplayMode(.inline)
-            .background(NavigationConfigurator { nc in
-                let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
-                            nc.navigationBar.barTintColor = UIColor(color)
-                        })
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text("Passwords")
-                        .font(ui.title)
-                        .accessibilityAddTraits(.isHeader)
-                        .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
-                    
-                   
-                }
-            }
             
             .onTapGesture {
                 UIApplication.shared.endEditing()
             }
-//            .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
         
     }
+        .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
         
-//    .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
+
     .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
        
     }
@@ -406,35 +389,6 @@ SaveContext()
 }
 
 
-
-
-struct AppTextFieldStyle: TextFieldStyle {
-    func _body(configuration: TextField<Self._Label>) -> some View {
-            configuration
-                .padding(10)
-                .background(LinearGradient(gradient: Gradient(colors: [Color.orange, Color.orange]), startPoint: .topLeading, endPoint: .bottomTrailing))
-                .cornerRadius(20)
-                .shadow(color: .gray, radius: 10)
-        }
-}
-
-struct AppButtonStyle: ButtonStyle {
- 
-    @Environment(\.colorScheme) var colorScheme
-    @StateObject var settings: UserSettings = UserSettings()
-    @StateObject var ui: AppUI = AppUI()
-    
-    func makeBody(configuration: Self.Configuration) -> some View {
-        configuration.label
-            .frame(minWidth: 0, maxWidth: .infinity)
-            .padding()
-            .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor)
-            .background(LinearGradient(gradient: Gradient(colors: [Color("DarkGreen"), Color("LightGreen")]), startPoint: .leading, endPoint: .trailing))
-            .cornerRadius(40)
-            .padding(.horizontal, 20)
-            .scaleEffect(configuration.isPressed ? 0.9 : 1.0)
-    }
-}
 
 
 

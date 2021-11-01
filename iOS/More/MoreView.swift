@@ -156,7 +156,7 @@ struct MoreView: View {
                                 self.showSubscribe = true
                             }
                         }) {
-                            CardMenu(prompt: "pencil.and.ellipsis.rectangle", title: "Passwords Management")
+                            CardMenu(prompt: "pencil.and.ellipsis.rectangle", title: "Passwords Encryption")
                         }
                             .sheet(isPresented: self.$isShowingPassword, onDismiss: {
                                 
@@ -179,7 +179,7 @@ struct MoreView: View {
                         }) {
                             CardMenu(prompt: "person.3", title: "Split Bill")
                         }
-                            .sheet(isPresented: self.$isShowing) { Text("Car")}
+                            .sheet(isPresented: self.$isShowing) { SplitBillsView()}
                             
                     }
                     .padding(.leading, 20)

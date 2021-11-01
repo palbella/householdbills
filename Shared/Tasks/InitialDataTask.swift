@@ -75,9 +75,10 @@ struct InitialData {
     
     func initialAccount() {
         
+        let accountId = UUID()
         let newAccount = Account(context: viewContext)
         
-        newAccount.id = UUID()
+        newAccount.id = accountId
         newAccount.name = LocalizedStringKey("Bank").toString()
         newAccount.amount = 0
         newAccount.currency = "USD"
@@ -89,8 +90,54 @@ struct InitialData {
         
         
         SaveContext()
+        
+        let newPayment = Payment(context: viewContext)
+        
+        newPayment.id = UUID()
+        newPayment.name = LocalizedStringKey("Internet").toString()
+        newPayment.amount = 0
+        newPayment.currency = "USD"
+        newPayment.symbol = "$"
+        newPayment.iconColor = "red"
+        newPayment.iconContent = "wifi"
+        newPayment.account = accountId
+        newPayment.timestamp = Date()
+        
+        
+        SaveContext()
+        
+        
+        let newMonthlyPayment = MonthlyPayment(context: viewContext)
+        
+        newMonthlyPayment.id = UUID()
+        newMonthlyPayment.name = LocalizedStringKey("Internet").toString()
+        newMonthlyPayment.amount = 0
+        newMonthlyPayment.currency = "USD"
+        newMonthlyPayment.symbol = "$"
+        newMonthlyPayment.iconColor = "red"
+        newMonthlyPayment.iconContent = "wifi"
+        newMonthlyPayment.account = accountId
+        newMonthlyPayment.timestamp = Date()
+        
+        
+        SaveContext()
+        
+        let newBudget = Budget(context: viewContext)
+        
+        newBudget.id = UUID()
+        newBudget.name = LocalizedStringKey("Food & Groceries").toString()
+        newBudget.amount = 0
+        newBudget.currency = "USD"
+        newBudget.symbol = "$"
+        newBudget.iconColor = "red"
+        newBudget.iconContent = "cart"
+        newBudget.timestamp = Date()
+        
+        
+        SaveContext()
        
     }
+    
     
     
     func initialCurrencies() {
@@ -405,20 +452,40 @@ struct InitialData {
      
  SaveContext()
         
+        
+        
+        let newCardPurchase = Card(context: viewContext)
+      
+        newCardPurchase.name = "Purchases"
+        newCardPurchase.id = 5
+        newCardPurchase.order = 5
+        newCardPurchase.visible = false
+     
+ SaveContext()
+        
         let newCardCars = Card(context: viewContext)
       
         newCardCars.name = "Cars"
-        newCardCars.id = 5
-        newCardCars.order = 5
+        newCardCars.id = 6
+        newCardCars.order = 6
         newCardCars.visible = true
+     
+ SaveContext()
+        
+        let newCardTask = Card(context: viewContext)
+      
+        newCardTask.name = "Tasks"
+        newCardTask.id = 7
+        newCardTask.order = 7
+        newCardTask.visible = false
      
  SaveContext()
         
         let newCardChart = Card(context: viewContext)
       
         newCardChart.name = "Chart"
-        newCardChart.id = 6
-        newCardChart.order = 6
+        newCardChart.id = 8
+        newCardChart.order = 8
         newCardChart.visible = true
      
  SaveContext()
@@ -623,7 +690,8 @@ struct InitialData {
     
     func initialMigration() {
         let newMigration = Migration(context: viewContext)
-        newMigration.version = 1
+        newMigration.version = 1.0
+        newMigration.number = 1
         newMigration.id = UUID()
         newMigration.date = Date()
       

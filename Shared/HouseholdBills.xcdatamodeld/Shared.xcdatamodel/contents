@@ -144,6 +144,7 @@
     <entity name="Migration" representedClassName="Migration" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="number" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="version" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
     </entity>
     <entity name="Month" representedClassName="Month" syncable="YES" codeGenerationType="class">
@@ -287,6 +288,6 @@
         <element name="Settings" positionX="-27" positionY="144" width="128" height="359"/>
         <element name="Stock" positionX="0" positionY="171" width="128" height="194"/>
         <element name="Transaction" positionX="-18" positionY="153" width="128" height="209"/>
-        <element name="Migration" positionX="-18" positionY="144" width="128" height="74"/>
+        <element name="Migration" positionX="-18" positionY="144" width="128" height="89"/>
     </elements>
 </model>
