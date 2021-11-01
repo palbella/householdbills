@@ -108,21 +108,23 @@ struct BalanceChart: View {
             }
         }
     }
+    
+    
 }
 
 struct LineChartSwiftUI: UIViewRepresentable {
 
-    let lineChart = LineChartView()
+    let lineChart = MyLineChartView()
     @State var viewContext: NSManagedObjectContext
     @Binding var showYear: Bool
 
-    func makeUIView(context: UIViewRepresentableContext<LineChartSwiftUI>) -> LineChartView {
+    func makeUIView(context: UIViewRepresentableContext<LineChartSwiftUI>) -> MyLineChartView {
         setUpChart()
             
         return lineChart
     }
 
-    func updateUIView(_ uiView: LineChartView, context: UIViewRepresentableContext<LineChartSwiftUI>) {
+    func updateUIView(_ uiView: MyLineChartView, context: UIViewRepresentableContext<LineChartSwiftUI>) {
         setUpChart()
     }
 
@@ -142,6 +144,7 @@ struct LineChartSwiftUI: UIViewRepresentable {
         var previousYear: String = String(currentYear - 1)
         var previousMonth: Int = Date().get(.month) - 1
         var startDate:NSDate = dateFormatter.date(from: previousYear + "-" + currentMonth + "-" + currentDay)! as NSDate
+        
        
         if(!showYear) {
             previousYear = String(currentYear)
@@ -158,13 +161,45 @@ struct LineChartSwiftUI: UIViewRepresentable {
         request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
         request.predicate = NSPredicate(format: "%@ <= date", argumentArray: [startDate])
         let records = try viewContext.fetch(request)
+            
+           
+            var dataCollection :[BalanceChartModel] = []
+            
+            var dateComponent = DateComponents()
+            
+            var scope = 0
+            
+            if(!showYear) {
+                scope = 31
+            } else {
+                scope = 365
+            }
+            
+            for index in 0..<(scope - records.count) {
+                dateComponent.day = -1 * (scope - records.count - index)
+                var element = BalanceChartModel();
+                element.balance = 0
+                element.date = Calendar.current.date(byAdding: dateComponent, to: records[0].date!)
+                dataCollection.append(element)
+            }
+            
+            for object in records {
+                var element = BalanceChartModel();
+                element.balance = object.balance
+                element.date = object.date
+                dataCollection.append(element)
+               
+            }
+            
+            
+            
         
 //        var objects = [Obj(), Obj()]
         // (objects is defined as an array of struct with date and value)
 
         // Define the reference time interval
         var referenceTimeInterval: TimeInterval = 0
-            if let minTimeInterval = (records.map { $0.date!.timeIntervalSince1970 }).min() {
+            if let minTimeInterval = (dataCollection.map { $0.date!.timeIntervalSince1970 }).min() {
                 referenceTimeInterval = minTimeInterval
             }
 
@@ -186,11 +221,11 @@ struct LineChartSwiftUI: UIViewRepresentable {
             var datas: [String] = []
 //            var sessions: [Int] = []
 //            var sessionValue = 0
-            for object in records {
+            for object in dataCollection {
                 let timeInterval = object.date!.timeIntervalSince1970
                 let xValue = (timeInterval - referenceTimeInterval) / (3600 * 12)
 
-                let yValue = Double(object.balance).rounded(toPlaces: 2)
+                let yValue = Double(object.balance!).rounded(toPlaces: 2)
                 sessions.append(xValue)
                 values.append(yValue)
                 let formatter1 = DateFormatter()
@@ -238,10 +273,10 @@ struct LineChartSwiftUI: UIViewRepresentable {
         
         let xAxis = lineChart.xAxis
          xAxis.labelPosition = .bottom
-        xAxis.labelCount = datas.count
+//        xAxis.labelCount = 3
          xAxis.drawLabelsEnabled = true
-         xAxis.drawLimitLinesBehindDataEnabled = false
-         xAxis.avoidFirstLastClippingEnabled = true
+//         xAxis.drawLimitLinesBehindDataEnabled = false
+//         xAxis.avoidFirstLastClippingEnabled = false
 
          // Set the x values date formatter
 //         let xValuesNumberFormatter = ChartXAxisFormatter()
@@ -346,40 +381,40 @@ extension ChartXAxisFormatter: AxisValueFormatter {
 
 
 
-class ChartMarker: MarkerView {
-    var text = ""
-
-    override func refreshContent(entry: ChartDataEntry, highlight: Highlight) {
-        super.refreshContent(entry: entry, highlight: highlight)
-        text = entry.data != nil ? entry.data as! String: "" //String(entry.x) + " - " + String(entry.y)
-    }
-
-    override func draw(context: CGContext, point: CGPoint) {
-        super.draw(context: context, point: point)
-
-        var drawAttributes = [NSAttributedString.Key : Any]()
-        drawAttributes[.font] = UIFont.systemFont(ofSize: 15)
-        drawAttributes[.foregroundColor] = UIColor.white
-        drawAttributes[.backgroundColor] = UIColor.darkGray
-
-        self.bounds.size = (" \(text) " as NSString).size(withAttributes: drawAttributes)
-        self.offset = CGPoint(x: 0, y: -self.bounds.size.height - 2)
-
-        let offset = self.offsetForDrawing(atPoint: point)
-
-        drawText(text: " \(text) " as NSString, rect: CGRect(origin: CGPoint(x: point.x + offset.x, y: point.y + offset.y), size: self.bounds.size), withAttributes: drawAttributes)
-    }
-
-    func drawText(text: NSString, rect: CGRect, withAttributes attributes: [NSAttributedString.Key : Any]? = nil) {
-        let size = text.size(withAttributes: attributes)
-        let centeredRect = CGRect(x: rect.origin.x + (rect.size.width - size.width) / 2.0, y: rect.origin.y + (rect.size.height - size.height) / 2.0, width: size.width, height: size.height)
-        text.draw(in: centeredRect, withAttributes: attributes)
-    }
-    
-    public func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
-
-    }
-}
+//class ChartMarker: MarkerView {
+//    var text = ""
+//
+//    override func refreshContent(entry: ChartDataEntry, highlight: Highlight) {
+//        super.refreshContent(entry: entry, highlight: highlight)
+//        text = entry.data != nil ? entry.data as! String: "" //String(entry.x) + " - " + String(entry.y)
+//    }
+//
+//    override func draw(context: CGContext, point: CGPoint) {
+//        super.draw(context: context, point: point)
+//
+//        var drawAttributes = [NSAttributedString.Key : Any]()
+//        drawAttributes[.font] = UIFont.systemFont(ofSize: 15)
+//        drawAttributes[.foregroundColor] = UIColor.white
+//        drawAttributes[.backgroundColor] = UIColor.darkGray
+//
+//        self.bounds.size = (" \(text) " as NSString).size(withAttributes: drawAttributes)
+//        self.offset = CGPoint(x: 0, y: -self.bounds.size.height - 2)
+//
+//        let offset = self.offsetForDrawing(atPoint: point)
+//
+//        drawText(text: " \(text) " as NSString, rect: CGRect(origin: CGPoint(x: point.x + offset.x, y: point.y + offset.y), size: self.bounds.size), withAttributes: drawAttributes)
+//    }
+//
+//    func drawText(text: NSString, rect: CGRect, withAttributes attributes: [NSAttributedString.Key : Any]? = nil) {
+//        let size = text.size(withAttributes: attributes)
+//        let centeredRect = CGRect(x: rect.origin.x + (rect.size.width - size.width) / 2.0, y: rect.origin.y + (rect.size.height - size.height) / 2.0, width: size.width, height: size.height)
+//        text.draw(in: centeredRect, withAttributes: attributes)
+//    }
+//
+//    public func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+//
+//    }
+//}
 
 
 class PillMarker: MarkerImage {
@@ -447,4 +482,105 @@ class PillMarker: MarkerImage {
 
     }
     
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@objc protocol MyChartViewDelegate {
+    @objc optional func chartValueNoLongerSelected(_ chartView: MyLineChartView)
+}
+
+
+open class MyLineChartView: LineChartView {
+
+    @objc weak var myChartViewDelegate: MyChartViewDelegate?
+
+    private var touchesMoved = false
+
+    // Haptic Feedback
+    private let impactGenerator = UIImpactFeedbackGenerator(style: .light)
+    private let selectionGenerator = UISelectionFeedbackGenerator()
+
+    override open func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        // This is here to prevent the UITapGesture from blocking touches moved from firing
+//        if gestureRecognizer.isKind(of: NSUITapGestureRecognizer.classForCoder()){
+//            return false
+//        }
+        return super.gestureRecognizerShouldBegin(gestureRecognizer)
+    }
+
+    override open func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?) {
+        impactGenerator.impactOccurred()
+        selectionGenerator.prepare()
+        // adds the highlight to the graph when tapped
+        super.nsuiTouchesBegan(touches, withEvent: event)
+        touchesMoved = false
+        if let touch = touches.first {
+            let h = getHighlightByTouchPoint(touch.location(in: self))
+
+            if h === nil || h == self.lastHighlighted {
+                lastHighlighted = nil
+                highlightValue(nil, callDelegate: true)
+            }
+            else {
+                lastHighlighted = h
+                highlightValue(h, callDelegate: true)
+            }
+        }
+    }
+
+    open override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?) {
+        super.nsuiTouchesEnded(touches, withEvent: event)
+//        myChartViewDelegate?.chartValueNoLongerSelected?(self) // remove the highlight
+    }
+
+    open override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?) {
+        super.nsuiTouchesCancelled(touches, withEvent: event)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            // if a tap turns into a panGesture touches cancelled is called this prevents the highlight from being moved
+            if !self.touchesMoved {
+                self.myChartViewDelegate?.chartValueNoLongerSelected?(self)
+            }
+        }
+    }
+
+    override open func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?) {
+        super.nsuiTouchesMoved(touches, withEvent: event)
+        touchesMoved = true
+
+        if let touch = touches.first {
+            let h = getHighlightByTouchPoint(touch.location(in: self))
+
+            if h === nil {
+                lastHighlighted = nil
+                highlightValue(nil, callDelegate: true)
+            }
+            else if h == self.lastHighlighted {
+                return
+            }
+            else {
+                lastHighlighted = h
+                highlightValue(h, callDelegate: true)
+                selectionGenerator.selectionChanged()
+            }
+        }
+    }
 }

@@ -99,3 +99,16 @@ class GetDays: ObservableObject {
         
     }
 }
+
+
+struct BalanceChartModel: Hashable {
+
+     var date: Date?
+     var balance: Double?
+
+
+    init() {
+        self.date = nil
+        self.balance = nil
+    }
+}
