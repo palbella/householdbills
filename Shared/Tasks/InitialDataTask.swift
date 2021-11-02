@@ -477,7 +477,7 @@ struct InitialData {
         newCardTask.name = "Tasks"
         newCardTask.id = 7
         newCardTask.order = 7
-        newCardTask.visible = false
+        newCardTask.visible = true
      
  SaveContext()
         

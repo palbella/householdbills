@@ -18,11 +18,15 @@ struct SplitBillsView: View {
    
   
     @State var name: String = ""
-    @State var amount: NSNumber? = 0
-    @State var people : GetSplitBills = GetSplitBills()
+    @State var amount: NSNumber? = nil
+    @StateObject var people : GetSplitBills = GetSplitBills()
     
     @State var viewRefresh : Int = 0
+    @State var refresh: Bool = false
  
+    init() {
+      
+    }
 
     var body: some View {
        
@@ -69,7 +73,7 @@ struct SplitBillsView: View {
                       
 
                         Button(action: {
-//                            unlock(pin: pin, password: password)
+                            addPerson()
                             UIApplication.shared.endEditing()
                         }) {
                                         HStack {
@@ -82,7 +86,7 @@ struct SplitBillsView: View {
 
 
                         Button(action: {
-//                            lock(pin: pin, password: password)
+                            deletePerson()
                             UIApplication.shared.endEditing()
                         }) {
                                         HStack {
@@ -94,8 +98,7 @@ struct SplitBillsView: View {
                      
                         
                         Button(action: {
-//                            password = ""
-//                            pin = ""
+                            clearList()
                             UIApplication.shared.endEditing()
                         }) {
                                         HStack {
@@ -116,106 +119,102 @@ struct SplitBillsView: View {
                 
                 Section(header:
                             HStack {
-                                VStack{
+                                VStack (spacing: 0) {
                                   
                                 Text("People")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.top, 0)
                                 .padding(.leading, 10)
-                                .padding(.bottom, 5)
                                 .font(.system(size: 12))
                                 .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor)
                                 }
-                                Spacer()
+                    Spacer()
                                 
-                                VStack {
-                                   
-                                    ForEach(self.people.items.indexed(), id: \.1.id) { index, item in
-
-                                        let percent = item.amount < item.result ? item.amount * 100 / item.result: 100
-                                        var iconColor = self.people.items[index].selected == true ? Color.blue: Color.gray
-
-                                        VStack (spacing: 0) {
-
-                                            
-                                            HStack (spacing: 0) {
-                                                
-                                                Button(action: {
-                                                    self.people.items[index].selected.toggle()
-                                                    self.viewRefresh = self.viewRefresh + 1
-                                                    iconColor = self.people.items[index].selected == true ? Color.blue: Color.gray
-                                                }) {
-                                                Icon(content: "cart", color: iconColor).padding(5).padding(.leading, 5).padding(.trailing, 5)
-                                                }
-                                                Text(String(viewRefresh))
-                                                    .frame(width: 0)
-                                               
-                                                  
-                                                VStack (spacing: 0) {
-                                                    Spacer()
-                                                    HStack (spacing: 0) {
-                                                        Text(item.name)
-                                                        .font(.system(size: 15))
-                                                        .foregroundColor(colorScheme != .dark ? ui.lightItemFontColor: ui.darkItemFontColor)
-                                                        .frame(alignment: .leading)
-                                                    
-                                                    Spacer()
-                                                        ProgressView(settings.symbol + " " + String(format: "%.2f", item.amount), value: percent, total: 100)
-                                                        .font(.system(size: 10))
-                                                        .foregroundColor(colorScheme != .dark ? Color(UIColor.darkGray): ui.darkCommandFontColor)
-                                                        .frame(width: 60)
-                                                    
-                                                     
-                                                            Text(settings.symbol + " " + String(format: "%.2f", abs(item.result))).padding(5).padding(.leading, 5).padding(.trailing, 5)
-//                                                    .foregroundColor(fontColor)
-                                                    .font(.system(size: 15))
-                                                    .frame(minWidth: 130, alignment: .trailing)
-                                                      
-                                                        
-                                              
-
-                                                    
-                                                }
-                                                    Spacer()
-                                                 
-                                                    
-                                                }
-                                             
-                                              
-
-                                                
-                                        }
-                                            .padding(.top, 10)
-                                            .padding(.bottom, 10)
-                                            
-
-                                        }
-                                        
-
-
-                                                          }
-                                                           .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
-
-                                    
-                                
-                            
-                                }
                                
                             }
-                            .padding(.top, 10)
+                         
                           
                             
                 ) {
-
-                    Divider()
                     
-                   
-                 
+                    VStack(spacing: 0) {
+Spacer()
+                    Divider()
+                  
+                    
+                        ForEach(self.people.items.indexed(), id: \.1.id) { index, item in
+
+                            let percent = item.result < 0 ? (100 - (abs(item.amount) * 100 / item.total)) : item.result * 100 / item.total
+                            let percentPositive = item.result >= 0
+                            var iconColor = self.people.items[index].selected == true ? Color.blue: Color.gray
+
+                        
+
+                                
+                                HStack (spacing: 0) {
+                                    
+                                    Button(action: {
+                                        self.people.items[index].selected.toggle()
+                                        self.viewRefresh = self.viewRefresh + 1
+                                        iconColor = self.people.items[index].selected == true ? Color.blue: Color.gray
+                                    }) {
+                                    Icon(content: "person.fill", color: iconColor).padding(5).padding(.leading, 5).padding(.trailing, 5)
+                                    }
+                                    Text(String(viewRefresh))
+                                        .frame(width: 0)
+                                   
+                                      
+                                    VStack (spacing: 0) {
+                                        Spacer()
+                                        HStack (spacing: 0) {
+                                            Text(self.people.items[index].name)
+                                            .font(.system(size: 15))
+                                            .foregroundColor(colorScheme != .dark ? ui.lightItemFontColor: ui.darkItemFontColor)
+                                            .frame(alignment: .leading)
+                                        
+                                        Spacer()
+                                            ProgressView(settings.symbol + " " + String(format: "%.2f", item.amount), value: percent, total: 100)
+                                            .font(.system(size: 10))
+                                            .foregroundColor(colorScheme != .dark ? Color(UIColor.darkGray): ui.darkCommandFontColor)
+                                            .accentColor(percentPositive ? Color.green : Color.red)
+                                            .frame(width: 60)
+                                        
+                                         
+                                                Text(settings.symbol + " " + String(format: "%.2f", item.result)).padding(5).padding(.leading, 5).padding(.trailing, 5)
+//                                                    .foregroundColor(fontColor)
+                                        .font(.system(size: 15))
+                                        .frame(minWidth: 130, alignment: .trailing)
+                                          
+                                            
+                                  
+
+                                        
+                                    }
+                                        Spacer()
+                                     
+                                        
+                                    }
+                                 
+                                  
+
+                                    
+                            }
+                          
+                                
+
+                            
+                            .frame(height: ui.itemHeight)
+                            .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
+
+                                              }
+                                              
+
+                        Spacer()
           
             }
-            
+                }
          
-                Spacer()
+             
          
         }
          
@@ -243,12 +242,28 @@ struct SplitBillsView: View {
 
             withAnimation {
                
-//                let newPassword = Password(context: viewContext)
-//                newPassword.id = UUID()
-//                newPassword.name = password.name
-//                newPassword.password = passwordEncription.Entrypt(pin: String(password.code), password: password.password)
-//
+                if(self.$name.wrappedValue != "" && self.$amount.wrappedValue != nil) {
+                    
+                    
+                    
+                    
+                    
+                    var person = SplitBillsModel()
+                  
+                        person.name = self.$name.wrappedValue
+                        person.amount = Double(truncating: self.$amount.wrappedValue!)
+                        person.result = 10
+                        
+                    
+                        self.people.items.append(person)
+                    self.name = ""
+                    self.amount = nil
+                    
+                    calc ()
+                    
+                }
 
+          
      
             }
 
@@ -259,24 +274,56 @@ struct SplitBillsView: View {
     {
             withAnimation {
 
-//                let request: NSFetchRequest<Password> = Password.fetchRequest()
-//                request.predicate = NSPredicate(format: "id == %@", password.id as CVarArg)
-//
-//                    do {
-//                        let savedPasswords = try  self.viewContext.fetch(request)
-//
-//                        for item in savedPasswords {
-//                            self.viewContext.delete(item)
-//                        }
-//                        try self.viewContext.save()
-//                    } catch {
-//                        print(error)
-//                    }
+                var done: Bool = false
+                while(done == false) {
+                    var index: Int?
+                for i in 0..<self.people.items.count {
+             
+                    if(self.people.items[i].selected) {
+                       index = i
+                    }
+                        }
+                    
+                    if(index != nil) {
+                        self.people.items.remove(at: index!)
+                    } else {
+                        done = true
+                    }
+                     
+                }
+                
+                calc ()
 
             }
 
 
 
+    }
+    
+    func clearList()
+    {
+
+            withAnimation {
+               
+                self.people.items.removeAll()
+                self.name = ""
+                self.amount = nil
+     
+            }
+
+    }
+    
+    func calc () {
+        
+        var total : Double = 0
+        for i in 0..<self.people.items.count {
+            total = total + self.people.items[i].amount
+        }
+       
+        for i in 0..<self.people.items.count {
+            self.people.items[i].result = self.people.items[i].amount - (total / Double(self.people.items.count))
+            self.people.items[i].total = (total / Double(self.people.items.count))
+        }
     }
     
   
