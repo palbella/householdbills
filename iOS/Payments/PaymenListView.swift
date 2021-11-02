@@ -29,6 +29,7 @@ struct PaymentListView: View {
     @ObservedObject var fetchAccounts = AccountData()
     @ObservedObject var fetchCategories = FetchCategories()
 
+    @State var paymentData = PaymentData ()
     
     @ObservedObject var transferTypes = GetTransactionTypes(type: "Payment")
     
@@ -94,7 +95,8 @@ struct PaymentListView: View {
                                     .sheet(isPresented: self.$isShowingNew, onDismiss: {
 
                                         if(self.$paymentSelected.name.wrappedValue != "") {
-                                         addPayment(payment: self.$paymentSelected.wrappedValue)
+                                            paymentData.addPayment(payment: self.$paymentSelected.wrappedValue)
+                                            getTotals()
                                         }
 
                                         }) {
@@ -122,7 +124,7 @@ struct PaymentListView: View {
 
                                             Button(action: {
                                                 if(settings.subscribed || index < 1) {
-                                                self.paymentSelected = map(payment: item)
+                                                    self.paymentSelected = paymentData.map(payment: item)
                                                 self.transaction = TransactionModel()
                                                 self.delete = false
                                                 self.isShowing = true
@@ -149,9 +151,12 @@ struct PaymentListView: View {
 
 
                                                                 Button(action: {
-                                                                    self.paymentSelected = map(payment: item)
+                                                                    self.paymentSelected = paymentData.map(payment: item)
                                                                     self.paymentSelected.isPaid = true
-                                                                    updatePayment(payment: self.$paymentSelected.wrappedValue)
+                                                                    paymentData.updatePayment(payment: self.$paymentSelected.wrappedValue, transactionParam: self.$transaction.wrappedValue)
+                                                                    getTotals()
+                                                                    self.expenses = abs(transactionData.fetchExpenses())
+                                                                    self.incomes = transactionData.fetchIncomes()
                                                                 }) {
 
                                                                     if(item.isPaid) {
@@ -230,9 +235,13 @@ struct PaymentListView: View {
                                             .sheet(isPresented: self.$isShowing, onDismiss: {
 
                                                 if(self.delete == true) {
-                                                    deletePayment(payment: self.$paymentSelected.wrappedValue)
+                                                    paymentData.deletePayment(payment: self.$paymentSelected.wrappedValue)
+                                                    getTotals()
                                                 } else {
-                                                    updatePayment(payment: self.$paymentSelected.wrappedValue)
+                                                    paymentData.updatePayment(payment: self.$paymentSelected.wrappedValue, transactionParam: self.$transaction.wrappedValue)
+                                                    getTotals()
+                                                    self.expenses = abs(transactionData.fetchExpenses())
+                                                    self.incomes = transactionData.fetchIncomes()
                                                 }
 
 
@@ -276,16 +285,6 @@ struct PaymentListView: View {
     
     
     
-    private func saveTransaction(transaction: TransactionModel)
-    {
-      
-            withAnimation {
-               
-                self.transactionData.addTransactions(transaction: transaction)
-            }
-        getTotals()
-    }
-    
     private func getTotals()
     {
         self.totalPayments = 0
@@ -308,202 +307,7 @@ struct PaymentListView: View {
     }
     
     
-    private func addPayment(payment: PaymentModel)
-    {
-      
-            withAnimation {
-
-                let newPayment = Payment(context: viewContext)
-                newPayment.id = UUID()
-                newPayment.name = payment.name
-                newPayment.amount = payment.amount
-                newPayment.symbol = payment.symbol
-                newPayment.currency = payment.currency
-                if(payment.isGoal == true && payment.goalId == nil) {
-                    newPayment.isGoal = false
-                } else {
-                    newPayment.isGoal = payment.isGoal
-                }
-                newPayment.isPaid = payment.isPaid
-                newPayment.goalId = payment.goalId
-                newPayment.iconColor = payment.iconColor
-                newPayment.iconContent = payment.iconContent
-                newPayment.account = payment.account
-                newPayment.category = payment.category
-                newPayment.order = payment.order
-                newPayment.priority = payment.priority
-                newPayment.notificated = payment.notificated
-                newPayment.notificationDay = payment.notificationDay
-               
-
-      SaveContext()
-            }
-        
-        getTotals()
-
-    }
-    
-    private func updatePayment(payment: PaymentModel)
-    {
-        var payStatusChanged: Bool = false
-          
-        do {
-                let request: NSFetchRequest<Payment> = Payment.fetchRequest()
-                request.predicate = NSPredicate(format: "id == %@", payment.id as CVarArg)
-                
-                let savedPayment = try  self.viewContext.fetch(request)[0]
-                
-            payStatusChanged = savedPayment.isPaid != payment.isPaid
-            
-                savedPayment.name = payment.name
-            savedPayment.amount = payment.amount
-            savedPayment.symbol = payment.symbol
-            savedPayment.currency = payment.currency
-            savedPayment.amount = payment.amount
-            savedPayment.isPaid = payment.isPaid
-            if(payment.isGoal == true && payment.goalId == nil) {
-                savedPayment.isGoal = false
-            } else {
-                savedPayment.isGoal = payment.isGoal
-            }
-            savedPayment.goalId = payment.goalId
-            savedPayment.iconColor = payment.iconColor
-            savedPayment.iconContent = payment.iconContent
-            savedPayment.account = payment.account
-            savedPayment.category = payment.category
-            savedPayment.order = payment.order
-            savedPayment.priority = payment.priority
-            savedPayment.notificated = payment.notificated
-            savedPayment.notificationDay = payment.notificationDay
-        
-            
-            SaveContext()
-            
-            if(payStatusChanged) {
-                
-                let request: NSFetchRequest<Account> = Account.fetchRequest()
-                request.predicate = NSPredicate(format: "id == %@", payment.account as CVarArg)
-              
-                let savedAccount = try  self.viewContext.fetch(request)[0]
-                
-                
-                var amount: Double = currencies.convert(currencyFrom: self.$paymentSelected.currency.wrappedValue, currencyTo: savedAccount.currency!, value: abs(self.$paymentSelected.amount.wrappedValue))
-                
-                
-                if(payment.isPaid) {
-                    amount = amount * -1
-                }
-
-                
-                self.transaction.name = self.$paymentSelected.name.wrappedValue
-                self.transaction.account = savedAccount.name!
-                self.transaction.symbol = self.$paymentSelected.symbol.wrappedValue
-                self.transaction.currency = self.$paymentSelected.currency.wrappedValue
-                self.transaction.iconContent = self.$paymentSelected.iconContent.wrappedValue
-                self.transaction.iconColor = self.$paymentSelected.iconColor.wrappedValue
-                self.transaction.timestamp = Date()
-                self.transaction.amount = amount
-                saveTransaction(transaction: self.transaction)
-                SaveContext()
-                
-                savedAccount.amount = savedAccount.amount + amount
-                SaveContext()
-                
-                self.expenses = abs(transactionData.fetchExpenses())
-                self.incomes = transactionData.fetchIncomes()
-                
-                if(payment.isGoal == true) {
-                    let request: NSFetchRequest<Goal> = Goal.fetchRequest()
-                    request.predicate = NSPredicate(format: "id == %@", payment.goalId! as CVarArg)
-                  
-                    let savedGoal = try  self.viewContext.fetch(request)[0]
-                    
-                    var goalAmount: Double = currencies.convert(currencyFrom: self.$paymentSelected.currency.wrappedValue, currencyTo: savedGoal.currency!, value: abs(self.$paymentSelected.amount.wrappedValue))
-                    
-                    if(payment.isPaid == false) {
-                        goalAmount = goalAmount * -1
-                    }
-                    
-                    savedGoal.amount = savedGoal.amount + goalAmount
-                    SaveContext()
-                }
-            }
-            
-            
-            
-        } catch {
-            print(error)
-        }
-
-      SaveContext()
-        getTotals()
-
-    }
-    
-    private func deletePayment(payment: PaymentModel)
-    {
-       
-            withAnimation {
-                
-                let request: NSFetchRequest<Payment> = Payment.fetchRequest()
-                request.predicate = NSPredicate(format: "id == %@", payment.id as CVarArg)
-               
-
-                    do {
-                        let savedPayments = try  self.viewContext.fetch(request)
-                        
-                        for payment in savedPayments {
-                            self.viewContext.delete(payment)
-                        }
-                        try self.viewContext.save()
-                    } catch {
-                        print(error)
-                    }
-                
-            }
-        
-        getTotals()
-      
-    }
-    
-    private func SaveContext () {
-    do {
-
-  try viewContext.save()
-        
-
-        }
-                            
-    
-    catch {
-        print(error)
-    }
-    }
-    
-    private func map(payment: Payment) -> PaymentModel
-    {
-        var paymentModel = PaymentModel()
-        
-        paymentModel.id = payment.id!
-        paymentModel.name = payment.name ?? ""
-        paymentModel.symbol = payment.symbol ?? ""
-        paymentModel.currency = payment.currency ?? ""
-        paymentModel.amount = payment.amount
-        paymentModel.isPaid = payment.isPaid
-        paymentModel.isGoal = payment.isGoal
-        if(payment.goalId != nil) {
-            paymentModel.goalId = payment.goalId!
-        }
-        paymentModel.iconColor = payment.iconColor ?? ""
-        paymentModel.iconContent = payment.iconContent ?? ""
-        paymentModel.account = payment.account!
-        paymentModel.notificationDay = payment.notificationDay
-        paymentModel.notificated = payment.notificated
-
-        return paymentModel
-    }
-    
-
+   
 }
 
 

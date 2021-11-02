@@ -43,12 +43,12 @@ struct TransactionsAddView: View {
     @ObservedObject var fetchAccounts = AccountData()
     @ObservedObject var fetchCategories = FetchCategories()
     @ObservedObject var fetchCurrencies = FetchCurrencies()
-    @ObservedObject var fetchBudgets = FetchBudgets()
+    @ObservedObject var budgetData = BudgetData()
     
     
     func onAppear() {
         
-        self.budgets.items = fetchBudgets.fetch(viewContext: viewContext)
+        self.budgets.items = budgetData.fetch()
         
         let appearance = UINavigationBarAppearance()
         appearance.shadowColor = colorScheme != .dark ? .lightGray : .darkGray

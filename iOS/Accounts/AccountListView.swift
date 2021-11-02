@@ -25,7 +25,7 @@
         @ObservedObject var fetchCurrencies = FetchCurrencies()
         @ObservedObject var transactionData = TransactionData()
         @ObservedObject var accountData = AccountData()
-        @ObservedObject var fetchBudgets = FetchBudgets()
+        @ObservedObject var budgetData = BudgetData()
         @ObservedObject var fetchCategories = FetchCategories()
         
         let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -57,7 +57,7 @@
             
             self.categories.items = fetchCategories.fetch(viewContext: viewContext)
             self.accounts.items = accountData.fetch()
-            self.budgets.items = fetchBudgets.fetch(viewContext: viewContext)
+            self.budgets.items = budgetData.fetch()
             self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
             getTotals()
         }

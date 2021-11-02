@@ -18,7 +18,7 @@ struct DashboardBodyView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "order", ascending: true)])
     var cardsFetch: FetchedResults<Card>
     
-    @ObservedObject var fetchPayments = FetchPayments()
+    @ObservedObject var paymentData = PaymentData()
     
     @Binding var totalAccounts: Double
     @Binding var totalGoalAccounts: Double
@@ -188,7 +188,7 @@ Divider()
         
         var text = "Are you sure you want to change the month?"
         
-        if(fetchPayments.hasUnpaidPayments(viewContext: viewContext)) {
+        if(paymentData.hasUnpaidPayments()) {
             text = "Current month has payments pending to be paid... are you sure you still want to change the month?"
         }
         

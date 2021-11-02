@@ -16,11 +16,11 @@ struct MonthBalance {
     
     @ObservedObject var fetchAccounts = AccountData()
     @State var accounts = GetAccounts()
-    @ObservedObject var fetchPayments = FetchPayments()
+    @ObservedObject var paymentData = PaymentData()
     @State var payments = GetPayments()
-    @ObservedObject var fetchBudgets = FetchBudgets()
+    @ObservedObject var budgetData = BudgetData()
     @State var budgets = GetBudgets()
-    @ObservedObject var fetchGoals = FetchGoals()
+    @ObservedObject var fetchGoals = GoalData()
     @State var goals = GetGoals()
     
     init(viewContext: NSManagedObjectContext) {
@@ -31,9 +31,9 @@ struct MonthBalance {
     func run(totalBalance: Double, dayChangeMonth: Int32) {
         
         self.accounts.items = fetchAccounts.fetch()
-        self.payments.items = fetchPayments.fetch(viewContext: viewContext)
-        self.budgets.items = fetchBudgets.fetch(viewContext: viewContext)
-        self.goals.items = fetchGoals.fetch(viewContext: viewContext)
+        self.payments.items = paymentData.fetch()
+        self.budgets.items = budgetData.fetch()
+        self.goals.items = fetchGoals.fetch()
         calculateMonth (totalBalance: totalBalance, dayChangeMonth: dayChangeMonth)
     }
     

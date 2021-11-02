@@ -194,10 +194,10 @@ struct GoalPlanningView: View {
     
     private func getGoals()
     {
-        @ObservedObject var fetchMonthlyPayments = FetchMonthlyPayments()
+        @ObservedObject var monthlyPaymentData = MonthlyPaymentData()
         @State var payments = GetPayments()
         
-        payments.items = fetchMonthlyPayments.fetch(viewContext: viewContext)
+        payments.items = monthlyPaymentData.fetch()
         
         let fetchRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
         self.goals.items = [GoalModel]()

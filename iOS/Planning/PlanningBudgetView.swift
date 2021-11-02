@@ -30,6 +30,7 @@ struct PlanningBudgetBodyView: View {
     @ObservedObject var budgets = GetMonthlyBudgets()
     @State var accounts = GetAccounts()
     @State var transaction : TransactionModel = TransactionModel()
+    @State var monthlyBudgetData : MonthlyBudgetData = MonthlyBudgetData()
     
     @State var isPlanning : Bool = true
     
@@ -71,7 +72,8 @@ struct PlanningBudgetBodyView: View {
                                 }
                                 .sheet(isPresented: self.$isShowingNew, onDismiss: {
                                     if(self.$budgetSelected.name.wrappedValue != "") {
-                                     addBudget(budget: self.$budgetSelected.wrappedValue)
+                                        self.monthlyBudgetData.addBudget(budget: self.$budgetSelected.wrappedValue)
+                                        getTotals()
                                     }
                                       
                                     }) {
@@ -96,7 +98,7 @@ struct PlanningBudgetBodyView: View {
                     
                     
                                         Button(action: {
-                                            self.budgetSelected = map(budget: item)
+                                            self.budgetSelected = monthlyBudgetData.map(budget: item)
                                             self.delete = false
                                             self.isShowing = true
                                         }) {
@@ -134,10 +136,12 @@ struct PlanningBudgetBodyView: View {
                                         .sheet(isPresented: self.$isShowing, onDismiss: {
                                             
                                             if(self.delete) {
-                                                deleteBudget(budget: self.$budgetSelected.wrappedValue)
+                                                monthlyBudgetData.deleteBudget(budget: self.$budgetSelected.wrappedValue)
+                                                getTotals()
                                             } else {
 
-                                                updateBudget(budget: self.$budgetSelected.wrappedValue)
+                                                monthlyBudgetData.updateBudget(budget: self.$budgetSelected.wrappedValue)
+                                                getTotals()
                                             }
                                             
                                            
@@ -196,108 +200,6 @@ struct PlanningBudgetBodyView: View {
 
     }
     
-    func addBudget(budget: BudgetModel)
-    {
-      
-            withAnimation {
-               
-                let newBudget = MonthlyBudget(context: viewContext)
-                newBudget.id = UUID()
-                newBudget.name = budget.name
-                newBudget.amount = budget.amount
-                newBudget.symbol = budget.symbol
-                newBudget.currency = budget.currency
-                newBudget.iconColor = budget.iconColor
-                newBudget.iconContent = budget.iconContent
-
-      SaveContext()
-            }
-        
-        getTotals()
-
-    }
-    
-    func updateBudget(budget: BudgetModel)
-    {
-      
-          
-        do {
-                let request: NSFetchRequest<MonthlyBudget> = MonthlyBudget.fetchRequest()
-                request.predicate = NSPredicate(format: "id == %@", budget.id as CVarArg)
-                
-                let savedBudget = try  self.viewContext.fetch(request)[0]
-                
-            savedBudget.name = budget.name
-            savedBudget.amount = budget.amount
-            savedBudget.symbol = budget.symbol
-            savedBudget.currency = budget.currency
-            savedBudget.amount = budget.amount
-            savedBudget.iconColor = budget.iconColor
-            savedBudget.iconContent = budget.iconContent
-            
-            
-        } catch {
-            print(error)
-        }
-
-      SaveContext()
-            
-        getTotals()
-    }
-    
-    func deleteBudget(budget: BudgetModel)
-    {
-      
-            withAnimation {
-                
-                let request: NSFetchRequest<MonthlyBudget> = MonthlyBudget.fetchRequest()
-                request.predicate = NSPredicate(format: "id == %@", budget.id as CVarArg)
-               
-
-                    do {
-                        let savedBudgets = try  self.viewContext.fetch(request)
-                        
-                        for budget in savedBudgets {
-                            self.viewContext.delete(budget)
-                        }
-                        try self.viewContext.save()
-                    } catch {
-                        print(error)
-                    }
-                
-            }
-       
-        getTotals()
-    }
-    
-    func SaveContext () {
-    do {
-
-  try viewContext.save()
-        
-
-        }
-                            
-    
-    catch {
-      
-    }
-    }
-    
-    func map(budget: MonthlyBudget) -> BudgetModel
-    {
-        var budgetModel = BudgetModel()
-        
-        budgetModel.id = budget.id!
-        budgetModel.name = budget.name ?? ""
-        budgetModel.symbol = budget.symbol ?? ""
-        budgetModel.currency = budget.currency ?? ""
-        budgetModel.amount = budget.amount
-        budgetModel.iconColor = budget.iconColor ?? ""
-        budgetModel.iconContent = budget.iconContent ?? ""
-
-        return budgetModel
-    }
-    
+   
    
 }

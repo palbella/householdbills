@@ -22,6 +22,7 @@ struct GoalListView: View {
 
     @State var goalSelected : GoalModel = GoalModel()
     @State var transaction : TransactionModel = TransactionModel()
+    @State var goalData : GoalData = GoalData()
     
     @State var currencies = GetCurrencies()
     @ObservedObject var fetchCurrencies = FetchCurrencies()
@@ -107,7 +108,8 @@ struct GoalListView: View {
                                             self.transaction.iconColor = self.$goalSelected.iconColor.wrappedValue
                                             self.transaction.timestamp = Date()
                                             saveTransaction(transaction: self.transaction)
-                                         addGoal(goal: self.$goalSelected.wrappedValue)
+                                            goalData.addGoal(goal: self.$goalSelected.wrappedValue)
+                                            getTotals()
                                         }
                                           
                                         }) {
@@ -143,7 +145,7 @@ struct GoalListView: View {
                     
                                         Button(action: {
                                             if(settings.subscribed || index < 1) {
-                                            self.goalSelected = map(goal: item)
+                                                self.goalSelected = goalData.map(goal: item)
                                             self.transaction = TransactionModel()
                                             self.delete = false
                                             self.isShowing = true
@@ -205,10 +207,12 @@ struct GoalListView: View {
                                         .sheet(isPresented: self.$isShowing, onDismiss: {
                                             
                                             if(self.delete) {
-                                                deleteGoal(goal: self.$goalSelected.wrappedValue)
+                                                goalData.deleteGoal(goal: self.$goalSelected.wrappedValue)
+                                                getTotals()
                                             } else {
 
-                                                updateGoal(goal: self.$goalSelected.wrappedValue)
+                                                goalData.updateGoal(goal: self.$goalSelected.wrappedValue)
+                                                getTotals()
                                             }
                                             
                                             
@@ -283,109 +287,6 @@ struct GoalListView: View {
         getTotals()
     }
     
-    private func addGoal(goal: GoalModel)
-    {
-      
-            withAnimation {
-               
-                let newGoal = Goal(context: viewContext)
-                newGoal.id = UUID()
-                newGoal.name = goal.name
-                newGoal.amount = goal.amount
-                newGoal.target = goal.target
-                newGoal.symbol = goal.symbol
-                newGoal.currency = goal.currency
-                newGoal.iconColor = goal.iconColor
-                newGoal.iconContent = goal.iconContent
-                
-
-      SaveContext()
-            }
-        getTotals()
-    }
-    
-    private func updateGoal(goal: GoalModel)
-    {
-      
-          
-        do {
-                let request: NSFetchRequest<Goal> = Goal.fetchRequest()
-                request.predicate = NSPredicate(format: "id == %@", goal.id as CVarArg)
-                
-                let savedGoal = try  self.viewContext.fetch(request)[0]
-                
-                savedGoal.name = goal.name
-            savedGoal.amount = goal.amount
-            savedGoal.symbol = goal.symbol
-            savedGoal.currency = goal.currency
-            savedGoal.amount = goal.amount
-            savedGoal.target = goal.target
-            savedGoal.iconColor = goal.iconColor
-            savedGoal.iconContent = goal.iconContent
-            
-            
-        } catch {
-            print(error)
-        }
-
-      SaveContext()
-        getTotals()
-
-    }
-    
-    private func deleteGoal(goal: GoalModel)
-    {
-
-            withAnimation {
-                
-                let request: NSFetchRequest<Goal> = Goal.fetchRequest()
-                request.predicate = NSPredicate(format: "id == %@", goal.id as CVarArg)
-               
-
-                    do {
-                        let savedGoals = try  self.viewContext.fetch(request)
-                        
-                        for goal in savedGoals {
-                            self.viewContext.delete(goal)
-                        }
-                        try self.viewContext.save()
-                    } catch {
-                        print(error)
-                    }
-                
-            }
-        getTotals()
-    }
-    
-    private func SaveContext () {
-    do {
-
-  try viewContext.save()
-        
-
-        }
-                            
-    
-    catch {
-      
-    }
-    }
-    
-    private func map(goal: Goal) -> GoalModel
-    {
-        var goalModel = GoalModel()
-        
-        goalModel.id = goal.id!
-        goalModel.name = goal.name ?? ""
-        goalModel.symbol = goal.symbol ?? ""
-        goalModel.currency = goal.currency ?? ""
-        goalModel.amount = goal.amount
-        goalModel.target = goal.target
-        goalModel.iconColor = goal.iconColor ?? ""
-        goalModel.iconContent = goal.iconContent ?? ""
-
-        return goalModel
-    }
     
    
 }

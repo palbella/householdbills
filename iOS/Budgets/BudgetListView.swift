@@ -28,6 +28,7 @@ struct BudgetListView: View {
     @ObservedObject var fetchCategories = FetchCategories()
     @ObservedObject var fetchAccounts = AccountData()
 
+    @State var budgetData : BudgetData = BudgetData()
     
     @ObservedObject var transferTypes = GetTransactionTypes(type: "Budget")
     
@@ -104,7 +105,8 @@ struct BudgetListView: View {
                                             self.transaction.iconColor = self.$budgetSelected.iconColor.wrappedValue
                                             self.transaction.timestamp = Date()
                                             saveTransaction(transaction: self.transaction)
-                                         addBudget(budget: self.$budgetSelected.wrappedValue)
+                                            budgetData.addBudget(budget: self.$budgetSelected.wrappedValue)
+                                            getTotals()
                                         }
 
                                         }) {
@@ -130,7 +132,7 @@ struct BudgetListView: View {
 
                                             Button(action: {
                                                 if(settings.subscribed || index < 1) {
-                                                self.budgetSelected = map(budget: item)
+                                                    self.budgetSelected = budgetData.map(budget: item)
                                                 self.transaction = TransactionModel()
                                                 self.transaction.type = LocalizedStringKey("Budget Adjustment").toString()
                                                 self.transaction.initialAmount = self.$budgetSelected.amount.wrappedValue
@@ -192,7 +194,8 @@ struct BudgetListView: View {
                                                     self.transaction.iconColor = self.$budgetSelected.iconColor.wrappedValue
                                                     self.transaction.timestamp = Date()
                                                     saveTransaction(transaction: self.transaction)
-                                                    deleteBudget(budget: self.$budgetSelected.wrappedValue)
+                                                    budgetData.deleteBudget(budget: self.$budgetSelected.wrappedValue)
+                                                    getTotals()
                                                 } else {
                                                     if(self.$transaction.amount.wrappedValue > 0 && (self.$transaction.type.wrappedValue == LocalizedStringKey("Expense").toString() || self.$transaction.type.wrappedValue == LocalizedStringKey("Income").toString())) {
                                                         self.transaction.name =  self.transferTypes.names[2]
@@ -207,10 +210,11 @@ struct BudgetListView: View {
                                                         self.transaction.timestamp = Date()
                                                         saveTransaction(transaction: self.transaction)
                                                         
-                                                        accountAdjustment(destination: self.$transaction.destinationId.wrappedValue, amount: self.$transaction.amount.wrappedValue)
+                                                        budgetData.accountAdjustment(destination: self.$transaction.destinationId.wrappedValue, amount: self.$transaction.amount.wrappedValue)
                                                         
                                                     }
-                                                    updateBudget(budget: self.$budgetSelected.wrappedValue)
+                                                    budgetData.updateBudget(budget: self.$budgetSelected.wrappedValue)
+                                                    getTotals()
                                                 }
 
 
@@ -288,132 +292,7 @@ struct BudgetListView: View {
 
     }
     
-    private func addBudget(budget: BudgetModel)
-    {
-      
-            withAnimation {
-             
-                let newBudget = Budget(context: viewContext)
-                newBudget.id = UUID()
-                newBudget.name = budget.name
-                newBudget.amount = budget.amount
-                newBudget.symbol = budget.symbol
-                newBudget.currency = budget.currency
-                newBudget.iconColor = budget.iconColor
-                newBudget.iconContent = budget.iconContent
-                
-
-      SaveContext()
-            }
-        getTotals()
-    }
-    
-    private func updateBudget(budget: BudgetModel)
-    {
-      
-          
-        do {
-                let request: NSFetchRequest<Budget> = Budget.fetchRequest()
-                request.predicate = NSPredicate(format: "id == %@", budget.id as CVarArg)
-                
-                let savedBudget = try  self.viewContext.fetch(request)[0]
-                
-            savedBudget.name = budget.name
-            savedBudget.amount = budget.amount
-            savedBudget.symbol = budget.symbol
-            savedBudget.currency = budget.currency
-            savedBudget.amount = budget.amount
-            savedBudget.iconColor = budget.iconColor
-            savedBudget.iconContent = budget.iconContent
-            
-            
-        } catch {
-            print(error)
-        }
-
-      SaveContext()
-        getTotals()
-
-    }
-    
-    private func deleteBudget(budget: BudgetModel)
-    {
-       
-            withAnimation {
-                
-                let request: NSFetchRequest<Budget> = Budget.fetchRequest()
-                request.predicate = NSPredicate(format: "id == %@", budget.id as CVarArg)
-               
-
-                    do {
-                        let savedBudgets = try  self.viewContext.fetch(request)
-                        
-                        for budget in savedBudgets {
-                            self.viewContext.delete(budget)
-                        }
-                        try self.viewContext.save()
-                    } catch {
-                        print(error)
-                    }
-                
-            }
    
-        getTotals()
-    }
-    
-    private func accountAdjustment(destination: UUID, amount: Double)
-    {
-      
-          
-        do {
-                let request: NSFetchRequest<Account> = Account.fetchRequest()
-                request.predicate = NSPredicate(format: "id = %@", destination as CVarArg)
-                
-                let savedAccount = try  self.viewContext.fetch(request)[0]
-                
-            savedAccount.amount = savedAccount.amount + amount
-            
-            
-            
-        } catch {
-            print(error)
-        }
-
-      SaveContext()
-        getTotals()
-
-    }
-    
-    private func SaveContext () {
-    do {
-
-  try viewContext.save()
-        
-
-        }
-                            
-    
-    catch {
-      
-    }
-    }
-    
-    private func map(budget: Budget) -> BudgetModel
-    {
-        var budgetModel = BudgetModel()
-        
-        budgetModel.id = budget.id!
-        budgetModel.name = budget.name ?? ""
-        budgetModel.symbol = budget.symbol ?? ""
-        budgetModel.currency = budget.currency ?? ""
-        budgetModel.amount = budget.amount
-        budgetModel.iconColor = budget.iconColor ?? ""
-        budgetModel.iconContent = budget.iconContent ?? ""
-
-        return budgetModel
-    }
-    
-
 }
 
 
