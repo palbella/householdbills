@@ -125,13 +125,55 @@ struct InitialData {
         let newBudget = Budget(context: viewContext)
         
         newBudget.id = UUID()
-        newBudget.name = LocalizedStringKey("Food & Groceries").toString()
+        newBudget.name = LocalizedStringKey("Bars & Restaurants").toString()
         newBudget.amount = 0
         newBudget.currency = "USD"
         newBudget.symbol = "$"
         newBudget.iconColor = "red"
-        newBudget.iconContent = "cart"
+        newBudget.iconContent = "bar"
         newBudget.timestamp = Date()
+        
+        
+        SaveContext()
+        
+        let newMonthlyBudget = MonthlyBudget(context: viewContext)
+        
+        newMonthlyBudget.id = UUID()
+        newMonthlyBudget.name = LocalizedStringKey("Bars & Restaurants").toString()
+        newMonthlyBudget.amount = 0
+        newMonthlyBudget.currency = "USD"
+        newMonthlyBudget.symbol = "$"
+        newMonthlyBudget.iconColor = "red"
+        newMonthlyBudget.iconContent = "bar"
+        newMonthlyBudget.timestamp = Date()
+        
+        
+        SaveContext()
+        
+        let newPurchase = Purchase(context: viewContext)
+        
+        newPurchase.id = UUID()
+        newPurchase.name = LocalizedStringKey("Food & Groceries").toString()
+        newPurchase.amount = 0
+        newPurchase.currency = "USD"
+        newPurchase.symbol = "$"
+        newPurchase.iconColor = "red"
+        newPurchase.iconContent = "cart"
+        newPurchase.timestamp = Date()
+        
+        
+        SaveContext()
+        
+        let newMonthlyPurchase = MonthlyPurchase(context: viewContext)
+        
+        newMonthlyPurchase.id = UUID()
+        newMonthlyPurchase.name = LocalizedStringKey("Food & Groceries").toString()
+        newMonthlyPurchase.amount = 0
+        newMonthlyPurchase.currency = "USD"
+        newMonthlyPurchase.symbol = "$"
+        newMonthlyPurchase.iconColor = "red"
+        newMonthlyPurchase.iconContent = "cart"
+        newMonthlyPurchase.timestamp = Date()
         
         
         SaveContext()
@@ -459,7 +501,7 @@ struct InitialData {
         newCardPurchase.name = "Purchases"
         newCardPurchase.id = 5
         newCardPurchase.order = 5
-        newCardPurchase.visible = false
+        newCardPurchase.visible = true
      
  SaveContext()
         

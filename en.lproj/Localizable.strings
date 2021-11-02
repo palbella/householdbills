@@ -28,7 +28,7 @@
 "Goals" = "Goals";
 "Month Syncronized!" = "Month Syncronized!";
 "Syncronize with current month" = "Syncronize with current month";
-"budget-info" = "How much you want to spend per month for markets & food or entertainments.";
+"budget-info" = "How much you want to spend per month for bars & restaurants or entertainments.";
 "payment-info" = "Provides a list of monthly payments such as internet or electricity.";
 "goal-info" = "After you have created the budgets and payments, create payments with goal deposits, Unallocated amount must be zero.";
 "App Settings" = "App Settings";
@@ -220,3 +220,12 @@
 "Split Bills" = "Split Bills";
 "Passwords Encryption" = "Passwords Encryption";
 "People" = "People";
+"PURCHASES" = "PURCHASES";
+"PURCHASE" = "PURCHASE";
+"Purchases" = "Purchases";
+"Purchase" = "Purchase";
+"Bars & Restaurants" = "Bars & Restaurants";
+"Purchase Settings" = "Purchase Settings";
+"Delete Purchase" = "Delete Purchase";
+"purchase-info" = "Monthly Purchases like a list of food & groceries purchased every month";
+"Goods" = "Goods";

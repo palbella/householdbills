@@ -25,6 +25,7 @@ struct PlanningBodyView: View {
 
     @State var totalPayments: Double = 0
     @State var totalBudgets: Double = 0
+    @State var totalPurchases: Double = 0
      
     var body: some View {
         
@@ -163,17 +164,44 @@ struct PlanningBodyView: View {
 
         }
             .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
+            
+            HStack (spacing: 0) {
+                Icon(content: "info", color: Color.blue).padding(5).padding(.leading, 5).padding(.trailing, 5)
+                    .padding(.top, 15)
+                    .padding(.bottom, 15)
+
+            Text("Purchases")
+                .foregroundColor(labelColor)
+                .frame(width: 80, height: 30, alignment: .leading)
+                .multilineTextAlignment(.leading)
+                .font(.system(size: 15))
+
+            Spacer()
+                Text("purchase-info")
+                .padding(5).padding(.leading, 5).padding(.trailing, 5)
+                .multilineTextAlignment(.leading)
+                    .font(.system(size: 12))
+                    .fixedSize(horizontal: false, vertical: true)
+
+
+        }
+            .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
                         Divider()
                         Spacer()
             
-            Spacer()
+        
         }
       
        
         }
         
         PlanningBudgetBodyView(totalBudgets: self.$totalBudgets)
+                .padding(.top, 10)
+                .padding(.bottom, 20)
         PlanningPaymentBodyView(totalPayments: self.$totalPayments)
+                .padding(.bottom, 20)
+            PlanningPurchaseBodyView(totalPurchases: self.$totalPurchases)
+                .padding(.bottom, 20)
            Spacer()
             
        

@@ -25,6 +25,7 @@ struct DashboardBodyView: View {
     @Binding var totalGoals: Double
     @Binding var totalPayments: Double
     @Binding var totalBudgets: Double
+    @Binding var totalPurchases: Double
     @Binding var incomes: Double
     @Binding var expenses: Double
     
@@ -143,6 +144,18 @@ struct DashboardBodyView: View {
                     
                     if(card.visible == true) {
                         PaymentListView(totalPayments: self.$totalPayments, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData, showSubscribe: self.$showSubscribe)
+                            .padding(.top, 10)
+
+                        Spacer()
+                    }
+                    
+                   
+                }
+                
+                if(card.name == "Purchases") {
+                    
+                    if(card.visible == true) {
+                        PurchaseListView(totalPurchases: self.$totalPurchases, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData, showSubscribe: self.$showSubscribe)
                             .padding(.top, 10)
 
                         Spacer()

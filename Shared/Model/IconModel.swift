@@ -88,6 +88,7 @@ class GetIcons: ObservableObject {
             IconClass(id: 32, name: LocalizedStringKey("Water").toString(), content: "water"),
             IconClass(id: 33, name: LocalizedStringKey("Fire").toString(), content: "fire"),
             IconClass(id: 34, name: LocalizedStringKey("Credit Card").toString(), content: "creditcard"),
+            IconClass(id: 35, name: LocalizedStringKey("Bars").toString(), content: "bar"),
             
         ]
     }

@@ -27,6 +27,7 @@ struct DashboardView: View {
     @State var totalGoals: Double = 0
     @State var totalPayments: Double = 0
     @State var totalBudgets: Double = 0
+    @State var totalPurchases: Double = 0
     @State var incomes: Double = 0
     @State var expenses: Double = 0
     
@@ -182,7 +183,7 @@ struct DashboardView: View {
 
                 VStack(spacing: 15 ) {
 
-                    DashboardBodyView(totalAccounts: self.$totalAccounts, totalGoalAccounts: self.$totalGoalAccounts, totalGoals: self.$totalGoals, totalPayments: self.$totalPayments, totalBudgets: self.$totalBudgets, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData, isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, currentMonthName: $currentMonthName, showSubscribe: self.$showSubscribe)
+                    DashboardBodyView(totalAccounts: self.$totalAccounts, totalGoalAccounts: self.$totalGoalAccounts, totalGoals: self.$totalGoals, totalPayments: self.$totalPayments, totalBudgets: self.$totalBudgets, totalPurchases: self.$totalPurchases, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData, isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, currentMonthName: $currentMonthName, showSubscribe: self.$showSubscribe)
 
                 }
 
