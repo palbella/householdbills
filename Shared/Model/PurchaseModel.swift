@@ -17,7 +17,7 @@ struct PurchaseModel: Hashable, Identifiable {
      var amount: Double
     var iconContent: String
     var iconColor: String
-
+    var destinationId: UUID
 
     
     init() {
@@ -28,6 +28,7 @@ struct PurchaseModel: Hashable, Identifiable {
         self.amount = 0
         self.iconContent = ""
         self.iconColor = ""
+        self.destinationId = UUID()
     }
 }
 

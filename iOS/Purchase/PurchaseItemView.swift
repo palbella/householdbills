@@ -16,43 +16,65 @@ struct PurchaseItemView: View {
     @StateObject var ui: AppUI = AppUI()
     @Environment(\.managedObjectContext) private var viewContext
     
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
-        var purchaseItemFetchResult: FetchedResults<PurchaseItem>
+//    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
+//        var purchaseItemFetchResult: FetchedResults<PurchaseItem>
     
     @ObservedObject var icons = GetIcons()
     @ObservedObject var colors = GetColors()
     
     @Binding var purchase: PurchaseModel
     
-    @Binding var isShowing: Bool
-    @Binding var isShowingNew: Bool
-    @Binding var deleteItem: Bool
-    @Binding var modalItem: Bool
-    
-    @Binding var itemSelected : PurchaseItemModel
-    
     @Binding var totalPrices: Double
     
-    public let predicate: NSPredicate
-    var purchaseItemFetch: FetchRequest<PurchaseItem>
-//    @State var purchaseItemData : PurchaseItemData = PurchaseItemData()
+//    public let predicate: NSPredicate
+//    var purchaseItemFetch: FetchRequest<PurchaseItem>
+    @State var currencies = GetCurrencies()
     
-    init(purchase: Binding<PurchaseModel>, itemSelected: Binding<PurchaseItemModel>, isShowingNew: Binding<Bool>, isShowingUpdate: Binding<Bool>, deleteItem: Binding<Bool>, modalItem: Binding<Bool>, totalPrices: Binding<Double> ) {
+    @StateObject var items : GetPurchaseItems = GetPurchaseItems()
+    @State var viewRefresh : Int = 0
+    
+    init(purchase: Binding<PurchaseModel>, totalPrices: Binding<Double> ) {
         
         self._purchase = purchase
-        self._itemSelected = itemSelected
-        self._isShowingNew = isShowingNew
-        self._isShowing = isShowingUpdate
-        self._deleteItem = deleteItem
-        self._modalItem = modalItem
         self._totalPrices = totalPrices
         
+    
+        
         UINavigationBar.appearance().isTranslucent = false
-        
-        
-        predicate = NSPredicate(format: "purchaseId == %@", self._purchase.wrappedValue.id as CVarArg)
-        purchaseItemFetch = FetchRequest<PurchaseItem>(entity: PurchaseItem.entity(), sortDescriptors: [], predicate: predicate)
+
        }
+    
+    
+    func onAppear() {
+        
+        self.totalPrices = 0
+        let fetchRequest: NSFetchRequest<PurchaseItem> = PurchaseItem.fetchRequest()
+        self.items.items = []
+        
+        do {
+            let savedPurchaseItems =  try viewContext.fetch(fetchRequest)
+       
+                            for index in 0..<savedPurchaseItems.count {
+
+                                var item = PurchaseItemModel()
+                                
+                                item.id = savedPurchaseItems[index].id!
+                                item.name = savedPurchaseItems[index].name!
+                                item.price = savedPurchaseItems[index].price
+                                item.unit = savedPurchaseItems[index].unit!
+                                item.purchaseId = savedPurchaseItems[index].purchaseId!
+                                item.purchased = savedPurchaseItems[index].purchased
+                                
+                                self.items.items.append(item)
+                                
+                                if( savedPurchaseItems[index].purchased != true) {
+                                self.totalPrices = self.totalPrices + savedPurchaseItems[index].price
+                                }
+                                    }
+        } catch {
+           
+        }
+    }
     
     var body: some View {
         
@@ -76,8 +98,7 @@ struct PurchaseItemView: View {
                                 VStack {
                                    
                                     Button(action: {
-//                                        self.itemSelected = PurchaseItemModel()
-                                        self.isShowingNew = true
+                                        self.addItem()
                                     }) {
                                         
                                         CommandButton(content: "plus.circle")
@@ -98,64 +119,72 @@ struct PurchaseItemView: View {
                 
                     
                    
-                    ForEach(self.purchaseItemFetchResult.indexed(), id: \.1.id) { index, item in
-                                 
+                    ForEach(self.items.items.indexed(), id: \.1.id) { index, item in
+                            
+                       
                         if(item.purchaseId == self.$purchase.wrappedValue.id) {
-                           
-                                              
-//                                              let fontColor = item.amount >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
-                                              
-//                                                                  Button(action: {
-//                                                                      self.cryptoSelected = cryptoData.map(crypto: item)
-//                                                                      self.deleteCrypto = false
-//                                                                      self.isShowing = true
-//                                                                  }) {
-//
-//                                                                      VStack (spacing: 0) {
-//                                                                          HStack (spacing: 0) {
-//                                                                            Icon(content: "bitcoinsign.circle", color: Color.yellow).padding(5).padding(.leading, 5).padding(.trailing, 5)
-//
-//                                                                              VStack (spacing: 0) {
-//
-//                                                                              HStack (spacing: 0) {
-//                                                                                Text(item.name!)
-//                                                                              .font(.system(size: 15))
-//                                                                              .foregroundColor(colorScheme != .dark ? ui.lightItemFontColor: ui.darkItemFontColor)
-//
-//                                                                                Spacer()
-//
-//                                                                                Text(self.account.symbol + " " + String(item.price))
-//                                                                              .font(.system(size: 12))
-//                                                                                    .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor )
-//
-//
-//
-//                                                                                VStack(alignment: .trailing, spacing: 0) {
-//                                                                                    Text(item.symbol! + " " + String(format: "%.2f", abs(item.amount))).padding(.leading, 5).padding(.trailing, 5).padding(.top, 5)
-//                                                                                        .foregroundColor(colorScheme != .dark ? ui.lightItemFontColor: ui.darkItemFontColor)
-//                                                                              .font(.system(size: 13))
-//                                                                                        .multilineTextAlignment(.trailing)
-//
-//
-//                                                                                    Text(self.account.symbol + " " + String(format: "%.2f", (item.price * item.amount))).padding(.leading, 5).padding(.trailing, 5).padding(.bottom, 5)
-//                                                                                  .foregroundColor(fontColor)
-//                                                                                        .multilineTextAlignment(.trailing)
-//                                                                                  .font(.system(size: 10))
-//                                                                                }
-//                                                                                .frame(width: 180, alignment: .trailing)
-//                                                                              }
-//
-//
-//
-//                                                                              }
-//                                                                      }
-//                                                                      .frame(maxWidth: .infinity)
-//
-//                                                                      }
-//
-//                                                                  }
+                         
+                            var iconColor = self.items.items[index].purchased == true ? Color.blue: Color.gray
+
+                            VStack (spacing: 0) {
+                                
+                                HStack (spacing: 0) {
+                                    
+                                    Button(action: {
+                                        self.onPurchase(id: self.items.items[index].id)
+                                        iconColor = self.items.items[index].purchased == true ? Color.blue: Color.gray
+                                      
+                                    }) {
+                                    Icon(content: "cart", color: iconColor).padding(5).padding(.leading, 5).padding(.trailing, 5)
+                                    }
+
+                                      
+                                 
+                                    Text(item.name)
+//                                    .foregroundColor(labelColor)
+                                    .frame(width: 200, alignment: .leading)
+                                    Spacer()
+                                   
+                                    CustomTextfield(label: "", text: self.$items.items[index].unit, keyType: UIKeyboardType.alphabet, textAlignment: .left, maxLength: 3)
+//                                        .foregroundColor(labelColor)
+                                        .onChange(of: self.$items.items[index].unit.wrappedValue, perform: { value in
+                                            self.onUnitChange(id: self.$items.items[index].id.wrappedValue, value: self.$items.items[index].unit.wrappedValue)
+                                        })
+                                    
+
+                                  
+                                    CurrencyField(
+                                                "Amount",
+                                                value: Binding(get: {
+                                                    return self.$items.items[index].price.wrappedValue as NSNumber
+                                                }, set: { number in
+                                                    var result: Double = 0
+                                                    if(number != nil) {
+                                                        result = Double(truncating: number!.decimalValue as NSNumber).truncate(places: 2)
+                                                    }
+                                                    
+                                                    self.$items.items[index].price.wrappedValue = result
+                                                }
+                                                ),
+                                                foregroundColor: UIColor(Color.black),
+                                                maxLength: 10
+                                            ).padding(5).padding(.leading, 5).padding(.trailing, 5)
+                                        .onChange(of: self.$items.items[index].price.wrappedValue, perform: { value in
+                                            self.onPriceChange(id: self.$items.items[index].id.wrappedValue, value: self.$items.items[index].price.wrappedValue)
+                                        })
+                                    
+
+                                    
+                            }
+                                .padding(.top, 10)
+                                .padding(.bottom, 10)
+                                
+
+                            }
+                            
+                 }
                                           
-                        }
+                        
                                           }
                                                           .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
                                           
@@ -172,10 +201,100 @@ struct PurchaseItemView: View {
             .padding(.top, 40)
             .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
             .onAppear() {
-                
+                self.onAppear()
                         }
         }
         .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
        
+    }
+    
+    
+    func onUnitChange (id: UUID, value: String) {
+        let request: NSFetchRequest<PurchaseItem> = PurchaseItem.fetchRequest()
+        request.predicate = NSPredicate(format: "id = %@", id as CVarArg)
+
+            do {
+                let saved = try  self.viewContext.fetch(request)
+                
+                for item in saved {
+                 
+                    item.unit = value
+                    SaveContext()
+                }
+                
+            } catch {
+                print(error)
+            }
+        
+        self.onAppear()
+    }
+    
+    func onPriceChange (id: UUID, value: Double) {
+        let request: NSFetchRequest<PurchaseItem> = PurchaseItem.fetchRequest()
+        request.predicate = NSPredicate(format: "id = %@", id as CVarArg)
+
+            do {
+                let saved = try  self.viewContext.fetch(request)
+                
+                for item in saved {
+                 
+                    item.price = value
+                    SaveContext()
+                }
+                
+            } catch {
+                print(error)
+            }
+        
+        self.onAppear()
+    }
+    
+    
+    func onPurchase (id: UUID) {
+        let request: NSFetchRequest<PurchaseItem> = PurchaseItem.fetchRequest()
+        request.predicate = NSPredicate(format: "id = %@", id as CVarArg)
+
+            do {
+                let saved = try  self.viewContext.fetch(request)
+                
+                for item in saved {
+                 
+                    item.purchased = !item.purchased
+                    SaveContext()
+                }
+                
+            } catch {
+                print(error)
+            }
+        
+        self.onAppear()
+    }
+    
+    func addItem () {
+        
+        let newItem = PurchaseItem(context: viewContext)
+        newItem.id = UUID()
+        newItem.name = "Item"
+        newItem.price = 0
+        newItem.unit = "u"
+        newItem.purchaseId = self.$purchase.wrappedValue.id
+     
+     
+SaveContext()
+        self.onAppear()
+    }
+    
+    private func SaveContext () {
+    do {
+
+  try viewContext.save()
+        
+
+        }
+                            
+    
+    catch {
+      
+    }
     }
 }

@@ -55,7 +55,8 @@ class GetTransactionTypes: ObservableObject {
             LocalizedStringKey("Account Initial Balance").toString(),
             LocalizedStringKey("Account Closed Balance").toString(),
             LocalizedStringKey("Adjustment").toString(),
-            LocalizedStringKey("Goal Initial Amount").toString()
+            LocalizedStringKey("Goal Initial Amount").toString(),
+            LocalizedStringKey("Purchases").toString()
         ]
     }
 }

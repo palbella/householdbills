@@ -37,6 +37,8 @@ struct PlanningPurchaseBodyView: View {
 
     @Binding var totalPurchases: Double
     
+    @State var totalPricesItem: Double = 0
+    
     var body: some View {
         
         VStack(spacing: 0) {
@@ -144,7 +146,7 @@ struct PlanningPurchaseBodyView: View {
                                             
                                            
                                         }) {
-                                            PurchaseUpdateView(purchase: self.$purchaseSelected, transaction: self.$transaction, modal: self.$isShowing, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, isPlanning: $isPlanning)
+                                            PurchaseUpdateView(purchase: self.$purchaseSelected, transaction: self.$transaction, modal: self.$isShowing, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, isPlanning: $isPlanning, totalPricesItem: self.$totalPricesItem)
                                             
 
                     

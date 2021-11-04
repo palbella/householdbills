@@ -22,6 +22,8 @@ struct MonthBalance {
     @State var budgets = GetBudgets()
     @ObservedObject var fetchGoals = GoalData()
     @State var goals = GetGoals()
+    @ObservedObject var fetchPurchases = PurchaseData()
+    @State var purchases = GetPurchases()
     
     init(viewContext: NSManagedObjectContext) {
         self.viewContext = viewContext
@@ -34,6 +36,7 @@ struct MonthBalance {
         self.payments.items = paymentData.fetch()
         self.budgets.items = budgetData.fetch()
         self.goals.items = fetchGoals.fetch()
+        self.purchases.items = fetchPurchases.fetch()
         calculateMonth (totalBalance: totalBalance, dayChangeMonth: dayChangeMonth)
     }
     
@@ -110,6 +113,15 @@ struct MonthBalance {
             for ii in 0..<savedBudgets.count {
                 if(savedBudgets[ii].name == savedMonthyBudgets[i].name) {
                     exist = true
+                    
+                    savedBudgets[ii].amount = savedMonthyBudgets[i].amount
+                    savedBudgets[ii].symbol = savedMonthyBudgets[i].symbol
+                    savedBudgets[ii].currency = savedMonthyBudgets[i].currency
+                    savedBudgets[ii].iconColor = savedMonthyBudgets[i].iconColor
+                    savedBudgets[ii].iconContent = savedMonthyBudgets[i].iconContent
+                    savedBudgets[ii].order = savedMonthyBudgets[i].order
+                    savedBudgets[ii].priority = savedMonthyBudgets[i].priority
+                    SaveContext()
                 }
             }
             
@@ -129,10 +141,50 @@ struct MonthBalance {
             SaveContext()
             }
         }
-        } catch {
-            
-        }
+      
         
+        let monthlyPurchaseRequest: NSFetchRequest<MonthlyPurchase> = MonthlyPurchase.fetchRequest()
+        let savedMonthyPurchases = try  viewContext.fetch(monthlyPurchaseRequest)
+            let purchaseRequest: NSFetchRequest<Purchase> = Purchase.fetchRequest()
+            let savedPurchases = try  viewContext.fetch(purchaseRequest)
+
+        for i in 0..<savedMonthyPurchases.count {
+            
+            var exist = false
+            
+            for ii in 0..<savedPurchases.count {
+                if(savedPurchases[ii].name == savedMonthyPurchases[i].name) {
+                    exist = true
+                    
+                    savedPurchases[ii].amount = savedMonthyPurchases[i].amount
+                    savedPurchases[ii].symbol = savedMonthyPurchases[i].symbol
+                    savedPurchases[ii].currency = savedMonthyPurchases[i].currency
+                    savedPurchases[ii].iconColor = savedMonthyPurchases[i].iconColor
+                    savedPurchases[ii].iconContent = savedMonthyPurchases[i].iconContent
+                
+                    SaveContext()
+                }
+            }
+            
+            if(!exist) {
+            let newPurchase = Purchase(context: viewContext)
+           
+
+                newPurchase.id = UUID()
+                newPurchase.name = savedMonthyPurchases[i].name
+                newPurchase.amount = savedMonthyPurchases[i].amount
+                newPurchase.symbol = savedMonthyPurchases[i].symbol
+                newPurchase.currency = savedMonthyPurchases[i].currency
+                newPurchase.iconColor = savedMonthyPurchases[i].iconColor
+                newPurchase.iconContent = savedMonthyPurchases[i].iconContent
+             
+            SaveContext()
+            }
+        }
+        }
+     catch {
+        
+    }
     }
  
     func calculateMonth (totalBalance: Double, dayChangeMonth: Int32) {
@@ -202,6 +254,15 @@ struct MonthBalance {
                 newBudgetHistory.symbol = self.budgets.items[i].symbol
                 SaveContext()
             }
+            for i in 0..<self.purchases.items.count {
+                let newPurchaseHistory = HistoryPurchase(context: viewContext)
+                newPurchaseHistory.id = UUID()
+                newPurchaseHistory.month = currentMonth.id
+                newPurchaseHistory.name = self.purchases.items[i].name
+                newPurchaseHistory.amount = self.purchases.items[i].amount
+                newPurchaseHistory.symbol = self.purchases.items[i].symbol
+                SaveContext()
+            }
             for i in 0..<self.goals.items.count {
                 let newGoalHistory = HistoryGoal(context: viewContext)
                 newGoalHistory.id = UUID()
@@ -224,6 +285,13 @@ struct MonthBalance {
             
             for i in 0..<savedBudgets.count {
                 self.viewContext.delete(savedBudgets[i])
+            }
+            
+            let purchaseRequest: NSFetchRequest<Purchase> = Purchase.fetchRequest()
+            let savedPurchases = try  viewContext.fetch(purchaseRequest)
+            
+            for i in 0..<savedPurchases.count {
+                self.viewContext.delete(savedPurchases[i])
             }
 
             
@@ -270,6 +338,23 @@ struct MonthBalance {
                 SaveContext()
             }
             
+            let monthlyPurchaseRequest: NSFetchRequest<MonthlyPurchase> = MonthlyPurchase.fetchRequest()
+            let savedMonthyPurchases = try  viewContext.fetch(monthlyPurchaseRequest)
+
+            for i in 0..<savedMonthyPurchases.count {
+                let newPurchase = Purchase(context: viewContext)
+               
+
+                newPurchase.id = UUID()
+                newPurchase.name = savedMonthyPurchases[i].name
+                newPurchase.amount = savedMonthyPurchases[i].amount
+                newPurchase.symbol = savedMonthyPurchases[i].symbol
+                newPurchase.currency = savedMonthyPurchases[i].currency
+                newPurchase.iconColor = savedMonthyPurchases[i].iconColor
+                newPurchase.iconContent = savedMonthyPurchases[i].iconContent
+               
+                SaveContext()
+            }
             
         } catch {
             print(error)

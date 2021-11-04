@@ -36,19 +36,14 @@ struct PurchaseUpdateView: View {
     @State var accountList: [String] = []
     @State var accountSelected: String? = ""
     
-    @State var isShowingItemNew: Bool = false
-    @State var isShowingItemUpdate: Bool = false
-    @State var deleteItem: Bool = false
-    @State var modalItem: Bool = false
-    @State var itemSelected : PurchaseItemModel = PurchaseItemModel()
-//    @State var itemData : CryptocurrencyData = CryptocurrencyData()
-    @State var totalPricesItem: Double = 0
+
+    @Binding var totalPricesItem: Double
   
 
     
     @Binding var isPlanning : Bool
     
-    init(purchase: Binding<PurchaseModel>, transaction: Binding<TransactionModel>, modal: Binding<Bool>, delete: Binding<Bool>, currencies: Binding<GetCurrencies>, accounts: Binding<GetAccounts>, isPlanning: Binding<Bool>) {
+    init(purchase: Binding<PurchaseModel>, transaction: Binding<TransactionModel>, modal: Binding<Bool>, delete: Binding<Bool>, currencies: Binding<GetCurrencies>, accounts: Binding<GetAccounts>, isPlanning: Binding<Bool>, totalPricesItem: Binding<Double>) {
            self._purchase = purchase
            self._transaction = transaction
         self._modal = modal
@@ -56,6 +51,7 @@ struct PurchaseUpdateView: View {
         self._currencies = currencies
         self._accounts = accounts
         self._isPlanning = isPlanning
+        self._totalPricesItem = totalPricesItem
         self.initialAmount = purchase.amount.wrappedValue
         
         UINavigationBar.appearance().isTranslucent = false
@@ -87,8 +83,7 @@ struct PurchaseUpdateView: View {
            
  
            
-            PurchaseItemView(purchase: self.$purchase, itemSelected: self.$itemSelected, isShowingNew: self.$isShowingItemNew, isShowingUpdate: self.$isShowingItemUpdate,
-                             deleteItem: self.$deleteItem, modalItem: self.$modalItem, totalPrices: self.$totalPricesItem)
+            PurchaseItemView(purchase: self.$purchase, totalPrices: self.$totalPricesItem)
                 .environmentObject(self.ui)
                     .environmentObject(self.settings)
             
@@ -132,9 +127,7 @@ struct PurchaseUpdateView: View {
 
             
         }
-//        .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
         .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
-        
         
            
     

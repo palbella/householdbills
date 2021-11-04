@@ -48,6 +48,8 @@ struct PurchaseListView: View {
     
     @Binding var showSubscribe: Bool
     
+    @State var totalPricesItem: Double = 0
+    
     func onAppear() {
         
         self.categories.items = fetchCategories.fetch(viewContext: viewContext)
@@ -186,40 +188,31 @@ struct PurchaseListView: View {
                                            
 
                                                 if(self.delete) {
-                                                    self.transaction.name =  self.transferTypes.names[1]
-                                                    self.transaction.account = self.$purchaseSelected.name.wrappedValue
-                                                    self.transaction.amount = self.$purchaseSelected.amount.wrappedValue
-                                                    self.transaction.symbol = self.$purchaseSelected.symbol.wrappedValue
-                                                    self.transaction.iconContent = self.$purchaseSelected.iconContent.wrappedValue
-                                                    self.transaction.iconColor = self.$purchaseSelected.iconColor.wrappedValue
-                                                    self.transaction.timestamp = Date()
-                                                    saveTransaction(transaction: self.transaction)
                                                     purchaseData.deletePurchase(purchase: self.$purchaseSelected.wrappedValue)
                                                     getTotals()
                                                 } else {
-                                                    if(self.$transaction.amount.wrappedValue > 0 && (self.$transaction.type.wrappedValue == LocalizedStringKey("Expense").toString() || self.$transaction.type.wrappedValue == LocalizedStringKey("Income").toString())) {
-                                                        self.transaction.name =  self.transferTypes.names[2]
+                                                    self.$transaction.amount.wrappedValue = self.$purchaseSelected.wrappedValue.amount - self.totalPricesItem
+                                                    if(self.$transaction.amount.wrappedValue > 0) {
+                                                        self.transaction.name =  self.transferTypes.names[4]
                                                         self.transaction.account = self.$purchaseSelected.name.wrappedValue
-                                                        self.transaction.amount = self.$transaction.amount.wrappedValue
-                                                        if(transaction.type == LocalizedStringKey("Expense").toString()) {
-                                                            self.$transaction.amount.wrappedValue = self.$transaction.amount.wrappedValue * -1
-                                                        }
+                                                        self.$transaction.amount.wrappedValue = self.$transaction.amount.wrappedValue * -1
                                                         self.transaction.symbol = self.$purchaseSelected.symbol.wrappedValue
                                                         self.transaction.iconContent = self.$purchaseSelected.iconContent.wrappedValue
                                                         self.transaction.iconColor = self.$purchaseSelected.iconColor.wrappedValue
                                                         self.transaction.timestamp = Date()
                                                         saveTransaction(transaction: self.transaction)
                                                         
-                                                        purchaseData.accountAdjustment(destination: self.$transaction.destinationId.wrappedValue, amount: self.$transaction.amount.wrappedValue)
+                                                        purchaseData.accountAdjustment(destination: self.$purchaseSelected.destinationId.wrappedValue, amount: self.$transaction.amount.wrappedValue)
                                                         
                                                     }
+                                                    self.$purchaseSelected.wrappedValue.amount = self.totalPricesItem
                                                     purchaseData.updatePurchase(purchase: self.$purchaseSelected.wrappedValue)
                                                     getTotals()
                                                 }
 
 
                                             }) {
-                                               PurchaseUpdateView(purchase: self.$purchaseSelected, transaction: self.$transaction, modal: self.$isShowingPurchasePlanning, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, isPlanning: $isPlanning)
+                                                PurchaseUpdateView(purchase: self.$purchaseSelected, transaction: self.$transaction, modal: self.$isShowingPurchasePlanning, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, isPlanning: $isPlanning, totalPricesItem: $totalPricesItem)
                                                 .environmentObject(self.ui)
 
 
