@@ -13,9 +13,11 @@ struct PurchaseItemModel: Hashable, Identifiable {
      var id: UUID
      var name: String
      var price: Double
+    var amount: Double
     var purchaseId: UUID
     var purchased: Bool
     var unit: String
+    var lastone: Bool
 
     
     init() {
@@ -24,7 +26,9 @@ struct PurchaseItemModel: Hashable, Identifiable {
         self.purchaseId = UUID()
         self.purchased = false
         self.price = 0
+        self.amount = 0
         self.unit = ""
+        self.lastone = false
     }
 }
 
