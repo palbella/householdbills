@@ -16,8 +16,6 @@ struct PurchaseItemView: View {
     @StateObject var ui: AppUI = AppUI()
     @Environment(\.managedObjectContext) private var viewContext
     
-//    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
-//        var purchaseItemFetchResult: FetchedResults<PurchaseItem>
     
     @ObservedObject var icons = GetIcons()
     @ObservedObject var colors = GetColors()
@@ -26,19 +24,22 @@ struct PurchaseItemView: View {
     
     @Binding var totalPrices: Double
     
-//    public let predicate: NSPredicate
-//    var purchaseItemFetch: FetchRequest<PurchaseItem>
     @State var currencies = GetCurrencies()
+    
+    @State var purchaseItemData = PurchaseItemData()
+    @State var purchaseItemMonthlyData = MonthlyPurchaseItemData()
     
     @StateObject var items : GetPurchaseItems = GetPurchaseItems()
     @State var viewRefresh : Int = 0
     @State var removeMode : Bool = false
     
-    init(purchase: Binding<PurchaseModel>, totalPrices: Binding<Double> ) {
+    @Binding var isPlanning: Bool
+    
+    init(purchase: Binding<PurchaseModel>, totalPrices: Binding<Double>, isPlanning: Binding<Bool>  ) {
         
         self._purchase = purchase
         self._totalPrices = totalPrices
-        
+        self._isPlanning = isPlanning
     
         
         UINavigationBar.appearance().isTranslucent = false
@@ -50,29 +51,53 @@ struct PurchaseItemView: View {
         
         self.totalPrices = 0
         let fetchRequest: NSFetchRequest<PurchaseItem> = PurchaseItem.fetchRequest()
+        let fetchRequestMonthly: NSFetchRequest<MonthlyPurchaseItem> = MonthlyPurchaseItem.fetchRequest()
         self.items.items = []
         
         do {
-            let savedPurchaseItems =  try viewContext.fetch(fetchRequest)
-       
-                            for index in 0..<savedPurchaseItems.count {
+            
+            if(self.isPlanning == true) {
+                let savedMonthlyPurchaseItems =  try viewContext.fetch(fetchRequestMonthly)
+           
+                                for index in 0..<savedMonthlyPurchaseItems.count {
 
-                                var item = PurchaseItemModel()
-                                
-                                item.id = savedPurchaseItems[index].id!
-                                item.name = savedPurchaseItems[index].name!
-                                item.price = savedPurchaseItems[index].price
-                                item.amount = savedPurchaseItems[index].amount
-                                item.unit = savedPurchaseItems[index].unit!
-                                item.purchaseId = savedPurchaseItems[index].purchaseId!
-                                item.purchased = savedPurchaseItems[index].purchased
-                                
-                                self.items.items.append(item)
-                                
-                                if( savedPurchaseItems[index].purchased != true) {
-                                self.totalPrices = self.totalPrices + savedPurchaseItems[index].price
-                                }
+                                    var item = PurchaseItemModel()
+                                    
+                                    item.id = savedMonthlyPurchaseItems[index].id!
+                                    item.name = savedMonthlyPurchaseItems[index].name!
+                                    item.price = savedMonthlyPurchaseItems[index].price
+                                    item.amount = savedMonthlyPurchaseItems[index].amount
+                                    item.unit = savedMonthlyPurchaseItems[index].unit!
+                                    item.purchaseId = savedMonthlyPurchaseItems[index].purchaseId!
+                                  
+                                    self.items.items.append(item)
+                                    
+                            }
+            } else {
+                let savedPurchaseItems =  try viewContext.fetch(fetchRequest)
+           
+                                for index in 0..<savedPurchaseItems.count {
+
+                                    var item = PurchaseItemModel()
+                                    
+                                    item.id = savedPurchaseItems[index].id!
+                                    item.name = savedPurchaseItems[index].name!
+                                    item.price = savedPurchaseItems[index].price
+                                    item.amount = savedPurchaseItems[index].amount
+                                    item.unit = savedPurchaseItems[index].unit!
+                                    item.purchaseId = savedPurchaseItems[index].purchaseId!
+                                    item.purchased = savedPurchaseItems[index].purchased
+                                    
+                                    self.items.items.append(item)
+                                    
+                                    if( savedPurchaseItems[index].purchased != true) {
+                                    self.totalPrices = self.totalPrices + savedPurchaseItems[index].price
                                     }
+                                        }
+            }
+            
+            
+          
             var lastone = PurchaseItemModel()
             lastone.lastone = true
             self.items.items.append(lastone)
@@ -158,19 +183,18 @@ struct PurchaseItemView: View {
                                       
                                     }) {
                                         let icon = self.removeMode ? "trash" : "cart"
-                                    Icon(content: icon, color: iconColor).padding(5).padding(.leading, 5).padding(.trailing, 5)
+                                    Icon(content: icon, color: iconColor).padding(5).padding(.leading, 5)
                                     }
 
                                       
                                  
-//                                    Text(item.name)
-                                    CustomTextfield(label: "Name", text: self.$items.items[index].name, keyType: UIKeyboardType.alphabet, textAlignment: .left,
-                                                    maxLength: 15).padding(5).padding(.leading, 5)
+
+                                    CustomTextfield(label: "Name", text: self.$items.items[index].name, keyType: UIKeyboardType.alphabet, font: UIFont.systemFont(ofSize: 14), textAlignment: .left,
+                                                    maxLength: 17).padding(5)
                                         .onChange(of: self.$items.items[index].name.wrappedValue, perform: { value in
                                             self.onNameChange(id: self.$items.items[index].id.wrappedValue, value: self.$items.items[index].name.wrappedValue)
                                         })
-//                                    .foregroundColor(labelColor)
-//                                    .frame(width: 200, alignment: .leading)
+
                                     Spacer()
                                    
                                     
@@ -238,11 +262,6 @@ struct PurchaseItemView: View {
                                           }
                                                           .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
                                           
-                    
-                 
-                    
-                 
-                    
           
             }
             
@@ -260,103 +279,63 @@ struct PurchaseItemView: View {
     
     
     func onNameChange (id: UUID, value: String) {
-        let request: NSFetchRequest<PurchaseItem> = PurchaseItem.fetchRequest()
-        request.predicate = NSPredicate(format: "id = %@", id as CVarArg)
-
-            do {
-                let saved = try  self.viewContext.fetch(request)
-                
-                for item in saved {
-                 
-                    item.name = value
-                    SaveContext()
-                }
-                
-            } catch {
-                print(error)
-            }
+    
+        if(self.isPlanning == true) {
+            self.purchaseItemMonthlyData.saveName(id: id, value: value)
+        } else {
+            self.purchaseItemData.saveName(id: id, value: value)
+        }
+      
         
         self.onAppear()
     }
     
     func onUnitChange (id: UUID, value: String) {
-        let request: NSFetchRequest<PurchaseItem> = PurchaseItem.fetchRequest()
-        request.predicate = NSPredicate(format: "id = %@", id as CVarArg)
-
-            do {
-                let saved = try  self.viewContext.fetch(request)
-                
-                for item in saved {
-                 
-                    item.unit = value
-                    SaveContext()
-                }
-                
-            } catch {
-                print(error)
-            }
+       
+        if(self.isPlanning == true) {
+            self.purchaseItemMonthlyData.saveUnit(id: id, value: value)
+        } else {
+            self.purchaseItemData.saveUnit(id: id, value: value)
+        }
         
+       
         self.onAppear()
     }
     
     func onAmountChange (id: UUID, value: Double) {
-        let request: NSFetchRequest<PurchaseItem> = PurchaseItem.fetchRequest()
-        request.predicate = NSPredicate(format: "id = %@", id as CVarArg)
-
-            do {
-                let saved = try  self.viewContext.fetch(request)
-                
-                for item in saved {
-                 
-                    item.amount = value
-                    SaveContext()
-                }
-                
-            } catch {
-                print(error)
-            }
+      
+        if(self.isPlanning == true) {
+            self.purchaseItemMonthlyData.saveAmount(id: id, value: value)
+        } else {
+            self.purchaseItemData.saveAmount(id: id, value: value)
+        }
         
+      
         self.onAppear()
     }
     
     func onPriceChange (id: UUID, value: Double) {
-        let request: NSFetchRequest<PurchaseItem> = PurchaseItem.fetchRequest()
-        request.predicate = NSPredicate(format: "id = %@", id as CVarArg)
-
-            do {
-                let saved = try  self.viewContext.fetch(request)
-                
-                for item in saved {
-                 
-                    item.price = value
-                    SaveContext()
-                }
-                
-            } catch {
-                print(error)
-            }
+       
+        if(self.isPlanning == true) {
+            self.purchaseItemMonthlyData.savePrice(id: id, value: value)
+        } else {
+            self.purchaseItemData.savePrice(id: id, value: value)
+        }
+        
+      
         
         self.onAppear()
     }
     
     
     func onPurchase (id: UUID) {
-        let request: NSFetchRequest<PurchaseItem> = PurchaseItem.fetchRequest()
-        request.predicate = NSPredicate(format: "id = %@", id as CVarArg)
+      
+        if(self.isPlanning == true) {
+       
+        } else {
+            self.purchaseItemData.purchase(id: id)
+        }
 
-            do {
-                let saved = try  self.viewContext.fetch(request)
-                
-                for item in saved {
-                 
-                    item.purchased = !item.purchased
-                    SaveContext()
-                }
-                
-            } catch {
-                print(error)
-            }
-        
         self.onAppear()
     }
     
@@ -364,49 +343,28 @@ struct PurchaseItemView: View {
         
         self.items.items = []
         
-        let request: NSFetchRequest<PurchaseItem> = PurchaseItem.fetchRequest()
-        request.predicate = NSPredicate(format: "id = %@", id as CVarArg)
-
-            do {
-                let saved = try  self.viewContext.fetch(request)
-                
-                    self.viewContext.delete(saved[0])
-                    SaveContext()
-                
-                
-            } catch {
-                print(error)
-            }
+        if(self.isPlanning == true) {
+            self.purchaseItemMonthlyData.delete(id: id)
+        } else {
+            self.purchaseItemData.delete(id: id)
+        }
+        
         
         self.onAppear()
     }
     
     func addItem () {
         
-        let newItem = PurchaseItem(context: viewContext)
-        newItem.id = UUID()
-        newItem.name = "Item"
-        newItem.price = 0
-        newItem.amount = 0
-        newItem.unit = "u"
-        newItem.purchaseId = self.$purchase.wrappedValue.id
-     
-     
-SaveContext()
+        if(self.isPlanning == true) {
+            self.purchaseItemMonthlyData.add(purchaseId: self.$purchase.wrappedValue.id)
+        } else {
+            self.purchaseItemData.add(purchaseId: self.$purchase.wrappedValue.id)
+        }
+        
+       
+
         self.onAppear()
     }
     
-    private func SaveContext () {
-    do {
 
-  try viewContext.save()
-        
-
-        }
-                            
-    
-    catch {
-      
-    }
-    }
 }

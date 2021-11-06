@@ -137,9 +137,10 @@ struct PaymentAddView: View {
            
             PickerInput(iconContent: "", iconColor: .blue, label: "Category", placeholder: "Category", data: $categoryList, value: $categorySelected, index: $categoryIndex)
                 .onChange(of: categoryIndex, perform: { value in
-                    transaction.category = categories.items[categoryIndex + 1].id
-                    transaction.iconContent = categories.items[categoryIndex + 1].iconContent
-                    transaction.iconColor = categories.items[categoryIndex + 1].iconColor
+//                    transaction.category = categories.items[categoryIndex + 1].id
+//                    transaction.iconContent = categories.items[categoryIndex + 1].iconContent
+//                    transaction.iconColor = categories.items[categoryIndex + 1].iconColor
+                    payment.category = categories.items[categoryIndex].id
                 })
                 .padding(.bottom, 5)
 

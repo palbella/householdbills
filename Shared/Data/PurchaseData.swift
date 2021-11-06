@@ -53,6 +53,8 @@ class PurchaseData: ObservableObject {
                 newPurchase.currency = purchase.currency
                 newPurchase.iconColor = purchase.iconColor
                 newPurchase.iconContent = purchase.iconContent
+                newPurchase.account = purchase.account
+                newPurchase.category = purchase.category
                 
 
       SaveContext()
@@ -77,6 +79,8 @@ class PurchaseData: ObservableObject {
             savedPurchase.amount = purchase.amount
             savedPurchase.iconColor = purchase.iconColor
             savedPurchase.iconContent = purchase.iconContent
+            savedPurchase.account = purchase.account
+            savedPurchase.category = purchase.category
             
             
         } catch {
@@ -113,13 +117,16 @@ class PurchaseData: ObservableObject {
   
     }
     
-    func accountAdjustment(destination: UUID, amount: Double)
+    func accountAdjustment(destination: UUID?, amount: Double)
     {
       
+        if(destination == nil) {
+            return
+        }
           
         do {
                 let request: NSFetchRequest<Account> = Account.fetchRequest()
-                request.predicate = NSPredicate(format: "id = %@", destination as CVarArg)
+                request.predicate = NSPredicate(format: "id = %@", destination! as CVarArg)
                 
             let account = try self.viewContext.fetch(request)
             if(account.count > 0) {
@@ -165,6 +172,8 @@ class PurchaseData: ObservableObject {
         purchaseModel.amount = purchase.amount
         purchaseModel.iconColor = purchase.iconColor ?? ""
         purchaseModel.iconContent = purchase.iconContent ?? ""
+        purchaseModel.account = purchase.account
+        purchaseModel.category = purchase.category
 
         return purchaseModel
     }

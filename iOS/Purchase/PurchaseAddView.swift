@@ -20,11 +20,24 @@ struct PurchaseAddView: View {
     @ObservedObject var colors = GetColors()
     @Binding var currencies : GetCurrencies
     
-    init(purchase: Binding<PurchaseModel>, transaction: Binding<TransactionModel>, currencies: Binding<GetCurrencies> ) {
+    @Binding var accounts : GetAccounts
+    @Binding var categories : GetCategories
+    
+    @State var accountIndex: Int = 0
+    @State var accountList: [String] = []
+    @State var accountSelected: String? = ""
+    
+    @State var categoryIndex: Int = 0
+    @State var categoryList: [String] = []
+    @State var categorySelected: String? = ""
+    
+    init(purchase: Binding<PurchaseModel>, transaction: Binding<TransactionModel>, currencies: Binding<GetCurrencies> , accounts: Binding<GetAccounts>, categories: Binding<GetCategories>) {
         
            self._purchase = purchase
            self._transaction = transaction
         self._currencies = currencies
+        self._accounts = accounts
+        self._categories = categories
         
         UINavigationBar.appearance().isTranslucent = false
        }
@@ -35,6 +48,23 @@ struct PurchaseAddView: View {
         appearance.backgroundColor = colorScheme != .dark ? UIColor(Color.white): UIColor(ui.darkBackgroundColor)
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        
+        if(accountList.count != accounts.items.count) {
+            for index in 0..<accounts.items.count {
+              
+                accountList.append(accounts.items[index].name)
+            }
+            accountIndex = 0
+            accountSelected = accountList[0]
+            transaction.account = accounts.items[0].name
+            purchase.account = accounts.items[0].id
+        }
+        
+        for index in 0..<categories.items.count {
+            if(categories.items[index].id != 99) {
+            categoryList.append(categories.items[index].name)
+            }
+        }
     }
 
     var body: some View {
@@ -86,6 +116,18 @@ struct PurchaseAddView: View {
                 purchase.symbol = currencies.getSymbol(currency: value)
             })
                         .padding()
+            
+            PickerInput(iconContent: "", iconColor: .blue, label: "Account", placeholder: "Account", data: $accountList, value: $accountSelected, index: $accountIndex)
+                .onChange(of: accountIndex, perform: { value in
+                    purchase.account = accounts.items[accountIndex].id
+                })
+           
+           
+            PickerInput(iconContent: "", iconColor: .blue, label: "Category", placeholder: "Category", data: $categoryList, value: $categorySelected, index: $categoryIndex)
+                .onChange(of: categoryIndex, perform: { value in
+                    purchase.category = categories.items[categoryIndex + 1].id
+                })
+                .padding(.bottom, 5)
 
             Picker("Icon", selection: $purchase.iconContent) {
                 ForEach(icons.items) { icon in

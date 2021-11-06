@@ -98,7 +98,7 @@ struct MainView: View {
                         Image(systemName: "plus.circle")
                             .resizable()
                             .frame(width: 40, height: 40)
-                            .shadow(color: .gray, radius: 2, x: 0, y: 5)
+                            .shadow(color: .gray, radius: 4, x: 0, y: 5)
                             .offset(x: geometry.size.width / 2 - 20, y: geometry.size.height - 60)
                             .foregroundColor(ui.darkPrimaryColor)
                             .onTapGesture {

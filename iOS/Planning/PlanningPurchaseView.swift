@@ -21,12 +21,15 @@ struct PlanningPurchaseBodyView: View {
     
     @State var purchaseSelected : PurchaseModel = PurchaseModel()
     
+    @State var categories = GetCategories()
+    
     @State var currencies = GetCurrencies()
+    @State var accounts = GetAccounts ()
     @ObservedObject var fetchCurrencies = FetchCurrencies()
     @ObservedObject var fetchAccounts = AccountData()
+    @ObservedObject var fetchCategories = FetchCategories()
 
     @ObservedObject var budgets = GetMonthlyPurchases()
-    @State var accounts = GetAccounts()
     @State var transaction : TransactionModel = TransactionModel()
     @State var monthlyPurchaseData : MonthlyPurchaseData = MonthlyPurchaseData()
     
@@ -38,6 +41,13 @@ struct PlanningPurchaseBodyView: View {
     @Binding var totalPurchases: Double
     
     @State var totalPricesItem: Double = 0
+    
+    func onAppear() {
+        self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
+        self.categories.items = fetchCategories.fetch(viewContext: viewContext)
+        self.accounts.items = fetchAccounts.fetch()
+        getTotals()
+    }
     
     var body: some View {
         
@@ -77,7 +87,7 @@ struct PlanningPurchaseBodyView: View {
                                     }
                                       
                                     }) {
-                                    PurchaseAddView(purchase: self.$purchaseSelected, transaction: self.$transaction, currencies: self.$currencies)
+                                    PurchaseAddView(purchase: self.$purchaseSelected, transaction: self.$transaction, currencies: self.$currencies, accounts: $accounts, categories: self.$categories)
                                 }
                                 .frame(width: 15, height: 15)
                                 .padding(.leading, 10)
@@ -146,7 +156,7 @@ struct PlanningPurchaseBodyView: View {
                                             
                                            
                                         }) {
-                                            PurchaseUpdateView(purchase: self.$purchaseSelected, transaction: self.$transaction, modal: self.$isShowing, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, isPlanning: $isPlanning, totalPricesItem: self.$totalPricesItem)
+                                            PurchaseUpdateView(purchase: self.$purchaseSelected, transaction: self.$transaction, modal: self.$isShowing, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, categories: self.$categories, isPlanning: $isPlanning, totalPricesItem: self.$totalPricesItem)
                                             
 
                     
@@ -167,8 +177,7 @@ struct PlanningPurchaseBodyView: View {
      
     }
         .onAppear {
-            self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
-            getTotals()
+            self.onAppear()
         }
 //        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
 //            getTotals()

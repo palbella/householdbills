@@ -50,6 +50,8 @@ struct PurchaseListView: View {
     
     @State var totalPricesItem: Double = 0
     
+    
+    
     func onAppear() {
         
         self.categories.items = fetchCategories.fetch(viewContext: viewContext)
@@ -112,7 +114,7 @@ struct PurchaseListView: View {
                                         }
 
                                         }) {
-                                        PurchaseAddView(purchase: self.$purchaseSelected, transaction: self.$transaction, currencies: self.$currencies)
+                                        PurchaseAddView(purchase: self.$purchaseSelected, transaction: self.$transaction, currencies: self.$currencies, accounts: $accounts, categories: self.$categories)
                                     }
                                     .frame(width: 15, height: 15)
                                     .padding(.leading, 10)
@@ -202,7 +204,7 @@ struct PurchaseListView: View {
                                                         self.transaction.timestamp = Date()
                                                         saveTransaction(transaction: self.transaction)
                                                         
-                                                        purchaseData.accountAdjustment(destination: self.$purchaseSelected.destinationId.wrappedValue, amount: self.$transaction.amount.wrappedValue)
+                                                        purchaseData.accountAdjustment(destination: self.$purchaseSelected.account.wrappedValue, amount: self.$transaction.amount.wrappedValue)
                                                         
                                                     }
                                                     self.$purchaseSelected.wrappedValue.amount = self.totalPricesItem
@@ -212,7 +214,7 @@ struct PurchaseListView: View {
 
 
                                             }) {
-                                                PurchaseUpdateView(purchase: self.$purchaseSelected, transaction: self.$transaction, modal: self.$isShowingPurchasePlanning, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, isPlanning: $isPlanning, totalPricesItem: $totalPricesItem)
+                                                PurchaseUpdateView(purchase: self.$purchaseSelected, transaction: self.$transaction, modal: self.$isShowingPurchasePlanning, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, categories: self.$categories, isPlanning: $isPlanning, totalPricesItem: $totalPricesItem)
                                                 .environmentObject(self.ui)
 
 

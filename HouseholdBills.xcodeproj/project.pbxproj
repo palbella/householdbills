@@ -199,6 +199,10 @@
 		6EEB39D126FFC19400FFC8DC /* AccountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEB39D026FFC19400FFC8DC /* AccountData.swift */; };
 		6EEB39D326FFCF9900FFC8DC /* CategoryFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEB39D226FFCF9900FFC8DC /* CategoryFetch.swift */; };
 		6EEB39D526FFD04B00FFC8DC /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEB39D426FFD04B00FFC8DC /* CategoryModel.swift */; };
+		6EEF27E32735864E00614AB4 /* PurchaseItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEF27E22735864E00614AB4 /* PurchaseItemData.swift */; };
+		6EEF27E52736847A00614AB4 /* MontlyPurchaseItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEF27E42736847A00614AB4 /* MontlyPurchaseItemData.swift */; };
+		6EEF27E62736847A00614AB4 /* MontlyPurchaseItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEF27E42736847A00614AB4 /* MontlyPurchaseItemData.swift */; };
+		6EEF27E72736848300614AB4 /* PurchaseItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEF27E22735864E00614AB4 /* PurchaseItemData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -379,6 +383,8 @@
 		6EEB39D026FFC19400FFC8DC /* AccountData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountData.swift; sourceTree = "<group>"; };
 		6EEB39D226FFCF9900FFC8DC /* CategoryFetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryFetch.swift; sourceTree = "<group>"; };
 		6EEB39D426FFD04B00FFC8DC /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
+		6EEF27E22735864E00614AB4 /* PurchaseItemData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseItemData.swift; sourceTree = "<group>"; };
+		6EEF27E42736847A00614AB4 /* MontlyPurchaseItemData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MontlyPurchaseItemData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -605,6 +611,8 @@
 				6E6F0EE7272F1BB6002EEAC0 /* SettingsData.swift */,
 				6E7192B62731D8D200DF4436 /* MonthlyPurchaseData.swift */,
 				6E7192B92731EC9700DF4436 /* PurchaseData.swift */,
+				6EEF27E22735864E00614AB4 /* PurchaseItemData.swift */,
+				6EEF27E42736847A00614AB4 /* MontlyPurchaseItemData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1074,6 +1082,7 @@
 				6E4B919727055F1E00E627E4 /* GoalData.swift in Sources */,
 				6E5965BD26F8BF2300010966 /* PaymentTask.swift in Sources */,
 				6EB9C01E2714905D00FB234C /* UserView.swift in Sources */,
+				6EEF27E32735864E00614AB4 /* PurchaseItemData.swift in Sources */,
 				6E7C7CC626E56F2800C357D1 /* RefreshableScrollView.swift in Sources */,
 				6ED1907126D7E3F6001D1C2D /* TransactionBodyView.swift in Sources */,
 				6E5965C326F8C49B00010966 /* InitialDataTask.swift in Sources */,
@@ -1096,6 +1105,7 @@
 				6EE4FBAC26D4273000C6F987 /* SwipeButton.swift in Sources */,
 				6E4B919927056BCF00E627E4 /* MonthlyPaymentData.swift in Sources */,
 				6E9A133D26E29E1100D3C827 /* BudgetAddView.swift in Sources */,
+				6EEF27E52736847A00614AB4 /* MontlyPurchaseItemData.swift in Sources */,
 				6E9DBA8D26E1207400F0F15C /* CarModel.swift in Sources */,
 				6E7192C62732000800DF4436 /* PurchaseItemModel.swift in Sources */,
 				6E8C468326D6D3D3004917D1 /* PlanningView.swift in Sources */,
@@ -1121,12 +1131,14 @@
 				6ED2AE3D2728ACF7007D275C /* StockData.swift in Sources */,
 				6E7DDA502728752A006697FB /* CarModel.swift in Sources */,
 				6ED2AE2C2728AC62007D275C /* CarTask.swift in Sources */,
+				6EEF27E62736847A00614AB4 /* MontlyPurchaseItemData.swift in Sources */,
 				6E7DDA5A27287551006697FB /* PasswordModel.swift in Sources */,
 				6ED2AE2B2728AC5E007D275C /* StockTask.swift in Sources */,
 				6E7DDA5B27287556006697FB /* MonthModel.swift in Sources */,
 				6E7DDA542728753A006697FB /* CryptocurrencyModel.swift in Sources */,
 				6E7DDA4C27287519006697FB /* BudgetModel.swift in Sources */,
 				6E7192B52731D65E00DF4436 /* PurchaseModel.swift in Sources */,
+				6EEF27E72736848300614AB4 /* PurchaseItemData.swift in Sources */,
 				6E7DDA5727287545006697FB /* CurrencyModel.swift in Sources */,
 				6ED2AE3C2728ACF3007D275C /* CryptoData.swift in Sources */,
 				6E7DDA512728752E006697FB /* GenericTypes.swift in Sources */,

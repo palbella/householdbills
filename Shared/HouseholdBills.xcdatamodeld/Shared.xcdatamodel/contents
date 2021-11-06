@@ -20,6 +20,7 @@
         <attribute name="iconColor" optional="YES" attributeType="String"/>
         <attribute name="iconContent" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="monthlyId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="priority" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -196,7 +197,9 @@
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <entity name="MonthlyPurchase" representedClassName="MonthlyPurchase" syncable="YES" codeGenerationType="class">
+        <attribute name="account" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="category" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="currency" optional="YES" attributeType="String"/>
         <attribute name="iconColor" optional="YES" attributeType="String"/>
         <attribute name="iconContent" optional="YES" attributeType="String"/>
@@ -207,7 +210,6 @@
     </entity>
     <entity name="MonthlyPurchaseItem" representedClassName="MonthlyPurchaseItem" syncable="YES" codeGenerationType="class">
         <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="destinationId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="price" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -232,6 +234,7 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isGoal" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isPaid" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="monthlyId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="notificated" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="notificationDay" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -241,19 +244,22 @@
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <entity name="Purchase" representedClassName="Purchase" syncable="YES" codeGenerationType="class">
+        <attribute name="account" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="category" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="currency" optional="YES" attributeType="String"/>
         <attribute name="iconColor" optional="YES" attributeType="String"/>
         <attribute name="iconContent" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="monthlyId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="symbol" optional="YES" attributeType="String"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <entity name="PurchaseItem" representedClassName="PurchaseItem" syncable="YES" codeGenerationType="class">
         <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="destinationId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="monthlyId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="price" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="purchased" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -313,7 +319,7 @@
     </entity>
     <elements>
         <element name="Account" positionX="-63" positionY="-18" width="128" height="14"/>
-        <element name="Budget" positionX="-54" positionY="81" width="128" height="179"/>
+        <element name="Budget" positionX="-54" positionY="81" width="128" height="194"/>
         <element name="Car" positionX="-27" positionY="144" width="128" height="179"/>
         <element name="Card" positionX="-27" positionY="144" width="128" height="89"/>
         <element name="CarService" positionX="-18" positionY="153" width="128" height="104"/>
@@ -332,11 +338,11 @@
         <element name="Month" positionX="-27" positionY="144" width="128" height="149"/>
         <element name="MonthlyBudget" positionX="-18" positionY="144" width="128" height="193"/>
         <element name="MonthlyPayment" positionX="0" positionY="153" width="128" height="284"/>
-        <element name="MonthlyPurchase" positionX="-9" positionY="153" width="128" height="149"/>
-        <element name="MonthlyPurchaseItem" positionX="0" positionY="162" width="128" height="149"/>
+        <element name="MonthlyPurchase" positionX="-9" positionY="153" width="128" height="179"/>
+        <element name="MonthlyPurchaseItem" positionX="0" positionY="162" width="128" height="134"/>
         <element name="Password" positionX="-18" positionY="144" width="128" height="89"/>
-        <element name="Payment" positionX="-36" positionY="99" width="128" height="284"/>
-        <element name="Purchase" positionX="9" positionY="171" width="128" height="149"/>
+        <element name="Payment" positionX="-36" positionY="99" width="128" height="299"/>
+        <element name="Purchase" positionX="9" positionY="171" width="128" height="194"/>
         <element name="PurchaseItem" positionX="18" positionY="180" width="128" height="149"/>
         <element name="Settings" positionX="-27" positionY="144" width="128" height="359"/>
         <element name="Stock" positionX="0" positionY="171" width="128" height="194"/>

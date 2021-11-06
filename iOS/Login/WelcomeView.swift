@@ -25,7 +25,8 @@ struct WelcomeView: View {
         OnboardingModel(id: 1, image: "photography", titleText: "WelcomeTitle1", descriptionText: "WelcomeDescription1"),
         OnboardingModel(id: 2, image: "hikingmental", titleText: "WelcomeTitle2", descriptionText: "WelcomeDescription2"),
         OnboardingModel(id: 3, image: "surfphoto", titleText: "WelcomeTitle3", descriptionText: "WelcomeDescription3"),
-        OnboardingModel(id: 4, image: "surfboardbags", titleText: "WelcomeTitle4", descriptionText: "WelcomeDescription4", showButton: true)
+        OnboardingModel(id: 4, image: "surfphoto", titleText: "WelcomeTitle3", descriptionText: "WelcomeDescription3"),
+        OnboardingModel(id: 5, image: "surfboardbags", titleText: "WelcomeTitle4", descriptionText: "WelcomeDescription4", showButton: true)
     ]
     
     var body: some View {

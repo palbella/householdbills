@@ -24,6 +24,7 @@ struct PurchaseUpdateView: View {
     @ObservedObject var colors = GetColors()
     @Binding var currencies : GetCurrencies
     @Binding var accounts : GetAccounts
+    @Binding var categories : GetCategories
  
     @ObservedObject var transferTypes = GetTransactionTypes(type: "Purchase")
     
@@ -38,12 +39,11 @@ struct PurchaseUpdateView: View {
     
 
     @Binding var totalPricesItem: Double
-  
 
     
     @Binding var isPlanning : Bool
     
-    init(purchase: Binding<PurchaseModel>, transaction: Binding<TransactionModel>, modal: Binding<Bool>, delete: Binding<Bool>, currencies: Binding<GetCurrencies>, accounts: Binding<GetAccounts>, isPlanning: Binding<Bool>, totalPricesItem: Binding<Double>) {
+    init(purchase: Binding<PurchaseModel>, transaction: Binding<TransactionModel>, modal: Binding<Bool>, delete: Binding<Bool>, currencies: Binding<GetCurrencies>, accounts: Binding<GetAccounts>, categories: Binding<GetCategories>, isPlanning: Binding<Bool>, totalPricesItem: Binding<Double>) {
            self._purchase = purchase
            self._transaction = transaction
         self._modal = modal
@@ -52,6 +52,7 @@ struct PurchaseUpdateView: View {
         self._accounts = accounts
         self._isPlanning = isPlanning
         self._totalPricesItem = totalPricesItem
+        self._categories = categories
         self.initialAmount = purchase.amount.wrappedValue
         
         UINavigationBar.appearance().isTranslucent = false
@@ -83,7 +84,7 @@ struct PurchaseUpdateView: View {
            
  
            
-            PurchaseItemView(purchase: self.$purchase, totalPrices: self.$totalPricesItem)
+            PurchaseItemView(purchase: self.$purchase, totalPrices: self.$totalPricesItem, isPlanning: self.$isPlanning)
                 .environmentObject(self.ui)
                     .environmentObject(self.settings)
             
@@ -93,7 +94,7 @@ struct PurchaseUpdateView: View {
             
             Divider()
             NavigationLink(destination:
-                            PurchaseSettingsView(purchase: self.$purchase, transaction: self.$transaction, modal: self.$modal, delete: self.$delete, currencies: currencies)
+                            PurchaseSettingsView(purchase: self.$purchase, transaction: self.$transaction, modal: self.$modal, delete: self.$delete, currencies: currencies, accounts: self.$accounts, categories: self.$categories)
                             .environmentObject(self.ui)
             ) {
                 Text("Purchase Settings")
@@ -155,6 +156,47 @@ struct PurchaseSettingsView: View {
     @State var currencies: GetCurrencies
     
     @State private var showConfirm = false
+    
+    @Binding var accounts : GetAccounts
+    @Binding var categories : GetCategories
+    
+    @State var accountIndex: Int = 0
+    @State var accountList: [String] = []
+    @State var accountSelected: String? = ""
+    @State var categoryIndex: Int = 0
+    @State var categoryList: [String] = []
+    @State var categorySelected: String? = ""
+    
+    func onAppear() {
+        let appearance = UINavigationBarAppearance()
+        appearance.shadowColor = colorScheme != .dark ? .lightGray : .darkGray
+        appearance.backgroundColor = colorScheme != .dark ? UIColor(Color.white): UIColor(ui.darkBackgroundColor)
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        
+        for index in 0..<accounts.items.count {
+            accountList.append(accounts.items[index].name)
+            
+           
+            if(accounts.items[index].id == purchase.account) {
+                accountIndex = index
+                accountSelected = accounts.items[index].name
+            }
+        }
+        
+        for index in 0..<categories.items.count {
+            if(categories.items[index].id != 99) {
+            categoryList.append(categories.items[index].name)
+            }
+            if(categories.items[index].id == purchase.category) {
+                categoryIndex = index
+                categorySelected = categories.items[index].name
+            }
+        }
+        
+ 
+        
+    }
 
     var body: some View {
        
@@ -197,6 +239,17 @@ struct PurchaseSettingsView: View {
                     })
                                 .padding()
                     
+                    PickerInput(iconContent: "", iconColor: .blue, label: "Account", placeholder: "Account", data: $accountList, value: $accountSelected, index: $accountIndex)
+                        .onChange(of: accountIndex, perform: { value in
+                            purchase.account = accounts.items[accountIndex].id
+                        
+                        })
+                    
+                    PickerInput(iconContent: "", iconColor: .blue, label: "Category", placeholder: "Category", data: $categoryList, value: $categorySelected, index: $categoryIndex)
+                        .onChange(of: categoryIndex, perform: { value in
+                            purchase.category = categories.items[categoryIndex + 1].id
+                        })
+                        .padding(.bottom, 5)
                    
             }
                
@@ -216,7 +269,10 @@ struct PurchaseSettingsView: View {
      
         }
         .alert(isPresented: $showConfirm, content: { confirmDelete })
+        .onAppear {
+            self.onAppear()
            
+        }
     
 }
     var confirmDelete: Alert {

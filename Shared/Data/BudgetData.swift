@@ -121,9 +121,12 @@ class BudgetData: ObservableObject {
                 let request: NSFetchRequest<Account> = Account.fetchRequest()
                 request.predicate = NSPredicate(format: "id = %@", destination as CVarArg)
                 
-                let savedAccount = try  self.viewContext.fetch(request)[0]
+            let account = try self.viewContext.fetch(request)
+            if(account.count > 0) {
+                let savedAccount = account[0]
                 
-            savedAccount.amount = savedAccount.amount + amount
+                savedAccount.amount = savedAccount.amount + amount
+            }
             
             
             

@@ -222,7 +222,7 @@ struct PlanningBodyView: View {
                     .frame(width: 230, height: 30)
                     .font(.system(size: 12))
                     .foregroundColor(Color.white)
-                    .background(ui.lightPrimaryColor)
+                    .background(ui.lightCommandFontColor)
                     .cornerRadius(5)
                 }.padding(.bottom, 40)
                     .padding(.top, 40)
