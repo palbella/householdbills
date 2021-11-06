@@ -22,11 +22,11 @@ struct WelcomeView: View {
     @Environment(\.colorScheme) var colorScheme
     
     var onboardingDataArray: [OnboardingModel] = [
-        OnboardingModel(id: 1, image: "photography", titleText: "WelcomeTitle1", descriptionText: "WelcomeDescription1"),
-        OnboardingModel(id: 2, image: "hikingmental", titleText: "WelcomeTitle2", descriptionText: "WelcomeDescription2"),
-        OnboardingModel(id: 3, image: "surfphoto", titleText: "WelcomeTitle3", descriptionText: "WelcomeDescription3"),
-        OnboardingModel(id: 4, image: "surfphoto", titleText: "WelcomeTitle3", descriptionText: "WelcomeDescription3"),
-        OnboardingModel(id: 5, image: "surfboardbags", titleText: "WelcomeTitle4", descriptionText: "WelcomeDescription4", showButton: true)
+        OnboardingModel(id: 1, image: "welcome1", titleText: LocalizedStringKey("WelcomeTitle1").toString(), descriptionText: LocalizedStringKey("WelcomeDescription1").toString()),
+        OnboardingModel(id: 2, image: "welcome2", titleText: LocalizedStringKey("WelcomeTitle2").toString(), descriptionText: LocalizedStringKey("WelcomeDescription2").toString()),
+        OnboardingModel(id: 3, image: "welcome3", titleText: LocalizedStringKey("WelcomeTitle3").toString(), descriptionText: LocalizedStringKey("WelcomeDescription3").toString()),
+        OnboardingModel(id: 4, image: "welcome4", titleText: LocalizedStringKey("WelcomeTitle4").toString(), descriptionText: LocalizedStringKey("WelcomeDescription4").toString()),
+        OnboardingModel(id: 5, image: "welcome5", titleText: LocalizedStringKey("WelcomeTitle5").toString(), descriptionText: LocalizedStringKey("WelcomeDescription5").toString(), showButton: true)
     ]
     
     var body: some View {

@@ -188,14 +188,16 @@
 "Terms of Service and Privacy Policy" = "Terms of Service and Privacy Policy";
 "Create Account" = "Create Account";
 
-"WelcomeTitle1" = "aaa";
-"WelcomeTitle2" = "aaa";
-"WelcomeTitle3" = "aaa";
-"WelcomeTitle4" = "aaa";
-"WelcomeDescription1" = "aaa";
-"WelcomeDescription2" = "aaa";
-"WelcomeDescription3" = "aaa";
-"WelcomeDescription4" = "aaa";
+"WelcomeTitle1" = "One Balance For Everything";
+"WelcomeTitle2" = "Track Monthly Purchases";
+"WelcomeTitle3" = "Don't Forget to Pay Bills";
+"WelcomeTitle4" = "Encrypt Your Password";
+"WelcomeTitle5" = "Get Goals in Darks Mode";
+"WelcomeDescription1" = "Join all your accounts, cryptocurrencies and stock balance in one place supporting multi currencies.";
+"WelcomeDescription2" = "Make a grocery list and never forget anything about your purchases and how much you spend.";
+"WelcomeDescription3" = "Track your monthly bills and payments and do not forget to pay anyone.";
+"WelcomeDescription4" = "Save your passwords encrypted and manage all your apps credentials very easy.";
+"WelcomeDescription5" = "Get your goals on the dark mode, sign up and start your trial now!";
 "Terms & Subscription" = "ldkfjslkdjfkslfjslfjsdlkj";
 "You need to create payments with goal deposits on the monthly planning tab." = "You need to create payments with goal deposits on the monthly planning tab.";
 "Month Available Balance" = "Month Available Balance";
