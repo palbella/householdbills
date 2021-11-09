@@ -24,7 +24,7 @@ struct PlanningPaymentBodyView: View {
     @State var currencies = GetCurrencies()
     @State var accounts = GetAccounts ()
     @State var categories = GetCategories()
-    @ObservedObject var fetchCurrencies = FetchCurrencies()
+    @ObservedObject var fetchCurrencies = CurrencyData()
     @ObservedObject var fetchAccounts = AccountData()
     @ObservedObject var fetchCategories = FetchCategories()
     

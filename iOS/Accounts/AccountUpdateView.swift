@@ -59,8 +59,10 @@ struct AccountUpdateView: View {
     @State var budgetIndex: Int = 0
     @State var budgetList: [String] = []
     @State var budgetSelected: String? = ""
+    
+    @Binding var showSubscribe: Bool
   
-    init(account: Binding<AccountModel>, transaction: Binding<TransactionModel>, modal: Binding<Bool>, delete: Binding<Bool>, currencies: Binding<GetCurrencies>, accounts: Binding<GetAccounts>, categories: Binding<GetCategories>, budgets: Binding<GetBudgets>) {
+    init(account: Binding<AccountModel>, transaction: Binding<TransactionModel>, modal: Binding<Bool>, delete: Binding<Bool>, currencies: Binding<GetCurrencies>, accounts: Binding<GetAccounts>, categories: Binding<GetCategories>, budgets: Binding<GetBudgets>, showSubscribe: Binding<Bool> ) {
            self._account = account
            self._transaction = transaction
         self._modal = modal
@@ -69,6 +71,7 @@ struct AccountUpdateView: View {
         self._accounts = accounts
         self._categories = categories
         self._budgets = budgets
+        self._showSubscribe = showSubscribe
 
         UINavigationBar.appearance().isTranslucent = false
        }
@@ -248,7 +251,7 @@ struct AccountUpdateView: View {
             if(self.account.type == "crypto")
             {
                 CryptocurrencyView(account: self.$account, cryptoSelected: self.$cryptoSelected, isShowingNew: self.$isShowingCryptoNew, isShowingUpdate: self.$isShowingCryptoUpdate,
-                                   deleteCrypto: self.$deleteCrypto, modalCrypto: self.$modalCrypto, totalPrices: self.$totalPricesCrypto, totalInvestments: self.$totalInvestmentsCrypto)
+                                   deleteCrypto: self.$deleteCrypto, modalCrypto: self.$modalCrypto, totalPrices: self.$totalPricesCrypto, totalInvestments: self.$totalInvestmentsCrypto, showSubscribe: self.$showSubscribe)
                     .environmentObject(self.ui)
                         .environmentObject(self.settings)
             }

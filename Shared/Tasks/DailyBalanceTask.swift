@@ -69,7 +69,7 @@ struct DailyBalanceTask {
     func getBalance() -> Double {
         var balance: Double = 0
         let currencies = GetCurrencies()
-        let fetchCurrencies = FetchCurrencies()
+        let fetchCurrencies = CurrencyData()
         currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
         
         

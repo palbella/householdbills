@@ -16,7 +16,7 @@ class TransactionData: ObservableObject {
     @Published var transactions = GetTransactions()
     var viewContext: NSManagedObjectContext = PersistenceController.shared.container.viewContext
     
-    @ObservedObject var fetchCurrencies = FetchCurrencies()
+    @ObservedObject var fetchCurrencies = CurrencyData()
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
     var transactionsFetch: FetchedResults<Transaction>

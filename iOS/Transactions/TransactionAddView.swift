@@ -42,7 +42,7 @@ struct TransactionsAddView: View {
     
     @ObservedObject var fetchAccounts = AccountData()
     @ObservedObject var fetchCategories = FetchCategories()
-    @ObservedObject var fetchCurrencies = FetchCurrencies()
+    @ObservedObject var fetchCurrencies = CurrencyData()
     @ObservedObject var budgetData = BudgetData()
     
     

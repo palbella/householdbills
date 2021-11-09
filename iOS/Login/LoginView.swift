@@ -82,17 +82,25 @@ struct LogInView: View {
                 
                 
                 NavigationLink(destination:
-                                VStack{
+                              
                     VStack {
                    
-                    TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "questionmark.circle", iconColor: .blue, label: "Question 1", value: $settings.passwordQuestion1)
+                    VStack {
+                    Divider()
+                        Text(settings.passwordQuestion1)
+                            .padding(.top, 10)
                     TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "pencil", iconColor: .blue, label: "Answer 1", value: $answer1)
-                    TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "questionmark.circle", iconColor: .blue, label: "Question 2", value: $settings.passwordQuestion2)
+                    Divider()
+                        Text(settings.passwordQuestion2)
+                            .padding(.top, 10)
                     TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "pencil", iconColor: .blue, label: "Answer 2", value: $answer2)
-                    TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "questionmark.circle", iconColor: .blue, label: "Question 3", value: $settings.passwordQuestion3)
+                    Divider()
+                        Text(settings.passwordQuestion3)
+                            .padding(.top, 10)
                     TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "pencil", iconColor: .blue, label: "Answer 3", value: $answer3)
-                        
-                        Spacer()
+                    Divider()
+                    }
+                 
                         
                         Button(action: {
                             if(answer1 == settings.passwordAnswer1 && answer2 == settings.passwordAnswer2 && answer3 == settings.passwordAnswer3 && settings.passwordAnswer1 != ""  && settings.passwordAnswer2 != "" && settings.passwordAnswer3 != "") {
@@ -109,28 +117,26 @@ struct LogInView: View {
                                    .background(ui.lightPrimaryColor)
                                    .cornerRadius(5)
                            }
-                            .padding(.bottom, 40)
-                    }
-                    .padding(.top, 50)
+                            .padding(.top, 20)
                    
+                    }
+                                .frame(height: 200)
+                    
+                          
                 
                  
-                }
-                                .padding(.top, 5)
+             
                               
                                
                     ) {
+                    if(settings.welcome != true) {
                     Text("Forgot your password?")
+                    }
                 }
                 .padding()
                 .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
-                
-//                Button(action: {
-//                        print("Take to forget password VC")
-//                        }) {
-//                        Text("Forgot your password?")
-//                                .foregroundColor(ui.lightPrimaryColor)
-//                }
+                .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+
                 
                 Spacer()
                 
@@ -140,6 +146,7 @@ struct LogInView: View {
             .onAppear(perform: authenticate)
             .padding(.bottom, 90)
             }
+        .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
     }
     }
     

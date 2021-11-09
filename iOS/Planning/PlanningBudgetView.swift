@@ -22,7 +22,7 @@ struct PlanningBudgetBodyView: View {
     @State var budgetSelected : BudgetModel = BudgetModel()
     
     @State var currencies = GetCurrencies()
-    @ObservedObject var fetchCurrencies = FetchCurrencies()
+    @ObservedObject var fetchCurrencies = CurrencyData()
     @ObservedObject var fetchCategories = FetchCategories()
     @ObservedObject var fetchAccounts = AccountData()
 

@@ -25,7 +25,7 @@ struct GoalListView: View {
     @State var goalData : GoalData = GoalData()
     
     @State var currencies = GetCurrencies()
-    @ObservedObject var fetchCurrencies = FetchCurrencies()
+    @ObservedObject var fetchCurrencies = CurrencyData()
     @ObservedObject var transactionData = TransactionData()
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()

@@ -223,7 +223,7 @@ struct OnboardingView: View {
                     .padding(.leading, 15)
                     .padding(.trailing, 15)
                     .font(.system(size: 16))
-                    .frame(width: geometry.size.width, height: 50, alignment: .center)
+                    .frame(width: geometry.size.width, height: 60, alignment: .center)
                     .multilineTextAlignment(.center)
                 
 //                Spacer(minLength: 20)

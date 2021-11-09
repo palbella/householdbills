@@ -250,6 +250,7 @@ class PaymentData: ObservableObject {
         paymentModel.account = payment.account!
         paymentModel.notificationDay = payment.notificationDay
         paymentModel.notificated = payment.notificated
+        paymentModel.category = payment.category
 
         return paymentModel
     }

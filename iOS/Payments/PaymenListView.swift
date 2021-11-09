@@ -24,7 +24,7 @@ struct PaymentListView: View {
     
     @State var currencies = GetCurrencies()
     @State var accounts = GetAccounts ()
-    @ObservedObject var fetchCurrencies = FetchCurrencies()
+    @ObservedObject var fetchCurrencies = CurrencyData()
     @ObservedObject var transactionData = TransactionData()
     @ObservedObject var fetchAccounts = AccountData()
     @ObservedObject var fetchCategories = FetchCategories()

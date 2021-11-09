@@ -91,21 +91,6 @@ struct InitialData {
         
         SaveContext()
         
-        let newPayment = Payment(context: viewContext)
-        
-        newPayment.id = UUID()
-        newPayment.name = LocalizedStringKey("Internet").toString()
-        newPayment.amount = 0
-        newPayment.currency = "USD"
-        newPayment.symbol = "$"
-        newPayment.iconColor = "red"
-        newPayment.iconContent = "wifi"
-        newPayment.account = accountId
-        newPayment.timestamp = Date()
-        
-        
-        SaveContext()
-        
         
         let newMonthlyPayment = MonthlyPayment(context: viewContext)
         
@@ -122,19 +107,23 @@ struct InitialData {
         
         SaveContext()
         
-        let newBudget = Budget(context: viewContext)
         
-        newBudget.id = UUID()
-        newBudget.name = LocalizedStringKey("Bars & Restaurants").toString()
-        newBudget.amount = 0
-        newBudget.currency = "USD"
-        newBudget.symbol = "$"
-        newBudget.iconColor = "red"
-        newBudget.iconContent = "bar"
-        newBudget.timestamp = Date()
+        let newPayment = Payment(context: viewContext)
+        
+        newPayment.id = UUID()
+        newPayment.name = LocalizedStringKey("Internet").toString()
+        newPayment.amount = 0
+        newPayment.currency = "USD"
+        newPayment.symbol = "$"
+        newPayment.iconColor = "red"
+        newPayment.iconContent = "wifi"
+        newPayment.account = accountId
+        newPayment.timestamp = Date()
+        newPayment.monthlyId = newMonthlyPayment.id
         
         
         SaveContext()
+        
         
         let newMonthlyBudget = MonthlyBudget(context: viewContext)
         
@@ -150,20 +139,23 @@ struct InitialData {
         
         SaveContext()
         
-        let newPurchase = Purchase(context: viewContext)
         
-        newPurchase.id = UUID()
-        newPurchase.name = LocalizedStringKey("Food & Groceries").toString()
-        newPurchase.amount = 0
-        newPurchase.currency = "USD"
-        newPurchase.symbol = "$"
-        newPurchase.iconColor = "red"
-        newPurchase.iconContent = "cart"
-        newPurchase.timestamp = Date()
+        let newBudget = Budget(context: viewContext)
+        
+        newBudget.id = UUID()
+        newBudget.name = LocalizedStringKey("Bars & Restaurants").toString()
+        newBudget.amount = 0
+        newBudget.currency = "USD"
+        newBudget.symbol = "$"
+        newBudget.iconColor = "red"
+        newBudget.iconContent = "bar"
+        newBudget.timestamp = Date()
+        newBudget.monthlyId = newMonthlyBudget.id
         
         
         SaveContext()
         
+      
         let newMonthlyPurchase = MonthlyPurchase(context: viewContext)
         
         newMonthlyPurchase.id = UUID()
@@ -177,6 +169,23 @@ struct InitialData {
         
         
         SaveContext()
+        
+        let newPurchase = Purchase(context: viewContext)
+        
+        newPurchase.id = UUID()
+        newPurchase.name = LocalizedStringKey("Food & Groceries").toString()
+        newPurchase.amount = 0
+        newPurchase.currency = "USD"
+        newPurchase.symbol = "$"
+        newPurchase.iconColor = "red"
+        newPurchase.iconContent = "cart"
+        newPurchase.timestamp = Date()
+        newPurchase.monthlyId = newMonthlyPurchase.id
+        
+        
+        SaveContext()
+        
+      
        
     }
     

@@ -102,12 +102,12 @@ struct UserView: View {
                     VStack {
                         Text("")
                             .padding(.bottom, 100)
-                    TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "questionmark.circle", iconColor: .blue, label: "Question 1", value: $settings.passwordQuestion1)
-                    TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "pencil", iconColor: .blue, label: "Answer 1", value: $settings.passwordAnswer1)
-                    TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "questionmark.circle", iconColor: .blue, label: "Question 2", value: $settings.passwordQuestion2)
-                   TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "pencil", iconColor: .blue, label: "Answer 2", value: $settings.passwordAnswer2)
-                    TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "questionmark.circle", iconColor: .blue, label: "Question 3", value: $settings.passwordQuestion3)
-                   TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "pencil", iconColor: .blue, label: "Answer 3", value: $settings.passwordAnswer3)
+                        TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "questionmark.circle", iconColor: .blue, maxLength: 25, label: "Question 1", value: $settings.passwordQuestion1)
+                    TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "pencil", iconColor: .blue, maxLength: 25, label: "Answer 1", value: $settings.passwordAnswer1)
+                    TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "questionmark.circle", iconColor: .blue, maxLength: 25, label: "Question 2", value: $settings.passwordQuestion2)
+                   TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "pencil", iconColor: .blue, maxLength: 25, label: "Answer 2", value: $settings.passwordAnswer2)
+                    TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "questionmark.circle", iconColor: .blue, maxLength: 25, label: "Question 3", value: $settings.passwordQuestion3)
+                   TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "pencil", iconColor: .blue, maxLength: 25, label: "Answer 3", value: $settings.passwordAnswer3)
                     }
                     .padding(.bottom, 300)
                     Spacer()

@@ -15,7 +15,7 @@ class AccountData: ObservableObject {
     @Published var items = [AccountModel]()
     var viewContext: NSManagedObjectContext = PersistenceController.shared.container.viewContext
     
-    @ObservedObject var fetchCurrencies = FetchCurrencies()
+    @ObservedObject var fetchCurrencies = CurrencyData()
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
     var accountsFetch: FetchedResults<Account>

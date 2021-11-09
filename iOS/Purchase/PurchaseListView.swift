@@ -23,7 +23,7 @@ struct PurchaseListView: View {
     @State var transaction : TransactionModel = TransactionModel()
     
     @State var currencies = GetCurrencies()
-    @ObservedObject var fetchCurrencies = FetchCurrencies()
+    @ObservedObject var fetchCurrencies = CurrencyData()
     @ObservedObject var transactionData = TransactionData()
     @ObservedObject var fetchCategories = FetchCategories()
     @ObservedObject var fetchAccounts = AccountData()

@@ -35,15 +35,16 @@ struct CryptocurrencyView: View {
     @State var cryptoData : CryptocurrencyData = CryptocurrencyData()
     
     public let predicate: NSPredicate
-//    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
+
     var cryptoFetch: FetchRequest<Cryptocurrency>
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
         var cryptoFetchResult: FetchedResults<Cryptocurrency>
     
+    @Binding var showSubscribe: Bool
 
     
-    init(account: Binding<AccountModel>, cryptoSelected: Binding<CryptocurrencyModel>, isShowingNew: Binding<Bool>, isShowingUpdate: Binding<Bool>, deleteCrypto: Binding<Bool>, modalCrypto: Binding<Bool>, totalPrices: Binding<Double>, totalInvestments: Binding<Double> ) {
+    init(account: Binding<AccountModel>, cryptoSelected: Binding<CryptocurrencyModel>, isShowingNew: Binding<Bool>, isShowingUpdate: Binding<Bool>, deleteCrypto: Binding<Bool>, modalCrypto: Binding<Bool>, totalPrices: Binding<Double>, totalInvestments: Binding<Double>, showSubscribe: Binding<Bool> ) {
         
         self._account = account
         self._cryptoSelected = cryptoSelected
@@ -53,6 +54,7 @@ struct CryptocurrencyView: View {
         self._modalCrypto = modalCrypto
         self._totalInvestments = totalInvestments
         self._totalPrices = totalPrices
+        self._showSubscribe = showSubscribe
         
         UINavigationBar.appearance().isTranslucent = false
         
@@ -85,8 +87,12 @@ struct CryptocurrencyView: View {
                                 VStack {
                                    
                                     Button(action: {
+                                        if(settings.subscribed || self.cryptoFetchResult.count < 1) {
                                         self.cryptoSelected = CryptocurrencyModel()
                                         self.isShowingNew = true
+                                        } else {
+                                            self.showSubscribe = true
+                                        }
                                     }) {
                                         
                                         CommandButton(content: "plus.circle")
@@ -182,7 +188,7 @@ struct CryptocurrencyView: View {
                                
                                 Text("Details")
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.top, 15)
+                                    .padding(.top, 35)
                                     .padding(.leading, 10)
                                     .padding(.bottom, 5)
                                     .font(.system(size: 12))

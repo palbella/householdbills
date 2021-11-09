@@ -22,7 +22,7 @@
         @State var transaction : TransactionModel = TransactionModel()
         
         @State var currencies = GetCurrencies()
-        @ObservedObject var fetchCurrencies = FetchCurrencies()
+        @ObservedObject var fetchCurrencies = CurrencyData()
         @ObservedObject var transactionData = TransactionData()
         @ObservedObject var accountData = AccountData()
         @ObservedObject var budgetData = BudgetData()
@@ -270,7 +270,7 @@
 
                                                                       }) {
                                                                         
-                                                                          AccountUpdateView(account: self.$accountSelected, transaction: self.$transaction, modal: self.$isShowing, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, categories: $categories, budgets: $budgets)
+                                                                          AccountUpdateView(account: self.$accountSelected, transaction: self.$transaction, modal: self.$isShowing, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, categories: $categories, budgets: $budgets, showSubscribe: self.$showSubscribe)
                                                                               .environmentObject(self.ui)
                                                                             .environmentObject(self.settings)
                                                                         

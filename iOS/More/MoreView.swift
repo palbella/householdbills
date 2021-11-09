@@ -32,7 +32,8 @@ struct MoreView: View {
     
     @State var viewRefresh : Int = 0
     @State var currencies = GetCurrencies()
-    @ObservedObject var fetchCurrencies = FetchCurrencies()
+    @ObservedObject var fetchCurrencies = CurrencyData()
+    @State var currencyData = CurrencyData()
     @State var commandLeftTrigger: Bool = false
     @State var commandRightTrigger: Bool = false
     
@@ -297,7 +298,7 @@ struct MoreView: View {
                 }
             }
             }
-            
+            self.currencyData.currencyUpdate()
            
            
         } catch {
