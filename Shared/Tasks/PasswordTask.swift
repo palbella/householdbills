@@ -79,6 +79,12 @@ struct GetPasswordEncription {
         let code = Int(pin)! - (divcode * 93) - 1
 
         for char in characters{
+            let isAscii = char.data(using: .ascii)
+            
+            if(isAscii == nil) {
+                return "Err: Character Not Supported"
+            }
+            
             var hexElement = char.data(using: .ascii)!.hexString
             var hexElementA = String(hexElement.suffix(1)).uppercased()
             var hexElementB = String(hexElement.prefix(1)).uppercased()

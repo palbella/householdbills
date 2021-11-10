@@ -220,10 +220,14 @@ struct PlanningBodyView: View {
                     }
                     .padding()
                     .frame(width: 230, height: 30)
-                    .font(.system(size: 12))
-                    .foregroundColor(Color.white)
-                    .background(ui.lightCommandFontColor)
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundColor(ui.lightCommandFontColor)
+//                    .background(ui.lightCommandFontColor)
                     .cornerRadius(5)
+                    .overlay(
+                                    RoundedRectangle(cornerRadius: 25)
+                                        .stroke(ui.lightCommandFontColor, lineWidth: 2)
+                            )
                 }.padding(.bottom, 40)
                     .padding(.top, 40)
                 

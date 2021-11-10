@@ -165,6 +165,7 @@ struct InitialData {
         newMonthlyPurchase.symbol = "$"
         newMonthlyPurchase.iconColor = "red"
         newMonthlyPurchase.iconContent = "cart"
+        newMonthlyPurchase.account = accountId
         newMonthlyPurchase.timestamp = Date()
         
         
@@ -179,6 +180,7 @@ struct InitialData {
         newPurchase.symbol = "$"
         newPurchase.iconColor = "red"
         newPurchase.iconContent = "cart"
+        newPurchase.account = accountId
         newPurchase.timestamp = Date()
         newPurchase.monthlyId = newMonthlyPurchase.id
         
@@ -523,20 +525,12 @@ struct InitialData {
      
  SaveContext()
         
-        let newCardTask = Card(context: viewContext)
-      
-        newCardTask.name = "Tasks"
-        newCardTask.id = 7
-        newCardTask.order = 7
-        newCardTask.visible = true
-     
- SaveContext()
         
         let newCardChart = Card(context: viewContext)
       
         newCardChart.name = "Chart"
-        newCardChart.id = 8
-        newCardChart.order = 8
+        newCardChart.id = 7
+        newCardChart.order = 7
         newCardChart.visible = true
      
  SaveContext()
