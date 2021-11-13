@@ -45,6 +45,8 @@ struct DashboardBodyView: View {
     
     @Binding var showSubscribe: Bool
     
+    
+    
     func onAppear() {
      
         self.setMonthName()
@@ -98,7 +100,7 @@ struct DashboardBodyView: View {
                     
                     if(card.visible == true && settings.showMonthBalance == true) {
                      
-                        MonthBalanceView(totalAccounts: self.$totalAccounts, totalGoalAccounts: self.$totalGoalAccounts, totalGoals: self.$totalGoals, totalPayments: self.$totalPayments, totalBudgets: self.$totalBudgets, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData)
+                        MonthBalanceView(totalAccounts: self.$totalAccounts, totalGoalAccounts: self.$totalGoalAccounts, totalGoals: self.$totalGoals, totalPayments: self.$totalPayments, totalBudgets: self.$totalBudgets, totalPurchases: self.$totalPurchases, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData)
                             .padding(.top, 10)
 
                          Spacer()

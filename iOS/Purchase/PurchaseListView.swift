@@ -140,7 +140,7 @@ struct PurchaseListView: View {
                                                 self.transaction = TransactionModel()
                                                 self.transaction.type = LocalizedStringKey("Purchase Adjustment").toString()
                                                 self.transaction.initialAmount = self.$purchaseSelected.amount.wrappedValue
-                                                self.transaction.category = 1
+                                                    self.transaction.category = self.$purchaseSelected.category.wrappedValue
                                                 self.delete = false
                                                 self.isShowingPurchasePlanning = true
                                                 } else {

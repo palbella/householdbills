@@ -38,7 +38,7 @@ struct DashboardView: View {
     @Binding var toastError: Bool
     @Binding var showUser: Bool
     @Binding var showSubscribe: Bool
-  
+    @State var incomeCalculation: Double = 0
     
     @State var currentMonthName: String = ""
     @ObservedObject var transactionData = TransactionData()
@@ -50,6 +50,12 @@ struct DashboardView: View {
         
         self.expenses = abs(transactionData.fetchExpenses())
         self.incomes = transactionData.fetchIncomes()
+        
+        if(self.incomes > settings.estimatedMontlyIncomes) {
+            self.incomeCalculation = settings.estimatedMontlyIncomes
+        } else {
+            self.incomeCalculation = self.incomes
+        }
        
     }
 
@@ -57,7 +63,7 @@ struct DashboardView: View {
 
         let fontColorAccounts = self.totalAccounts >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
         
-        let fontColorMonth = (self.totalGoalAccounts - self.totalGoals - self.totalBudgets - self.totalPayments) >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
+        let fontColorMonth = (self.totalGoalAccounts - self.totalGoals - self.totalBudgets - self.totalPurchases - self.totalPayments) >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
         
 
             VStack(spacing: 0) {
@@ -93,7 +99,7 @@ struct DashboardView: View {
                                         
                                         if(!self.hideData) {
                                            
-                                            Text("\((self.totalGoalAccounts - self.totalGoals - self.totalBudgets - self.totalPayments), specifier: "%.2f")")
+                                            Text("\((self.totalGoalAccounts + settings.estimatedMontlyIncomes - self.incomeCalculation - self.totalPurchases - self.totalGoals - self.totalBudgets - self.totalPayments), specifier: "%.2f")")
                                                 .font(.system(size: 10))
                                                 .foregroundColor(fontColorMonth)
                                                 .opacity(Double(getHeaderOpacity()))

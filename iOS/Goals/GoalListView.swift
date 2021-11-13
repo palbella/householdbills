@@ -101,13 +101,13 @@ struct GoalListView: View {
                                     .sheet(isPresented: self.$isShowingNew, onDismiss: {
                                         
                                         if(self.$goalSelected.name.wrappedValue != "") {
-                                            self.transaction.name = self.transferTypes.names[3] + " " + self.$goalSelected.name.wrappedValue
-                                            self.transaction.amount = self.$goalSelected.amount.wrappedValue
-                                            self.transaction.symbol = self.$goalSelected.symbol.wrappedValue
-                                            self.transaction.iconContent = self.$goalSelected.iconContent.wrappedValue
-                                            self.transaction.iconColor = self.$goalSelected.iconColor.wrappedValue
-                                            self.transaction.timestamp = Date()
-                                            saveTransaction(transaction: self.transaction)
+//                                            self.transaction.name = self.transferTypes.names[3] + " " + self.$goalSelected.name.wrappedValue
+//                                            self.transaction.amount = self.$goalSelected.amount.wrappedValue
+//                                            self.transaction.symbol = self.$goalSelected.symbol.wrappedValue
+//                                            self.transaction.iconContent = self.$goalSelected.iconContent.wrappedValue
+//                                            self.transaction.iconColor = self.$goalSelected.iconColor.wrappedValue
+//                                            self.transaction.timestamp = Date()
+//                                            saveTransaction(transaction: self.transaction)
                                             goalData.addGoal(goal: self.$goalSelected.wrappedValue)
                                             getTotals()
                                         }
@@ -277,15 +277,15 @@ struct GoalListView: View {
 
     }
     
-    private func saveTransaction(transaction: TransactionModel)
-    {
-      
-            withAnimation {
-               
-                self.transactionData.addTransactions(transaction: transaction)
-            }
-        getTotals()
-    }
+//    private func saveTransaction(transaction: TransactionModel)
+//    {
+//
+//            withAnimation {
+//
+//                self.transactionData.addTransactions(transaction: transaction)
+//            }
+//        getTotals()
+//    }
     
     
    

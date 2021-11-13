@@ -24,20 +24,20 @@ struct TopBar: View {
     @Binding var totalBudgets: Double
     @Binding var incomes: Double
     @Binding var expenses: Double
+   
     
     @Binding var hideData: Bool
     
     func onAppear() {
    
-       
+      
     }
     
     var body: some View {
         
+       
+            
         let fontColorAccounts = self.totalAccounts >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
-        
-//        let fontColorMonth = (self.totalGoalAccounts - self.totalGoals - self.totalBudgets - self.totalPayments) >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
-        
         
         
         VStack(alignment: .center, spacing: 0) {
@@ -77,6 +77,7 @@ struct TopBar: View {
                         }
                  
                     }
+//                    .frame(width: UIScreen.main.bounds.size.width / 2)
                    
                     Spacer()
                        
@@ -104,6 +105,8 @@ struct TopBar: View {
                         }
                        
                     }
+//                    .frame(width: UIScreen.main.bounds.size.width / 2)
+                    
                     Spacer()
                 }
                 .padding(.bottom, 10)
@@ -148,11 +151,13 @@ struct TopBar: View {
                 }
             }
      
-
+            
         
          
         }
         .padding(.bottom)
+            
+        
     }
     
     func getOpacitySlow() -> CGFloat {
