@@ -250,10 +250,6 @@ struct MonthBalance {
  
     func calculateMonth (totalBalance: Double, dayChangeMonth: Int32) {
     
-//            @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
-//            var paymentsFetch: FetchedResults<Payment>
-//            @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
-//            var budgetsFetch: FetchedResults<Budget>
         
         let dateFormarter = DateFormatter()
         dateFormarter.dateFormat = "MMM y"
@@ -275,6 +271,26 @@ struct MonthBalance {
             }
             
             
+            var language = Locale.current.languageCode
+            if(language == nil || language == "") {
+                language = "en"
+            }
+            if(language == "zh") {
+                if(Locale.current.scriptCode != nil) {
+                    language = "zh-" + Locale.current.scriptCode!
+                } else {
+                    language = "zh-Hans"
+                }
+                
+            }
+            
+            
+            var cal = Calendar.current
+            cal.locale = Locale(identifier: language!)
+            
+            
+            let translatedMonth = cal.shortMonthSymbols[nextMonth!.get(.month) - 1].uppercasingFirst
+            
             let currentMonth = try viewContext.fetch(monthRequest)[0]
             currentMonth.current = false
             currentMonth.finalAmount = totalBalance
@@ -284,9 +300,9 @@ struct MonthBalance {
             newMonth.id = UUID()
             newMonth.initialAmount = currentMonth.finalAmount
             newMonth.timestamp = nextMonth
-            newMonth.month = Int32(Date().get(.month))
-            newMonth.year = Int32(Date().get(.year))
-            newMonth.name = dateFormarter.string(from: newMonth.timestamp!)
+            newMonth.month = Int32(nextMonth!.get(.month))
+            newMonth.year = Int32(nextMonth!.get(.year))
+            newMonth.name = translatedMonth + " " + String(nextMonth!.get(.year)) //dateFormarter.string(from: newMonth.timestamp!)
             
             for i in 0..<self.accounts.items.count {
                 let newAccountHistory = HistoryAccount(context: viewContext)

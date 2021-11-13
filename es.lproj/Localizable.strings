@@ -230,4 +230,9 @@
 "purchase-info" = "Compras mensuales como lista de alimentos & mercaderías compradas cada mes";
 "Goods" = "Productos";
 
+"Update Currency" = "Actualizar Cotización";
+"Show Month Balance" = "Mostrar Balance de Mes";
+"Current month has payments pending to be paid... are you sure you still want to change the month?" = "El mes en curso tiene pagos pendientes... esta seguro que quiere cambiar de mes?";
+"New Month Balance" = "Nuevo Balance de Mes";
+"Are you sure you want to change the month?" = "Esta seguro que quiere cambiar el balance de mes?";
 "Terms & Subscription" = "ldkfjslkdjfkslfjslfjsdlkj";

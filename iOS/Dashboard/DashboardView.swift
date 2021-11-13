@@ -81,8 +81,9 @@ struct DashboardView: View {
                                 }) {
                                 Image(systemName: "person.circle")
                                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
-                                    .font(.system(size: 20))
+                                    .font(.system(size: 25))
                                     .padding()
+                                    .padding(.top, 10)
                                     .frame(width: 95)
                                     .padding(.trailing, 5)
                                 }
@@ -101,6 +102,7 @@ struct DashboardView: View {
                                            
                                             Text("\((self.totalGoalAccounts + settings.estimatedMontlyIncomes - self.incomeCalculation - self.totalPurchases - self.totalGoals - self.totalBudgets - self.totalPayments), specifier: "%.2f")")
                                                 .font(.system(size: 10))
+                                                .padding(.top, 3)
                                                 .foregroundColor(fontColorMonth)
                                                 .opacity(Double(getHeaderOpacity()))
                                         } else {
@@ -112,22 +114,23 @@ struct DashboardView: View {
                                         
                                        
                                     }
+                                    .padding(.top, 5)
                                     
                                     HStack(spacing: 0) {
                                         Text(settings.symbol + " ")
                                             .foregroundColor(fontColorAccounts)
-                                            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                                            .font(.system(size: 20))
                                             .opacity(Double(getHeaderOpacity()))
                                         
                                         if(!self.hideData) {
                                             Text("\((self.totalAccounts), specifier: "%.2f")")
                                             .foregroundColor(fontColorAccounts)
-                                            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                                            .font(.system(size: 20))
                                             .opacity(Double(getHeaderOpacity()))
                                         } else {
                                             Text(settings.symbol + "---")
                                             .foregroundColor(fontColorAccounts)
-                                            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                                            .font(.system(size: 20))
                                             .opacity(Double(getHeaderOpacity()))
                                         }
                                         
@@ -137,8 +140,10 @@ struct DashboardView: View {
                                 
                                 Spacer()
                                 Text(currentMonthName)
-                                    .font(.system(size: 14))
+                                    .font(.system(size: 15))
                                     .padding()
+                                    .padding(.top, 10)
+                                    .multilineTextAlignment(.center)
                                     .foregroundColor(fontColorMonth)
                                     .frame(width: 95)
                             }

@@ -201,10 +201,10 @@ Divider()
     
     var confirmBalance: Alert {
         
-        var text = "Are you sure you want to change the month?"
+        var text = LocalizedStringKey("Are you sure you want to change the month?").toString()
         
         if(paymentData.hasUnpaidPayments()) {
-            text = "Current month has payments pending to be paid... are you sure you still want to change the month?"
+            text = LocalizedStringKey("Current month has payments pending to be paid... are you sure you still want to change the month?").toString() 
         }
         
         return Alert(title: Text("New Month Balance"), message: Text(text),

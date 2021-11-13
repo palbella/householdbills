@@ -63,21 +63,21 @@ struct TopBar: View {
                             if(!self.hideData) {
                                 
                                 Text(settings.symbol + " ")
-                                    .font(.system(size: 25))
+                                    .font(.system(size: 18))
                                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor) +
                                 Text("\((incomes), specifier: "%.2f")")
-                                    .font(.system(size: 25))
+                                    .font(.system(size: 18))
                                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
                             } else {
                                 Text(settings.symbol + "---")
-                                    .font(.system(size: 25))
+                                    .font(.system(size: 18))
                                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
                             }
                             
                         }
                  
                     }
-//                    .frame(width: UIScreen.main.bounds.size.width / 2)
+                    .frame(width: (UIScreen.main.bounds.size.width / 2) - 10)
                    
                     Spacer()
                        
@@ -92,20 +92,20 @@ struct TopBar: View {
                                 .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor)
                             if(!self.hideData) {
                             Text(settings.symbol + " ")
-                                    .font(.system(size: 25))
+                                    .font(.system(size: 18))
                                     .foregroundColor(colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor) +
                                 Text("\((expenses), specifier: "%.2f")")
-                                .font(.system(size: 25))
+                                .font(.system(size: 18))
                                 .foregroundColor(colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor)
                             } else {
                                 Text(settings.symbol + "---")
-                                    .font(.system(size: 25))
+                                    .font(.system(size: 18))
                                     .foregroundColor(colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor)
                             }
                         }
                        
                     }
-//                    .frame(width: UIScreen.main.bounds.size.width / 2)
+                    .frame(width: (UIScreen.main.bounds.size.width / 2) - 10)
                     
                     Spacer()
                 }
