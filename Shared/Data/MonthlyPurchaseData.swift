@@ -53,6 +53,8 @@ class MonthlyPurchaseData: ObservableObject {
                 newPurchase.currency = purchase.currency
                 newPurchase.iconColor = purchase.iconColor
                 newPurchase.iconContent = purchase.iconContent
+                newPurchase.account = purchase.account
+                newPurchase.category = purchase.category
 
       SaveContext()
             }
@@ -78,6 +80,8 @@ class MonthlyPurchaseData: ObservableObject {
             savedPurchase.amount = purchase.amount
             savedPurchase.iconColor = purchase.iconColor
             savedPurchase.iconContent = purchase.iconContent
+            savedPurchase.account = purchase.account
+            savedPurchase.category = purchase.category
             
             
         } catch {
@@ -139,6 +143,8 @@ class MonthlyPurchaseData: ObservableObject {
         purchaseModel.amount = purchase.amount
         purchaseModel.iconColor = purchase.iconColor ?? ""
         purchaseModel.iconContent = purchase.iconContent ?? ""
+        purchaseModel.account = purchase.account
+        purchaseModel.category = purchase.category
 
         return purchaseModel
     }

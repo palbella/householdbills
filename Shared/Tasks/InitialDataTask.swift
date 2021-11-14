@@ -24,7 +24,7 @@ struct InitialData {
         initialDataCategories()
         initialCurrencies()
         initialMonth()
-        initialAccount()
+        initialData()
         initialMigration()
     }
     
@@ -60,7 +60,7 @@ struct InitialData {
        
     }
     
-    func initialAccount() {
+    func initialData() {
         
         let accountId = UUID()
         let newAccount = Account(context: viewContext)
@@ -153,6 +153,7 @@ struct InitialData {
         newMonthlyPurchase.iconColor = "red"
         newMonthlyPurchase.iconContent = "cart"
         newMonthlyPurchase.account = accountId
+        newMonthlyPurchase.category = 2
         newMonthlyPurchase.timestamp = Date()
         
         
@@ -168,6 +169,7 @@ struct InitialData {
         newPurchase.iconColor = "red"
         newPurchase.iconContent = "cart"
         newPurchase.account = accountId
+        newPurchase.category = 2
         newPurchase.timestamp = Date()
         newPurchase.monthlyId = newMonthlyPurchase.id
         

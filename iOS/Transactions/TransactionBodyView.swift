@@ -109,12 +109,12 @@ struct TransactionsBodyView: View {
                         Spacer()
                                 
                                 VStack  (alignment: .trailing){
-                                    Text(String(item.amount)).padding(.leading, 5).padding(.trailing, 5).padding(.top, 5).padding(.bottom, 5)
+                                    Text(item.symbol + String(item.amount)).padding(.leading, 5).padding(.trailing, 5).padding(.top, 5).padding(.bottom, 5)
                             .foregroundColor(fontColorAccounts)
                             .font(.system(size: 15))
                                     
                                     Text(dateFormarter.string(from: item.timestamp!)).padding(.leading, 5).padding(.trailing, 5).padding(.bottom, 1)
-                                        .foregroundColor(colorScheme != .dark ? ui.lightItemFontColor: ui.darkItemFontColor)
+                                        .foregroundColor(colorScheme != .dark ? Color.black: Color.white)
                                 .font(.system(size: 10))
                                     
                                 }

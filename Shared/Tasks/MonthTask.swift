@@ -161,6 +161,8 @@ struct MonthBalance {
                     savedPurchases[ii].amount = savedMonthyPurchases[i].amount
                     savedPurchases[ii].symbol = savedMonthyPurchases[i].symbol
                     savedPurchases[ii].currency = savedMonthyPurchases[i].currency
+                    savedPurchases[ii].account = savedMonthyPurchases[i].account
+                    savedPurchases[ii].category = savedMonthyPurchases[i].category
                     savedPurchases[ii].iconColor = savedMonthyPurchases[i].iconColor
                     savedPurchases[ii].iconContent = savedMonthyPurchases[i].iconContent
                 
@@ -178,6 +180,8 @@ struct MonthBalance {
                 newPurchase.amount = savedMonthyPurchases[i].amount
                 newPurchase.symbol = savedMonthyPurchases[i].symbol
                 newPurchase.currency = savedMonthyPurchases[i].currency
+                newPurchase.account = savedMonthyPurchases[i].account
+                newPurchase.category = savedMonthyPurchases[i].category
                 newPurchase.iconColor = savedMonthyPurchases[i].iconColor
                 newPurchase.iconContent = savedMonthyPurchases[i].iconContent
                 newPurchase.monthlyId = savedMonthyPurchases[i].id

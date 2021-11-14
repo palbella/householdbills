@@ -40,7 +40,7 @@ struct PlanningView: View {
                             
                                 ScrollView(.vertical, showsIndicators: false) {
                                 
-                                PlanningBodyView(isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: $toastError)
+                                    PlanningBodyView(isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: $toastError, showSubscribe: self.$showSubscribe)
                                     .padding(.top, 80)
                                 
                             }

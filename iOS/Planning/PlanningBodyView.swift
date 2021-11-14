@@ -26,6 +26,8 @@ struct PlanningBodyView: View {
     @State var totalPayments: Double = 0
     @State var totalBudgets: Double = 0
     @State var totalPurchases: Double = 0
+    
+    @Binding var showSubscribe: Bool
      
     var body: some View {
         
@@ -200,7 +202,7 @@ struct PlanningBodyView: View {
                 .padding(.bottom, 20)
         PlanningPaymentBodyView(totalPayments: self.$totalPayments)
                 .padding(.bottom, 20)
-            PlanningPurchaseBodyView(totalPurchases: self.$totalPurchases)
+            PlanningPurchaseBodyView(totalPurchases: self.$totalPurchases, showSubscribe: self.$showSubscribe)
                 .padding(.bottom, 20)
            Spacer()
             

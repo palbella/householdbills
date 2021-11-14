@@ -40,6 +40,8 @@ struct PlanningPurchaseBodyView: View {
 
     @Binding var totalPurchases: Double
     
+    @Binding var showSubscribe: Bool
+    
     @State var totalPricesItem: Double = 0
     
     func onAppear() {
@@ -70,12 +72,17 @@ struct PlanningPurchaseBodyView: View {
                             VStack {
                                 Spacer()
                                 Button(action: {
+                                    if(settings.subscribed || self.purchasesFetch.count < 1) {
                                     self.purchaseSelected = PurchaseModel()
+                                    self.transaction = TransactionModel()
                                     self.purchaseSelected.iconContent = "cart"
                                     self.purchaseSelected.iconColor = "red"
                                     self.purchaseSelected.currency = settings.currency
                                     self.purchaseSelected.symbol = settings.symbol
-                                    self.isShowingNew = true
+                                    } else {
+                                       
+                                        self.showSubscribe = true
+                                    }
                                 }) {
                                     
                                     CommandButton(content: "plus.circle")
@@ -108,9 +115,13 @@ struct PlanningPurchaseBodyView: View {
                     
                     
                                         Button(action: {
-                                            self.purchaseSelected = monthlyPurchaseData.map(purchase: item)
-                                            self.delete = false
-                                            self.isShowing = true
+                                            if(settings.subscribed || index < 1) {
+                                                self.purchaseSelected = monthlyPurchaseData.map(purchase: item)
+                                                self.delete = false
+                                                self.isShowing = true
+                                            } else {
+                                                self.showSubscribe = true
+                                            }
                                         }) {
 
                                             VStack (spacing: 0) {
@@ -149,7 +160,7 @@ struct PlanningPurchaseBodyView: View {
                                                 monthlyPurchaseData.deletePurchase(purchase: self.$purchaseSelected.wrappedValue)
                                                 getTotals()
                                             } else {
-
+                                                self.$purchaseSelected.wrappedValue.amount = self.totalPricesItem
                                                 monthlyPurchaseData.updatePurchase(purchase: self.$purchaseSelected.wrappedValue)
                                                 getTotals()
                                             }

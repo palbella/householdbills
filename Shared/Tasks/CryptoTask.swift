@@ -50,10 +50,10 @@ struct GetMarketCriptocurrencies {
                                 if(price > 0) {
                                     if(notification) {
                                        
-                                        if(savedCryptos[index].price > savedCryptos[index].notificationPriceUp && !savedCryptos[index].notificated) {
+                                        if(savedCryptos[index].notificationPriceUp != 0 && savedCryptos[index].price > savedCryptos[index].notificationPriceUp && !savedCryptos[index].notificated) {
                                             NotificationTask().run(title: savedCryptos[index].name! + " price alert!", subtitle: String(savedCryptos[index].price))
                                         }
-                                        if(savedCryptos[index].price < savedCryptos[index].notificationPriceDown && !savedCryptos[index].notificated) {
+                                        if(savedCryptos[index].notificationPriceDown != 0 && savedCryptos[index].price < savedCryptos[index].notificationPriceDown && !savedCryptos[index].notificated) {
                                             NotificationTask().run(title: savedCryptos[index].name! + " price alert!", subtitle: String(savedCryptos[index].price))
                                         }
                                         savedCryptos[index].notificated = true

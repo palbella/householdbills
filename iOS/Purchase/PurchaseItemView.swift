@@ -72,6 +72,8 @@ struct PurchaseItemView: View {
                                   
                                     self.items.items.append(item)
                                     
+                                    self.totalPrices = self.totalPrices + savedMonthlyPurchaseItems[index].price
+                                    
                             }
             } else {
                 let savedPurchaseItems =  try viewContext.fetch(fetchRequest)
