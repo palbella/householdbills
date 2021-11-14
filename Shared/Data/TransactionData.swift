@@ -97,7 +97,10 @@ class TransactionData: ObservableObject {
 
         do {
         let fetchMonthRequest: NSFetchRequest<Month> = Month.fetchRequest()
-            fetchMonthRequest.predicate = NSPredicate(format: "%@ <= timestamp AND %@ >= timestamp", argumentArray: [filters.startDate, filters.endDate])
+            fetchMonthRequest.predicate = NSPredicate(format: "%@ <= startDate AND %@ >= startDate", argumentArray: [filters.startDate, filters.endDate])
+            fetchMonthRequest.sortDescriptors = [
+                NSSortDescriptor(keyPath: \Month.startDate, ascending: false)
+            ]
         let months : NSArray = try viewContext.fetch(fetchMonthRequest) as NSArray
             
             self.transactions.months = [MonthModel]()
@@ -115,9 +118,6 @@ class TransactionData: ObservableObject {
         let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
 
-//            let dateComponents = NSDateComponents()
-//            dateComponents.year = Int(self.transactions.months[monthIndex].year)
-//            dateComponents.month = Int(self.transactions.months[monthIndex].month)
 
             var dateComponentsRate = DateComponents()
             dateComponentsRate.year = Int(self.transactions.months[monthIndex].year)
@@ -182,12 +182,32 @@ class TransactionData: ObservableObject {
 
     }
     
+    func getMonth(date: Date) -> Month? {
+        
+        var month : Month? = nil
+        
+        do {
+        let fetchMonthRequest: NSFetchRequest<Month> = Month.fetchRequest()
+            fetchMonthRequest.predicate = NSPredicate(format: "%@ == month AND %@ == year", argumentArray: [Int32(date.get(.month)), Int32(date.get(.year))])
+        let months : NSArray = try viewContext.fetch(fetchMonthRequest) as NSArray
+            
+            month = months[0] as? Month
+           
+        } catch {
+            
+        }
+        
+        return month
+    }
+    
     
     func addTransactions(transaction: TransactionModel) {
         
         if(transaction.amount == 0) {
             return
         }
+        
+        
         
         let newTransaction = Transaction(context: viewContext)
 //        let id = findNextId(in: self.transactionsFetch)
@@ -201,7 +221,7 @@ class TransactionData: ObservableObject {
         newTransaction.iconColor = transaction.iconColor
         newTransaction.iconContent = transaction.iconContent
         newTransaction.category = transaction.category
-        newTransaction.month = transaction.month 
+        newTransaction.month = getMonth(date: Date()) != nil ? getMonth(date: Date())!.id : nil
         newTransaction.timestamp = Date()
         
 

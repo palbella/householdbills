@@ -209,7 +209,7 @@ Divider()
         
         return Alert(title: Text("New Month Balance"), message: Text(text),
             primaryButton: .default (Text("Yes")) {
-            MonthBalance(viewContext: viewContext).run(totalBalance: self.totalAccounts, dayChangeMonth: settings.dayChangeMonth)
+            MonthBalance().run(totalBalance: self.totalAccounts, dayChangeMonth: settings.dayChangeMonth)
             self.setMonthName()
             self.setMonthBalance()
             },

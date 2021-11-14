@@ -53,23 +53,10 @@ struct InitialData {
     
     func initialMonth() {
 
-        let today = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM y"
+       
+        let monthBalance = MonthBalance()
         
-        let newMonth = Month(context: viewContext)
-        
-        newMonth.id = UUID()
-        newMonth.name = formatter.string(from: today)
-        newMonth.initialAmount = 0
-        newMonth.finalAmount = 0
-        newMonth.month = Int32(Date().get(.month))
-        newMonth.year = Int32(Date().get(.year))
-        newMonth.timestamp = Date()
-        newMonth.current = true
-        
-        
-        SaveContext()
+        monthBalance.createMonth(totalBalance: 0, dayChangeMonth: 50)
        
     }
     

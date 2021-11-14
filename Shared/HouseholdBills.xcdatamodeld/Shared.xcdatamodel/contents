@@ -157,11 +157,13 @@
     </entity>
     <entity name="Month" representedClassName="Month" syncable="YES" codeGenerationType="class">
         <attribute name="current" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="finalAmount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="initialAmount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="month" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="year" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
@@ -313,7 +315,7 @@
         <attribute name="iconColor" optional="YES" attributeType="String"/>
         <attribute name="iconContent" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="month" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="month" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="symbol" optional="YES" attributeType="String"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -337,7 +339,7 @@
         <element name="HistoryPayment" positionX="0" positionY="171" width="128" height="134"/>
         <element name="HistoryPurchase" positionX="-18" positionY="144" width="128" height="104"/>
         <element name="Migration" positionX="-18" positionY="144" width="128" height="89"/>
-        <element name="Month" positionX="-27" positionY="144" width="128" height="149"/>
+        <element name="Month" positionX="-27" positionY="144" width="128" height="179"/>
         <element name="MonthlyBudget" positionX="-18" positionY="144" width="128" height="193"/>
         <element name="MonthlyPayment" positionX="0" positionY="153" width="128" height="284"/>
         <element name="MonthlyPurchase" positionX="-9" positionY="153" width="128" height="179"/>

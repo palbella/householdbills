@@ -12,7 +12,7 @@ import CoreData
 
 
 struct MonthBalance {
-    @State var viewContext: NSManagedObjectContext
+    var viewContext: NSManagedObjectContext = PersistenceController.shared.container.viewContext
     
     @ObservedObject var fetchAccounts = AccountData()
     @State var accounts = GetAccounts()
@@ -25,10 +25,6 @@ struct MonthBalance {
     @ObservedObject var fetchPurchases = PurchaseData()
     @State var purchases = GetPurchases()
     
-    init(viewContext: NSManagedObjectContext) {
-        self.viewContext = viewContext
-        
-    }
     
     func run(totalBalance: Double, dayChangeMonth: Int32) {
         
@@ -248,16 +244,15 @@ struct MonthBalance {
         }
     }
  
-    func calculateMonth (totalBalance: Double, dayChangeMonth: Int32) {
     
+    func createMonth (totalBalance: Double, dayChangeMonth: Int32) {
         
         let dateFormarter = DateFormatter()
         dateFormarter.dateFormat = "MMM y"
         
         let monthRequest: NSFetchRequest<Month> = Month.fetchRequest()
         monthRequest.predicate = NSPredicate(format: "current = true")
-       
-
+        
         do {
             var nextMonth: Date? = Date()
             
@@ -284,6 +279,23 @@ struct MonthBalance {
                 
             }
             
+            let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+            
+            var dateComponentsRate = DateComponents()
+            dateComponentsRate.year = Int(nextMonth!.get(.year))
+            dateComponentsRate.month = Int(nextMonth!.get(.month))
+            let calendar = Calendar.current
+            let dateRange = calendar.date(from: dateComponentsRate)!
+
+            let range = calendar.range(of: .day, in: .month, for: dateRange)!
+            let numDays = range.count
+            
+            var startDate:Date = dateFormatter.date(from: String(nextMonth!.get(.year)) + "-" + String(nextMonth!.get(.month)) + "-1")! as Date
+            var endDate:Date = dateFormatter.date(from: String(nextMonth!.get(.year)) + "-" + String(nextMonth!.get(.month)) + "-" + String(numDays))! as Date
+            startDate = Calendar.current.date(byAdding: .hour, value: 1, to: startDate)!
+            endDate = Calendar.current.date(byAdding: .hour, value: 1, to: endDate)!
+            
             
             var cal = Calendar.current
             cal.locale = Locale(identifier: language!)
@@ -291,18 +303,46 @@ struct MonthBalance {
             
             let translatedMonth = cal.shortMonthSymbols[nextMonth!.get(.month) - 1].uppercasingFirst
             
-            let currentMonth = try viewContext.fetch(monthRequest)[0]
-            currentMonth.current = false
-            currentMonth.finalAmount = totalBalance
-            SaveContext()
+            let currentMonths = try viewContext.fetch(monthRequest)
+            var initialAmount:Double = 0
+            
+            if(currentMonths.count > 0) {
+                let currentMonth = try viewContext.fetch(monthRequest)[0]
+                currentMonth.current = false
+                currentMonth.finalAmount = totalBalance
+                initialAmount = currentMonth.finalAmount
+                SaveContext()
+            }
+            
             let newMonth = Month(context: viewContext)
             newMonth.current = true
             newMonth.id = UUID()
-            newMonth.initialAmount = currentMonth.finalAmount
+            newMonth.initialAmount = initialAmount
             newMonth.timestamp = nextMonth
             newMonth.month = Int32(nextMonth!.get(.month))
             newMonth.year = Int32(nextMonth!.get(.year))
             newMonth.name = translatedMonth + " " + String(nextMonth!.get(.year)) //dateFormarter.string(from: newMonth.timestamp!)
+            newMonth.startDate = startDate
+            newMonth.endDate = endDate
+            
+            SaveContext()
+        } catch {
+            
+        }
+        
+    }
+    
+    func calculateMonth (totalBalance: Double, dayChangeMonth: Int32) {
+    
+        createMonth(totalBalance: totalBalance, dayChangeMonth: dayChangeMonth)
+        
+        let monthRequest: NSFetchRequest<Month> = Month.fetchRequest()
+        monthRequest.predicate = NSPredicate(format: "current = true")
+       
+
+        do {
+           
+            let currentMonth = try viewContext.fetch(monthRequest)[0]
             
             for i in 0..<self.accounts.items.count {
                 let newAccountHistory = HistoryAccount(context: viewContext)

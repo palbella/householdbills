@@ -137,7 +137,7 @@ struct TransactionsBodyView: View {
 
 
                     }
-               
+                   
                    
                 
                 
@@ -154,6 +154,7 @@ struct TransactionsBodyView: View {
        
      
     }
+        .padding(.bottom, 20)
     }
         }
         .onAppear {

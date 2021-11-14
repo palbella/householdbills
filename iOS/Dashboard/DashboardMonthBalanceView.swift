@@ -25,15 +25,11 @@ struct MonthBalanceView: View {
     @Binding var incomes: Double
     @Binding var expenses: Double
     @Binding var hideData: Bool
-    @State var incomeCalculation: Double = 0
+//    @State var incomeCalculation: Double = 0
     
     func onAppear() {
    
-        if(self.incomes > settings.estimatedMontlyIncomes) {
-            self.incomeCalculation = settings.estimatedMontlyIncomes
-        } else {
-            self.incomeCalculation = self.incomes
-        }
+
        
     }
     
@@ -192,7 +188,7 @@ struct MonthBalanceView: View {
 
                   
                     
-                    let fontColorMonth = (self.totalGoalAccounts + settings.estimatedMontlyIncomes - self.incomeCalculation - self.totalGoals - self.totalBudgets - self.totalPayments) >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
+                    let fontColorMonth = (getCalc()) >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
 
                             VStack(alignment: .center){
                                 
@@ -200,7 +196,7 @@ struct MonthBalanceView: View {
                                     Text(settings.symbol + " ")
                                         .font(.system(size: 18))
                                         .foregroundColor(fontColorMonth) +
-                                    Text("\((self.totalGoalAccounts + settings.estimatedMontlyIncomes - self.incomeCalculation - self.totalGoals - self.totalBudgets - self.totalPayments), specifier: "%.2f")")
+                                    Text("\((getCalc()), specifier: "%.2f")")
                                         .font(.system(size: 18))
                                         .foregroundColor(fontColorMonth)
                                 } else {
@@ -233,6 +229,17 @@ struct MonthBalanceView: View {
             }
         }
        
+    }
+    
+    func getCalc() -> Double {
+        
+        var incomeCalculation = settings.estimatedMontlyIncomes
+        if(self.incomes < settings.estimatedMontlyIncomes) {
+
+            incomeCalculation = self.incomes
+        }
+        
+        return self.totalGoalAccounts + settings.estimatedMontlyIncomes - incomeCalculation - self.totalPurchases - self.totalGoals - self.totalBudgets - self.totalPayments
     }
 }
 
