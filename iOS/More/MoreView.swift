@@ -72,6 +72,7 @@ struct MoreView: View {
                         self.settingsObj.symbol = self.settings.symbol
                         self.settingsObj.dayChangeMonth = self.settings.dayChangeMonth
                         self.settingsObj.showMonthBalance = self.settings.showMonthBalance
+                        self.settingsObj.fastApply = self.settings.fastApply
                         self.isShowingSettings = true
                     }) {
                         CardMenu(prompt: "slider.horizontal.3", title: "App Settings")
@@ -244,6 +245,7 @@ struct MoreView: View {
             savedSettings[0].unit = self.settingsObj.unit
             savedSettings[0].dayChangeMonth = self.settingsObj.dayChangeMonth
             savedSettings[0].showMonthBalance = self.settingsObj.showMonthBalance
+            savedSettings[0].fastApply = self.settingsObj.fastApply
             
             settings.symbol = self.settingsObj.symbol
             settings.currency = self.settingsObj.currency
@@ -251,7 +253,7 @@ struct MoreView: View {
             settings.unit = self.settingsObj.unit
             settings.dayChangeMonth = self.settingsObj.dayChangeMonth
             settings.showMonthBalance = self.settingsObj.showMonthBalance
-            
+            settings.fastApply = self.settingsObj.fastApply
            
             SaveContext()
            

@@ -19,18 +19,18 @@ struct ToastView: View {
     HStack {
       Text(message)
         .multilineTextAlignment(.center)
+        .font(.subheadline)
         .padding(5)
         .padding(.leading, 10)
         .padding(.trailing, 10)
         .foregroundColor(Color.white)
        
         
-        Button(action: {
-            onDismissAction()
-        }) {
-            Icon(content: "multiply", color: color).padding(5).padding(.leading, 5).padding(.trailing, 5)
-//                .shadow(color: .black, radius: 0.3, x: 0.0, y: 1.0)
-        }
+//        Button(action: {
+//            onDismissAction()
+//        }) {
+//            Icon(content: "multiply", color: color).padding(5).padding(.leading, 5).padding(.trailing, 5)
+//        }
 
     }
     .background(

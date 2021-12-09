@@ -21,6 +21,7 @@ struct SettingsModel: Hashable {
     var notificationPayment: Bool
     var notificationService: Bool
     var showMonthBalance: Bool
+    var fastApply: Bool
 
 
     
@@ -36,6 +37,7 @@ struct SettingsModel: Hashable {
         self.notificationPayment = false
         self.notificationService = false
         self.showMonthBalance = false
+        self.fastApply = false
     }
 }
 

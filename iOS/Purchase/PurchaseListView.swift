@@ -46,6 +46,9 @@ struct PurchaseListView: View {
     @Binding var expenses: Double
     @Binding var hideData: Bool
     
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
     @Binding var showSubscribe: Bool
     
     @State var totalPricesItem: Double = 0

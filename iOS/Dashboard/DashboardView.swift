@@ -36,6 +36,11 @@ struct DashboardView: View {
     @Binding var isShowingToast: Bool
     @Binding var toastMessasge: String
     @Binding var toastError: Bool
+    @Binding var isShowingPopup: Bool
+    @Binding var popupMessasge: String
+    @Binding var popupTitle: String
+    @Binding var popupImage: String
+    
     @Binding var showUser: Bool
     @Binding var showSubscribe: Bool
     @State var incomeCalculation: Double = 0
@@ -194,7 +199,7 @@ struct DashboardView: View {
 
                 VStack(spacing: 15 ) {
 
-                    DashboardBodyView(totalAccounts: self.$totalAccounts, totalGoalAccounts: self.$totalGoalAccounts, totalGoals: self.$totalGoals, totalPayments: self.$totalPayments, totalBudgets: self.$totalBudgets, totalPurchases: self.$totalPurchases, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData, isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, currentMonthName: $currentMonthName, showSubscribe: self.$showSubscribe)
+                    DashboardBodyView(totalAccounts: self.$totalAccounts, totalGoalAccounts: self.$totalGoalAccounts, totalGoals: self.$totalGoals, totalPayments: self.$totalPayments, totalBudgets: self.$totalBudgets, totalPurchases: self.$totalPurchases, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData, isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, isShowingPopup: $isShowingPopup, popupMessasge: $popupMessasge, popupTitle: self.$popupTitle, popupImage: self.$popupImage, currentMonthName: $currentMonthName, showSubscribe: self.$showSubscribe)
 
                 }
 

@@ -182,9 +182,9 @@ struct LogInView: View {
 
 
 public struct PasscodeField: View {
-    
+    @EnvironmentObject var ui: AppUI
+    @Environment(\.colorScheme) var colorScheme
     var maxDigits: Int = 6
-    var label = ""
     
     @State var pin: String = ""
     @State var showPin = false
@@ -195,8 +195,13 @@ public struct PasscodeField: View {
     
     public var body: some View {
         VStack(spacing: 20) {
-            Text(label).font(.title)
+          
             ZStack {
+                Text("Type below to introduce password")
+                    .foregroundColor(ui.lightCommandFontColor)
+                    .padding(.top, -50)
+                    .font(.system(size: 12))
+                
                 pinDots
                 backgroundField
             }

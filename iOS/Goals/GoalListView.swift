@@ -42,6 +42,9 @@ struct GoalListView: View {
     @Binding var totalGoals: Double
     @Binding var hideData: Bool
     
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
     @Binding var showSubscribe: Bool
     
     var body: some View {
@@ -110,6 +113,10 @@ struct GoalListView: View {
 //                                            saveTransaction(transaction: self.transaction)
                                             goalData.addGoal(goal: self.$goalSelected.wrappedValue)
                                             getTotals()
+                                        } else {
+                                            self.toastMessasge = "Name is required"
+                                            self.isShowingToast = true
+                                            self.toastError = true
                                         }
                                           
                                         }) {

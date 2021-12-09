@@ -31,6 +31,9 @@
         @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
         var carsFetch: FetchedResults<Car>
         
+        @Binding var isShowingToast: Bool
+        @Binding var toastMessasge: String
+        @Binding var toastError: Bool
         @Binding var showSubscribe: Bool
       
         
@@ -78,6 +81,10 @@
                                           
                                                            if(self.$carSelected.name.wrappedValue != "") {
                                                             addCar(car: self.$carSelected.wrappedValue)
+                                                           } else {
+                                                               self.toastMessasge = "Name is required"
+                                                               self.isShowingToast = true
+                                                               self.toastError = true
                                                            }
                                                 
 

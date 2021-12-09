@@ -34,18 +34,27 @@ struct DashboardBodyView: View {
     @State var nextMonth: Date? = Date()
     @State var nextMonthName: String = ""
     
+    @State var tutorial: TutorialData = TutorialData()
+    
     @Binding var isShowingToast: Bool
     @Binding var toastMessasge: String
     @Binding var toastError: Bool
+    @Binding var isShowingPopup: Bool
+    @Binding var popupMessasge: String
+    @Binding var popupTitle: String
+    @Binding var popupImage: String
     
     
     @Binding var currentMonthName: String
     
     @State var showConfirmBalance: Bool = false
+   
     
     @Binding var showSubscribe: Bool
     
-    
+    @State var showTutorialBank: Bool = false
+    @State var showTutorialBudget: Bool = false
+    @State var showTutorialPayment: Bool = false
     
     func onAppear() {
      
@@ -85,10 +94,11 @@ struct DashboardBodyView: View {
                         }
                         
                         Spacer()
-                                Icon(content: "greaterthan", color: .blue).padding(5).padding(.leading, 5).padding(.trailing, 5)
+                        Icon(content: "greaterthan", color: .white, fontColor: ui.lightPrimaryColor).padding(5).padding(.leading, 5).padding(.trailing, 5)
+                            .foregroundColor(ui.lightPrimaryColor)
                 }
                 }
-                .background(Color.blue)
+                .background(ui.lightPrimaryColor)
                 }
                 .padding(.top, 20)
                 .padding(.bottom, 20)
@@ -111,7 +121,7 @@ struct DashboardBodyView: View {
                 if(card.name == "Accounts") {
                     
                     if(card.visible == true) {
-                        AccountListView(totalAccounts: self.$totalAccounts, totalGoalAccounts: self.$totalGoalAccounts, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData, isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, showSubscribe: self.$showSubscribe)
+                        AccountListView(totalAccounts: self.$totalAccounts, totalGoalAccounts: self.$totalGoalAccounts, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData, isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, showSubscribe: self.$showSubscribe, showTutorialBank: $showTutorialBank)
                             .padding(.top, 10)
 
                          Spacer()
@@ -122,7 +132,7 @@ struct DashboardBodyView: View {
                 if(card.name == "Goals") {
                     
                     if(card.visible == true) {
-                        GoalListView(totalGoals: self.$totalGoals, hideData: self.$hideData, showSubscribe: self.$showSubscribe)
+                        GoalListView(totalGoals: self.$totalGoals, hideData: self.$hideData, isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError,  showSubscribe: self.$showSubscribe)
                            .padding(.top, 10)
 
 
@@ -134,7 +144,7 @@ struct DashboardBodyView: View {
                 if(card.name == "Budgets") {
                     
                     if(card.visible == true) {
-                        BudgetListView(totalBudgets: self.$totalBudgets, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData, showSubscribe: self.$showSubscribe)
+                        BudgetListView(totalBudgets: self.$totalBudgets, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData,isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError,  showSubscribe: self.$showSubscribe, showTutorialBudget: $showTutorialBudget)
                             .padding(.top, 10)
 
                         Spacer()
@@ -145,7 +155,7 @@ struct DashboardBodyView: View {
                 if(card.name == "Payments") {
                     
                     if(card.visible == true) {
-                        PaymentListView(totalPayments: self.$totalPayments, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData, showSubscribe: self.$showSubscribe)
+                        PaymentListView(totalPayments: self.$totalPayments, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData,isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError,  showSubscribe: self.$showSubscribe, showTutorialPayment: $showTutorialPayment)
                             .padding(.top, 10)
 
                         Spacer()
@@ -157,7 +167,7 @@ struct DashboardBodyView: View {
                 if(card.name == "Purchases") {
                     
                     if(card.visible == true) {
-                        PurchaseListView(totalPurchases: self.$totalPurchases, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData, showSubscribe: self.$showSubscribe)
+                        PurchaseListView(totalPurchases: self.$totalPurchases, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData,isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError,  showSubscribe: self.$showSubscribe)
                             .padding(.top, 10)
 
                         Spacer()
@@ -169,7 +179,7 @@ struct DashboardBodyView: View {
                 if(card.name == "Cars") {
                     
                     if(card.visible == true) {
-                        CarListView(showSubscribe: self.$showSubscribe)
+                        CarListView(isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, showSubscribe: self.$showSubscribe)
                             .padding(.top, 10)
                         
                         Spacer()
@@ -187,14 +197,19 @@ struct DashboardBodyView: View {
                     }
                 }
             }
+            
                 
 Divider()
             
         }
         .onAppear(){
             self.onAppear()
+            self.showTutorial()
         }
         .alert(isPresented: $showConfirmBalance, content: { confirmBalance })
+        .onChange(of: self.showTutorialBank, perform: { value in showTutorial() })
+        .onChange(of: self.showTutorialBudget, perform: { value in showTutorial() })
+        .onChange(of: self.showTutorialPayment, perform: { value in showTutorial() })
     
         
     }
@@ -215,6 +230,36 @@ Divider()
             },
             secondaryButton: .cancel(Text("No"))
         )
+    }
+    
+    func showTutorial() {
+        
+            self.showTutorialBank = tutorial.needTutorial(name: "dashboard", tutorialStep: 0)
+            self.popupTitle = "Tutorial"
+            self.popupMessasge = "Click on the bank account and set your current bank balance."
+            self.popupImage = "tutorial1"
+            self.isShowingPopup = self.showTutorialBank
+        
+        
+        if( self.showTutorialBank == false) {
+            self.showTutorialBudget = tutorial.needTutorial(name: "dashboard", tutorialStep: 1)
+            self.popupTitle = "Tutorial"
+            self.popupMessasge = "Set how much do you want to spend this month in bars and restaurants."
+            self.popupImage = "tutorial2"
+            self.isShowingPopup = self.showTutorialBudget
+        }
+        
+        if( self.showTutorialBank == false  && self.showTutorialBudget == false) {
+            self.showTutorialPayment = tutorial.needTutorial(name: "dashboard", tutorialStep: 2)
+            self.popupTitle = "Tutorial"
+            self.popupMessasge = "Do not forget to pay your bills, create a new payment, you will be able to mark as paid later."
+            self.popupImage = "tutorial3"
+            self.isShowingPopup = self.showTutorialPayment
+        }
+        
+        if( self.showTutorialBank == false  && self.showTutorialBudget == false && self.showTutorialPayment == false) {
+        }
+        
     }
     
     func setMonthName () {

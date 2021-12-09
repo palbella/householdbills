@@ -76,6 +76,9 @@ struct SettingsView: View {
             Toggle("Show Month Balance", isOn: $settings.showMonthBalance)
                 .padding()
             
+            Toggle("Swipe Down for apply changes", isOn: $settings.fastApply)
+                .padding()
+            
             VStack {
 
                 
@@ -178,6 +181,7 @@ struct SettingsView: View {
                 deleteAllData(entity: "Currency")
             deleteAllData(entity: "DailyBalance")
             deleteAllData(entity: "Migration")
+            deleteAllData(entity: "Tutorial")
                 restartApplication ()
             },
             secondaryButton: .cancel(Text("No"))

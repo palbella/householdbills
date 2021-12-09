@@ -28,6 +28,7 @@ struct HeaderTabView: View {
                     Spacer()
                     Text(LocalizedStringKey(title))
                         .font(ui.title)
+                        .font(.system(size: 30, weight: .heavy, design: .default))
                         .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
                         .padding(.bottom, 13)
                        
@@ -49,6 +50,40 @@ struct HeaderTabView: View {
 }
 
 
+struct HeaderTabTitleView: View {
+    
+    @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var ui: AppUI
+    
+    var title: String
+    
+  
+    var body: some View {
+       
+        if(settings.fastApply != true) {
+            Text(title)
+                .font(.system(size: 20, weight: .bold, design: .default))
+                .accessibilityAddTraits(.isHeader)
+                .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                .frame(maxWidth: .infinity)
+                .padding(.top, 20)
+                .padding(.bottom, 20)
+                .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
+                
+        } else {
+            Text("")
+                .font(.system(size: 20, weight: .bold, design: .default))
+                .accessibilityAddTraits(.isHeader)
+                .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                .frame(maxWidth: .infinity)
+                .padding(.top, 20)
+                .padding(.bottom, 20)
+                .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
+        }
+
+    }
+}
 
 
 

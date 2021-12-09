@@ -18,6 +18,7 @@ struct AccountUpdateView: View {
     @Binding var account: AccountModel
     @Binding var transaction: TransactionModel
     @Binding var modal: Bool
+    @Binding var save: Bool
     @Binding var delete: Bool
     
     @State var isShowingCryptoNew: Bool = false
@@ -61,19 +62,27 @@ struct AccountUpdateView: View {
     @State var budgetSelected: String? = ""
     
     @Binding var showSubscribe: Bool
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
   
-    init(account: Binding<AccountModel>, transaction: Binding<TransactionModel>, modal: Binding<Bool>, delete: Binding<Bool>, currencies: Binding<GetCurrencies>, accounts: Binding<GetAccounts>, categories: Binding<GetCategories>, budgets: Binding<GetBudgets>, showSubscribe: Binding<Bool> ) {
+    init(account: Binding<AccountModel>, transaction: Binding<TransactionModel>, modal: Binding<Bool>, save: Binding<Bool>, delete: Binding<Bool>, currencies: Binding<GetCurrencies>, accounts: Binding<GetAccounts>, categories: Binding<GetCategories>, budgets: Binding<GetBudgets>, showSubscribe: Binding<Bool>, isShowingToast: Binding<Bool>, toastMessasge: Binding<String>, toastError: Binding<Bool> ) {
            self._account = account
            self._transaction = transaction
         self._modal = modal
         self._delete = delete
+        self._save = save
         self._currencies = currencies
         self._accounts = accounts
         self._categories = categories
         self._budgets = budgets
         self._showSubscribe = showSubscribe
+        self._isShowingToast = isShowingToast
+        self._toastMessasge = toastMessasge
+        self._toastError = toastError
 
         UINavigationBar.appearance().isTranslucent = false
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
        }
     
     func onAppear() {
@@ -95,7 +104,7 @@ struct AccountUpdateView: View {
             }
         }
         
-        if(accountList.count == 0) {
+        if(accountList.count == 0 && transferTypes.items.count > 2) {
             transferTypes.items.remove(at: 2)
         }
         
@@ -122,6 +131,9 @@ struct AccountUpdateView: View {
     
             
         VStack(spacing: 0) {
+            
+
+            HeaderTabTitleView(title: account.name)
            
             if(self.account.type != "crypto" && self.account.type != "stock")
             {
@@ -277,7 +289,6 @@ struct AccountUpdateView: View {
             
                
                        }
-        .navigationBarTitle("Back")
         .background(NavigationConfigurator { nc in
             let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
                         nc.navigationBar.barTintColor = UIColor(color)
@@ -285,11 +296,27 @@ struct AccountUpdateView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
+                if(settings.fastApply == true) {
                 Text(account.name)
                     .font(ui.title)
                     .accessibilityAddTraits(.isHeader)
                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                }
             }
+            ToolbarItem(placement: .navigationBarLeading) {
+                if(settings.fastApply != true) {
+                                    Button("Done") {
+                                        if(self.account.name != "") {
+                                            self.modal = false
+                                            self.save = true
+                                        } else {
+                                            self.toastMessasge = "Name is required"
+                                            self.isShowingToast = true
+                                            self.toastError = true
+                                        }
+                                    }
+                }
+                                }
         }
         .onAppear() {
 
@@ -442,12 +469,13 @@ struct AccountSettingsView: View {
         let fontColor = colorScheme != .dark ? ui.lightFieldFontColor: ui.darkFieldFontColor
             
         VStack(spacing: 0) {
+            
+            HeaderTabTitleView(title: account.name)
+            
                 Form {
                     VStack(spacing: 0) {
               
                     TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "pencil", iconColor: .blue, label: "Name", value: $account.name)
-                    
-
               
             }
                     

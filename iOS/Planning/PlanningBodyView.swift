@@ -27,8 +27,23 @@ struct PlanningBodyView: View {
     @State var totalBudgets: Double = 0
     @State var totalPurchases: Double = 0
     
+    @State var showInfo: Bool = false
+    
     @Binding var showSubscribe: Bool
+    @State var animationStatus = false
+    @State var showTutorialInfo: Bool = true
+    
+    @State var tutorial: TutorialData = TutorialData()
      
+    func onAppear() {
+        withAnimation(Animation.linear(duration: 1).repeatForever(autoreverses: false)){
+                animationStatus.toggle()
+        }
+        
+        self.showTutorialInfo = tutorial.needTutorial(name: "planning", tutorialStep: 0)
+      
+    }
+    
     var body: some View {
         
         
@@ -98,23 +113,58 @@ struct PlanningBodyView: View {
             .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
            
             
-                        HStack (spacing: 0) {
-                            Icon(content: "info", color: Color.blue).padding(5).padding(.leading, 5).padding(.trailing, 5)
-                                .padding(.top, 15)
-                                .padding(.bottom, 15)
+            HStack (spacing: 0) {
+                Spacer()
+                
+                Button(action: {
+                    showInfo.toggle()
+                    tutorial.saveTutorial(name: "planning", tutorialStep: 0)
+                }) {
+                    ZStack {
+                        if(showTutorialInfo == true) {
+                        RoundedRectangle(cornerRadius: 5)
+                            .fill(animationStatus ? ui.darkCommandFontColor : ui.lightPrimaryColor)
+                            .frame(width: 26, height: 26)
+                        } else {
+                            RoundedRectangle(cornerRadius: 5)
+                                .fill(ui.darkCommandFontColor)
+                                .frame(width: 26, height: 26)
+                        }
+                        
+                            Image(systemName: "info")
+                            .foregroundColor(Color.white)
+                                .font(.system(size: 15, weight: .heavy))
+                        
+                            
+                    }
+                    .padding(5).padding(.leading, 5).padding(.trailing, 5)
+                        .padding(.top, 15)
+                        .padding(.bottom, 15)
+                   
+                }
+
+         
+
+        }
+            .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
+            
+            if(showInfo) {
+            VStack (spacing: 0) {
+                        VStack (spacing: 0) {
+      
             
                         Text("Budgets")
-                            .foregroundColor(labelColor)
-                            .frame(width: 80, height: 30, alignment: .leading)
-                            .multilineTextAlignment(.leading)
+                                .foregroundColor(ui.darkPrimaryColor)
                             .font(.system(size: 15))
+                            .padding(.leading, 10)
+                            .padding(.top, 10)
 
                             
             
-                        Spacer()
+                    
                             Text("budget-info")
                             .padding(5).padding(.leading, 5).padding(.trailing, 5)
-                            .multilineTextAlignment(.leading)
+                            .multilineTextAlignment(.center)
                                 .font(.system(size: 12))
                                 .fixedSize(horizontal: false, vertical: true)
             
@@ -123,21 +173,18 @@ struct PlanningBodyView: View {
                     }
                         .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
             
-            HStack (spacing: 0) {
-                Icon(content: "info", color: Color.blue).padding(5).padding(.leading, 5).padding(.trailing, 5)
-                    .padding(.top, 15)
-                    .padding(.bottom, 15)
+            VStack (spacing: 0) {
 
             Text("Payments")
-                .foregroundColor(labelColor)
-                .frame(width: 80, height: 30, alignment: .leading)
-                .multilineTextAlignment(.leading)
+                    .foregroundColor(ui.darkPrimaryColor)
                 .font(.system(size: 15))
+                .padding(.leading, 10)
+                .padding(.top, 10)
 
-            Spacer()
+          
                 Text("payment-info")
                 .padding(5).padding(.leading, 5).padding(.trailing, 5)
-                .multilineTextAlignment(.leading)
+                .multilineTextAlignment(.center)
                     .font(.system(size: 12))
                     .fixedSize(horizontal: false, vertical: true)
 
@@ -145,21 +192,18 @@ struct PlanningBodyView: View {
             .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
             
             
-            HStack (spacing: 0) {
-                Icon(content: "info", color: Color.blue).padding(5).padding(.leading, 5).padding(.trailing, 5)
-                    .padding(.top, 15)
-                    .padding(.bottom, 15)
+            VStack (spacing: 0) {
 
             Text("Goals")
-                .foregroundColor(labelColor)
-                .frame(width: 80, height: 30, alignment: .leading)
-                .multilineTextAlignment(.leading)
+                    .foregroundColor(ui.darkPrimaryColor)
                 .font(.system(size: 15))
+                .padding(.leading, 10)
+                .padding(.top, 10)
 
-            Spacer()
+         
                 Text("goal-info")
                 .padding(5).padding(.leading, 5).padding(.trailing, 5)
-                .multilineTextAlignment(.leading)
+                .multilineTextAlignment(.center)
                     .font(.system(size: 12))
                     .fixedSize(horizontal: false, vertical: true)
 
@@ -167,27 +211,27 @@ struct PlanningBodyView: View {
         }
             .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
             
-            HStack (spacing: 0) {
-                Icon(content: "info", color: Color.blue).padding(5).padding(.leading, 5).padding(.trailing, 5)
-                    .padding(.top, 15)
-                    .padding(.bottom, 15)
+            VStack (spacing: 0) {
 
             Text("Purchases")
-                .foregroundColor(labelColor)
-                .frame(width: 80, height: 30, alignment: .leading)
-                .multilineTextAlignment(.leading)
+                    .foregroundColor(ui.darkPrimaryColor)
                 .font(.system(size: 15))
+                .padding(.leading, 10)
+                .padding(.top, 10)
 
-            Spacer()
+          
                 Text("purchase-info")
                 .padding(5).padding(.leading, 5).padding(.trailing, 5)
-                .multilineTextAlignment(.leading)
+                .multilineTextAlignment(.center)
                     .font(.system(size: 12))
                     .fixedSize(horizontal: false, vertical: true)
 
 
         }
             .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
+            }
+            .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
+            }
                         Divider()
                         Spacer()
             
@@ -231,7 +275,7 @@ struct PlanningBodyView: View {
                                         .stroke(ui.lightCommandFontColor, lineWidth: 2)
                             )
                 }.padding(.bottom, 40)
-                    .padding(.top, 40)
+                    .padding(.top, 20)
                 
             }
             .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
@@ -240,6 +284,9 @@ struct PlanningBodyView: View {
         }
         .onTapGesture {
             UIApplication.shared.endEditing()
+        }
+        .onAppear() {
+            self.onAppear()
         }
        
        

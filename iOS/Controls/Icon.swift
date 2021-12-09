@@ -11,7 +11,7 @@ import SwiftUI
 struct Icon: View {
     var content: String
     var color: Color
-    
+    var fontColor: Color = .white
   
     var body: some View {
         
@@ -25,11 +25,10 @@ struct Icon: View {
                 Image(uiImage: UIImage(named:content) ?? UIImage())
                     .resizable()
                             .frame(width: 20, height: 20)
-//                !.addImagePadding(x: 10, y: 10)
             } else {
                 Image(systemName: content)
-                                .foregroundColor(.white)
-                    .font(.system(size: 15, weight: .heavy)) //, weight: .heavy
+                                .foregroundColor(fontColor)
+                    .font(.system(size: 15, weight: .heavy))
             }
                 
         }

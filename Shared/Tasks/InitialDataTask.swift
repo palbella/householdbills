@@ -20,6 +20,7 @@ struct InitialData {
     
     func run(password: String, name: String, email: String) {
         initialSettings(password: password, name: name, email: email)
+        initialTutorial()
         initialDataCards()
         initialDataCategories()
         initialCurrencies()
@@ -47,9 +48,95 @@ struct InitialData {
         
         
         SaveContext()
+        
+        let newTutorialA = Tutorial(context: viewContext)
+        
+        newTutorialA.id = UUID()
+        newTutorialA.name = "dashboard"
+        newTutorialA.step = 0
+        
+        SaveContext()
+        
+        let newTutorialB = Tutorial(context: viewContext)
+        
+        newTutorialB.id = UUID()
+        newTutorialB.name = "planning"
+        newTutorialB.step = 0
+        
+        SaveContext()
        
     }
     
+    
+    func initialTutorial() {
+
+
+        
+        let newTutorialA = Tutorial(context: viewContext)
+        
+        newTutorialA.id = UUID()
+        newTutorialA.name = "dashboard"
+        newTutorialA.step = 0
+        
+        SaveContext()
+        
+        let newTutorialB = Tutorial(context: viewContext)
+        
+        newTutorialB.id = UUID()
+        newTutorialB.name = "planning"
+        newTutorialB.step = 0
+        
+        SaveContext()
+        
+        let newTutorialC = Tutorial(context: viewContext)
+        
+        newTutorialC.id = UUID()
+        newTutorialC.name = "password"
+        newTutorialC.step = 0
+        
+        SaveContext()
+        
+        let newTutorialD = Tutorial(context: viewContext)
+        
+        newTutorialD.id = UUID()
+        newTutorialD.name = "splitbills"
+        newTutorialD.step = 0
+        
+        SaveContext()
+        
+        let newTutorialE = Tutorial(context: viewContext)
+        
+        newTutorialE.id = UUID()
+        newTutorialE.name = "transaction"
+        newTutorialE.step = 0
+        
+        SaveContext()
+        
+        let newTutorialF = Tutorial(context: viewContext)
+        
+        newTutorialF.id = UUID()
+        newTutorialF.name = "cards"
+        newTutorialF.step = 0
+        
+        SaveContext()
+        
+        let newTutorialG = Tutorial(context: viewContext)
+        
+        newTutorialG.id = UUID()
+        newTutorialG.name = "currency"
+        newTutorialG.step = 0
+        
+        SaveContext()
+        
+        let newTutorialH = Tutorial(context: viewContext)
+        
+        newTutorialH.id = UUID()
+        newTutorialH.name = "car"
+        newTutorialH.step = 0
+        
+        SaveContext()
+       
+    }
     
     func initialMonth() {
 

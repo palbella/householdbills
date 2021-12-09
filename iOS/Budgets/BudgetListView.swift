@@ -32,6 +32,8 @@ struct BudgetListView: View {
     
     @ObservedObject var transferTypes = GetTransactionTypes(type: "Budget")
     
+    @State var tutorial: TutorialData = TutorialData()
+    
     @ObservedObject var budgets = GetBudgets()
     @State var categories = GetCategories()
     @State var accounts = GetAccounts()
@@ -46,7 +48,11 @@ struct BudgetListView: View {
     @Binding var expenses: Double
     @Binding var hideData: Bool
     
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
     @Binding var showSubscribe: Bool
+    @Binding var showTutorialBudget: Bool
     
     func onAppear() {
         
@@ -96,18 +102,7 @@ struct BudgetListView: View {
                                     .sheet(isPresented: self.$isShowingNewBudgetPlanning, onDismiss: {
                                     
                                         
-                                        if(self.$budgetSelected.name.wrappedValue != "") {
-                                            self.transaction.name =  self.transferTypes.names[0]
-                                            self.transaction.account = self.$budgetSelected.name.wrappedValue
-                                            self.transaction.amount = self.$budgetSelected.amount.wrappedValue
-                                            self.transaction.symbol = self.$budgetSelected.symbol.wrappedValue
-                                            self.transaction.iconContent = self.$budgetSelected.iconContent.wrappedValue
-                                            self.transaction.iconColor = self.$budgetSelected.iconColor.wrappedValue
-                                            self.transaction.timestamp = Date()
-                                            saveTransaction(transaction: self.transaction)
-                                            budgetData.addBudget(budget: self.$budgetSelected.wrappedValue)
-                                            getTotals()
-                                        }
+                                        self.onAdd()
 
                                         }) {
                                         BudgetAddView(budget: self.$budgetSelected, transaction: self.$transaction, currencies: self.$currencies)
@@ -146,6 +141,7 @@ struct BudgetListView: View {
                                             }) {
 
                                                 VStack (spacing: 0) {
+                                                    CommandAnimationBorder(animation: self.$showTutorialBudget)
                                                     HStack (spacing: 0) {
                                                         Icon(content: item.iconContent!, color: getColor(color: item.iconColor!)).padding(5).padding(.leading, 5).padding(.trailing, 5)
 
@@ -175,6 +171,7 @@ struct BudgetListView: View {
 
                                                         }
                                                 }
+                                                    CommandAnimationBorder(animation: self.$showTutorialBudget)
                                                 .frame(maxWidth: .infinity)
 
 
@@ -186,35 +183,9 @@ struct BudgetListView: View {
                                            
 
                                                 if(self.delete) {
-                                                    self.transaction.name =  self.transferTypes.names[1]
-                                                    self.transaction.account = self.$budgetSelected.name.wrappedValue
-                                                    self.transaction.amount = self.$budgetSelected.amount.wrappedValue
-                                                    self.transaction.symbol = self.$budgetSelected.symbol.wrappedValue
-                                                    self.transaction.iconContent = self.$budgetSelected.iconContent.wrappedValue
-                                                    self.transaction.iconColor = self.$budgetSelected.iconColor.wrappedValue
-                                                    self.transaction.timestamp = Date()
-                                                    saveTransaction(transaction: self.transaction)
-                                                    budgetData.deleteBudget(budget: self.$budgetSelected.wrappedValue)
-                                                    getTotals()
+                                                    self.onDelete()
                                                 } else {
-                                                    if(self.$transaction.amount.wrappedValue > 0 && (self.$transaction.type.wrappedValue == LocalizedStringKey("Expense").toString() || self.$transaction.type.wrappedValue == LocalizedStringKey("Income").toString())) {
-                                                        self.transaction.name =  self.transferTypes.names[2]
-                                                        self.transaction.account = self.$budgetSelected.name.wrappedValue
-                                                        self.transaction.amount = self.$transaction.amount.wrappedValue
-                                                        if(transaction.type == LocalizedStringKey("Expense").toString()) {
-                                                            self.$transaction.amount.wrappedValue = self.$transaction.amount.wrappedValue * -1
-                                                        }
-                                                        self.transaction.symbol = self.$budgetSelected.symbol.wrappedValue
-                                                        self.transaction.iconContent = self.$budgetSelected.iconContent.wrappedValue
-                                                        self.transaction.iconColor = self.$budgetSelected.iconColor.wrappedValue
-                                                        self.transaction.timestamp = Date()
-                                                        saveTransaction(transaction: self.transaction)
-                                                        
-                                                        budgetData.accountAdjustment(destination: self.$transaction.destinationId.wrappedValue, amount: self.$transaction.amount.wrappedValue)
-                                                        
-                                                    }
-                                                    budgetData.updateBudget(budget: self.$budgetSelected.wrappedValue)
-                                                    getTotals()
+                                                    self.onUpdate()
                                                 }
 
 
@@ -250,13 +221,62 @@ struct BudgetListView: View {
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
                 getTotals()
                 }
-//            .onReceive(timer) { _ in
-//                getbudgets()
-//                       self.now = Date()
-//                   }
-          
-        
      
+    }
+    
+    func onAdd() {
+        if(self.$budgetSelected.name.wrappedValue != "") {
+            self.transaction.name =  self.transferTypes.names[0]
+            self.transaction.account = self.$budgetSelected.name.wrappedValue
+            self.transaction.amount = self.$budgetSelected.amount.wrappedValue
+            self.transaction.symbol = self.$budgetSelected.symbol.wrappedValue
+            self.transaction.iconContent = self.$budgetSelected.iconContent.wrappedValue
+            self.transaction.iconColor = self.$budgetSelected.iconColor.wrappedValue
+            self.transaction.timestamp = Date()
+            saveTransaction(transaction: self.transaction)
+            budgetData.addBudget(budget: self.$budgetSelected.wrappedValue)
+            getTotals()
+        } else {
+            self.toastMessasge = "Name is required"
+            self.isShowingToast = true
+            self.toastError = true
+        }
+    }
+    
+    func onUpdate() {
+        if(self.$transaction.amount.wrappedValue > 0 && (self.$transaction.type.wrappedValue == LocalizedStringKey("Expense").toString() || self.$transaction.type.wrappedValue == LocalizedStringKey("Income").toString())) {
+            self.transaction.name =  self.transferTypes.names[2]
+            self.transaction.account = self.$budgetSelected.name.wrappedValue
+            self.transaction.amount = self.$transaction.amount.wrappedValue
+            if(transaction.type == LocalizedStringKey("Expense").toString()) {
+                self.$transaction.amount.wrappedValue = self.$transaction.amount.wrappedValue * -1
+            }
+            self.transaction.symbol = self.$budgetSelected.symbol.wrappedValue
+            self.transaction.iconContent = self.$budgetSelected.iconContent.wrappedValue
+            self.transaction.iconColor = self.$budgetSelected.iconColor.wrappedValue
+            self.transaction.timestamp = Date()
+            saveTransaction(transaction: self.transaction)
+            
+            budgetData.accountAdjustment(destination: self.$transaction.destinationId.wrappedValue, amount: self.$transaction.amount.wrappedValue)
+            
+            tutorial.saveTutorial(name: "dashboard", tutorialStep: 1)
+            self.showTutorialBudget = false
+        }
+        budgetData.updateBudget(budget: self.$budgetSelected.wrappedValue)
+        getTotals()
+    }
+    
+    func onDelete() {
+        self.transaction.name =  self.transferTypes.names[1]
+        self.transaction.account = self.$budgetSelected.name.wrappedValue
+        self.transaction.amount = self.$budgetSelected.amount.wrappedValue
+        self.transaction.symbol = self.$budgetSelected.symbol.wrappedValue
+        self.transaction.iconContent = self.$budgetSelected.iconContent.wrappedValue
+        self.transaction.iconColor = self.$budgetSelected.iconColor.wrappedValue
+        self.transaction.timestamp = Date()
+        saveTransaction(transaction: self.transaction)
+        budgetData.deleteBudget(budget: self.$budgetSelected.wrappedValue)
+        getTotals()
     }
     
     private func saveTransaction(transaction: TransactionModel)

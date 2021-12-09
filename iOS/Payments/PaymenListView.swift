@@ -33,6 +33,8 @@ struct PaymentListView: View {
     
     @ObservedObject var transferTypes = GetTransactionTypes(type: "Payment")
     
+    @State var tutorial: TutorialData = TutorialData()
+    
     @ObservedObject var payments = GetPayments()
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
@@ -43,7 +45,13 @@ struct PaymentListView: View {
     @Binding var expenses: Double
     @Binding var hideData: Bool
     
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
     @Binding var showSubscribe: Bool
+    
+    @State var animationStatus = false
+    @Binding var showTutorialPayment: Bool
     
     func onAppear() {
         
@@ -90,13 +98,18 @@ struct PaymentListView: View {
                                         }
                                     }) {
 
-                                        CommandButton(content: "plus.circle")
+                                        CommandAnimationButton(content: "plus.circle", animation: self.$showTutorialPayment)
                                     }
                                     .sheet(isPresented: self.$isShowingNew, onDismiss: {
-
                                         if(self.$paymentSelected.name.wrappedValue != "") {
                                             paymentData.addPayment(payment: self.$paymentSelected.wrappedValue)
                                             getTotals()
+                                            tutorial.saveTutorial(name: "dashboard", tutorialStep: 2)
+                                            self.showTutorialPayment = false
+                                        } else {
+                                            self.toastMessasge = "Name is required"
+                                            self.isShowingToast = true
+                                            self.toastError = true
                                         }
 
                                         }) {
@@ -135,6 +148,9 @@ struct PaymentListView: View {
                                             }) {
 
                                                 VStack (spacing: 0) {
+                                                    
+                                                   
+                                                    
                                                     HStack (spacing: 0) {
                                                         Icon(content: item.iconContent!, color: getColor(color: item.iconColor!)).padding(5).padding(.leading, 5).padding(.trailing, 5)
 
@@ -228,9 +244,16 @@ struct PaymentListView: View {
                                                 .frame(maxWidth: .infinity)
 
 
-
+                                                
                                                 }
+                                                    .onAppear(perform: {
 
+                                                        withAnimation(Animation.linear(duration: 1).repeatForever(autoreverses: false)){
+
+                                                            animationStatus = !animationStatus
+
+                                                        }
+                                                    })
                                             }
                                             .sheet(isPresented: self.$isShowing, onDismiss: {
 

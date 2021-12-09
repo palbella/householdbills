@@ -28,6 +28,10 @@ struct MainView: View {
     @State var isShowingToast: Bool = false
     @State var toastMessasge: String = ""
     @State var toastError: Bool = true
+    @State var isShowingPopup: Bool = false
+    @State var popupMessasge: String = ""
+    @State var popupTitle: String = ""
+    @State var popupImage: String = ""
     
     @State var showActionSheet: Bool = false
     @State var showSubscribe: Bool = false
@@ -37,6 +41,8 @@ struct MainView: View {
     @ObservedObject var transactionData = TransactionData()
     @State var transactionAccountId: UUID = UUID()
     @State var transaction : TransactionModel = TransactionModel()
+    
+    
     
     init() {
         UITabBar.appearance().isTranslucent = false
@@ -49,7 +55,7 @@ struct MainView: View {
                     GeometryReader { geometry in
                         TabView(selection: $selection) {
 
-                            DashboardView(isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, showUser: $showUser, showSubscribe: $showSubscribe)
+                            DashboardView(isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, isShowingPopup: $isShowingPopup, popupMessasge: $popupMessasge, popupTitle: self.$popupTitle, popupImage: self.$popupImage, showUser: $showUser, showSubscribe: $showSubscribe)
                                 .tag(Tab.dashboard)
                             .tabItem {
                                 Image(systemName: "house")
@@ -64,7 +70,7 @@ struct MainView: View {
                                 Text("Planning")
                             }
                      
-                            DashboardView(isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, showUser: $showUser, showSubscribe: $showSubscribe)
+                            DashboardView(isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, isShowingPopup: $isShowingPopup, popupMessasge: $popupMessasge, popupTitle: self.$popupTitle, popupImage: self.$popupImage, showUser: $showUser, showSubscribe: $showSubscribe)
                                 .tag(Tab.dashboard)
                             .tabItem {
                                
@@ -111,7 +117,8 @@ struct MainView: View {
                     }
                     .modifier(Toast(isShowing: $isShowingToast, message: self.toastMessasge, isError: self.$toastError))
 
-                }
+            PopUpWindow(isShowingPopup: $isShowingPopup, popupTitle: $popupTitle, popupMessasge: $popupMessasge, popupImage: $popupImage)
+        }
         .fullScreenCover(isPresented: $showSubscribe, content: SubscribeView.init)
         .fullScreenCover(isPresented: $showUser, content: UserView.init)
                 .sheet(isPresented: $showActionSheet, onDismiss: {

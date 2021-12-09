@@ -17,6 +17,7 @@ class UserSettings: ObservableObject {
     @Published var navigateNowToLogIn: Bool = false
     @Published var navigateNowToSignup: Bool = false
     @Published var currencyUpdate: Bool = false
+    @Published var fastApply: Bool = false
     @Published var lastLogin: Date? = nil
     @Published var currency: String = "USD"
     @Published var symbol: String = "$"
@@ -128,6 +129,7 @@ struct HouseholdBillsApp: App {
                 self.settings.email = savedSettings[0].email!
                 self.settings.unit = savedSettings[0].unit!
                 self.settings.estimatedMontlyIncomes = savedSettings[0].monthIncome
+                self.settings.fastApply = savedSettings[0].fastApply
 //                self.settings.subscribed = savedSettings[0].subscribed
                 self.settings.dayChangeMonth = savedSettings[0].dayChangeMonth
                 self.settings.showMonthBalance = savedSettings[0].showMonthBalance

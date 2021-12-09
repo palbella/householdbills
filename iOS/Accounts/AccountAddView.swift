@@ -17,6 +17,8 @@ struct AccountAddView: View {
    
     @Binding var account: AccountModel
     @Binding var transaction: TransactionModel
+    @Binding var modal: Bool
+    @Binding var save: Bool
     
     @ObservedObject var icons = GetIcons()
     @ObservedObject var colors = GetColors()
@@ -28,13 +30,24 @@ struct AccountAddView: View {
     @State var ignoreGoal: String? = "No"
     @State var ignoreGoalId = 0
     
-    init(account: Binding<AccountModel>, transaction: Binding<TransactionModel>, currencies: Binding<GetCurrencies> ) {
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
+    
+    init(account: Binding<AccountModel>, transaction: Binding<TransactionModel>, currencies: Binding<GetCurrencies>, modal: Binding<Bool>, save: Binding<Bool>,
+    isShowingToast: Binding<Bool>, toastMessasge: Binding<String>, toastError: Binding<Bool>) {
         
            self._account = account
            self._transaction = transaction
         self._currencies = currencies
+        self._modal = modal
+        self._save = save
+        self._isShowingToast = isShowingToast
+        self._toastMessasge = toastMessasge
+        self._toastError = toastError
         
         UINavigationBar.appearance().isTranslucent = false
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
        }
     
     func onAppear() {
@@ -49,6 +62,9 @@ struct AccountAddView: View {
 
     var body: some View {
         NavigationView {
+            VStack(spacing: 0) {
+            
+            HeaderTabTitleView(title: "New Account")
         Form {
             
             VStack {
@@ -144,7 +160,6 @@ struct AccountAddView: View {
     
       
     }
-        .navigationBarTitle("Back")
         .background(NavigationConfigurator { nc in
             let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
                         nc.navigationBar.barTintColor = UIColor(color)
@@ -152,18 +167,34 @@ struct AccountAddView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
+                if(settings.fastApply == true) {
                 Text("New Account")
                     .font(ui.title)
                     .accessibilityAddTraits(.isHeader)
                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                }
             }
+            ToolbarItem(placement: .navigationBarLeading) {
+                if(settings.fastApply != true) {
+                                    Button("Done") {
+                                        if(self.account.name != "") {
+                                            self.modal = false
+                                            self.save = true
+                                        } else {
+                                            self.toastMessasge = "Name is required"
+                                            self.isShowingToast = true
+                                            self.toastError = true
+                                        }
+                                    }
+                }
+                                }
         }
         .onAppear() {
             self.onAppear()
         }
        
        
-        
+            }
     }
         .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
     }
