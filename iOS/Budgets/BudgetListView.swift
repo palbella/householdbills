@@ -14,8 +14,9 @@ struct BudgetListView: View {
     @EnvironmentObject var ui: AppUI
     @Environment(\.managedObjectContext) private var viewContext
     
-    @State var isShowingBudgetPlanning: Bool = false
-    @State var isShowingNewBudgetPlanning: Bool = false
+    @State var isShowing: Bool = false
+    @State var isShowingNew: Bool = false
+    @State var save: Bool = false
     @State var delete: Bool = false
    
     
@@ -90,7 +91,8 @@ struct BudgetListView: View {
                                         self.budgetSelected.iconColor = "red"
                                         self.budgetSelected.currency = settings.currency
                                         self.budgetSelected.symbol = settings.symbol
-                                        self.isShowingNewBudgetPlanning = true
+                                        self.isShowingNew = true
+                                            self.save = false
                                         } else {
                                            
                                             self.showSubscribe = true
@@ -99,13 +101,13 @@ struct BudgetListView: View {
 
                                         CommandButton(content: "plus.circle")
                                     }
-                                    .sheet(isPresented: self.$isShowingNewBudgetPlanning, onDismiss: {
+                                    .sheet(isPresented: self.$isShowingNew, onDismiss: {
                                     
                                         
                                         self.onAdd()
 
                                         }) {
-                                        BudgetAddView(budget: self.$budgetSelected, transaction: self.$transaction, currencies: self.$currencies)
+                                        BudgetAddView(budget: self.$budgetSelected, transaction: self.$transaction, currencies: self.$currencies, modal: self.$isShowingNew, save: self.$save, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                     }
                                     .frame(width: 15, height: 15)
                                     .padding(.leading, 10)
@@ -133,7 +135,8 @@ struct BudgetListView: View {
                                                 self.transaction.initialAmount = self.$budgetSelected.amount.wrappedValue
                                                 self.transaction.category = 1
                                                 self.delete = false
-                                                self.isShowingBudgetPlanning = true
+                                                    self.save = false
+                                                self.isShowing = true
                                                 } else {
                                                    
                                                     self.showSubscribe = true
@@ -179,7 +182,7 @@ struct BudgetListView: View {
                                                 }
 
                                             }
-                                            .sheet(isPresented: self.$isShowingBudgetPlanning, onDismiss: {
+                                            .sheet(isPresented: self.$isShowing, onDismiss: {
                                            
 
                                                 if(self.delete) {
@@ -190,7 +193,7 @@ struct BudgetListView: View {
 
 
                                             }) {
-                                               BudgetUpdateView(budget: self.$budgetSelected, transaction: self.$transaction, modal: self.$isShowingBudgetPlanning, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, categories: $categories, isPlanning: $isPlanning)
+                                               BudgetUpdateView(budget: self.$budgetSelected, transaction: self.$transaction, modal: self.$isShowing, save: self.$save, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, categories: $categories, isPlanning: $isPlanning, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                                 .environmentObject(self.ui)
 
 
@@ -225,6 +228,7 @@ struct BudgetListView: View {
     }
     
     func onAdd() {
+        if(settings.fastApply || self.save) {
         if(self.$budgetSelected.name.wrappedValue != "") {
             self.transaction.name =  self.transferTypes.names[0]
             self.transaction.account = self.$budgetSelected.name.wrappedValue
@@ -241,9 +245,11 @@ struct BudgetListView: View {
             self.isShowingToast = true
             self.toastError = true
         }
+        }
     }
     
     func onUpdate() {
+        if(settings.fastApply || self.save) {
         if(self.$transaction.amount.wrappedValue > 0 && (self.$transaction.type.wrappedValue == LocalizedStringKey("Expense").toString() || self.$transaction.type.wrappedValue == LocalizedStringKey("Income").toString())) {
             self.transaction.name =  self.transferTypes.names[2]
             self.transaction.account = self.$budgetSelected.name.wrappedValue
@@ -264,6 +270,7 @@ struct BudgetListView: View {
         }
         budgetData.updateBudget(budget: self.$budgetSelected.wrappedValue)
         getTotals()
+        }
     }
     
     func onDelete() {

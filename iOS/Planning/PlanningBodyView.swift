@@ -34,6 +34,7 @@ struct PlanningBodyView: View {
     @State var showTutorialInfo: Bool = true
     
     @State var tutorial: TutorialData = TutorialData()
+    
      
     func onAppear() {
         withAnimation(Animation.linear(duration: 1).repeatForever(autoreverses: false)){
@@ -241,12 +242,12 @@ struct PlanningBodyView: View {
        
         }
         
-        PlanningBudgetBodyView(totalBudgets: self.$totalBudgets)
+        PlanningBudgetBodyView(totalBudgets: self.$totalBudgets, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                 .padding(.top, 10)
                 .padding(.bottom, 20)
-        PlanningPaymentBodyView(totalPayments: self.$totalPayments)
+        PlanningPaymentBodyView(totalPayments: self.$totalPayments, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                 .padding(.bottom, 20)
-            PlanningPurchaseBodyView(totalPurchases: self.$totalPurchases, showSubscribe: self.$showSubscribe)
+            PlanningPurchaseBodyView(totalPurchases: self.$totalPurchases, showSubscribe: self.$showSubscribe, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                 .padding(.bottom, 20)
            Spacer()
             

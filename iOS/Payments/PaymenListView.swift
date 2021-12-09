@@ -16,6 +16,7 @@ struct PaymentListView: View {
     
     @State var isShowing: Bool = false
     @State var isShowingNew: Bool = false
+    @State var save: Bool = false
     @State var delete: Bool = false
    
     @State var paymentSelected : PaymentModel = PaymentModel()
@@ -92,6 +93,7 @@ struct PaymentListView: View {
                                         self.paymentSelected.currency = settings.currency
                                         self.paymentSelected.symbol = settings.symbol
                                         self.isShowingNew = true
+                                            self.save = false
                                         } else {
                                            
                                             self.showSubscribe = true
@@ -101,6 +103,7 @@ struct PaymentListView: View {
                                         CommandAnimationButton(content: "plus.circle", animation: self.$showTutorialPayment)
                                     }
                                     .sheet(isPresented: self.$isShowingNew, onDismiss: {
+                                        if(settings.fastApply || self.save) {
                                         if(self.$paymentSelected.name.wrappedValue != "") {
                                             paymentData.addPayment(payment: self.$paymentSelected.wrappedValue)
                                             getTotals()
@@ -111,9 +114,9 @@ struct PaymentListView: View {
                                             self.isShowingToast = true
                                             self.toastError = true
                                         }
-
+                                        }
                                         }) {
-                                            PaymentAddView(payment: self.$paymentSelected, transaction: self.$transaction, currencies: self.$currencies, accounts: $accounts, categories: self.$categories)
+                                            PaymentAddView(payment: self.$paymentSelected, transaction: self.$transaction, currencies: self.$currencies, accounts: $accounts, categories: self.$categories, modal: self.$isShowingNew, save: self.$save, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                             .environmentObject(self.ui)
                                                 .environmentObject(self.settings)
                                     }
@@ -140,6 +143,7 @@ struct PaymentListView: View {
                                                     self.paymentSelected = paymentData.map(payment: item)
                                                 self.transaction = TransactionModel()
                                                 self.delete = false
+                                                    self.save = false
                                                 self.isShowing = true
                                                 } else {
                                                    
@@ -261,16 +265,18 @@ struct PaymentListView: View {
                                                     paymentData.deletePayment(payment: self.$paymentSelected.wrappedValue)
                                                     getTotals()
                                                 } else {
+                                                    if(settings.fastApply || self.save) {
                                                     paymentData.updatePayment(payment: self.$paymentSelected.wrappedValue, transactionParam: self.$transaction.wrappedValue)
                                                     getTotals()
                                                     self.expenses = abs(transactionData.fetchExpenses())
                                                     self.incomes = transactionData.fetchIncomes()
+                                                    }
                                                 }
 
 
 
                                             }) {
-                                                PaymentUpdateView(payment: self.$paymentSelected, transaction: self.$transaction, modal: self.$isShowing, delete: self.$delete, currencies: self.$currencies, accounts: self.$accounts, categories: self.$categories)
+                                                PaymentUpdateView(payment: self.$paymentSelected, transaction: self.$transaction, modal: self.$isShowing, save: self.$save, delete: self.$delete, currencies: self.$currencies, accounts: self.$accounts, categories: self.$categories, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                                     .environmentObject(self.ui)
                                                     .environmentObject(self.settings)
 

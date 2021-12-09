@@ -18,6 +18,7 @@ struct GoalListView: View {
     @State var isShowing: Bool = false
     @State var isShowingNew: Bool = false
     @State var isShowingPlanning: Bool = false
+    @State var save: Bool = false
     @State var delete: Bool = false
 
     @State var goalSelected : GoalModel = GoalModel()
@@ -93,6 +94,7 @@ struct GoalListView: View {
                                         self.goalSelected.currency = settings.currency
                                         self.goalSelected.symbol = settings.symbol
                                         self.isShowingNew = true
+                                            self.save = false
                                         } else {
                                            
                                             self.showSubscribe = true
@@ -103,14 +105,8 @@ struct GoalListView: View {
                                     }
                                     .sheet(isPresented: self.$isShowingNew, onDismiss: {
                                         
+                                        if(settings.fastApply || self.save) {
                                         if(self.$goalSelected.name.wrappedValue != "") {
-//                                            self.transaction.name = self.transferTypes.names[3] + " " + self.$goalSelected.name.wrappedValue
-//                                            self.transaction.amount = self.$goalSelected.amount.wrappedValue
-//                                            self.transaction.symbol = self.$goalSelected.symbol.wrappedValue
-//                                            self.transaction.iconContent = self.$goalSelected.iconContent.wrappedValue
-//                                            self.transaction.iconColor = self.$goalSelected.iconColor.wrappedValue
-//                                            self.transaction.timestamp = Date()
-//                                            saveTransaction(transaction: self.transaction)
                                             goalData.addGoal(goal: self.$goalSelected.wrappedValue)
                                             getTotals()
                                         } else {
@@ -118,9 +114,10 @@ struct GoalListView: View {
                                             self.isShowingToast = true
                                             self.toastError = true
                                         }
+                                        }
                                           
                                         }) {
-                                        GoalAddView(goal: self.$goalSelected, transaction: self.$transaction, currencies: self.$currencies)
+                                        GoalAddView(goal: self.$goalSelected, transaction: self.$transaction, currencies: self.$currencies, modal: self.$isShowingNew, save: self.$save, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                             .environmentObject(self.ui)
                                                 .environmentObject(self.settings)
                                     }
@@ -155,6 +152,7 @@ struct GoalListView: View {
                                                 self.goalSelected = goalData.map(goal: item)
                                             self.transaction = TransactionModel()
                                             self.delete = false
+                                                self.save = false
                                             self.isShowing = true
                                             } else {
                                                
@@ -217,14 +215,15 @@ struct GoalListView: View {
                                                 goalData.deleteGoal(goal: self.$goalSelected.wrappedValue)
                                                 getTotals()
                                             } else {
-
+                                                if(settings.fastApply || self.save) {
                                                 goalData.updateGoal(goal: self.$goalSelected.wrappedValue)
                                                 getTotals()
+                                                }
                                             }
                                             
                                             
                                         }) {
-                                            GoalUpdateView(goal: self.$goalSelected, transaction: self.$transaction, modal: self.$isShowing, delete: self.$delete, currencies: self.$currencies)
+                                            GoalUpdateView(goal: self.$goalSelected, transaction: self.$transaction, modal: self.$isShowing, save: self.$save, delete: self.$delete, currencies: self.$currencies, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                                 .environmentObject(self.ui)
                                                     .environmentObject(self.settings)
                     

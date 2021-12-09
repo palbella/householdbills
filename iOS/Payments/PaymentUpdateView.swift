@@ -17,6 +17,7 @@ struct PaymentUpdateView: View {
     @Binding var payment: PaymentModel
     @Binding var transaction: TransactionModel
     @Binding var modal: Bool
+    @Binding var save: Bool
     @Binding var delete: Bool
     
     @ObservedObject var icons = GetIcons()
@@ -32,20 +33,27 @@ struct PaymentUpdateView: View {
     @State var transactionType: String? = ""
     @State var transactionTypeId: Int = 0
     
-   
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
     
   
-    init(payment: Binding<PaymentModel>, transaction: Binding<TransactionModel>, modal: Binding<Bool>, delete: Binding<Bool>, currencies: Binding<GetCurrencies>, accounts: Binding<GetAccounts>, categories: Binding<GetCategories>) {
+    init(payment: Binding<PaymentModel>, transaction: Binding<TransactionModel>, modal: Binding<Bool>, save: Binding<Bool>, delete: Binding<Bool>, currencies: Binding<GetCurrencies>, accounts: Binding<GetAccounts>, categories: Binding<GetCategories>, isShowingToast: Binding<Bool>, toastMessasge: Binding<String>, toastError: Binding<Bool>) {
            self._payment = payment
            self._transaction = transaction
         self._modal = modal
         self._delete = delete
+        self._save = save
         self._currencies = currencies
         self._accounts = accounts
         self._categories = categories
+        self._isShowingToast = isShowingToast
+        self._toastMessasge = toastMessasge
+        self._toastError = toastError
         self.initialAmount = payment.amount.wrappedValue
         
         UINavigationBar.appearance().isTranslucent = false
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
         
        }
     
@@ -69,7 +77,7 @@ struct PaymentUpdateView: View {
         VStack(spacing: 0) {
            
  
-           
+            HeaderTabTitleView(title: payment.name)
             Form {
                 
 
@@ -123,7 +131,6 @@ struct PaymentUpdateView: View {
             
                
                        }
-        .navigationBarTitle("Back")
         .background(NavigationConfigurator { nc in
             let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
                         nc.navigationBar.barTintColor = UIColor(color)
@@ -131,18 +138,32 @@ struct PaymentUpdateView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
+                if(settings.fastApply == true) {
                 Text(payment.name)
                     .font(ui.title)
                     .accessibilityAddTraits(.isHeader)
                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                }
             }
+            ToolbarItem(placement: .navigationBarLeading) {
+                if(settings.fastApply != true) {
+                                    Button("Done") {
+                                        if(self.payment.name != "") {
+                                            self.modal = false
+                                            self.save = true
+                                        } else {
+                                            self.toastMessasge = "Name is required"
+                                            self.isShowingToast = true
+                                            self.toastError = true
+                                        }
+                                    }
+                }
+                                }
         }
         .onAppear() {
             self.onAppear()
         }
-        .onTapGesture {
-            UIApplication.shared.endEditing()
-        }
+        
             
 
             

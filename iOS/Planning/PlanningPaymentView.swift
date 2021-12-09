@@ -16,6 +16,7 @@ struct PlanningPaymentBodyView: View {
     
     @State var isShowing: Bool = false
     @State var isShowingNew: Bool = false
+    @State var save: Bool = false
     @State var delete: Bool = false
     
     @State var paymentSelected : PaymentModel = PaymentModel()
@@ -37,6 +38,10 @@ struct PlanningPaymentBodyView: View {
 
     
     @Binding var totalPayments: Double
+    
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
     
     func onAppear() {
         
@@ -73,19 +78,21 @@ struct PlanningPaymentBodyView: View {
                                     self.paymentSelected.currency = settings.currency
                                     self.paymentSelected.symbol = settings.symbol
                                     self.isShowingNew = true
+                                    self.save = false
                                 }) {
 
                                     CommandButton(content: "plus.circle")
                                 }
                                 .sheet(isPresented: self.$isShowingNew, onDismiss: {
-
+                                    if(settings.fastApply || self.save) {
                                     if(self.$paymentSelected.name.wrappedValue != "") {
                                         monthlyPaymentData.addPayment(payment: self.$paymentSelected.wrappedValue)
                                         getTotals()
                                     }
+                                    }
 
                                     }) {
-                                        PaymentAddView(payment: self.$paymentSelected, transaction: self.$transaction, currencies: self.$currencies, accounts: self.$accounts, categories: $categories)
+                                        PaymentAddView(payment: self.$paymentSelected, transaction: self.$transaction, currencies: self.$currencies, accounts: self.$accounts, categories: $categories, modal: self.$isShowingNew, save: self.$save, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                         .environmentObject(self.ui)
                                             .environmentObject(self.settings)
                                 }
@@ -166,15 +173,16 @@ struct PlanningPaymentBodyView: View {
                                                 monthlyPaymentData.deletePayment(payment: self.$paymentSelected.wrappedValue)
                                                 getTotals()
                                             } else {
-
+                                                if(settings.fastApply || self.save) {
                                                 monthlyPaymentData.updatePayment(payment: self.$paymentSelected.wrappedValue)
                                                 getTotals()
+                                                }
                                             }
 
 
 
                                         }) {
-                                            PaymentUpdateView(payment: self.$paymentSelected, transaction: self.$transaction, modal: self.$isShowing, delete: self.$delete, currencies: self.$currencies, accounts: self.$accounts, categories: self.$categories)
+                                            PaymentUpdateView(payment: self.$paymentSelected, transaction: self.$transaction, modal: self.$isShowing, save: self.$save, delete: self.$delete, currencies: self.$currencies, accounts: self.$accounts, categories: self.$categories, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                                 .environmentObject(self.ui)
                                                     .environmentObject(self.settings)
 

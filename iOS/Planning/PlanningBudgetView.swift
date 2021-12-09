@@ -16,6 +16,7 @@ struct PlanningBudgetBodyView: View {
     
     @State var isShowing: Bool = false
     @State var isShowingNew: Bool = false
+    @State var save: Bool = false
     @State var delete: Bool = false
   
     
@@ -38,6 +39,11 @@ struct PlanningBudgetBodyView: View {
     var budgetsFetch: FetchedResults<MonthlyBudget>
 
     @Binding var totalBudgets: Double
+    
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
+   
     
     var body: some View {
         
@@ -66,6 +72,7 @@ struct PlanningBudgetBodyView: View {
                                     self.budgetSelected.currency = settings.currency
                                     self.budgetSelected.symbol = settings.symbol
                                     self.isShowingNew = true
+                                    self.save = false
                                 }) {
                                     
                                     CommandButton(content: "plus.circle")
@@ -77,7 +84,7 @@ struct PlanningBudgetBodyView: View {
                                     }
                                       
                                     }) {
-                                    BudgetAddView(budget: self.$budgetSelected, transaction: self.$transaction, currencies: self.$currencies)
+                                    BudgetAddView(budget: self.$budgetSelected, transaction: self.$transaction, currencies: self.$currencies, modal: self.$isShowingNew, save: self.$save, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                 }
                                 .frame(width: 15, height: 15)
                                 .padding(.leading, 10)
@@ -100,6 +107,7 @@ struct PlanningBudgetBodyView: View {
                                         Button(action: {
                                             self.budgetSelected = monthlyBudgetData.map(budget: item)
                                             self.delete = false
+                                            self.save = false
                                             self.isShowing = true
                                         }) {
 
@@ -146,7 +154,7 @@ struct PlanningBudgetBodyView: View {
                                             
                                            
                                         }) {
-                                            BudgetUpdateView(budget: self.$budgetSelected, transaction: self.$transaction, modal: self.$isShowing, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, categories: $categories, isPlanning: $isPlanning)
+                                            BudgetUpdateView(budget: self.$budgetSelected, transaction: self.$transaction, modal: self.$isShowing, save: self.$save, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, categories: $categories, isPlanning: $isPlanning, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                             
 
                     

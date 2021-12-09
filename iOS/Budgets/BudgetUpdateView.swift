@@ -18,6 +18,7 @@ struct BudgetUpdateView: View {
     @Binding var budget: BudgetModel
     @Binding var transaction: TransactionModel
     @Binding var modal: Bool
+    @Binding var save: Bool
     @Binding var delete: Bool
     
     @ObservedObject var icons = GetIcons()
@@ -41,18 +42,27 @@ struct BudgetUpdateView: View {
     
     @Binding var isPlanning : Bool
     
-    init(budget: Binding<BudgetModel>, transaction: Binding<TransactionModel>, modal: Binding<Bool>, delete: Binding<Bool>, currencies: Binding<GetCurrencies>, accounts: Binding<GetAccounts>, categories: Binding<GetCategories>, isPlanning: Binding<Bool>) {
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
+    
+    init(budget: Binding<BudgetModel>, transaction: Binding<TransactionModel>, modal: Binding<Bool>, save: Binding<Bool>, delete: Binding<Bool>, currencies: Binding<GetCurrencies>, accounts: Binding<GetAccounts>, categories: Binding<GetCategories>, isPlanning: Binding<Bool> , isShowingToast: Binding<Bool>, toastMessasge: Binding<String>, toastError: Binding<Bool>) {
            self._budget = budget
            self._transaction = transaction
         self._modal = modal
         self._delete = delete
+        self._save = save
         self._currencies = currencies
         self._categories = categories
         self._accounts = accounts
         self._isPlanning = isPlanning
+        self._isShowingToast = isShowingToast
+        self._toastMessasge = toastMessasge
+        self._toastError = toastError
         self.initialAmount = budget.amount.wrappedValue
         
         UINavigationBar.appearance().isTranslucent = false
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
        }
     
     func onAppear() {
@@ -83,7 +93,7 @@ struct BudgetUpdateView: View {
             
         VStack(spacing: 0) {
            
- 
+            HeaderTabTitleView(title: budget.name)
            
             Form {
                 
@@ -217,7 +227,6 @@ struct BudgetUpdateView: View {
             
                
                        }
-        .navigationBarTitle("Back")
         .background(NavigationConfigurator { nc in
             let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
                         nc.navigationBar.barTintColor = UIColor(color)
@@ -225,17 +234,30 @@ struct BudgetUpdateView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
+                if(settings.fastApply == true) {
                 Text(budget.name)
                     .font(ui.title)
                     .accessibilityAddTraits(.isHeader)
                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                }
             }
+            ToolbarItem(placement: .navigationBarLeading) {
+                if(settings.fastApply != true) {
+                                    Button("Done") {
+                                        if(self.budget.name != "") {
+                                            self.modal = false
+                                            self.save = true
+                                        } else {
+                                            self.toastMessasge = "Name is required"
+                                            self.isShowingToast = true
+                                            self.toastError = true
+                                        }
+                                    }
+                }
+                                }
         }
         .onAppear() {
             self.onAppear()
-        }
-        .onTapGesture {
-            UIApplication.shared.endEditing()
         }
             
 
@@ -278,6 +300,9 @@ struct BudgetSettingsView: View {
         let fontColor = colorScheme != .dark ? ui.lightFieldFontColor: ui.darkFieldFontColor
             
         VStack(spacing: 0) {
+            
+            HeaderTabTitleView(title: budget.name)
+            
                 Form {
                     VStack(spacing: 0) {
               

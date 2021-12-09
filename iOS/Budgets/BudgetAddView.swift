@@ -15,18 +15,31 @@ struct BudgetAddView: View {
    
     @Binding var budget: BudgetModel
     @Binding var transaction: TransactionModel
+    @Binding var modal: Bool
+    @Binding var save: Bool
     
     @ObservedObject var icons = GetIcons()
     @ObservedObject var colors = GetColors()
     @Binding var currencies : GetCurrencies
     
-    init(budget: Binding<BudgetModel>, transaction: Binding<TransactionModel>, currencies: Binding<GetCurrencies> ) {
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
+    
+    init(budget: Binding<BudgetModel>, transaction: Binding<TransactionModel>, currencies: Binding<GetCurrencies>, modal: Binding<Bool>, save: Binding<Bool>,
+         isShowingToast: Binding<Bool>, toastMessasge: Binding<String>, toastError: Binding<Bool> ) {
         
            self._budget = budget
            self._transaction = transaction
         self._currencies = currencies
+        self._modal = modal
+        self._save = save
+        self._isShowingToast = isShowingToast
+        self._toastMessasge = toastMessasge
+        self._toastError = toastError
         
         UINavigationBar.appearance().isTranslucent = false
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
        }
     
     func onAppear() {
@@ -41,6 +54,9 @@ struct BudgetAddView: View {
         
      
         NavigationView {
+            VStack(spacing: 0) {
+            
+            HeaderTabTitleView(title: "New Account")
         Form {
 
             VStack {
@@ -106,7 +122,6 @@ struct BudgetAddView: View {
 
 
     }
-        .navigationBarTitle("Back")
         .background(NavigationConfigurator { nc in
             let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
                         nc.navigationBar.barTintColor = UIColor(color)
@@ -114,14 +129,31 @@ struct BudgetAddView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text("New Budget")
+                if(settings.fastApply == true) {
+                Text("New Account")
                     .font(ui.title)
                     .accessibilityAddTraits(.isHeader)
                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                }
             }
+            ToolbarItem(placement: .navigationBarLeading) {
+                if(settings.fastApply != true) {
+                                    Button("Done") {
+                                        if(self.budget.name != "") {
+                                            self.modal = false
+                                            self.save = true
+                                        } else {
+                                            self.toastMessasge = "Name is required"
+                                            self.isShowingToast = true
+                                            self.toastError = true
+                                        }
+                                    }
+                }
+                                }
         }
         .onAppear() {
             self.onAppear()
+        }
         }
 
     }

@@ -16,18 +16,30 @@ struct GoalAddView: View {
    
     @Binding var goal: GoalModel
     @Binding var transaction: TransactionModel
+    @Binding var modal: Bool
+    @Binding var save: Bool
     
     @ObservedObject var icons = GetIcons()
     @ObservedObject var colors = GetColors()
     @Binding var currencies : GetCurrencies
     
-    init(goal: Binding<GoalModel>, transaction: Binding<TransactionModel>, currencies: Binding<GetCurrencies> ) {
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
+    
+    init(goal: Binding<GoalModel>, transaction: Binding<TransactionModel>, currencies: Binding<GetCurrencies>, modal: Binding<Bool>, save: Binding<Bool>, isShowingToast: Binding<Bool>, toastMessasge: Binding<String>, toastError: Binding<Bool> ) {
         
            self._goal = goal
            self._transaction = transaction
         self._currencies = currencies
+        self._modal = modal
+        self._save = save
+        self._isShowingToast = isShowingToast
+        self._toastMessasge = toastMessasge
+        self._toastError = toastError
         
         UINavigationBar.appearance().isTranslucent = false
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
        }
     
     func onAppear() {
@@ -41,6 +53,9 @@ struct GoalAddView: View {
 
     var body: some View {
         NavigationView {
+            VStack(spacing: 0) {
+            
+            HeaderTabTitleView(title: "New Goal")
         Form {
         VStack {
             
@@ -69,7 +84,8 @@ struct GoalAddView: View {
             .padding()
 
             TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "pencil", iconColor: .blue, label: "Name", value: $goal.name)
-            DoubleInput(labelColor: labelColor, fontColor: fontColor, iconContent: "pencil", iconColor: .blue, label: "Goal amount", value: $goal.target)
+            Divider()
+            DoubleInput(labelColor: labelColor, fontColor: fontColor, iconContent: "", iconColor: .blue, label: "Goal amount", value: $goal.target)
             
      
             
@@ -104,7 +120,6 @@ struct GoalAddView: View {
             .padding()
       
     }
-        .navigationBarTitle("Back")
         .background(NavigationConfigurator { nc in
             let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
                         nc.navigationBar.barTintColor = UIColor(color)
@@ -112,15 +127,32 @@ struct GoalAddView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
+                if(settings.fastApply == true) {
                 Text("New Goal")
-                    .font(.title)
+                    .font(ui.title)
                     .accessibilityAddTraits(.isHeader)
                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                }
             }
+            ToolbarItem(placement: .navigationBarLeading) {
+                if(settings.fastApply != true) {
+                                    Button("Done") {
+                                        if(self.goal.name != "") {
+                                            self.modal = false
+                                            self.save = true
+                                        } else {
+                                            self.toastMessasge = "Name is required"
+                                            self.isShowingToast = true
+                                            self.toastError = true
+                                        }
+                                    }
+                }
+                                }
         }
         .onAppear() {
             self.onAppear()
         }
+            }
         
     }
         .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)

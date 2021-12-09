@@ -44,6 +44,10 @@ struct PlanningPurchaseBodyView: View {
     
     @State var totalPricesItem: Double = 0
     
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
+    
     func onAppear() {
         self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
         self.categories.items = fetchCategories.fetch(viewContext: viewContext)

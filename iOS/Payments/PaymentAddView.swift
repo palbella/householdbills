@@ -17,6 +17,9 @@ struct PaymentAddView: View {
    
     @Binding var payment: PaymentModel
     @Binding var transaction: TransactionModel
+    @Binding var modal: Bool
+    @Binding var save: Bool
+    
     @Binding var currencies : GetCurrencies
     @Binding var accounts : GetAccounts
     @Binding var categories : GetCategories
@@ -44,15 +47,26 @@ struct PaymentAddView: View {
     @State var expirationDayIndex: Int = 0
     @State var expirationDaySelected: String? = ""
     
-    init(payment: Binding<PaymentModel>, transaction: Binding<TransactionModel>, currencies: Binding<GetCurrencies>, accounts: Binding<GetAccounts>, categories: Binding<GetCategories>) {
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
+    
+    init(payment: Binding<PaymentModel>, transaction: Binding<TransactionModel>, currencies: Binding<GetCurrencies>, accounts: Binding<GetAccounts>, categories: Binding<GetCategories>, modal: Binding<Bool>, save: Binding<Bool>,
+         isShowingToast: Binding<Bool>, toastMessasge: Binding<String>, toastError: Binding<Bool>) {
         
            self._payment = payment
            self._transaction = transaction
         self._currencies = currencies
         self._accounts = accounts
         self._categories = categories
+        self._modal = modal
+        self._save = save
+        self._isShowingToast = isShowingToast
+        self._toastMessasge = toastMessasge
+        self._toastError = toastError
         
         UINavigationBar.appearance().isTranslucent = false
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
        }
     
     func onAppear() {
@@ -83,6 +97,9 @@ struct PaymentAddView: View {
 
     var body: some View {
         NavigationView {
+            VStack(spacing: 0) {
+            
+            HeaderTabTitleView(title: "New Payment")
         Form {
             
             VStack {
@@ -190,7 +207,6 @@ struct PaymentAddView: View {
     
       
     }
-        .navigationBarTitle("Back")
         .background(NavigationConfigurator { nc in
             let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
                         nc.navigationBar.barTintColor = UIColor(color)
@@ -198,11 +214,27 @@ struct PaymentAddView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
+                if(settings.fastApply == true) {
                 Text("New Payment")
                     .font(ui.title)
                     .accessibilityAddTraits(.isHeader)
                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                }
             }
+            ToolbarItem(placement: .navigationBarLeading) {
+                if(settings.fastApply != true) {
+                                    Button("Done") {
+                                        if(self.payment.name != "") {
+                                            self.modal = false
+                                            self.save = true
+                                        } else {
+                                            self.toastMessasge = "Name is required"
+                                            self.isShowingToast = true
+                                            self.toastError = true
+                                        }
+                                    }
+                }
+                                }
         }
         .onAppear {
             getGoals()
@@ -215,6 +247,7 @@ struct PaymentAddView: View {
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
             getGoals()
             }
+        }
      
     }
         .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
