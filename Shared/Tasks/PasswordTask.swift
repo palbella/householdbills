@@ -18,8 +18,12 @@ struct GetPasswordEncription {
 
     }
     
+    
+    
+    
     func Desentrypt(pin: String, password: String) -> String {
         
+   
         //var characters = Array(password)
         let hexaCharacters = password.inserting(separator: " ", every: 2)
         
@@ -59,14 +63,25 @@ struct GetPasswordEncription {
             result = result +  String(UnicodeScalar(code)!)
         }
         
+
+        result = Data(base64Encoded: result, options: Data.Base64DecodingOptions(rawValue: 0))
+            .map({ String(data: $0, encoding: .utf8)! })!
+        
           return result
         }
     
     
     func Entrypt(pin: String, password: String) -> String {
         
+        let utf8str = password.data(using: .utf8)
+        let base64Encoded = String((utf8str?.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0)))!)
+        
+        let base64Decoded = Data(base64Encoded: "BCEC8ABE9DEC8ABE", options: Data.Base64DecodingOptions(rawValue: 0))
+            .map({ String(data: $0, encoding: .utf8) })
+        print(base64Decoded as Any)
+        
         //var characters = Array(password)
-        let characters = password.map(String.init)
+        let characters = base64Encoded.map(String.init)
 
         var result = ""
 

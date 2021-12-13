@@ -269,7 +269,7 @@ struct PurchaseItemView: View {
             
          
         }
-            .padding(.top, 40)
+            .padding(.top, settings.fastApply ? 40 : 0)
             .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
             .onAppear() {
                 self.onAppear()

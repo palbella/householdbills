@@ -16,6 +16,7 @@ struct PlanningPurchaseBodyView: View {
     
     @State var isShowing: Bool = false
     @State var isShowingNew: Bool = false
+    @State var save: Bool = false
     @State var delete: Bool = false
   
     
@@ -83,6 +84,7 @@ struct PlanningPurchaseBodyView: View {
                                     self.purchaseSelected.iconColor = "red"
                                     self.purchaseSelected.currency = settings.currency
                                     self.purchaseSelected.symbol = settings.symbol
+                                        self.save = false
                                     } else {
                                        
                                         self.showSubscribe = true
@@ -98,7 +100,7 @@ struct PlanningPurchaseBodyView: View {
                                     }
                                       
                                     }) {
-                                    PurchaseAddView(purchase: self.$purchaseSelected, transaction: self.$transaction, currencies: self.$currencies, accounts: $accounts, categories: self.$categories)
+                                    PurchaseAddView(purchase: self.$purchaseSelected, transaction: self.$transaction, currencies: self.$currencies, accounts: $accounts, categories: self.$categories, modal: self.$isShowingNew, save: self.$save, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                 }
                                 .frame(width: 15, height: 15)
                                 .padding(.leading, 10)
@@ -122,6 +124,7 @@ struct PlanningPurchaseBodyView: View {
                                             if(settings.subscribed || index < 1) {
                                                 self.purchaseSelected = monthlyPurchaseData.map(purchase: item)
                                                 self.delete = false
+                                                self.save = false
                                                 self.isShowing = true
                                             } else {
                                                 self.showSubscribe = true
@@ -171,7 +174,7 @@ struct PlanningPurchaseBodyView: View {
                                             
                                            
                                         }) {
-                                            PurchaseUpdateView(purchase: self.$purchaseSelected, transaction: self.$transaction, modal: self.$isShowing, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, categories: self.$categories, isPlanning: $isPlanning, totalPricesItem: self.$totalPricesItem)
+                                            PurchaseUpdateView(purchase: self.$purchaseSelected, transaction: self.$transaction, modal: self.$isShowing, save: self.$save, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, categories: self.$categories, isPlanning: $isPlanning, totalPricesItem: self.$totalPricesItem, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                             
 
                     

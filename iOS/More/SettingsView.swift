@@ -25,12 +25,17 @@ struct SettingsView: View {
     @State var symbol: String = ""
     
     @State private var showConfirm = false
+    @Binding var modal: Bool
+    @Binding var save: Bool
     
-    init(settings: Binding<SettingsModel>, currencies: Binding<GetCurrencies>) {
+    init(settings: Binding<SettingsModel>, currencies: Binding<GetCurrencies>, modal: Binding<Bool>, save: Binding<Bool>) {
         self._settings = settings
         self._currencies = currencies
+        self._modal = modal
+        self._save = save
         
         UINavigationBar.appearance().isTranslucent = false
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
     }
     
     func onAppear() {
@@ -47,7 +52,21 @@ struct SettingsView: View {
         let fontColor = colorScheme != .dark ? ui.lightFieldFontColor: ui.darkFieldFontColor
         
         NavigationView {
-            
+            VStack(spacing: 0) {
+                
+                if(settings.fastApply) {
+                    HeaderTabTitleView(title: settings.fastApply ? "" : "Settings")
+                } else {
+                    Text("Settings")
+                        .font(.system(size: 20, weight: .bold, design: .default))
+                        .accessibilityAddTraits(.isHeader)
+                        .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 20)
+                        .padding(.bottom, 20)
+                        .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
+                }
+                
         Form {
             
             Picker("Currency", selection: $settings.currency) {
@@ -114,12 +133,6 @@ struct SettingsView: View {
             .alert(isPresented: $showConfirm, content: { confirmChange })
             
             
-//            Button(action: {
-//                migration()
-//            }) {
-//                Text("Migration")
-//                    .foregroundColor(labelColor)
-//            }
         }
         .background(NavigationConfigurator { nc in
             let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
@@ -128,26 +141,34 @@ struct SettingsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
+                if(settings.fastApply == true) {
                 Text("Settings")
                     .font(ui.title)
                     .accessibilityAddTraits(.isHeader)
                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                }
             }
+            ToolbarItem(placement: .navigationBarLeading) {
+                if(settings.fastApply != true) {
+                                    Button("Done") {
+                                     
+                                            self.modal = false
+                                            self.save = true
+                                      
+                                    }
+                }
+                                }
         }
         .onAppear(){
             self.onAppear()
         }
         }
         
-        
-           
+        }
+        .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
     
 }
     
-//    func migration() {
-//        deleteAllData(entity: "Settings")
-//        initialDataCards()
-//    }
 
     
     var confirmChange: Alert {

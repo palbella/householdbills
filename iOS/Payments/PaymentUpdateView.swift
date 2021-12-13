@@ -285,6 +285,7 @@ struct PaymentSettingsView: View {
         let fontColor = colorScheme != .dark ? ui.lightFieldFontColor: ui.darkFieldFontColor
             
         VStack(spacing: 0) {
+            HeaderTabTitleView(title: payment.name)
                 Form {
                     VStack(spacing: 0) {
               

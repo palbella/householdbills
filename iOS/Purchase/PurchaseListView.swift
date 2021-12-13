@@ -16,6 +16,7 @@ struct PurchaseListView: View {
     
     @State var isShowingPurchasePlanning: Bool = false
     @State var isShowingNewPurchasePlanning: Bool = false
+    @State var save: Bool = false
     @State var delete: Bool = false
    
     
@@ -92,6 +93,7 @@ struct PurchaseListView: View {
                                         self.purchaseSelected.currency = settings.currency
                                         self.purchaseSelected.symbol = settings.symbol
                                         self.isShowingNewPurchasePlanning = true
+                                            self.save = false
                                         } else {
                                            
                                             self.showSubscribe = true
@@ -102,7 +104,7 @@ struct PurchaseListView: View {
                                     }
                                     .sheet(isPresented: self.$isShowingNewPurchasePlanning, onDismiss: {
                                     
-                                        
+                                        if(settings.fastApply || self.save) {
                                         if(self.$purchaseSelected.name.wrappedValue != "") {
                                             self.transaction.name =  self.transferTypes.names[0]
                                             self.transaction.account = self.$purchaseSelected.name.wrappedValue
@@ -115,9 +117,10 @@ struct PurchaseListView: View {
                                             purchaseData.addPurchase(purchase: self.$purchaseSelected.wrappedValue)
                                             getTotals()
                                         }
+                                        }
 
                                         }) {
-                                        PurchaseAddView(purchase: self.$purchaseSelected, transaction: self.$transaction, currencies: self.$currencies, accounts: $accounts, categories: self.$categories)
+                                        PurchaseAddView(purchase: self.$purchaseSelected, transaction: self.$transaction, currencies: self.$currencies, accounts: $accounts, categories: self.$categories, modal: self.$isShowingNewPurchasePlanning, save: self.$save, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                     }
                                     .frame(width: 15, height: 15)
                                     .padding(.leading, 10)
@@ -145,6 +148,7 @@ struct PurchaseListView: View {
                                                 self.transaction.initialAmount = self.$purchaseSelected.amount.wrappedValue
                                                     self.transaction.category = self.$purchaseSelected.category.wrappedValue
                                                 self.delete = false
+                                                    self.save = false
                                                 self.isShowingPurchasePlanning = true
                                                 } else {
                                                    
@@ -196,6 +200,7 @@ struct PurchaseListView: View {
                                                     purchaseData.deletePurchase(purchase: self.$purchaseSelected.wrappedValue)
                                                     getTotals()
                                                 } else {
+                                                    if(settings.fastApply || self.save) {
                                                     self.$transaction.amount.wrappedValue = self.$purchaseSelected.wrappedValue.amount - self.totalPricesItem
                                                     if(self.$transaction.amount.wrappedValue > 0) {
                                                         self.transaction.name =  self.transferTypes.names[4]
@@ -214,10 +219,10 @@ struct PurchaseListView: View {
                                                     purchaseData.updatePurchase(purchase: self.$purchaseSelected.wrappedValue)
                                                     getTotals()
                                                 }
-
+                                                }
 
                                             }) {
-                                                PurchaseUpdateView(purchase: self.$purchaseSelected, transaction: self.$transaction, modal: self.$isShowingPurchasePlanning, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, categories: self.$categories, isPlanning: $isPlanning, totalPricesItem: $totalPricesItem)
+                                                PurchaseUpdateView(purchase: self.$purchaseSelected, transaction: self.$transaction, modal: self.$isShowingPurchasePlanning, save: self.$save, delete: self.$delete, currencies: self.$currencies, accounts: $accounts, categories: self.$categories, isPlanning: $isPlanning, totalPricesItem: $totalPricesItem, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                                 .environmentObject(self.ui)
 
 
@@ -248,10 +253,7 @@ struct PurchaseListView: View {
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
                 getTotals()
                 }
-//            .onReceive(timer) { _ in
-//                getpurchases()
-//                       self.now = Date()
-//                   }
+
           
         
      

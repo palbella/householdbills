@@ -29,6 +29,7 @@ struct CommandButton: View {
              
 
                         Image(systemName: content)
+                        .font(.system(size: 17))
                         .foregroundColor(ui.lightCommandFontColor)
        
                     

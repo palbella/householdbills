@@ -15,6 +15,8 @@ struct PurchaseAddView: View {
    
     @Binding var purchase: PurchaseModel
     @Binding var transaction: TransactionModel
+    @Binding var modal: Bool
+    @Binding var save: Bool
     
     @ObservedObject var icons = GetIcons()
     @ObservedObject var colors = GetColors()
@@ -31,13 +33,23 @@ struct PurchaseAddView: View {
     @State var categoryList: [String] = []
     @State var categorySelected: String? = ""
     
-    init(purchase: Binding<PurchaseModel>, transaction: Binding<TransactionModel>, currencies: Binding<GetCurrencies> , accounts: Binding<GetAccounts>, categories: Binding<GetCategories>) {
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
+    
+    init(purchase: Binding<PurchaseModel>, transaction: Binding<TransactionModel>, currencies: Binding<GetCurrencies> , accounts: Binding<GetAccounts>, categories: Binding<GetCategories>, modal: Binding<Bool>, save: Binding<Bool>,
+         isShowingToast: Binding<Bool>, toastMessasge: Binding<String>, toastError: Binding<Bool>) {
         
            self._purchase = purchase
            self._transaction = transaction
         self._currencies = currencies
         self._accounts = accounts
         self._categories = categories
+        self._modal = modal
+        self._save = save
+        self._isShowingToast = isShowingToast
+        self._toastMessasge = toastMessasge
+        self._toastError = toastError
         
         UINavigationBar.appearance().isTranslucent = false
        }
@@ -71,6 +83,9 @@ struct PurchaseAddView: View {
         
      
         NavigationView {
+            VStack(spacing: 0) {
+            
+            HeaderTabTitleView(title: "New Purchase")
         Form {
 
             VStack {
@@ -148,7 +163,6 @@ struct PurchaseAddView: View {
 
 
     }
-        .navigationBarTitle("Back")
         .background(NavigationConfigurator { nc in
             let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
                         nc.navigationBar.barTintColor = UIColor(color)
@@ -156,15 +170,32 @@ struct PurchaseAddView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
+                if(settings.fastApply == true) {
                 Text("New Purchase")
                     .font(ui.title)
                     .accessibilityAddTraits(.isHeader)
                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                }
             }
+            ToolbarItem(placement: .navigationBarLeading) {
+                if(settings.fastApply != true) {
+                                    Button("Done") {
+                                        if(self.purchase.name != "") {
+                                            self.modal = false
+                                            self.save = true
+                                        } else {
+                                            self.toastMessasge = "Name is required"
+                                            self.isShowingToast = true
+                                            self.toastError = true
+                                        }
+                                    }
+                }
+                                }
         }
         .onAppear() {
             self.onAppear()
         }
+            }
 
     }
         .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)

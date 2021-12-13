@@ -17,6 +17,7 @@
         
         @State var isShowing: Bool = false
         @State var isShowingNew: Bool = false
+        @State var save: Bool = false
         @State var delete: Bool = false
        
         @State var carSelected : CarModel = CarModel()
@@ -66,6 +67,7 @@
                                                 self.carSelected.iconColor = "green"
                                                 self.carSelected.symbol = settings.unit
                                                 self.isShowingNew = true
+                                                self.save = false
                                                                       } else {
                                                                          
                                                                           self.showSubscribe = true
@@ -78,7 +80,7 @@
                                         }
                                         .sheet(isPresented: self.$isShowingNew, onDismiss: {
                                          
-                                          
+                                            if(settings.fastApply || self.save) {
                                                            if(self.$carSelected.name.wrappedValue != "") {
                                                             addCar(car: self.$carSelected.wrappedValue)
                                                            } else {
@@ -86,10 +88,11 @@
                                                                self.isShowingToast = true
                                                                self.toastError = true
                                                            }
+                                            }
                                                 
 
                                             }) {
-                                            CarAddView(car: self.$carSelected)
+                                            CarAddView(car: self.$carSelected, modal: self.$isShowingNew, save: self.$save, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                         }
                                         .frame(width: 15, height: 15)
                                         .padding(.leading, 10)
@@ -171,14 +174,15 @@
                                                     if(self.delete) {
                                                         deleteCar(car: self.$carSelected.wrappedValue)
                                                     } else {
-
+                                                        if(settings.fastApply || self.save) {
                                                         updateCar(car: self.$carSelected.wrappedValue)
                                                         GetCarAlerts(viewContext: viewContext).run()
+                                                        }
                                                     }
 
                                                 }) {
                                                   
-                                                    CarUpdateView(car: self.$carSelected, modal: self.$isShowing, delete: self.$delete, services: self.$services)
+                                                    CarUpdateView(car: self.$carSelected, modal: self.$isShowing, save: self.$save, delete: self.$delete, services: self.$services, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                                         .environmentObject(self.ui)
                                                             .environmentObject(self.settings)
                                                     

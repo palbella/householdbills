@@ -39,7 +39,7 @@ struct MoreView: View {
     
     @Binding var showSubscribe: Bool
     @State var showSubscribeCar: Bool = false
-    
+    @State var save: Bool = false
 
     func onAppear() {
         self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext, includeNotSelected: true)
@@ -74,15 +74,16 @@ struct MoreView: View {
                         self.settingsObj.showMonthBalance = self.settings.showMonthBalance
                         self.settingsObj.fastApply = self.settings.fastApply
                         self.isShowingSettings = true
+                        self.save = false
                     }) {
                         CardMenu(prompt: "slider.horizontal.3", title: "App Settings")
                     }
                         .sheet(isPresented: self.$isShowingSettings, onDismiss: {
-                            
+                            if(self.settingsObj.fastApply || self.save) {
                             saveSettings()
-                            
+                            }
                         }) {
-                            SettingsView(settings: $settingsObj, currencies: $currencies)
+                            SettingsView(settings: $settingsObj, currencies: $currencies, modal: $isShowingSettings, save: $save)
                             .environmentObject(self.ui)
                                 .environmentObject(self.settings)
                         }
@@ -90,15 +91,20 @@ struct MoreView: View {
                         Spacer()
                         
                     Button(action: {
-                        self.isShowingCar = true
+                        self.settingsObj.notificationStock = self.settings.notificationStock
+                        self.settingsObj.notificationCrypto = self.settings.notificationCrypto
+                        self.settingsObj.notificationPayment = self.settings.notificationPayment
+                        self.settingsObj.notificationService = self.settings.notificationService
+                        self.isShowingNotification = true
+                        self.save = false
                     }) {
-                        CardMenu(prompt: "car", title: "Car Management")
+                        CardMenu(prompt: "bell", title: "Notifications")
                     }
-                    .sheet(isPresented: self.$isShowingCar, onDismiss: {
-                        if(self.showSubscribeCar == true) {
-                            self.showSubscribe = true
-                        }
-                    }) { ServicesListView(showSubscribe: self.$showSubscribeCar, isShowingCar: self.$isShowingCar)}
+                        .sheet(isPresented: self.$isShowingNotification, onDismiss: {
+                            if(self.settingsObj.fastApply || self.save) {
+                            saveNotification()
+                            }
+                        }) { NotificationView(settings: $settingsObj, modal: $isShowingNotification, save: $save)}
                         
                     }
                 .padding(.leading, 20)
@@ -125,20 +131,17 @@ struct MoreView: View {
                         
                         Spacer()
                         
+                    
                     Button(action: {
-                        self.settingsObj.notificationStock = self.settings.notificationStock
-                        self.settingsObj.notificationCrypto = self.settings.notificationCrypto
-                        self.settingsObj.notificationPayment = self.settings.notificationPayment
-                        self.settingsObj.notificationService = self.settings.notificationService
-                        self.isShowingNotification = true
+                        self.isShowingCar = true
                     }) {
-                        CardMenu(prompt: "bell", title: "Notifications")
+                        CardMenu(prompt: "car", title: "Car Management")
                     }
-                        .sheet(isPresented: self.$isShowingNotification, onDismiss: {
-                            
-                            saveNotification()
-                            
-                        }) { NotificationView(settings: $settingsObj)}
+                    .sheet(isPresented: self.$isShowingCar, onDismiss: {
+                        if(self.showSubscribeCar == true) {
+                            self.showSubscribe = true
+                        }
+                    }) { ServicesListView(showSubscribe: self.$showSubscribeCar, isShowingCar: self.$isShowingCar)}
                         
                     }
                 .padding(.leading, 20)

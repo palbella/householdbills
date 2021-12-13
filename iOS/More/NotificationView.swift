@@ -17,12 +17,16 @@ struct NotificationView: View {
     
     @Binding var settings: SettingsModel
     
-
+    @Binding var modal: Bool
+    @Binding var save: Bool
     
-    init(settings: Binding<SettingsModel>) {
+    init(settings: Binding<SettingsModel>, modal: Binding<Bool>, save: Binding<Bool>) {
         self._settings = settings
+        self._modal = modal
+        self._save = save
         
         UINavigationBar.appearance().isTranslucent = false
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
     }
     
     func onAppear() {
@@ -38,7 +42,10 @@ struct NotificationView: View {
    
         
         NavigationView {
-            
+            VStack(spacing: 0) {
+                
+           
+                    HeaderTabTitleView(title: "Notifications")
         Form {
             
             VStack {
@@ -60,18 +67,30 @@ struct NotificationView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
+                if(settings.fastApply == true) {
                 Text("Notifications")
                     .font(ui.title)
                     .accessibilityAddTraits(.isHeader)
                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                }
             }
+            ToolbarItem(placement: .navigationBarLeading) {
+                if(settings.fastApply != true) {
+                                    Button("Done") {
+                                     
+                                            self.modal = false
+                                            self.save = true
+                                      
+                                    }
+                }
+                                }
         }
         .onAppear(){
             self.onAppear()
         }
         }
-        
-        
+        }
+        .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
            
     
 }

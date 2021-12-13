@@ -18,6 +18,7 @@ struct CarUpdateView: View {
     
     @Binding var car: CarModel
     @Binding var modal: Bool
+    @Binding var save: Bool
     @Binding var delete: Bool
     
     
@@ -37,15 +38,25 @@ struct CarUpdateView: View {
     
     @State var load: Bool = false
     
-    init(car: Binding<CarModel>, modal: Binding<Bool>, delete: Binding<Bool>, services: Binding<[CarServiceModel]>) {
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
+    
+    
+    init(car: Binding<CarModel>, modal: Binding<Bool>, save: Binding<Bool>, delete: Binding<Bool>, services: Binding<[CarServiceModel]>, isShowingToast: Binding<Bool>, toastMessasge: Binding<String>, toastError: Binding<Bool>) {
            self._car = car
           
         self._modal = modal
+        self._save = save
         self._delete = delete
         self._services = services
+        self._isShowingToast = isShowingToast
+        self._toastMessasge = toastMessasge
+        self._toastError = toastError
         self.initialAmount = car.amount.wrappedValue
         
         UINavigationBar.appearance().isTranslucent = false
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
        }
     
     func onAppear() {
@@ -73,7 +84,7 @@ struct CarUpdateView: View {
             
         VStack(spacing: 0) {
            
- 
+            HeaderTabTitleView(title: car.name)
            
             Form {
                 
@@ -225,7 +236,6 @@ struct CarUpdateView: View {
             
                
                        }
-        .navigationBarTitle("Back")
         .background(NavigationConfigurator { nc in
             let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
                         nc.navigationBar.barTintColor = UIColor(color)
@@ -233,25 +243,35 @@ struct CarUpdateView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
+                if(settings.fastApply == true) {
                 Text(car.name)
                     .font(ui.title)
                     .accessibilityAddTraits(.isHeader)
                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                }
             }
+            ToolbarItem(placement: .navigationBarLeading) {
+                if(settings.fastApply != true) {
+                                    Button("Done") {
+                                        if(self.car.name != "") {
+                                            self.modal = false
+                                            self.save = true
+                                        } else {
+                                            self.toastMessasge = "Name is required"
+                                            self.isShowingToast = true
+                                            self.toastError = true
+                                        }
+                                    }
+                }
+                                }
         }
         .onAppear(){
             self.onAppear()
             GetServices ()
         }
-        
-        .onTapGesture {
-            UIApplication.shared.endEditing()
-        }
-            
 
             
         }
-//        .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
         .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
         
         
@@ -391,6 +411,7 @@ struct CarSettingsView: View {
         let fontColor = colorScheme != .dark ? ui.lightFieldFontColor: ui.darkFieldFontColor
             
         VStack(spacing: 0) {
+            HeaderTabTitleView(title: car.name)
                 Form {
                     VStack(spacing: 0) {
               
