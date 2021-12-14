@@ -64,7 +64,7 @@ struct TransactionsBodyView: View {
                                 }) {
                                     CommandButton(content: "chart.pie")
                                 }
-                                .sheet(isPresented: self.$isShowing) { TransactionChart(items: self.$transactions.months[index].items, categories: $categories.items)}
+                                .sheet(isPresented: self.$isShowing) { TransactionChart(items: self.$transactions.months[index].items, categories: $categories.items, modal: $isShowing)}
                                 .frame(width: 15, height: 15)
                                 .padding(.leading, 10)
                                 .padding(.trailing, 17)

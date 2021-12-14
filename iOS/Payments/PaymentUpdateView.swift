@@ -168,7 +168,7 @@ struct PaymentUpdateView: View {
 
             
         }
-//        .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
+        .modifier(Toast(isShowing: $isShowingToast, message: self.toastMessasge, isError: self.$toastError))
         .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
         
         

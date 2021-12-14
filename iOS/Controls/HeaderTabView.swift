@@ -15,6 +15,8 @@ struct HeaderTabView: View {
     @EnvironmentObject var ui: AppUI
     
     var title: String
+    @Binding var modal: Bool
+    @Binding var save: Bool
     
   
     var body: some View {
@@ -25,20 +27,30 @@ struct HeaderTabView: View {
                 Spacer()
                 HStack {
                    
-                    Spacer()
+                    if(settings.fastApply) {
+                        Spacer()
                     Text(LocalizedStringKey(title))
                         .font(ui.title)
                         .font(.system(size: 30, weight: .heavy, design: .default))
                         .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
                         .padding(.bottom, 13)
-                       
+                    } else {
+                        Button("Done") {
+                                self.modal = false
+                                self.save = true
+                    }
+                        .font(Font.body)
+                        .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                        .padding(.bottom, 17)
+                        .padding(.leading, 15)
+                    }
                     Spacer()
                    
                 }
-                
+                    
                 Divider()
             }
-            .frame(height: 55, alignment: .center)
+                .frame(height: 55, alignment: settings.fastApply ? .center : .leading)
             .background(colorScheme != .dark ? Color.white: ui.darkBackgroundColor)
 
         }

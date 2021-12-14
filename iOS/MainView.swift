@@ -42,7 +42,7 @@ struct MainView: View {
     @State var transactionAccountId: UUID = UUID()
     @State var transaction : TransactionModel = TransactionModel()
     
-    
+    @State var save: Bool = false
     
     init() {
         UITabBar.appearance().isTranslucent = false
@@ -85,7 +85,7 @@ struct MainView: View {
                             }
                    
                             
-                            MoreView(showSubscribe: $showSubscribe)
+                            MoreView(showSubscribe: $showSubscribe, isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError)
                                 .tag(Tab.more)
                             .tabItem {
                                 Image(systemName: "square.split.2x2")
@@ -123,7 +123,7 @@ struct MainView: View {
         .fullScreenCover(isPresented: $showUser, content: UserView.init)
                 .sheet(isPresented: $showActionSheet, onDismiss: {
                     
-                    
+                    if(settings.fastApply || self.save) {
                         if(self.$transaction.amount.wrappedValue > 0) {
 
                              self.transaction.timestamp = Date()
@@ -132,13 +132,11 @@ struct MainView: View {
                            
                             self.transactionData.addTransactions(transaction: transaction)
                         }
-                    
-                    
-         
+                    }                    
+
 
                 }) {
-         TransactionsAddView(accountId: $transactionAccountId, transaction: self.$transaction)
-//                    ActionSheet(title: Text("some actions"))
+                    TransactionsAddView(accountId: $transactionAccountId, transaction: self.$transaction, modal: self.$showActionSheet, save: $save, isShowingToast: $isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                 }
                
     }

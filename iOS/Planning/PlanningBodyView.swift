@@ -149,30 +149,55 @@ struct PlanningBodyView: View {
         }
             .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
             
+            HStack{
             if(showInfo) {
             VStack (spacing: 0) {
-                        VStack (spacing: 0) {
-      
-            
-                        Text("Budgets")
-                                .foregroundColor(ui.darkPrimaryColor)
-                            .font(.system(size: 15))
-                            .padding(.leading, 10)
-                            .padding(.top, 10)
+                
+                VStack (spacing: 0) {
 
-                            
-            
+        
+                    Text("Monthly Planning")
+                            .foregroundColor(ui.darkPrimaryColor)
+                        .font(.system(size: 15))
+                        .padding(.leading, 10)
+                        .padding(.top, 10)
+                        .multilineTextAlignment(.leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        
+        
+                
+                        Text("planning-info")
+                        .padding(5).padding(.leading, 5).padding(.trailing, 5)
+                        .multilineTextAlignment(.leading)
+                            .font(.system(size: 12))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+        
+        
+        
+                }
+                
+            VStack (spacing: 0) {
+
+    
+                Text("Budgets")
+                        .foregroundColor(ui.darkPrimaryColor)
+                    .font(.system(size: 15))
+                    .padding(.leading, 10)
+                    .padding(.top, 10)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     
-                            Text("budget-info")
-                            .padding(5).padding(.leading, 5).padding(.trailing, 5)
-                            .multilineTextAlignment(.center)
-                                .font(.system(size: 12))
-                                .fixedSize(horizontal: false, vertical: true)
+    
             
-            
-            
-                    }
-                        .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
+                    Text("budget-info")
+                    .padding(5).padding(.leading, 5).padding(.trailing, 5)
+                    .multilineTextAlignment(.leading)
+                        .font(.system(size: 12))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+    
+    
+    
+            }
             
             VStack (spacing: 0) {
 
@@ -181,17 +206,15 @@ struct PlanningBodyView: View {
                 .font(.system(size: 15))
                 .padding(.leading, 10)
                 .padding(.top, 10)
-
+                .frame(maxWidth: .infinity, alignment: .leading)
           
                 Text("payment-info")
                 .padding(5).padding(.leading, 5).padding(.trailing, 5)
-                .multilineTextAlignment(.center)
+                .multilineTextAlignment(.leading)
                     .font(.system(size: 12))
-                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
         }
-            .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
-            
             
             VStack (spacing: 0) {
 
@@ -200,17 +223,16 @@ struct PlanningBodyView: View {
                 .font(.system(size: 15))
                 .padding(.leading, 10)
                 .padding(.top, 10)
-
+                .frame(maxWidth: .infinity, alignment: .leading)
          
                 Text("goal-info")
                 .padding(5).padding(.leading, 5).padding(.trailing, 5)
-                .multilineTextAlignment(.center)
+                .multilineTextAlignment(.leading)
                     .font(.system(size: 12))
-                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
 
         }
-            .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
             
             VStack (spacing: 0) {
 
@@ -219,23 +241,27 @@ struct PlanningBodyView: View {
                 .font(.system(size: 15))
                 .padding(.leading, 10)
                 .padding(.top, 10)
-
+                .frame(maxWidth: .infinity, alignment: .leading)
           
                 Text("purchase-info")
-                .padding(5).padding(.leading, 5).padding(.trailing, 5)
-                .multilineTextAlignment(.center)
+                    .padding(5).padding(.leading, 5).padding(.trailing, 5).padding(.bottom, 10)
+                .multilineTextAlignment(.leading)
                     .font(.system(size: 12))
-                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
 
         }
-            .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
-            }
-            .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
-            }
-                        Divider()
-                        Spacer()
             
+              
+              
+            }
+            
+            }
+                  
+            }
+            .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
+            Divider()
+            Spacer()
         
         }
       

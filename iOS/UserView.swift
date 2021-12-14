@@ -86,7 +86,7 @@ struct UserView: View {
                         .cornerRadius(5)
                     
                 
-                    AddPasscodeField( handler:{ pin, result in
+                    PasscodeField( handler:{ pin, result in
                         settings.password = pin
                         return true
                     })

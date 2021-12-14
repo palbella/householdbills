@@ -18,6 +18,7 @@ struct GoalListView: View {
     @State var isShowing: Bool = false
     @State var isShowingNew: Bool = false
     @State var isShowingPlanning: Bool = false
+    @State var savingPlanning: Bool = false
     @State var save: Bool = false
     @State var delete: Bool = false
 
@@ -79,7 +80,7 @@ struct GoalListView: View {
                                         
                                    
                                         }) {
-                                        GoalPlanningView()
+                                            GoalPlanningView(modal: $isShowingPlanning, save: $savingPlanning)
                                     }
                                     .frame(width: 15, height: 15)
                                     .padding(.leading, 10)

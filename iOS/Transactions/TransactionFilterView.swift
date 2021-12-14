@@ -23,12 +23,15 @@ struct TransactionFilterView: View {
     @State var categoryList: [String] = []
     @State var categorySelected: String? = ""
 
+    @Binding var modal: Bool
+    @State var save: Bool = false
     
-    init(filters: Binding<TransactionFiltersModel>) {
+    init(filters: Binding<TransactionFiltersModel>, modal: Binding<Bool>) {
         self._filters = filters
-     
+        self._modal = modal
         
         UINavigationBar.appearance().isTranslucent = false
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
     }
     
     func onAppear() {
@@ -48,7 +51,10 @@ struct TransactionFilterView: View {
         let fontColor = colorScheme != .dark ? ui.lightFieldFontColor: ui.darkFieldFontColor
         
         NavigationView {
+            VStack(spacing: 0) {
             
+            HeaderTabTitleView(title: "Transaction Filters")
+             
         Form {
             
             TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "pencil", iconColor: .blue, label: "Description", value: $filters.name)
@@ -75,19 +81,31 @@ struct TransactionFilterView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
+                if(settings.fastApply == true) {
                 Text("Transaction Filters")
                     .font(ui.title)
                     .accessibilityAddTraits(.isHeader)
                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                }
             }
+            ToolbarItem(placement: .navigationBarLeading) {
+                if(settings.fastApply != true) {
+                                    Button("Done") {
+                                   
+                                            self.modal = false
+                                            self.save = true
+                                      
+                                    }
+                }
+                                }
         }
         .onAppear(){
             self.onAppear()
         }
         }
         
-        
-           
+        }
+        .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
     
 }
    

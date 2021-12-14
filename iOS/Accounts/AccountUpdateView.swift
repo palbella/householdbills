@@ -329,6 +329,7 @@ struct AccountUpdateView: View {
             
         }
         .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+        .modifier(Toast(isShowing: $isShowingToast, message: self.toastMessasge, isError: self.$toastError))
         .sheet(isPresented: self.$isShowingCryptoNew, onDismiss: {
          
             if(self.$cryptoSelected.name.wrappedValue != "") {

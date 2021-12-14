@@ -47,7 +47,7 @@ struct LogInView: View {
                     .padding(.bottom, 50)
                 
                 
-                PasscodeField( handler:{ pin, result in
+                LoginPasscodeField( handler:{ pin, result in
                     let result = pin == settings.password
                     
                     self.password = pin
@@ -181,7 +181,7 @@ struct LogInView: View {
 
 
 
-public struct PasscodeField: View {
+public struct LoginPasscodeField: View {
     @EnvironmentObject var ui: AppUI
     @Environment(\.colorScheme) var colorScheme
     var maxDigits: Int = 6

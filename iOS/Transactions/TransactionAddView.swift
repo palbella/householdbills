@@ -45,6 +45,12 @@ struct TransactionsAddView: View {
     @ObservedObject var fetchCurrencies = CurrencyData()
     @ObservedObject var budgetData = BudgetData()
     
+    @Binding var modal: Bool
+    @Binding var save: Bool
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
+    
     
     func onAppear() {
         
@@ -99,7 +105,8 @@ struct TransactionsAddView: View {
       
         NavigationView {
             
-    
+            VStack(spacing:0) {
+                HeaderTabTitleView(title: "New Transaction")
   
            
             Form {
@@ -196,7 +203,6 @@ struct TransactionsAddView: View {
                 }
                 
                 }
-            .navigationBarTitle("Back")
             .background(NavigationConfigurator { nc in
                 let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
                             nc.navigationBar.barTintColor = UIColor(color)
@@ -204,11 +210,27 @@ struct TransactionsAddView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
+                    if(settings.fastApply == true) {
                     Text("New Transaction")
                         .font(ui.title)
                         .accessibilityAddTraits(.isHeader)
                         .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                    }
                 }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    if(settings.fastApply != true) {
+                                        Button("Done") {
+                                            if(self.transaction.amount > 0) {
+                                                self.modal = false
+                                                self.save = true
+                                            } else {
+                                                self.toastMessasge = "Amount is required"
+                                                self.isShowingToast = true
+                                                self.toastError = true
+                                            }
+                                        }
+                    }
+                                    }
             }
             .onAppear() {
 
@@ -216,16 +238,10 @@ struct TransactionsAddView: View {
                 
             }
 
-            
+            }
                
                        }
-      
-        
-            
-        
-            
-        
-//        .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
+        .modifier(Toast(isShowing: $isShowingToast, message: self.toastMessasge, isError: self.$toastError))
         .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
         
         

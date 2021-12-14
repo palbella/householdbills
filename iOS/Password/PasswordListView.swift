@@ -16,7 +16,7 @@ struct PasswordListView: View {
     @StateObject var ui: AppUI = AppUI()
     @Environment(\.managedObjectContext) private var viewContext
    
-   
+    @State var save: Bool = false
     @State var delete: Bool? = false
     @State var modal: Bool = false
   
@@ -34,13 +34,29 @@ struct PasswordListView: View {
     
     @State var passwordEncription: GetPasswordEncription = GetPasswordEncription()
     
+    @Binding var listModal: Bool
+    
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
+    
+ 
+   
+    
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
         var passwordFetchResult: FetchedResults<Password>
     
 
     
-    init() {
+    init(listModal: Binding<Bool>, isShowingToast: Binding<Bool>, toastMessasge: Binding<String>, toastError: Binding<Bool> ) {
+        
+        self._isShowingToast = isShowingToast
+        self._toastMessasge = toastMessasge
+        self._toastError = toastError
+        self._listModal = listModal
+        
         UINavigationBar.appearance().isTranslucent = false
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
        }
     
  
@@ -49,24 +65,30 @@ struct PasswordListView: View {
        
         VStack {
 
-            HeaderTabView(title: "Passwords")
+            HeaderTabView(title: "Passwords", modal: $listModal, save: $save)
+            HeaderTabTitleView(title: "Passwords")
             
             ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 0) {
                 
                 VStack {
                   
-                   
-                    SecureField("PIN", text: $pin)
-                               .textFieldStyle(RoundedBorderTextFieldStyle())
-                               .padding()
-                        .textFieldStyle(AppTextFieldStyle())
-                        .keyboardType(UIKeyboardType.decimalPad)
+                    PinInput(label: "Encription Code", value: $pin)
                     
-                    TextField("Password", text: $password)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding()
-                        .textFieldStyle(AppTextFieldStyle())
+                    CustomTextfield(label: "Password", text: $password, keyType: UIKeyboardType.alphabet, textAlignment: .center,
+                                    maxLength: 50)
+                        .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 10))
+                        .frame(maxWidth: UIScreen.screenWidth - 30)
+                        .frame(height: 35)
+                        .background(colorScheme != .dark ? Color(UIColor.white): Color(UIColor.systemGray2))
+                        .cornerRadius(5)
+                        .shadow(color: .gray, radius: 0.5)
+                               .padding()
+                               .padding(.bottom, 0)
+                               .padding(.top, 0)
+                    
+                    
+
                     
                     Spacer()
                     
@@ -113,7 +135,7 @@ struct PasswordListView: View {
                  
                     }
                     .padding(.horizontal)
-                            .fixedSize(horizontal: false, vertical: true)
+                    .fixedSize(horizontal: false, vertical: true)
                    
                     
                     ModalView(isShowing: $showModal, result: $result)
@@ -143,20 +165,22 @@ struct PasswordListView: View {
                                         self.passwordSelected = PasswordModel()
                                         self.isShowingNew = true
                                         self.delete = nil
+                                        self.save = false
                                     }) {
                                         
                                         CommandButton(content: "plus.circle")
                                     }
                                     .sheet(isPresented: self.$isShowingNew, onDismiss: {
                                      
-                                      
-                                                       if(self.$passwordSelected.name.wrappedValue != "" && self.passwordSelected.password != "" && self.passwordSelected.code > 0) {
+                                        if(settings.fastApply || self.save) {
+                                                       if(self.$passwordSelected.name.wrappedValue != "" && self.passwordSelected.password != "" && self.passwordSelected.code  != "") {
                                                         addPassword(password: self.$passwordSelected.wrappedValue)
                                                        }
+                                        }
                                             
 
                                         }) {
-                                            PasswordAddUpdateView(password: self.$passwordSelected, modal: self.$isShowingNew, delete: self.$delete, action: $action)
+                                            PasswordAddUpdateView(password: self.$passwordSelected, modal: self.$isShowingNew, save: self.$save, delete: self.$delete, action: $action, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                         
                                     }
                                     .frame(width: 15, height: 15)
@@ -183,6 +207,7 @@ struct PasswordListView: View {
                                                                       self.action = "edit"
                                                                       self.delete = false
                                                                       self.isShowing = true
+                                                                      self.save = false
                                                                   }) {
 
                                                                       VStack (spacing: 0) {
@@ -193,19 +218,25 @@ struct PasswordListView: View {
 
                                                                               HStack (spacing: 0) {
                                                                                 Text(item.name!)
+                                                                                      .multilineTextAlignment(.leading)
+                                                                                  
                                                                               .font(.system(size: 15))
                                                                               .foregroundColor(colorScheme != .dark ? ui.lightItemFontColor: ui.darkItemFontColor)
+                                                                              .frame(width: 130, alignment: .leading)
 
                                                                                 Spacer()
 
                                                                                   Text(item.password!)
-                                                                              .font(.system(size: 14))
+                                                                              .font(.system(size: 12))
                                                                               .padding(.top, 3)
                                                                                   
                                                                                   Button(action: {
                                                                                          
                                                                                       UIPasteboard.general.string = item.password!
                                                                                       self.password = item.password!
+                                                                                      self.toastMessasge = "Copied"
+                                                                                      self.toastError = false
+                                                                                      self.isShowingToast = true
                                                                                   }) {
                                                                                                   HStack {
                                                                                                       Image(systemName: "square.and.arrow.up")
@@ -213,8 +244,8 @@ struct PasswordListView: View {
                                                                                                   }
                                                                                               }
                                                                                   .foregroundColor(.green)
-                                                                                  .padding(.trailing, 10)
-                                                                                  .padding(.leading, 10)
+                                                                                  .padding(.trailing, 15)
+                                                                                  .padding(.leading, 15)
 
                                                                               }
 
@@ -231,14 +262,16 @@ struct PasswordListView: View {
                                                                     if(self.delete == true) {
                                                                           deletePassword(password: self.$passwordSelected.wrappedValue)
                                                                       } else {
-                                                                          if(self.passwordSelected.password != "" && self.passwordSelected.code > 0) {
+                                                                          if(settings.fastApply || self.save) {
+                                                                          if(self.passwordSelected.password != "" && self.passwordSelected.code  != "") {
                                                                               updatePassword(password: self.$passwordSelected.wrappedValue)
+                                                                          }
                                                                           }
                                                                       }
 
                                                                   }) {
 
-                                                                    PasswordAddUpdateView(password: self.$passwordSelected, modal: self.$isShowing, delete: self.$delete, action: $action)
+                                                                    PasswordAddUpdateView(password: self.$passwordSelected, modal: self.$isShowing, save: self.$save, delete: self.$delete, action: $action, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
 
 
 
@@ -258,15 +291,12 @@ struct PasswordListView: View {
         }
          
             }
-            .padding(.top, 40)
+            .padding(.top, settings.fastApply ? 40 : 0)
             
-            .onTapGesture {
-                UIApplication.shared.endEditing()
-            }
         
     }
         .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
-        
+        .modifier(Toast(isShowing: $isShowingToast, message: self.toastMessasge, isError: self.$toastError))
 
     .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
        

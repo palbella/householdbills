@@ -12,8 +12,8 @@ import CoreData
 struct SplitBillsView: View {
     
     @Environment(\.colorScheme) var colorScheme
-    @StateObject var settings: UserSettings = UserSettings()
-    @StateObject var ui: AppUI = AppUI()
+    @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var ui: AppUI
     @Environment(\.managedObjectContext) private var viewContext
    
   
@@ -23,16 +23,17 @@ struct SplitBillsView: View {
     
     @State var viewRefresh : Int = 0
     @State var refresh: Bool = false
+    
+    @Binding var modal: Bool
+    @Binding var save: Bool
  
-    init() {
-      
-    }
 
     var body: some View {
        
         VStack(spacing: 0) {
 
-            HeaderTabView(title: "Split Bills")
+            HeaderTabView(title: "Split Bills", modal: $modal, save: $save)
+            HeaderTabTitleView(title: "Split Bills")
             
             ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 0) {
@@ -219,11 +220,8 @@ Spacer()
         }
          
             }
-            .padding(.top, 40)
+            .padding(.top, 0)
             
-            .onTapGesture {
-                UIApplication.shared.endEditing()
-            }
         
     }
         .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)

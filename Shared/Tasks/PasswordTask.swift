@@ -76,10 +76,6 @@ struct GetPasswordEncription {
         let utf8str = password.data(using: .utf8)
         let base64Encoded = String((utf8str?.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0)))!)
         
-        let base64Decoded = Data(base64Encoded: "BCEC8ABE9DEC8ABE", options: Data.Base64DecodingOptions(rawValue: 0))
-            .map({ String(data: $0, encoding: .utf8) })
-        print(base64Decoded as Any)
-        
         //var characters = Array(password)
         let characters = base64Encoded.map(String.init)
 

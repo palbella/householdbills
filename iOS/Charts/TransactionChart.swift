@@ -16,17 +16,19 @@ struct TransactionChart: View {
     @EnvironmentObject var ui: AppUI
     @Environment(\.managedObjectContext) private var viewContext
     
-    
-//    @State private var pieChartEntries: [PieChartDataEntry] = []
+
     @Binding var items : [TransactionModel]
     @Binding var categories : [CategoryModel]
-//        @State private var category: Wine.Category = .variety
+    @Binding var modal: Bool
+    @State var save: Bool = false
+
     
     var body: some View {
         GeometryReader { p in
             VStack(spacing: 0) {
                 
-                HeaderTabView(title: "Month Expenses")
+                HeaderTabView(title: "Month Expenses", modal: $modal, save: $save)
+                HeaderTabTitleView(title: "Month Expenses")
                 
                 Section(header:
                             VStack(spacing: 20) {
@@ -35,11 +37,9 @@ struct TransactionChart: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.top, 15)
                                 .padding(.leading, 10)
-//                                .padding(.bottom, 5)
                                 .font(.system(size: 12))
                                 .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor)
                                     
-//                                    Divider()
                               
                             
                 }

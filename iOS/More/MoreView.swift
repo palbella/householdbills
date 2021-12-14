@@ -14,7 +14,7 @@ struct MoreView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) private var viewContext
     
-    @State var isShowing: Bool = false
+    @State var isShowingSplit: Bool = false
     @State var isShowingSettings: Bool = false
     @State var isShowingOrdering: Bool = false
     @State var isShowingCar: Bool = false
@@ -40,10 +40,14 @@ struct MoreView: View {
     @Binding var showSubscribe: Bool
     @State var showSubscribeCar: Bool = false
     @State var save: Bool = false
+    
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
 
     func onAppear() {
         self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext, includeNotSelected: true)
-        //                    EmailHelper.shared.send(subject: "SwiftMail", body: "Test", to: ["wpablow@gmail.com"])
+        //                    EmailHelper.shared.send(subject: "SwiftMail", body: "Test", to: ["aaa@gmail.com"])
     }
     
     
@@ -91,6 +95,7 @@ struct MoreView: View {
                         Spacer()
                         
                     Button(action: {
+                        self.settingsObj.fastApply = self.settings.fastApply
                         self.settingsObj.notificationStock = self.settings.notificationStock
                         self.settingsObj.notificationCrypto = self.settings.notificationCrypto
                         self.settingsObj.notificationPayment = self.settings.notificationPayment
@@ -120,13 +125,14 @@ struct MoreView: View {
                         CardMenu(prompt: "dollarsign.square", title: "Currency Management")
                     }
                         .sheet(isPresented: self.$isShowingCurrencies, onDismiss: {
-                            
+                            if(self.settings.fastApply || self.save) {
                             saveCurrency()
-                            
+                            }
                         }) {
-                            CurrencyView(currencies: $currencies, viewRefresh: $viewRefresh)
-                            .environmentObject(self.ui)
-                                .environmentObject(self.settings)
+                            CurrencyView(currencies: $currencies, viewRefresh: $viewRefresh, modal: $isShowingCurrencies, save: $save)
+                                .environmentObject(self.ui)
+                                    .environmentObject(self.settings)
+                          
                         }
                         
                         Spacer()
@@ -141,7 +147,7 @@ struct MoreView: View {
                         if(self.showSubscribeCar == true) {
                             self.showSubscribe = true
                         }
-                    }) { ServicesListView(showSubscribe: self.$showSubscribeCar, isShowingCar: self.$isShowingCar)}
+                    }) { ServicesListView(showSubscribe: self.$showSubscribeCar, isShowingCar: self.$isShowingCar, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)}
                         
                     }
                 .padding(.leading, 20)
@@ -168,7 +174,7 @@ struct MoreView: View {
                              
                                                                 
                                                             }) {
-                                                                PasswordListView()
+                                                                PasswordListView(listModal: $isShowingPassword, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                                                 .environmentObject(self.ui)
                                                                     .environmentObject(self.settings)
                                                             }
@@ -177,14 +183,18 @@ struct MoreView: View {
                         Button(action: {
                           
                             if(settings.subscribed) {
-                            self.isShowing = true
+                            self.isShowingSplit = true
                             } else {
                                 self.showSubscribe = true
                             }
                         }) {
                             CardMenu(prompt: "person.3", title: "Split Bill")
                         }
-                            .sheet(isPresented: self.$isShowing) { SplitBillsView()}
+                            .sheet(isPresented: self.$isShowingSplit) {
+                                SplitBillsView(modal: $isShowingSplit, save: $save)
+                                    .environmentObject(self.ui)
+                                        .environmentObject(self.settings)
+                            }
                             
                     }
                     .padding(.leading, 20)
@@ -198,11 +208,11 @@ struct MoreView: View {
                             CardMenu(prompt: "rectangle.grid.1x2", title: "Dashboard Cards")
                         }
                             .sheet(isPresented: self.$isShowingOrdering, onDismiss: {
-                                
+                                if(self.settings.fastApply || self.save) {
                                 saveOrder()
-                                
+                                }
                             }) {
-                                OrderingView(items: $orderingItems )
+                                OrderingView(items: $orderingItems, modal: $isShowingOrdering, save: $save )
                                 .environmentObject(self.ui)
                                     .environmentObject(self.settings)
                             }
@@ -215,7 +225,11 @@ struct MoreView: View {
                         }) {
                             CardMenu(prompt: "line.horizontal.3.decrease.circle", title: "Categories")
                         }
-                            .sheet(isPresented: self.$isShowingCategory) { CategoryView()}
+                            .sheet(isPresented: self.$isShowingCategory) {
+                                CategoryView(modal: $isShowingCategory, save: $save)
+                                    .environmentObject(self.ui)
+                                        .environmentObject(self.settings)
+                            }
                         
                     }
                     .padding(.leading, 20)

@@ -12,8 +12,8 @@ import CoreData
 struct CategoryView: View {
     
     @Environment(\.colorScheme) var colorScheme
-    @StateObject var settings: UserSettings = UserSettings()
-    @StateObject var ui: AppUI = AppUI()
+    @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var ui: AppUI
     @Environment(\.managedObjectContext) private var viewContext
    
     
@@ -21,12 +21,15 @@ struct CategoryView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
         var categoryFetchResult: FetchedResults<Category>
     
-
+    @Binding var modal: Bool
+    @Binding var save: Bool
     
-    init() {
+    init(modal: Binding<Bool>, save: Binding<Bool>) {
     
+        self._modal = modal
+        self._save = save
         UINavigationBar.appearance().isTranslucent = false
-      
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
        }
     
     func onAppear() {
@@ -42,7 +45,10 @@ struct CategoryView: View {
     var body: some View {
         
         NavigationView {
-
+            VStack(spacing: 0) {
+                
+           
+                    HeaderTabTitleView(title: "Category Management")
             ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 0) {
                 
@@ -114,10 +120,10 @@ struct CategoryView: View {
                 Spacer()
          
         }
-            .padding(.top, 40)
+            .padding(.top, 0)
         
         }
-            .navigationBarTitle("Back")
+           
             .background(NavigationConfigurator { nc in
                 let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
                             nc.navigationBar.barTintColor = UIColor(color)
@@ -126,17 +132,30 @@ struct CategoryView: View {
             .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
             .toolbar {
                 ToolbarItem(placement: .principal) {
+                    if(settings.fastApply == true) {
                     Text("Category Management")
                         .font(ui.title)
                         .accessibilityAddTraits(.isHeader)
                         .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                    }
                 }
+                ToolbarItem(placement: .navigationBarLeading) {
+                  
+                    if(settings.fastApply != true) {
+                      
+                                        Button("Done") {
+                                         
+                                                self.modal = false
+                                                self.save = true
+                                          
+                                        }
+                    }
+                                    }
             }
             .onAppear(){
                 self.onAppear()
             }
-            .onTapGesture {
-                UIApplication.shared.endEditing()
+          
             }
         
     }

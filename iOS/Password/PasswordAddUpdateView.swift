@@ -17,6 +17,7 @@ struct PasswordAddUpdateView: View {
     @Binding var password: PasswordModel
     
     @Binding var modal: Bool
+    @Binding var save: Bool
     @Binding var action: String
     @Binding var delete: Bool?
     @State var symbol: String = ""
@@ -24,15 +25,23 @@ struct PasswordAddUpdateView: View {
     
     @State private var showConfirm = false
     
-    init(password: Binding<PasswordModel> , modal: Binding<Bool>, delete: Binding<Bool?>, action: Binding<String>) {
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
+    
+    init(password: Binding<PasswordModel> , modal: Binding<Bool>, save: Binding<Bool>, delete: Binding<Bool?>, action: Binding<String>, isShowingToast: Binding<Bool>, toastMessasge: Binding<String>, toastError: Binding<Bool>) {
         
            self._password = password
         self._modal = modal
+        self._save = save
         self._delete = delete
         self._action = action
-        
+        self._isShowingToast = isShowingToast
+        self._toastMessasge = toastMessasge
+        self._toastError = toastError
         
         UINavigationBar.appearance().isTranslucent = false
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
        }
     
     func onAppear() {
@@ -47,6 +56,7 @@ struct PasswordAddUpdateView: View {
        
         NavigationView {
             VStack(spacing:0) {
+                HeaderTabTitleView(title: "Passwords")
         Form {
             
             VStack {
@@ -61,13 +71,14 @@ struct PasswordAddUpdateView: View {
                 TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "", iconColor: .blue, label: "Password", value: $password.password)
                 
                 
-                NumericInput(labelColor: labelColor, fontColor: fontColor, iconContent: "", iconColor: .blue, label: "Encription Code", value: $password.code, symbol: $symbol)
+                PinInput(label: "Encription Code", value: $password.code)
              
             }
+            .buttonStyle(BorderlessButtonStyle())
 
       
     }
-        .navigationBarTitle("Back")
+      
         .background(NavigationConfigurator { nc in
             let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
                         nc.navigationBar.barTintColor = UIColor(color)
@@ -75,11 +86,27 @@ struct PasswordAddUpdateView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text("Passwords")
+                if(settings.fastApply == true) {
+                Text("Password")
                     .font(ui.title)
                     .accessibilityAddTraits(.isHeader)
                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                }
             }
+            ToolbarItem(placement: .navigationBarLeading) {
+                if(settings.fastApply != true) {
+                                    Button("Done") {
+                                        if(self.password.code != "") {
+                                            self.modal = false
+                                            self.save = true
+                                        } else {
+                                            self.toastMessasge = "Name is required"
+                                            self.isShowingToast = true
+                                            self.toastError = true
+                                        }
+                                    }
+                }
+                                }
         }
         .onAppear(){
             self.onAppear()
@@ -102,7 +129,7 @@ struct PasswordAddUpdateView: View {
     }
         .alert(isPresented: $showConfirm, content: { confirmDelete })
         .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
-        
+        .modifier(Toast(isShowing: $isShowingToast, message: self.toastMessasge, isError: self.$toastError))
         
     }
     

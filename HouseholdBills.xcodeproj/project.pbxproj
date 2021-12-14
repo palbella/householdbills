@@ -142,6 +142,8 @@
 		6E9DBA9826E16D4100F0F15C /* DoubleInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9DBA9726E16D4100F0F15C /* DoubleInput.swift */; };
 		6E9DBA9A26E1894900F0F15C /* GenericTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9DBA9926E1894900F0F15C /* GenericTypes.swift */; };
 		6E9DBA9C26E18E7B00F0F15C /* PickerInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9DBA9B26E18E7B00F0F15C /* PickerInput.swift */; };
+		6EAB9E9E2767881D005005F2 /* PinInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAB9E9D2767881D005005F2 /* PinInput.swift */; };
+		6EAB9EA027678E03005005F2 /* PasscodeField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAB9E9F27678E03005005F2 /* PasscodeField.swift */; };
 		6EB21A4C26E667BB000AE5F3 /* CryptocurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB21A4B26E667BB000AE5F3 /* CryptocurrencyView.swift */; };
 		6EB21A4E26E69AA5000AE5F3 /* CryptocurrencyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB21A4D26E69AA5000AE5F3 /* CryptocurrencyModel.swift */; };
 		6EB21A5026E6A170000AE5F3 /* CryptocurrencyAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB21A4F26E6A170000AE5F3 /* CryptocurrencyAddView.swift */; };
@@ -349,6 +351,8 @@
 		6E9DBA9726E16D4100F0F15C /* DoubleInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleInput.swift; sourceTree = "<group>"; };
 		6E9DBA9926E1894900F0F15C /* GenericTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericTypes.swift; sourceTree = "<group>"; };
 		6E9DBA9B26E18E7B00F0F15C /* PickerInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerInput.swift; sourceTree = "<group>"; };
+		6EAB9E9D2767881D005005F2 /* PinInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinInput.swift; sourceTree = "<group>"; };
+		6EAB9E9F27678E03005005F2 /* PasscodeField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeField.swift; sourceTree = "<group>"; };
 		6EB21A4B26E667BB000AE5F3 /* CryptocurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptocurrencyView.swift; sourceTree = "<group>"; };
 		6EB21A4D26E69AA5000AE5F3 /* CryptocurrencyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptocurrencyModel.swift; sourceTree = "<group>"; };
 		6EB21A4F26E6A170000AE5F3 /* CryptocurrencyAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptocurrencyAddView.swift; sourceTree = "<group>"; };
@@ -811,6 +815,8 @@
 				6E25C06426F6A4CE003D4E0D /* DateInput.swift */,
 				6E6F0EED272FF0FD002EEAC0 /* TextFieldStyled.swift */,
 				6E674454275D6AE70003E17D /* PopupView.swift */,
+				6EAB9E9D2767881D005005F2 /* PinInput.swift */,
+				6EAB9E9F27678E03005005F2 /* PasscodeField.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -1046,6 +1052,7 @@
 				6ED50C532746B80000E01A5E /* TutorialData.swift in Sources */,
 				6EEB39D526FFD04B00FFC8DC /* CategoryModel.swift in Sources */,
 				6E7192C22731EF9100DF4436 /* PurchaseUpdateView.swift in Sources */,
+				6EAB9EA027678E03005005F2 /* PasscodeField.swift in Sources */,
 				6E9A133B26E29DAD00D3C827 /* BudgetListView.swift in Sources */,
 				6EE81F0E26E1DBFA00AC7D5F /* SettingsView.swift in Sources */,
 				6EB9C009270BB65C00FB234C /* NotificationView.swift in Sources */,
@@ -1068,6 +1075,7 @@
 				6E3F0CBB26C99FB900A807BE /* TransactionView.swift in Sources */,
 				6E72D2ED26E934B7007C8C17 /* DecimalInput.swift in Sources */,
 				6E7C7CC426E3F12000C357D1 /* CardModel.swift in Sources */,
+				6EAB9E9E2767881D005005F2 /* PinInput.swift in Sources */,
 				6E3F0C9926C99CD600A807BE /* HouseholdBills.xcdatamodeld in Sources */,
 				6EE4FBA426CC051C00C6F987 /* AccountListView.swift in Sources */,
 				6EB21A5426E8EA88000AE5F3 /* ServiceModel.swift in Sources */,

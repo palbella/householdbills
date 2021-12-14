@@ -13,7 +13,7 @@ struct PasswordModel: Hashable, Identifiable {
      var id: UUID
      var name: String
     var password: String
-    var code: Int32
+    var code: String
 
 
     
@@ -21,7 +21,7 @@ struct PasswordModel: Hashable, Identifiable {
         self.id = UUID()
         self.name = ""
         self.password = ""
-        self.code = 0
+        self.code = ""
     }
 }
 

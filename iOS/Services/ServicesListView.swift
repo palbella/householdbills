@@ -19,15 +19,14 @@ struct ServicesListView: View {
    
     @State var delete: Bool? = false
     @State var modal: Bool = false
+    @State var save: Bool = false
     @State var unit: String = ""
     
     @State var isShowing: Bool = false
     @State var isShowingNew: Bool = false
     
-    @State var isShowingToast: Bool = false
-    @State var toastMessasge: String = ""
     @State var serviceSelected : ServiceModel = ServiceModel()
-    
+    @State var action: String = "edit"
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
         var serviceFetchResult: FetchedResults<CarService>
@@ -35,11 +34,18 @@ struct ServicesListView: View {
     @Binding var showSubscribe: Bool
     @Binding var isShowingCar: Bool
     
-    init(showSubscribe: Binding<Bool>, isShowingCar: Binding<Bool>) {
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
+    
+    init(showSubscribe: Binding<Bool>, isShowingCar: Binding<Bool>, isShowingToast: Binding<Bool>, toastMessasge: Binding<String>, toastError: Binding<Bool>) {
         self._showSubscribe = showSubscribe
         self._isShowingCar = isShowingCar
+        self._isShowingToast = isShowingToast
+        self._toastMessasge = toastMessasge
+        self._toastError = toastError
         UINavigationBar.appearance().isTranslucent = false
-        
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
        }
     
     func onAppear () {
@@ -53,7 +59,8 @@ struct ServicesListView: View {
 
             VStack {
                 
-                HeaderTabView(title: "Car Services")
+                HeaderTabView(title: "Car Services", modal: $isShowingCar, save: $save)
+                HeaderTabTitleView(title: "Car Services")
                 
             ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 0) {
@@ -86,20 +93,22 @@ struct ServicesListView: View {
                                             self.isShowingCar = false
                                             self.showSubscribe = true
                                         }
+                                        self.save = false
+                                        self.action = "add"
                                     }) {
                                         
                                         CommandButton(content: "plus.circle")
                                     }
                                     .sheet(isPresented: self.$isShowingNew, onDismiss: {
                                      
-                                      
+                                        if(settings.fastApply || self.save) {
                                                        if(self.$serviceSelected.name.wrappedValue != "") {
                                                         addService(service: self.$serviceSelected.wrappedValue)
                                                        }
-                                            
+                                        }
 
                                         }) {
-                                        ServiceAddUpdateView(service: self.$serviceSelected, unit: self.$unit, modal: self.$isShowingNew, delete: self.$delete)
+                                            ServiceAddUpdateView(service: self.$serviceSelected, unit: self.$unit, modal: self.$isShowingNew, save: self.$save, action: self.$action, delete: self.$delete, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                                         
                                     }
                                     .frame(width: 15, height: 15)
@@ -131,6 +140,8 @@ struct ServicesListView: View {
                                                                           self.isShowingCar = false
                                                                           self.showSubscribe = true
                                                                       }
+                                                                      self.save = false
+                                                                      self.action = "edit"
                                                                   }) {
 
                                                                       VStack (spacing: 0) {
@@ -177,12 +188,14 @@ struct ServicesListView: View {
                                                                     if(self.delete == true) {
                                                                           deleteService(service: self.$serviceSelected.wrappedValue)
                                                                       } else {
+                                                                          if(settings.fastApply || self.save) {
                                                                           updateService(service: self.$serviceSelected.wrappedValue)
+                                                                          }
                                                                       }
 
                                                                   }) {
 
-                                                                    ServiceAddUpdateView(service: self.$serviceSelected, unit: self.$unit, modal: self.$isShowing, delete: self.$delete)
+                                                                      ServiceAddUpdateView(service: self.$serviceSelected, unit: self.$unit, modal: self.$isShowing, save: self.$save, action: self.$action, delete: self.$delete, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
 
 
 
@@ -207,30 +220,14 @@ struct ServicesListView: View {
             }
             
             }
-//            .padding(.top, 40)
-//            .navigationBarTitle("Back")
             .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
-//            .navigationBarTitleDisplayMode(.inline)
             .background(NavigationConfigurator { nc in
                 let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
                             nc.navigationBar.barTintColor = UIColor(color)
                         })
-//            .toolbar {
-//                ToolbarItem(placement: .principal) {
-//                    Text("Car Services")
-//                        .font(ui.title)
-//                        .accessibilityAddTraits(.isHeader)
-//                        .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
-//
-//
-//                }
-//            }
             .onAppear {
                 self.onAppear()
             }
-        
-//    }
-//    .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
        
     }
     

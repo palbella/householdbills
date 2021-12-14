@@ -57,7 +57,7 @@ struct TransactionView: View {
                                 
                      
 
-                 }) { TransactionFilterView(filters: $filters)}
+                            }) { TransactionFilterView(filters: $filters, modal: $commandRightTrigger)}
                             .modifier(OffsetModifier(offset: $offset))
                             .ignoresSafeArea()
                             .edgesIgnoringSafeArea([.top, .bottom])

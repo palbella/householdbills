@@ -11,8 +11,8 @@ import CoreData
 
 struct OrderingView: View {
     
-    @StateObject var settings: UserSettings = UserSettings()
-    @StateObject var ui: AppUI = AppUI()
+    @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var ui: AppUI
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) private var viewContext
     
@@ -22,11 +22,17 @@ struct OrderingView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "order", ascending: true)])
     var cardsFetch: FetchedResults<Card>
     
-    init(items: Binding<[String]> ) {
+    @Binding var modal: Bool
+    @Binding var save: Bool
+    
+    init(items: Binding<[String]> , modal: Binding<Bool>, save: Binding<Bool>) {
         
            self._items = items
+        self._modal = modal
+        self._save = save
         
         UINavigationBar.appearance().isTranslucent = false
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
        }
     
     func onAppear() {
@@ -41,8 +47,8 @@ struct OrderingView: View {
     var body: some View {
         NavigationView {
         VStack {
-          
-            Spacer()
+            HeaderTabTitleView(title: "Cards Order")
+         
         LazyVStack(spacing : 15) {
             ForEach(items, id:\.self) { item in
                 
@@ -76,14 +82,29 @@ struct OrderingView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
+                if(settings.fastApply == true) {
                 Text("Cards Order")
                     .font(ui.title)
                     .accessibilityAddTraits(.isHeader)
                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                }
             }
+            ToolbarItem(placement: .navigationBarLeading) {
+              
+                if(settings.fastApply != true) {
+                  
+                                    Button("Done") {
+                                     
+                                            self.modal = false
+                                            self.save = true
+                                      
+                                    }
+                }
+                                }
         }
-        .background(colorScheme != .dark ? ui.darkItemBackgroundColor: ui.darkMainBackgroundColor)
+        .background(colorScheme != .dark ? ui.darkItemBackgroundColor: ui.darkBackgroundColor)
         }
+        .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
         .onAppear {
             self.onAppear()
             getCards()

@@ -12,8 +12,8 @@ import CoreData
 struct CurrencyView: View {
     
     @Environment(\.colorScheme) var colorScheme
-    @StateObject var settings: UserSettings = UserSettings()
-    @StateObject var ui: AppUI = AppUI()
+    @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var ui: AppUI
     @Environment(\.managedObjectContext) private var viewContext
    
     
@@ -21,13 +21,17 @@ struct CurrencyView: View {
     @Binding var currencies : GetCurrencies
     @Binding var viewRefresh : Int
     
+    @Binding var modal: Bool
+    @Binding var save: Bool
     
-    init(currencies: Binding<GetCurrencies>, viewRefresh: Binding<Int>) {
+    init(currencies: Binding<GetCurrencies>, viewRefresh: Binding<Int>, modal: Binding<Bool>, save: Binding<Bool>) {
         self._currencies = currencies
         self._viewRefresh = viewRefresh
+        self._modal = modal
+        self._save = save
 
         UINavigationBar.appearance().isTranslucent = false
-      
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
        }
     
     func onAppear() {
@@ -46,7 +50,10 @@ struct CurrencyView: View {
         let fontColor = colorScheme != .dark ? ui.lightFieldFontColor: ui.darkFieldFontColor
         
         NavigationView {
-
+            VStack(spacing: 0) {
+                
+           
+                    HeaderTabTitleView(title: "Currency Management")
             ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 0) {
                 
@@ -73,7 +80,7 @@ struct CurrencyView: View {
                 ) {
 
                     Divider()
-                    
+                   
                    
                    
                     ForEach(self.currencies.items.indexed(), id: \.1.id) { index, item in
@@ -151,8 +158,12 @@ struct CurrencyView: View {
                 
          
         }
-            .padding(.top, 40)
-            .navigationBarTitle("Back")
+            
+        }
+            .frame(maxWidth: .infinity)
+            .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
+            }
+            .padding(.top, 0)
             .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
             .background(NavigationConfigurator { nc in
                 let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
@@ -161,24 +172,30 @@ struct CurrencyView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
+                    if(settings.fastApply == true) {
                     Text("Currency Management")
                         .font(ui.title)
                         .accessibilityAddTraits(.isHeader)
                         .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                    }
                 }
+                ToolbarItem(placement: .navigationBarLeading) {
+                  
+                    if(settings.fastApply != true) {
+                      
+                                        Button("Done") {
+                                         
+                                                self.modal = false
+                                                self.save = true
+                                          
+                                        }
+                    }
+                                    }
             }
             .onAppear() {
                 self.onAppear()
             }
-            .onTapGesture {
-                UIApplication.shared.endEditing()
-            }
-        }
-            .frame(maxWidth: .infinity)
-            .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
-            
     }
-//        .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
     .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
       
        

@@ -22,12 +22,15 @@ struct GoalPlanningView: View {
     @State var goalSelected: UUID = UUID()
     @State var goalSelectedName: String = ""
     
+    @Binding var modal: Bool
+    @Binding var save: Bool
+    
     var body: some View {
         
        
         VStack  {
             
-            HeaderTabView(title: "Goal Planning")
+            HeaderTabView(title: "Goal Planning", modal: $modal, save: $save)
             
             ScrollView(.vertical, showsIndicators: false) {
             

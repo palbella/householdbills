@@ -166,7 +166,7 @@ struct GoalUpdateView: View {
 
             
         }
-//        .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
+        .modifier(Toast(isShowing: $isShowingToast, message: self.toastMessasge, isError: self.$toastError))
         .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
         
 
@@ -260,7 +260,6 @@ struct GoalSettingsView: View {
      
         }
         .alert(isPresented: $showConfirm, content: { confirmDelete })
-       
         
     }
     
