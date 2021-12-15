@@ -29,8 +29,6 @@ struct StockView: View {
     
     @State var stockData : StockData = StockData()
     
-    @State var isShowingToast: Bool = false
-    @State var toastMessasge: String = ""
     @Binding var stockSelected : StockModel
     
     @Binding var totalPrices: Double
@@ -43,10 +41,11 @@ struct StockView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
         var stockFetchResult: FetchedResults<Stock>
     
-
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
     
-    init(account: Binding<AccountModel>, stockSelected: Binding<StockModel>, isShowingNew: Binding<Bool>, isShowingUpdate: Binding<Bool>, deleteStock: Binding<Bool>, modalStock: Binding<Bool>
-         , totalPrices: Binding<Double>, totalInvestments: Binding<Double>) {
+    init(account: Binding<AccountModel>, stockSelected: Binding<StockModel>, isShowingNew: Binding<Bool>, isShowingUpdate: Binding<Bool>, deleteStock: Binding<Bool>, modalStock: Binding<Bool>, totalPrices: Binding<Double>, totalInvestments: Binding<Double>, isShowingToast: Binding<Bool>, toastMessasge: Binding<String>, toastError: Binding<Bool>) {
         
         self._account = account
         self._stockSelected = stockSelected
@@ -56,6 +55,9 @@ struct StockView: View {
         self._modalStock = modalStock
         self._totalInvestments = totalInvestments
         self._totalPrices = totalPrices
+        self._isShowingToast = isShowingToast
+        self._toastMessasge = toastMessasge
+        self._toastError = toastError
         
         UINavigationBar.appearance().isTranslucent = false
         
@@ -87,8 +89,14 @@ struct StockView: View {
                                 VStack {
                                    
                                     Button(action: {
+                                        if(settings.subscribed || self.stockFetchResult.count < 1) {
                                         self.stockSelected = StockModel()
                                         self.isShowingNew = true
+                                        } else {
+                                            self.toastMessasge = "Please, Subscribe for more items"
+                                            self.isShowingToast = true
+                                            self.toastError = true
+                                        }
                                     }) {
                                         
                                         CommandButton(content: "plus.circle")
@@ -193,6 +201,7 @@ struct StockView: View {
                        
                                
                             }
+                            .padding(.top, 15)
                           
                 ) {
                     Divider()

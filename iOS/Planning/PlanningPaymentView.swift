@@ -42,6 +42,7 @@ struct PlanningPaymentBodyView: View {
     @Binding var isShowingToast: Bool
     @Binding var toastMessasge: String
     @Binding var toastError: Bool
+    @Binding var showSubscribe: Bool
     
     func onAppear() {
         
@@ -72,6 +73,7 @@ struct PlanningPaymentBodyView: View {
                             VStack {
                                 Spacer()
                                 Button(action: {
+                                    if(settings.subscribed || self.paymentsFetch.count < 2) {
                                     self.paymentSelected = PaymentModel()
                                     self.paymentSelected.iconContent = "lightbulb"
                                     self.paymentSelected.iconColor = "red"
@@ -79,6 +81,10 @@ struct PlanningPaymentBodyView: View {
                                     self.paymentSelected.symbol = settings.symbol
                                     self.isShowingNew = true
                                     self.save = false
+                                    } else {
+                                       
+                                        self.showSubscribe = true
+                                    }
                                 }) {
 
                                     CommandButton(content: "plus.circle")

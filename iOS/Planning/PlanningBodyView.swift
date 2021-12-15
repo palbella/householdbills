@@ -268,10 +268,10 @@ struct PlanningBodyView: View {
        
         }
         
-        PlanningBudgetBodyView(totalBudgets: self.$totalBudgets, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
+            PlanningBudgetBodyView(totalBudgets: self.$totalBudgets, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError, showSubscribe: self.$showSubscribe)
                 .padding(.top, 10)
                 .padding(.bottom, 20)
-        PlanningPaymentBodyView(totalPayments: self.$totalPayments, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
+        PlanningPaymentBodyView(totalPayments: self.$totalPayments, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError, showSubscribe: self.$showSubscribe)
                 .padding(.bottom, 20)
             PlanningPurchaseBodyView(totalPurchases: self.$totalPurchases, showSubscribe: self.$showSubscribe, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                 .padding(.bottom, 20)
@@ -283,10 +283,14 @@ struct PlanningBodyView: View {
                 Spacer()
                 
                 Button(action: {
+                    if(settings.subscribed == true) {
                     MonthBalance(viewContext: viewContext).syncMonth()
                     self.toastMessasge = "Month Syncronized!"
                     self.toastError = false
                     self.isShowingToast = true
+                    } else {
+                        self.showSubscribe = true
+                    }
                 }) {
                     HStack {
                         Text("Syncronize with current month")

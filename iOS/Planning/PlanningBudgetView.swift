@@ -43,7 +43,7 @@ struct PlanningBudgetBodyView: View {
     @Binding var isShowingToast: Bool
     @Binding var toastMessasge: String
     @Binding var toastError: Bool
-   
+    @Binding var showSubscribe: Bool
     
     var body: some View {
         
@@ -66,6 +66,7 @@ struct PlanningBudgetBodyView: View {
                             VStack {
                                 Spacer()
                                 Button(action: {
+                                    if(settings.subscribed || self.budgetsFetch.count < 1) {
                                     self.budgetSelected = BudgetModel()
                                     self.budgetSelected.iconContent = "camera"
                                     self.budgetSelected.iconColor = "red"
@@ -73,6 +74,10 @@ struct PlanningBudgetBodyView: View {
                                     self.budgetSelected.symbol = settings.symbol
                                     self.isShowingNew = true
                                     self.save = false
+                                    } else {
+                                       
+                                        self.showSubscribe = true
+                                    }
                                 }) {
                                     
                                     CommandButton(content: "plus.circle")

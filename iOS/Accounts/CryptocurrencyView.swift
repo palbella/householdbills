@@ -42,9 +42,12 @@ struct CryptocurrencyView: View {
         var cryptoFetchResult: FetchedResults<Cryptocurrency>
     
     @Binding var showSubscribe: Bool
-
+    @Binding var modalMain: Bool
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
     
-    init(account: Binding<AccountModel>, cryptoSelected: Binding<CryptocurrencyModel>, isShowingNew: Binding<Bool>, isShowingUpdate: Binding<Bool>, deleteCrypto: Binding<Bool>, modalCrypto: Binding<Bool>, totalPrices: Binding<Double>, totalInvestments: Binding<Double>, showSubscribe: Binding<Bool> ) {
+    init(account: Binding<AccountModel>, cryptoSelected: Binding<CryptocurrencyModel>, isShowingNew: Binding<Bool>, isShowingUpdate: Binding<Bool>, deleteCrypto: Binding<Bool>, modalCrypto: Binding<Bool>, totalPrices: Binding<Double>, totalInvestments: Binding<Double>, showSubscribe: Binding<Bool>, modalMain: Binding<Bool>, isShowingToast: Binding<Bool>, toastMessasge: Binding<String>, toastError: Binding<Bool> ) {
         
         self._account = account
         self._cryptoSelected = cryptoSelected
@@ -55,6 +58,10 @@ struct CryptocurrencyView: View {
         self._totalInvestments = totalInvestments
         self._totalPrices = totalPrices
         self._showSubscribe = showSubscribe
+        self._modalMain = modalMain
+        self._isShowingToast = isShowingToast
+        self._toastMessasge = toastMessasge
+        self._toastError = toastError
         
         UINavigationBar.appearance().isTranslucent = false
         
@@ -91,7 +98,9 @@ struct CryptocurrencyView: View {
                                         self.cryptoSelected = CryptocurrencyModel()
                                         self.isShowingNew = true
                                         } else {
-                                            self.showSubscribe = true
+                                            self.toastMessasge = "Please, Subscribe for more items"
+                                            self.isShowingToast = true
+                                            self.toastError = true
                                         }
                                     }) {
                                         

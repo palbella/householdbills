@@ -68,6 +68,7 @@ struct WelcomeScrollView<Content: View>: UIViewControllerRepresentable {
     var hideScrollIndicators: Bool = false
     var currentPageIndicator: UIColor?
     var pageIndicatorTintColor: UIColor?
+  
 
     init(axis: DirectionX, numberOfPages: Int,
          pagingEnabled: Bool,
@@ -84,6 +85,7 @@ struct WelcomeScrollView<Content: View>: UIViewControllerRepresentable {
         self.hideScrollIndicators = hideScrollIndicators
         self.currentPageIndicator = currentPageIndicator
         self.pageIndicatorTintColor = pageIndicatorTintColor
+     
         self.axis = axis
     }
 
@@ -96,6 +98,7 @@ struct WelcomeScrollView<Content: View>: UIViewControllerRepresentable {
         vc.hideScrollIndicators = hideScrollIndicators
         vc.currentPageIndicator = currentPageIndicator
         vc.pageIndicatorTintColor = pageIndicatorTintColor
+     
         return vc
     }
 
@@ -164,6 +167,7 @@ class WelcomeUIScrollViewController<Content: View>: UIViewController, UIScrollVi
         pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         pageControl.heightAnchor.constraint(equalToConstant: 60).isActive = true
         pageControl.widthAnchor.constraint(equalToConstant: 200).isActive = true
+       
     }
 
     func makefullScreen(of viewA: UIView, to viewB: UIView) {
@@ -184,7 +188,7 @@ class WelcomeUIScrollViewController<Content: View>: UIViewController, UIScrollVi
         switch axis {
             case .horizontal:
                 self.pageControl.currentPage = Int(currentIndexHorizontal)
-                self.pageControl.isHidden = Int(currentIndexHorizontal) == self.numberOfPages - 1
+            self.pageControl.isHidden = !self.pageControlEnabled || ( Int(currentIndexHorizontal) == self.numberOfPages - 1 )
         
                 break
             case .vertical:

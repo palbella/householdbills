@@ -16,13 +16,24 @@ struct CryptocurrencyAddView: View {
    
     @Binding var crypto: CryptocurrencyModel
     
- 
+    @Binding var modal: Bool
+    @Binding var save: Bool
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
     
-    init(crypto: Binding<CryptocurrencyModel>) {
+    init(crypto: Binding<CryptocurrencyModel>, modal: Binding<Bool>, save: Binding<Bool>,
+         isShowingToast: Binding<Bool>, toastMessasge: Binding<String>, toastError: Binding<Bool>) {
         
            self._crypto = crypto
+        self._modal = modal
+        self._save = save
+        self._isShowingToast = isShowingToast
+        self._toastMessasge = toastMessasge
+        self._toastError = toastError
         
         UINavigationBar.appearance().isTranslucent = false
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
        }
     
     
@@ -39,6 +50,9 @@ struct CryptocurrencyAddView: View {
 
     var body: some View {
         NavigationView {
+            VStack(spacing: 0) {
+            
+            HeaderTabTitleView(title: "New Cryptocurrency")
         Form {
             
             VStack {
@@ -80,7 +94,7 @@ struct CryptocurrencyAddView: View {
     
       
     }
-        .navigationBarTitle("Back")
+      
         .background(NavigationConfigurator { nc in
             let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
                         nc.navigationBar.barTintColor = UIColor(color)
@@ -88,17 +102,35 @@ struct CryptocurrencyAddView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
+                if(settings.fastApply == true) {
                 Text("New Cryptocurrency")
                     .font(ui.title)
                     .accessibilityAddTraits(.isHeader)
                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                }
             }
+            ToolbarItem(placement: .navigationBarLeading) {
+                if(settings.fastApply != true) {
+                                    Button("Done") {
+                                        if(self.crypto.name != "") {
+                                            self.modal = false
+                                            self.save = true
+                                        } else {
+                                            self.toastMessasge = "Name is required"
+                                            self.isShowingToast = true
+                                            self.toastError = true
+                                        }
+                                    }
+                }
+                                }
         }
         .onAppear() {
             self.onAppear()
         }
-        
+            }
     }
+        .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+        .modifier(Toast(isShowing: $isShowingToast, message: self.toastMessasge, isError: self.$toastError))
     }
     
 }

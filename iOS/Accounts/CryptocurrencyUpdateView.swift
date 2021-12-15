@@ -17,17 +17,27 @@ struct CryptocurrencyUpdateView: View {
     @Binding var crypto: CryptocurrencyModel
     
     @Binding var modal: Bool
+    @Binding var save: Bool
     @Binding var delete: Bool
+    
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
     
     @State private var showConfirm = false
     
-    init(crypto: Binding<CryptocurrencyModel>, modal: Binding<Bool>, delete: Binding<Bool>) {
+    init(crypto: Binding<CryptocurrencyModel>, modal: Binding<Bool>, save: Binding<Bool>, delete: Binding<Bool>, isShowingToast: Binding<Bool>, toastMessasge: Binding<String>, toastError: Binding<Bool> ) {
         
            self._crypto = crypto
         self._modal = modal
+        self._save = save
         self._delete = delete
+        self._isShowingToast = isShowingToast
+        self._toastMessasge = toastMessasge
+        self._toastError = toastError
         
         UINavigationBar.appearance().isTranslucent = false
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
        }
     
     func onAppear() {
@@ -42,6 +52,7 @@ struct CryptocurrencyUpdateView: View {
     var body: some View {
         NavigationView {
             VStack(spacing:0) {
+                HeaderTabTitleView(title: crypto.name)
         Form {
             
             VStack {
@@ -85,7 +96,6 @@ struct CryptocurrencyUpdateView: View {
     
       
     }
-        .navigationBarTitle("Back")
         .background(NavigationConfigurator { nc in
             let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
                         nc.navigationBar.barTintColor = UIColor(color)
@@ -93,11 +103,27 @@ struct CryptocurrencyUpdateView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text("New Cryptocurrency")
+                if(settings.fastApply == true) {
+                Text(crypto.name)
                     .font(ui.title)
                     .accessibilityAddTraits(.isHeader)
                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                }
             }
+            ToolbarItem(placement: .navigationBarLeading) {
+                if(settings.fastApply != true) {
+                                    Button("Done") {
+                                        if(self.crypto.name != "") {
+                                            self.modal = false
+                                            self.save = true
+                                        } else {
+                                            self.toastMessasge = "Name is required"
+                                            self.isShowingToast = true
+                                            self.toastError = true
+                                        }
+                                    }
+                }
+                                }
         }
         .onAppear() {
             self.onAppear()
@@ -117,6 +143,8 @@ struct CryptocurrencyUpdateView: View {
         
     }
         .alert(isPresented: $showConfirm, content: { confirmDelete })
+        .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+        .modifier(Toast(isShowing: $isShowingToast, message: self.toastMessasge, isError: self.$toastError))
     }
     
     var confirmDelete: Alert {

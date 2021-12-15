@@ -17,17 +17,27 @@ struct StockUpdateView: View {
     @Binding var stock: StockModel
     
     @Binding var modal: Bool
+    @Binding var save: Bool
     @Binding var delete: Bool
+    
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
     
     @State private var showConfirm = false
     
-    init(stock: Binding<StockModel>, modal: Binding<Bool>, delete: Binding<Bool>) {
+    init(stock: Binding<StockModel>, modal: Binding<Bool>, save: Binding<Bool>, delete: Binding<Bool>, isShowingToast: Binding<Bool>, toastMessasge: Binding<String>, toastError: Binding<Bool> ) {
         
            self._stock = stock
         self._modal = modal
+        self._save = save
         self._delete = delete
+        self._isShowingToast = isShowingToast
+        self._toastMessasge = toastMessasge
+        self._toastError = toastError
         
         UINavigationBar.appearance().isTranslucent = false
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Double.leastNonzeroMagnitude))
        }
     
     func onAppear() {
@@ -42,6 +52,7 @@ struct StockUpdateView: View {
     var body: some View {
         NavigationView {
             VStack(spacing:0) {
+                HeaderTabTitleView(title: stock.name)
         Form {
             
             VStack {
@@ -83,7 +94,6 @@ struct StockUpdateView: View {
     
       
     }
-        .navigationBarTitle("Back")
         .background(NavigationConfigurator { nc in
             let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
                         nc.navigationBar.barTintColor = UIColor(color)
@@ -91,11 +101,27 @@ struct StockUpdateView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text("New Stock")
+                if(settings.fastApply == true) {
+                Text(stock.name)
                     .font(ui.title)
                     .accessibilityAddTraits(.isHeader)
                     .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+                }
             }
+            ToolbarItem(placement: .navigationBarLeading) {
+                if(settings.fastApply != true) {
+                                    Button("Done") {
+                                        if(self.stock.name != "") {
+                                            self.modal = false
+                                            self.save = true
+                                        } else {
+                                            self.toastMessasge = "Name is required"
+                                            self.isShowingToast = true
+                                            self.toastError = true
+                                        }
+                                    }
+                }
+                                }
         }
         .onAppear() {
             self.onAppear()
@@ -115,6 +141,8 @@ struct StockUpdateView: View {
         
     }
         .alert(isPresented: $showConfirm, content: { confirmDelete })
+        .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+        .modifier(Toast(isShowing: $isShowingToast, message: self.toastMessasge, isError: self.$toastError))
     }
     
     var confirmDelete: Alert {

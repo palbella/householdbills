@@ -12,7 +12,7 @@ struct AccountUpdateView: View {
     
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var settings: UserSettings
-    @StateObject var ui: AppUI = AppUI()
+    @EnvironmentObject var ui: AppUI
     @Environment(\.managedObjectContext) private var viewContext
     
     @Binding var account: AccountModel
@@ -60,6 +60,8 @@ struct AccountUpdateView: View {
     @State var budgetIndex: Int = 0
     @State var budgetList: [String] = []
     @State var budgetSelected: String? = ""
+    @State var saveCrypto: Bool = false
+    @State var saveStock: Bool = false
     
     @Binding var showSubscribe: Bool
     @Binding var isShowingToast: Bool
@@ -263,7 +265,7 @@ struct AccountUpdateView: View {
             if(self.account.type == "crypto")
             {
                 CryptocurrencyView(account: self.$account, cryptoSelected: self.$cryptoSelected, isShowingNew: self.$isShowingCryptoNew, isShowingUpdate: self.$isShowingCryptoUpdate,
-                                   deleteCrypto: self.$deleteCrypto, modalCrypto: self.$modalCrypto, totalPrices: self.$totalPricesCrypto, totalInvestments: self.$totalInvestmentsCrypto, showSubscribe: self.$showSubscribe)
+                                   deleteCrypto: self.$deleteCrypto, modalCrypto: self.$modalCrypto, totalPrices: self.$totalPricesCrypto, totalInvestments: self.$totalInvestmentsCrypto, showSubscribe: self.$showSubscribe, modalMain: self.$modal, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                     .environmentObject(self.ui)
                         .environmentObject(self.settings)
             }
@@ -271,7 +273,7 @@ struct AccountUpdateView: View {
             if(self.account.type == "stock")
             {
                 StockView(account: self.$account, stockSelected: self.$stockSelected, isShowingNew: self.$isShowingStockNew, isShowingUpdate: self.$isShowingStockUpdate,
-                          deleteStock: self.$deleteStock, modalStock: self.$modalStock, totalPrices: self.$totalPricesStock, totalInvestments: self.$totalInvestmentsStock)
+                          deleteStock: self.$deleteStock, modalStock: self.$modalStock, totalPrices: self.$totalPricesStock, totalInvestments: self.$totalInvestmentsStock, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                     .environmentObject(self.ui)
                         .environmentObject(self.settings)
             }
@@ -332,14 +334,16 @@ struct AccountUpdateView: View {
         .modifier(Toast(isShowing: $isShowingToast, message: self.toastMessasge, isError: self.$toastError))
         .sheet(isPresented: self.$isShowingCryptoNew, onDismiss: {
          
+            if(settings.fastApply || self.saveCrypto) {
             if(self.$cryptoSelected.name.wrappedValue != "") {
                 var crypto = self.$cryptoSelected.wrappedValue
                 crypto.accountId = self.$account.wrappedValue.id
                 cryptoData.addCrypto(crypto: crypto)
                                                                   }
+            }
             getTotalsCrypto()
             }) {
-            CryptocurrencyAddView(crypto: self.$cryptoSelected)
+                CryptocurrencyAddView(crypto: self.$cryptoSelected, modal: self.$isShowingCryptoNew, save: self.$saveCrypto, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
             
         }
          .sheet(isPresented: self.$isShowingCryptoUpdate, onDismiss: {
@@ -348,26 +352,30 @@ struct AccountUpdateView: View {
                 if(self.deleteCrypto) {
                     cryptoData.deleteCrypto(crypto: self.$cryptoSelected.wrappedValue)
                 } else {
+                    if(settings.fastApply || self.saveCrypto) {
                     var crypto = self.$cryptoSelected.wrappedValue
                     crypto.accountId = self.$account.wrappedValue.id
                     cryptoData.updateCrypto(crypto: crypto)
+                    }
                 }
                 getTotalsCrypto()
             }) {
-              CryptocurrencyUpdateView(crypto: self.$cryptoSelected, modal: self.$isShowingCryptoUpdate, delete: self.$deleteCrypto)
+                CryptocurrencyUpdateView(crypto: self.$cryptoSelected, modal: self.$isShowingCryptoUpdate, save: self.$saveCrypto, delete: self.$deleteCrypto, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
          }
             .sheet(isPresented: self.$isShowingStockNew, onDismiss: {
              
                 var stock = self.$stockSelected.wrappedValue
                 stock.accountId = self.$account.wrappedValue.id
               
+                if(settings.fastApply || self.saveStock) {
                                if(self.$stockSelected.name.wrappedValue != "") {
                                    stockData.addStock(stock: stock)
                                }
+                }
                 getTotalsStock()
 
                 }) {
-                StockAddView(stock: self.$stockSelected)
+                    StockAddView(stock: self.$stockSelected, modal: self.$isShowingStockNew, save: self.$saveStock, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                 
             }
                 .sheet(isPresented: self.$isShowingStockUpdate, onDismiss: {
@@ -376,12 +384,14 @@ struct AccountUpdateView: View {
                     if(self.deleteStock) {
                         stockData.deleteStock(stock: self.$stockSelected.wrappedValue)
                     } else {
+                        if(settings.fastApply || self.saveStock) {
                         stockData.updateStock(stock: self.$stockSelected.wrappedValue)
+                        }
                     }
                     getTotalsStock()
                 }) {
                   
-              StockUpdateView(stock: self.$stockSelected, modal: self.$isShowingStockUpdate, delete: self.$deleteStock)
+              StockUpdateView(stock: self.$stockSelected, modal: self.$isShowingStockUpdate, save: self.$saveStock, delete: self.$deleteStock, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                       
                   
                     

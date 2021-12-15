@@ -48,6 +48,7 @@ struct PlanningPurchaseBodyView: View {
     @Binding var isShowingToast: Bool
     @Binding var toastMessasge: String
     @Binding var toastError: Bool
+  
     
     func onAppear() {
         self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext)

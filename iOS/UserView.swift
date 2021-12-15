@@ -85,7 +85,8 @@ struct UserView: View {
                         .background(colorScheme != .dark ? Color(UIColor.systemGray6): Color(UIColor.systemGray2))
                         .cornerRadius(5)
                     
-                
+                Text("")
+                        .padding()
                     PasscodeField( handler:{ pin, result in
                         settings.password = pin
                         return true
