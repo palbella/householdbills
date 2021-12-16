@@ -77,17 +77,18 @@ struct SettingsView: View {
             .onChange(of: settings.currency, perform: { value in
                 settings.symbol = currencies.getSymbol(currency: value)
             })
-            .padding()
+            .padding(22)
             
             Picker("Unit", selection: $settings.unit) {
                 ForEach(units.items) { item in
                     Text(item.name).tag(item.content)
                     }
                         }
-            .padding()
+            .padding(21)
             
             
             NumericInput(labelColor: labelColor, fontColor: fontColor, iconContent: "", iconColor: .blue, label: "Month Balance Day", value: $settings.dayChangeMonth, symbol: $symbol)
+                .padding(2)
             
             Toggle("Update Currency", isOn: $settings.currencyUpdate)
                 .padding()
@@ -109,7 +110,7 @@ struct SettingsView: View {
          
                     Text("Remove All Data")
                         .foregroundColor(labelColor)
-                 
+                        .padding(.leading, 10)
 
                             
                     Spacer()
@@ -120,8 +121,8 @@ struct SettingsView: View {
                 
                         
                 }
-                    .padding(.top, 10)
-                    .padding(.bottom, 10)
+                    .padding(.top, 16)
+                    .padding(.bottom, 16)
                 }
                 
                
@@ -203,6 +204,7 @@ struct SettingsView: View {
             deleteAllData(entity: "DailyBalance")
             deleteAllData(entity: "Migration")
             deleteAllData(entity: "Tutorial")
+            deleteAllData(entity: "Password")
                 restartApplication ()
             },
             secondaryButton: .cancel(Text("No"))

@@ -260,3 +260,4 @@
 "tutorial6-planning" = "Press and hold to move the cards.";
 "tutorial7-planning" = "Save your first password using your encrypted code, it is not saving your password decrypted. The app only use native apple icloud persistence.";
 "tutorial8-planning" = "Recover your password using the same encrypted code you used before.";
+"tutorial9-planning" = "";

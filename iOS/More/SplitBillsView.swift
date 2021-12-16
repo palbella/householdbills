@@ -27,11 +27,20 @@ struct SplitBillsView: View {
     @Binding var modal: Bool
     @Binding var save: Bool
  
+    @State var showTutorialInfo: Bool = true
+    @State var tutorial: TutorialData = TutorialData()
+    
+    @State var isShowingPopup: Bool = false
+    @State var popupMessasge: String = ""
+    @State var popupTitle: String = ""
+    @State var popupImage: String = ""
 
     var body: some View {
        
         VStack(spacing: 0) {
 
+            ZStack {
+                VStack(spacing: 0) {
             HeaderTabView(title: "Split Bills", modal: $modal, save: $save)
             HeaderTabTitleView(title: "Split Bills")
             
@@ -221,7 +230,10 @@ Spacer()
          
             }
             .padding(.top, 0)
-            
+            }
+           
+        }
+                PopUpWindow(isShowingPopup: $isShowingPopup, popupTitle: $popupTitle, popupMessasge: $popupMessasge, popupImage: $popupImage)
         
     }
         .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
@@ -230,10 +242,25 @@ Spacer()
     .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
        
     }
+        .onAppear(){
+            showTutorial()
+        }
     }
     
     
+    func showTutorial() {
+        
+        self.showTutorialInfo = tutorial.needTutorial(name: "splitbills", tutorialStep: 0)
+        if( self.showTutorialInfo == true) {
+            self.popupTitle = "Tutorial"
+            self.popupMessasge = LocalizedStringKey("tutorial9-planning").toString()
+            self.popupImage = "tutorial9"
+            self.isShowingPopup = self.showTutorialInfo
+            tutorial.saveTutorial(name: "splitbills", tutorialStep: 0)
+        }
     
+        
+    }
     
     func addPerson()
     {
