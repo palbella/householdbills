@@ -65,7 +65,7 @@ struct GetPasswordEncription {
         
 
         result = Data(base64Encoded: result, options: Data.Base64DecodingOptions(rawValue: 0))
-            .map({ String(data: $0, encoding: .utf8)! })!
+            .map({ String(data: $0, encoding: .utf8)! }) ?? ""
         
           return result
         }

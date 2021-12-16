@@ -257,3 +257,6 @@
 "subscribe-policy" = "Subscription will purchase through the app and charged to your iTunes account, you will be able to manage or cancel your subsciption through your Apple account settings. Your payment will automatically renew unless you cancel 24 hours before the end of the periods.";
 "tutorial4-planning" = "Every new month dashboard will be reset with the planning configuration, you can change the planning and use the syncronize button to update the current month.";
 "tutorial5-planning" = "Mark the currencies you usually use, you can customize currency symbol and dolar rate. Automatically rate update is not always available and you must activate on settings.";
+"tutorial6-planning" = "Press and hold to move the cards.";
+"tutorial7-planning" = "Save your first password using your encrypted code, it is not saving your password decrypted. The app only use native apple icloud persistence.";
+"tutorial8-planning" = "Recover your password using the same encrypted code you used before.";

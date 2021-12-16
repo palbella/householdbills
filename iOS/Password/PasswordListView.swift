@@ -40,6 +40,14 @@ struct PasswordListView: View {
     @Binding var toastMessasge: String
     @Binding var toastError: Bool
     
+    @State var showTutorialInfoA: Bool = true
+    @State var showTutorialInfoB: Bool = true
+    @State var tutorial: TutorialData = TutorialData()
+    
+    @State var isShowingPopup: Bool = false
+    @State var popupMessasge: String = ""
+    @State var popupTitle: String = ""
+    @State var popupImage: String = ""
  
    
     
@@ -65,6 +73,8 @@ struct PasswordListView: View {
        
         VStack {
 
+            ZStack {
+                VStack(spacing: 0) {
             HeaderTabView(title: "Passwords", modal: $listModal, save: $save)
             HeaderTabTitleView(title: "Passwords")
             
@@ -97,6 +107,7 @@ struct PasswordListView: View {
                       
                         
                         Button(action: {
+                            tutorial.saveTutorial(name: "password", tutorialStep: 1)
                             unlock(pin: pin, password: password)
                             UIApplication.shared.endEditing()
                         }) {
@@ -138,7 +149,7 @@ struct PasswordListView: View {
                     .fixedSize(horizontal: false, vertical: true)
                    
                     
-                    ModalView(isShowing: $showModal, result: $result)
+                    ModalView(isShowing: $showModal, result: $result, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
                    
                    
                
@@ -175,6 +186,7 @@ struct PasswordListView: View {
                                         if(settings.fastApply || self.save) {
                                                        if(self.$passwordSelected.name.wrappedValue != "" && self.passwordSelected.password != "" && self.passwordSelected.code  != "") {
                                                         addPassword(password: self.$passwordSelected.wrappedValue)
+                                                           tutorial.saveTutorial(name: "password", tutorialStep: 0)
                                                        }
                                         }
                                             
@@ -292,17 +304,41 @@ struct PasswordListView: View {
          
             }
             .padding(.top, settings.fastApply ? 40 : 0)
-            
+                }
+                PopUpWindow(isShowingPopup: $isShowingPopup, popupTitle: $popupTitle, popupMessasge: $popupMessasge, popupImage: $popupImage)
+            }
         
     }
         .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
         .modifier(Toast(isShowing: $isShowingToast, message: self.toastMessasge, isError: self.$toastError))
+        .onAppear(){
+            showTutorial()
+        }
 
     .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
        
     }
     
     
+    func showTutorial() {
+        
+        self.showTutorialInfoA = tutorial.needTutorial(name: "password", tutorialStep: 0)
+        if( self.showTutorialInfoA == true) {
+            self.popupTitle = "Tutorial"
+            self.popupMessasge = LocalizedStringKey("tutorial7-planning").toString()
+            self.popupImage = "tutorial7"
+            self.isShowingPopup = self.showTutorialInfoA
+        }
+        
+        self.showTutorialInfoB = tutorial.needTutorial(name: "password", tutorialStep: 1)
+        if( self.showTutorialInfoB == true && self.showTutorialInfoA == false) {
+            self.popupTitle = "Tutorial"
+            self.popupMessasge = LocalizedStringKey("tutorial8-planning").toString()
+            self.popupImage = "tutorial8"
+            self.isShowingPopup = self.showTutorialInfoB
+        }
+        
+    }
 
     func unlock (pin: String, password: String) {
         
@@ -430,6 +466,10 @@ struct ModalView: View {
     @State private var curHeight: CGFloat = 600
     @Environment(\.scenePhase) var scenePhase
     
+    @Binding var isShowingToast: Bool
+    @Binding var toastMessasge: String
+    @Binding var toastError: Bool
+    
     var body: some View {
         
         ZStack(alignment: .bottom) {
@@ -443,7 +483,54 @@ struct ModalView: View {
                 
             
             
-           mainView
+                VStack {
+                    
+                    ZStack {
+                        Capsule()
+                            .frame(width: 40, height: 6)
+                    }
+                    .frame(height: 40)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.white.opacity(0.00001))
+                    
+                    
+                    ZStack {
+                        VStack {
+                            Text(result)
+                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                                .font(.system(size: 33))
+                                .foregroundColor(.black)
+                                .padding()
+                            
+                            
+                            Button(action: {
+                                   
+                                UIPasteboard.general.string = result
+                                self.toastMessasge = "Copied"
+                                self.toastError = false
+                                self.isShowingToast = true
+                                
+                            }) {
+                                            HStack {
+                                                Image(systemName: "square.and.arrow.up")
+                                                    .font(.title)
+                                            }
+                                        }
+                            .foregroundColor(.green)
+                            Spacer()
+                          
+                        }
+                        .padding(30)
+                       
+                    }
+                    .frame(maxHeight: .infinity)
+                    
+                    
+                   
+                }
+                .frame(height: curHeight)
+                .frame(maxWidth: .infinity)
+                .background(Color.white)
             .transition(.move(edge: .bottom))
             }
   
@@ -483,52 +570,7 @@ struct ModalView: View {
     }
    
     
-    var mainView: some View {
-        
-        VStack {
-            
-            ZStack {
-                Capsule()
-                    .frame(width: 40, height: 6)
-            }
-            .frame(height: 40)
-            .frame(maxWidth: .infinity)
-            .background(Color.white.opacity(0.00001))
-            
-            
-            ZStack {
-                VStack {
-                    Text(result)
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                        .font(.system(size: 33))
-                        .foregroundColor(.black)
-                        .padding()
-                    
-                    
-                    Button(action: {
-                           
-                        UIPasteboard.general.string = result
-                        
-                    }) {
-                                    HStack {
-                                        Image(systemName: "square.and.arrow.up")
-                                            .font(.title)
-                                    }
-                                }
-                    .foregroundColor(.green)
-                  
-                }
-                .padding(30)
-            }
-            .frame(maxHeight: .infinity)
-            
-            
-           
-        }
-        .frame(height: curHeight)
-        .frame(maxWidth: .infinity)
-        .background(Color.white)
-    }
+ 
 }
 
 

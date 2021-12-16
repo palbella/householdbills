@@ -13,7 +13,7 @@ import UserNotifications
 class UserSettings: ObservableObject {
     @Published var loggedIn : Bool = false
     @Published var welcome : Bool = true
-    @Published var subscribed : Bool = false
+    @Published var subscribed : Bool = true
     @Published var navigateNowToLogIn: Bool = false
     @Published var navigateNowToSignup: Bool = false
     @Published var currencyUpdate: Bool = false

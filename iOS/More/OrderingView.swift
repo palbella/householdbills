@@ -25,6 +25,14 @@ struct OrderingView: View {
     @Binding var modal: Bool
     @Binding var save: Bool
     
+    @State var showTutorialInfo: Bool = true
+    @State var tutorial: TutorialData = TutorialData()
+    
+    @State var isShowingPopup: Bool = false
+    @State var popupMessasge: String = ""
+    @State var popupTitle: String = ""
+    @State var popupImage: String = ""
+    
     init(items: Binding<[String]> , modal: Binding<Bool>, save: Binding<Bool>) {
         
            self._items = items
@@ -41,12 +49,16 @@ struct OrderingView: View {
         appearance.backgroundColor = colorScheme != .dark ? UIColor(Color.white): UIColor(ui.darkBackgroundColor)
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        
+        self.showTutorial()
     }
     
     
     var body: some View {
         NavigationView {
-        VStack {
+            VStack(spacing: 0) {
+            ZStack {
+                VStack(spacing: 0) {
             HeaderTabTitleView(title: "Cards Order")
          
         LazyVStack(spacing : 15) {
@@ -74,6 +86,9 @@ struct OrderingView: View {
           
         }
             Spacer()
+                }
+                PopUpWindow(isShowingPopup: $isShowingPopup, popupTitle: $popupTitle, popupMessasge: $popupMessasge, popupImage: $popupImage)
+            }
         }
         .background(NavigationConfigurator { nc in
             let color = colorScheme != .dark ? Color.white: ui.darkBackgroundColor
@@ -116,6 +131,20 @@ struct OrderingView: View {
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
             getCards()
             }
+        
+    }
+    
+    
+    func showTutorial() {
+        
+        self.showTutorialInfo = tutorial.needTutorial(name: "cards", tutorialStep: 0)
+        if( self.showTutorialInfo == true) {
+            self.popupTitle = "Tutorial"
+            self.popupMessasge = LocalizedStringKey("tutorial6-planning").toString()
+            self.popupImage = "tutorial6"
+            self.isShowingPopup = self.showTutorialInfo
+            tutorial.saveTutorial(name: "cards", tutorialStep: 0)
+        }
         
     }
     
