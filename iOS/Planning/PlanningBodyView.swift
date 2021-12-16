@@ -20,6 +20,10 @@ struct PlanningBodyView: View {
     @Binding var isShowingToast: Bool
     @Binding var toastMessasge: String
     @Binding var toastError: Bool
+    @Binding var isShowingPopup: Bool
+    @Binding var popupMessasge: String
+    @Binding var popupTitle: String
+    @Binding var popupImage: String
     
     let fetchRequest: NSFetchRequest<Settings> = Settings.fetchRequest()
 
@@ -28,12 +32,14 @@ struct PlanningBodyView: View {
     @State var totalPurchases: Double = 0
     
     @State var showInfo: Bool = false
+    @State var showSync: Bool = false
     
     @Binding var showSubscribe: Bool
     @State var animationStatus = false
     @State var showTutorialInfo: Bool = true
     
     @State var tutorial: TutorialData = TutorialData()
+   
     
      
     func onAppear() {
@@ -41,8 +47,8 @@ struct PlanningBodyView: View {
                 animationStatus.toggle()
         }
         
-        self.showTutorialInfo = tutorial.needTutorial(name: "planning", tutorialStep: 0)
-      
+       
+        self.showTutorial()
     }
     
     var body: some View {
@@ -299,7 +305,6 @@ struct PlanningBodyView: View {
                     .frame(width: 230, height: 30)
                     .font(.system(size: 12, weight: .bold))
                     .foregroundColor(ui.lightCommandFontColor)
-//                    .background(ui.lightCommandFontColor)
                     .cornerRadius(5)
                     .overlay(
                                     RoundedRectangle(cornerRadius: 25)
@@ -321,6 +326,22 @@ struct PlanningBodyView: View {
         }
        
        
+    }
+    
+    func showTutorial() {
+        
+        self.showTutorialInfo = tutorial.needTutorial(name: "planning", tutorialStep: 0)
+        
+        
+        if( self.showTutorialInfo == false) {
+            self.showSync = tutorial.needTutorial(name: "planning", tutorialStep: 1)
+            self.popupTitle = "Tutorial"
+            self.popupMessasge = LocalizedStringKey("tutorial4-planning").toString()
+            self.popupImage = "tutorial4"
+            self.isShowingPopup = self.showSync
+            tutorial.saveTutorial(name: "planning", tutorialStep: 1)
+        }
+        
     }
     
     private func SaveContext () {

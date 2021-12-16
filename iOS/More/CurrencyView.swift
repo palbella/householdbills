@@ -16,13 +16,19 @@ struct CurrencyView: View {
     @EnvironmentObject var ui: AppUI
     @Environment(\.managedObjectContext) private var viewContext
    
-    
+    @State var showTutorialInfo: Bool = true
+    @State var tutorial: TutorialData = TutorialData()
     
     @Binding var currencies : GetCurrencies
     @Binding var viewRefresh : Int
     
     @Binding var modal: Bool
     @Binding var save: Bool
+    
+    @State var isShowingPopup: Bool = false
+    @State var popupMessasge: String = ""
+    @State var popupTitle: String = ""
+    @State var popupImage: String = ""
     
     init(currencies: Binding<GetCurrencies>, viewRefresh: Binding<Int>, modal: Binding<Bool>, save: Binding<Bool>) {
         self._currencies = currencies
@@ -40,6 +46,8 @@ struct CurrencyView: View {
         appearance.backgroundColor = colorScheme != .dark ? UIColor(Color.white): UIColor(ui.darkBackgroundColor)
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        
+        self.showTutorial() 
     }
     
  
@@ -50,10 +58,13 @@ struct CurrencyView: View {
         let fontColor = colorScheme != .dark ? ui.lightFieldFontColor: ui.darkFieldFontColor
         
         NavigationView {
+           
             VStack(spacing: 0) {
                 
-           
+                ZStack {
+                    VStack(spacing: 0) {
                     HeaderTabTitleView(title: "Currency Management")
+                
             ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 0) {
                 
@@ -151,17 +162,21 @@ struct CurrencyView: View {
                     
           
             }
-              
+               
             
          
                 Spacer()
                 
          
         }
-            
+               
         }
             .frame(maxWidth: .infinity)
             .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
+                    }
+                    PopUpWindow(isShowingPopup: $isShowingPopup, popupTitle: $popupTitle, popupMessasge: $popupMessasge, popupImage: $popupImage)
+                }
+                
             }
             .padding(.top, 0)
             .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
@@ -195,12 +210,26 @@ struct CurrencyView: View {
             .onAppear() {
                 self.onAppear()
             }
+        
     }
     .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
       
        
     }
     
+    
+    func showTutorial() {
+        
+        self.showTutorialInfo = tutorial.needTutorial(name: "currency", tutorialStep: 0)
+        if( self.showTutorialInfo == true) {
+            self.popupTitle = "Tutorial"
+            self.popupMessasge = LocalizedStringKey("tutorial5-planning").toString()
+            self.popupImage = "tutorial5"
+            self.isShowingPopup = self.showTutorialInfo
+            tutorial.saveTutorial(name: "currency", tutorialStep: 0)
+        }
+        
+    }
     
     
 }

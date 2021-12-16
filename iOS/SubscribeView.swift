@@ -19,12 +19,14 @@ struct SubscribeView: View {
     @EnvironmentObject var ui: AppUI
     @Environment(\.presentationMode) var presentationMode
   
+    @State var showTerms = false
+    
     var carusel: [SubscribeModel] = [
-        SubscribeModel(id: 1, image: "welcome1", titleText: LocalizedStringKey("WelcomeTitle1").toString(), descriptionText: LocalizedStringKey("WelcomeDescription1").toString()),
-        SubscribeModel(id: 2, image: "subscribe2", titleText: LocalizedStringKey("WelcomeTitle2").toString(), descriptionText: LocalizedStringKey("WelcomeDescription2").toString()),
-        SubscribeModel(id: 3, image: "subscribe3", titleText: LocalizedStringKey("WelcomeTitle3").toString(), descriptionText: LocalizedStringKey("WelcomeDescription3").toString()),
-        SubscribeModel(id: 4, image: "subscribe4", titleText: LocalizedStringKey("WelcomeTitle4").toString(), descriptionText: LocalizedStringKey("WelcomeDescription4").toString()),
-        SubscribeModel(id: 5, image: "subscribe5", titleText: LocalizedStringKey("WelcomeTitle5").toString(), descriptionText: LocalizedStringKey("WelcomeDescription5").toString(), showButton: true)
+        SubscribeModel(id: 1, image: "subscribe1", titleText: LocalizedStringKey("subscribe1").toString(), descriptionText: LocalizedStringKey("").toString()),
+        SubscribeModel(id: 2, image: "subscribe2", titleText: LocalizedStringKey("subscribe2").toString(), descriptionText: LocalizedStringKey("").toString()),
+        SubscribeModel(id: 3, image: "subscribe3", titleText: LocalizedStringKey("subscribe3").toString(), descriptionText: LocalizedStringKey("").toString()),
+        SubscribeModel(id: 4, image: "subscribe4", titleText: LocalizedStringKey("subscribe4").toString(), descriptionText: LocalizedStringKey("").toString()),
+        SubscribeModel(id: 5, image: "subscribe5", titleText: LocalizedStringKey("subscribe5").toString(), descriptionText: LocalizedStringKey("").toString(), showButton: true)
     ]
     
     func onAppear() {
@@ -33,8 +35,9 @@ struct SubscribeView: View {
     
     var body: some View {
         
-        
+        if(!showTerms) {
         GeometryReader { geometry in
+           
             VStack (alignment: .center){
                 HStack {
                     Image(systemName: "house")
@@ -94,27 +97,38 @@ struct SubscribeView: View {
                 Spacer()
           
 
-                Text("Terms & Subscription")
+                Text("subscribe-policy")
                     .foregroundColor(Color.white)
                     .padding(.leading, 10)
                     .padding(.trailing, 10)
                     .padding(.bottom, 10)
                     .font(.system(size: 8))
                     .multilineTextAlignment(.center)
-                Text("Terms & Privacy")
-                    .foregroundColor(Color.white)
-                    .padding(.bottom, 35)
-                    .font(.system(size: 12))
+                
+                Button(action: {
+                    self.showTerms = true
+                }) {
+                    Text("Terms & Privacy")
+                        .foregroundColor(Color.white)
+                        .padding(.bottom, 35)
+                        .font(.system(size: 12))
+                }
+              
                 
             }
             .onAppear() {
                 self.onAppear()
                
             }
-           
         }
         .background(ui.lightPrimaryColor)
         .edgesIgnoringSafeArea(.all)
+            } else {
+                TermsView(back: self.$showTerms)
+            }
+           
+        
+       
         
         }
        
@@ -141,20 +155,24 @@ struct SubscribeCaruselView: View {
                    
               
                
-                Text("\(self.subscribeData.titleText)")
-                    .frame(width: geometry.size.width, height: 20, alignment: .center)
-                    .font(.title)
-                    .padding(.bottom, 15)
-                    .padding(.top, 15)
-                    .foregroundColor(Color.white)
-                
-//                Text("\(self.subscribeData.descriptionText)")
+//                Text("\(self.subscribeData.titleText)")
 //                    .lineLimit(nil)
-//                    .padding(.leading, 15)
-//                    .padding(.trailing, 15)
-//                    .font(.system(size: 14))
 //                    .frame(width: geometry.size.width, height: 60, alignment: .center)
+//                    .font(.title)
+//                    .padding(.bottom, 15)
+//                    .padding(.top, 15)
+//                    .foregroundColor(Color.white)
 //                    .multilineTextAlignment(.center)
+                    
+                
+                Text("\(self.subscribeData.titleText)")
+                    .lineLimit(nil)
+                    .padding(.leading, 15)
+                    .padding(.trailing, 15)
+                    .font(Font.headline.weight(.bold))
+                    .foregroundColor(Color.white)
+                    .frame(width: geometry.size.width, height: 60, alignment: .center)
+                    .multilineTextAlignment(.center)
 
                 
                 Spacer()

@@ -60,6 +60,7 @@ struct DashboardBodyView: View {
      
         self.setMonthName()
         self.setMonthBalance()
+        self.showTutorial()
         
     }
     
@@ -204,7 +205,7 @@ Divider()
         }
         .onAppear(){
             self.onAppear()
-            self.showTutorial()
+            
         }
         .alert(isPresented: $showConfirmBalance, content: { confirmBalance })
         .onChange(of: self.showTutorialBank, perform: { value in showTutorial() })

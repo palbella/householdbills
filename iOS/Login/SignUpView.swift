@@ -17,13 +17,14 @@ struct SignUpView: View {
     @State var emailAddress: String = ""
     @State var name: String = ""
     @State var password: String = ""
+    @State var showTerms = false
     
     var disableForm: Bool {
         !(self.name != "" && self.emailAddress != "" && self.password.count == 6)
     }
     
     var body: some View {
-
+        if(!showTerms) {
     GeometryReader { geometry in
         VStack (alignment: .center){
             HStack {
@@ -85,10 +86,16 @@ struct SignUpView: View {
                     .padding(.bottom, 20)
             }
 
-            Text("Terms of Service and Privacy Policy")
-                .foregroundColor(ui.lightPrimaryColor)
-                .padding(.bottom, 40)
-                .font(.system(size: 12))
+            Button(action: {
+                self.showTerms = true
+            }) {
+                Text("Terms of Service and Privacy Policy")
+                    .foregroundColor(ui.lightPrimaryColor)
+                    .padding(.bottom, 40)
+                    .font(.system(size: 12))
+            }
+            
+         
             
          
             
@@ -118,6 +125,9 @@ struct SignUpView: View {
             
         }
     }
+        } else {
+            TermsView(back: self.$showTerms)
+        }
     }
     
 }

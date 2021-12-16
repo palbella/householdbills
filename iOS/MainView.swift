@@ -63,7 +63,7 @@ struct MainView: View {
                                 Text("Dashboard")
                             }
                             
-                            PlanningView(isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, showSubscribe: $showSubscribe)
+                            PlanningView(isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, showSubscribe: $showSubscribe, isShowingPopup: $isShowingPopup, popupMessasge: $popupMessasge, popupTitle: self.$popupTitle, popupImage: self.$popupImage)
                                 .tag(Tab.planning)
                             .tabItem {
                                 Image(systemName: "list.number")
@@ -85,7 +85,7 @@ struct MainView: View {
                             }
                    
                             
-                            MoreView(showSubscribe: $showSubscribe, isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError)
+                            MoreView(showSubscribe: $showSubscribe, isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, isShowingPopup: $isShowingPopup, popupMessasge: $popupMessasge, popupTitle: self.$popupTitle, popupImage: self.$popupImage)
                                 .tag(Tab.more)
                             .tabItem {
                                 Image(systemName: "square.split.2x2")

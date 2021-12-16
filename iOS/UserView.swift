@@ -16,6 +16,7 @@ struct UserView: View {
   
   
     @State var settingsData : SettingsData = SettingsData()
+    @State var showTerms = false
     
     func onAppear() {
         let appearance = UINavigationBarAppearance()
@@ -30,7 +31,7 @@ struct UserView: View {
         
         let labelColor = colorScheme != .dark ? ui.lightItemFontColor: ui.darkItemFontColor
         let fontColor = colorScheme != .dark ? ui.lightFieldFontColor: ui.darkFieldFontColor
-     
+        if(!showTerms) {
         GeometryReader { geometry in
             NavigationView {
             VStack (alignment: .center){
@@ -93,10 +94,16 @@ struct UserView: View {
                     })
                 }
 
-                Text("Terms of Service and Privacy Policy")
-//                    .foregroundColor(ui.lightPrimaryColor)
-                    .padding(.bottom, 40)
-                    .font(.system(size: 12))
+                Button(action: {
+                    self.showTerms = true
+                }) {
+                    Text("Terms of Service and Privacy Policy")
+                        .padding(.bottom, 10)
+                        .padding(.top, 20)
+                        .font(.system(size: 12))
+                        .foregroundColor(ui.lightCommandFontColor)
+                }
+             
                 
                 NavigationLink(destination:
                                 VStack{
@@ -149,6 +156,9 @@ struct UserView: View {
             }
         }
             .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+        }
+        } else {
+            TermsView(back: self.$showTerms)
         }
     }
 

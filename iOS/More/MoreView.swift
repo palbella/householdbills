@@ -44,6 +44,10 @@ struct MoreView: View {
     @Binding var isShowingToast: Bool
     @Binding var toastMessasge: String
     @Binding var toastError: Bool
+    @Binding var isShowingPopup: Bool
+    @Binding var popupMessasge: String
+    @Binding var popupTitle: String
+    @Binding var popupImage: String
 
     func onAppear() {
         self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext, includeNotSelected: true)

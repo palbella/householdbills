@@ -23,6 +23,11 @@ struct PlanningView: View {
     
     @Binding var showSubscribe: Bool
     
+    @Binding var isShowingPopup: Bool
+    @Binding var popupMessasge: String
+    @Binding var popupTitle: String
+    @Binding var popupImage: String
+    
     var body: some View {
           
                             
@@ -40,7 +45,7 @@ struct PlanningView: View {
                             
                                 ScrollView(.vertical, showsIndicators: false) {
                                 
-                                    PlanningBodyView(isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: $toastError, showSubscribe: self.$showSubscribe)
+                                    PlanningBodyView(isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: $toastError, isShowingPopup: $isShowingPopup, popupMessasge: $popupMessasge, popupTitle: self.$popupTitle, popupImage: self.$popupImage, showSubscribe: self.$showSubscribe)
                                     .padding(.top, 80)
                                 
                             }
