@@ -128,7 +128,7 @@ struct CarUpdateView: View {
                                         .padding(.top, 15)
                                         .padding(.leading, 10)
                                         .padding(.bottom, 5)
-                                        .font(.system(size: 12))
+                                        .font(.system(size: 15).bold())
                                             Divider()
                                         }
                                

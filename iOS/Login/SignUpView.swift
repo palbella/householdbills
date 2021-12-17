@@ -19,6 +19,11 @@ struct SignUpView: View {
     @State var password: String = ""
     @State var showTerms = false
     
+    @State var isShowingToast: Bool = false
+    @State var toastMessasge: String = ""
+    @State var toastError: Bool = false
+    @State var agreeTerms: Bool = false
+    
     var disableForm: Bool {
         !(self.name != "" && self.emailAddress != "" && self.password.count == 6)
     }
@@ -94,19 +99,48 @@ struct SignUpView: View {
                     .padding(.bottom, 40)
                     .font(.system(size: 12))
             }
-            
+            HStack {
+                Spacer()
+                if(self.agreeTerms != true) {
+                    Icon(content: "multiply", color: Color.red)
+                        .padding(.bottom, 15)
+                } else {
+                    Icon(content: "checkmark", color: Color.green)
+                        .padding(.bottom, 15)
+                }
+                Button(action: {
+                    self.agreeTerms = !self.agreeTerms
+                }) {
+                    Text("Agree Terms & Policy")
+                        .foregroundColor(Color.black)
+                        .font(.system(size: 15))
+                        .padding(.bottom, 15)
+                }
+                Spacer()
+            }
          
             
          
             
             Button(action: {
-               
+                if(self.agreeTerms == true) {
+                if(password != "" && name != "" && emailAddress != "") {
                     InitialData(viewContext: viewContext).run(password: password, name: name, email: emailAddress)
                 settings.name = name
                 settings.password = password
                 settings.email = emailAddress
                 settings.showMonthBalance = true
                     settings.welcome = false
+                } else {
+                    self.toastMessasge = "Name, Email and Password is required"
+                    self.isShowingToast = true
+                    self.toastError = true
+                }
+                } else {
+                    self.toastMessasge = "Agree Terms and Policies"
+                    self.isShowingToast = true
+                    self.toastError = true
+                }
                 
             }) {
                 HStack {
@@ -118,13 +152,14 @@ struct SignUpView: View {
                 .background(ui.lightPrimaryColor)
                 .cornerRadius(5)
             }.padding(.bottom, 40)
-                .disabled(disableForm)
+           
 
             
             Spacer()
             
         }
     }
+    .modifier(Toast(isShowing: $isShowingToast, message: self.toastMessasge, isError: self.$toastError))
         } else {
             TermsView(back: self.$showTerms)
         }

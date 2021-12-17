@@ -66,6 +66,7 @@ struct UserView: View {
     //            .clipShape(Circle())
     //            .padding(.bottom, 10)
                 
+                Spacer()
                 VStack {
                     
                     CustomTextfield(label: "Name", text: $settings.name, keyType: UIKeyboardType.alphabet, textAlignment: .left,
@@ -94,6 +95,7 @@ struct UserView: View {
                     })
                 }
 
+                Spacer()
                 Button(action: {
                     self.showTerms = true
                 }) {
@@ -143,7 +145,7 @@ struct UserView: View {
                     .background(ui.lightPrimaryColor)
                     .cornerRadius(5)
                 }.padding(.bottom, 40)
-//                    .disabled(!(self.settings.name != "" && self.settings.email != "" && self.settings.password.count == 6))
+                    .padding(.top, 20)
 
                 
                 Spacer()

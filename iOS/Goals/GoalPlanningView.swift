@@ -74,6 +74,7 @@ struct GoalPlanningView: View {
                                 
                                 Spacer()
                                     ProgressView(item.symbol + " " + String(format: "%.2f", item.target), value: percent, total: 100)
+                                        .accentColor(Color.green)
                                     .font(.system(size: 10))
                                     .foregroundColor(colorScheme != .dark ? ui.lightItemFontColor: ui.darkItemFontColor)
                                     .frame(width: 60)
@@ -142,6 +143,7 @@ struct GoalPlanningView: View {
 
                                         Spacer()
                                             ProgressView(item.symbol + " " + String(format: "%.2f", item.target), value: percent, total: 100)
+                                                .accentColor(Color.green)
                                             .font(.system(size: 10))
                                             .frame(width: 60)
 

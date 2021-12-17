@@ -31,6 +31,7 @@ struct LogInView: View {
     GeometryReader { geometry in
         NavigationView {
             VStack (alignment: .center){
+                Spacer()
                 HStack {
                     Image(systemName: "house")
                     .resizable()
@@ -78,6 +79,7 @@ struct LogInView: View {
                     }
                      .padding(.bottom, 40)
                 
+                Spacer()
                 Divider()
                 
                 
@@ -130,6 +132,7 @@ struct LogInView: View {
                                
                     ) {
                     if(settings.welcome != true) {
+                       
                     Text("Forgot your password?")
                     }
                 }
@@ -138,13 +141,13 @@ struct LogInView: View {
                 .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
 
                 
-                Spacer()
+               
                 
             }
             .navigationBarHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .onAppear(perform: authenticate)
-            .padding(.bottom, 90)
+           
             }
         .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
     }

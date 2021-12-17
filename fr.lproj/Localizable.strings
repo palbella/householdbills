@@ -229,8 +229,36 @@
 "Delete Purchase" = "Supprimer l'achat";
 "purchase-info" = "info-achat";
 "Goods" = "Marchandises";
-
-"Terms & Subscription" = "ldkfjslkdjfkslfjslfjsdlkj";
-
-
-
+"Update Currency" = "Mettre à jour la devise";
+"Show Month Balance" = "Afficher le solde du mois";
+"Current month has payments pending to be paid... are you sure you still want to change the month?" = "Le mois en cours a des paiements en attente d'être payés... êtes-vous sûr de vouloir toujours changer le mois?";
+"New Month Balance" = "Solde du nouveau mois";
+"Are you sure you want to change the month?" = "Êtes-vous sûr de vouloir changer le mois?";
+"Type below to introduce password" = "Tapez ci-dessous pour introduire le mot de passe";
+"Tutorial" = "Tutoriel";
+"Click on the bank account and set your current bank balance." = "Cliquez sur le compte bancaire et définissez votre solde bancaire actuel.";
+"Set how much do you want to spend this month in bars and restaurants." = "Définir combien voulez-vous dépenser ce mois-ci dans les bars et les restaurants.";
+"Swipe Down for apply changes" = "Balayer vers le bas pour appliquer les modifications";
+"Done" = "Terminé";
+"Name is required" = "Le nom est requis";
+"Copied" = "Copié";
+"Transaction Filters" = "Filtres de transaction";
+"planning-info" = "Chaque nouveau mois tableau de bord sera réinitialisé avec cette planification, vous pouvez modifier le planning et mettre à jour le mois en cours avec le bouton ci-dessous.";
+"Are you sure you want to delete this car service?" = "Êtes-vous sûr de vouloir supprimer ce service de voiture?";
+"Delete Car Service?" = "Supprimer le service de voiture?";
+"Please, Subscribe for more items" = "S'il vous plaît, abonnez-vous pour plus d'articles";
+"subscribe1" = "Enregistrements illimités de comptes, paiements, budgets, achats, véhicules, etc.";
+"subscribe2" = "Enregistrez votre crypto-monnaie et actions des prix et suivez-les facilement";
+"subscribe3" = "Gérez vos mots de passe en les sauvegardant cryptés avec le code que vous connaissez.";
+"subscribe4" = "Mémorisez les services programmés de votre véhicule.";
+"subscribe5" = "Abonnez-vous maintenant avec un petit prix par an et obtenez plus d'outils.";
+"subscribe-policy" = "L'abonnement sera acheté via l'application et facturé sur votre compte iTunes, vous pourrez gérer ou annuler votre abonnement via les paramètres de votre compte Apple. Votre paiement sera automatiquement renouvelé sauf si vous annulez 24 heures avant la fin de les périodes.";
+"tutorial4-planning" = "Each new month dashboard will be reset with the schedule configuration, you can modify the schedule and use the synchronize button to update the current month.";
+"tutorial5-planning" = "Marquez les devises que vous utilisez habituellement, vous pouvez personnaliser le symbole de la devise et le taux du dollar. La mise à jour automatique des taux n'est pas toujours disponible et vous devez l'activer dans les paramètres.";
+"tutorial6-planning" = "Appuyez et maintenez pour déplacer les cartes.";
+"tutorial7-planning" = "Enregistrez votre premier mot de passe en utilisant votre code crypté, il n'enregistre pas votre mot de passe décrypté.";
+"tutorial8-planning" = "Récupérez votre mot de passe en utilisant le même code crypté que vous avez utilisé auparavant.";
+"tutorial9-planning" = "Ajoutez combien chaque personne a dépensé.";
+"Name, Email and Password is required" = "Name, Email and Password is required";
+"Agree Terms & Policy" = "Accepter les conditions et la politique";
+"Name, Password and Code is required" = "Le nom, le mot de passe et le code sont requis";

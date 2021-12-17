@@ -286,7 +286,9 @@ struct ServicesListView: View {
                         let savedServices = try  self.viewContext.fetch(request)
 
                         for item in savedServices {
-                            self.viewContext.delete(item)
+                            if(service.id == item.id) {
+                                self.viewContext.delete(item)
+                            }
                         }
                         try self.viewContext.save()
                     } catch {

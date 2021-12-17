@@ -96,11 +96,11 @@ struct PasswordAddUpdateView: View {
             ToolbarItem(placement: .navigationBarLeading) {
                 if(settings.fastApply != true) {
                                     Button("Done") {
-                                        if(self.password.code != "") {
+                                        if(self.password.code != "" && self.password.name != "" && self.password.password != "") {
                                             self.modal = false
                                             self.save = true
                                         } else {
-                                            self.toastMessasge = "Name is required"
+                                            self.toastMessasge = "Name, Password and Code is required"
                                             self.isShowingToast = true
                                             self.toastError = true
                                         }

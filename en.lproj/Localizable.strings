@@ -229,8 +229,6 @@
 "Delete Purchase" = "Delete Purchase";
 "purchase-info" = "Monthly Purchases like a list of food & groceries purchased every month";
 "Goods" = "Goods";
-
-
 "Update Currency" = "Update Currency";
 "Show Month Balance" = "Show Month Balance";
 "Current month has payments pending to be paid... are you sure you still want to change the month?" = "Current month has payments pending to be paid... are you sure you still want to change the month?";
@@ -258,6 +256,9 @@
 "tutorial4-planning" = "Every new month dashboard will be reset with the planning configuration, you can change the planning and use the syncronize button to update the current month.";
 "tutorial5-planning" = "Mark the currencies you usually use, you can customize currency symbol and dolar rate. Automatically rate update is not always available and you must activate on settings.";
 "tutorial6-planning" = "Press and hold to move the cards.";
-"tutorial7-planning" = "Save your first password using your encrypted code, it is not saving your password decrypted. The app only use native apple icloud persistence.";
+"tutorial7-planning" = "Save your first password using your encrypted code, it is not saving your password decrypted.";
 "tutorial8-planning" = "Recover your password using the same encrypted code you used before.";
-"tutorial9-planning" = "";
+"tutorial9-planning" = "Add how much each person spent.";
+"Name, Email and Password is required" = "Name, Email and Password is required";
+"Agree Terms & Policy" = "Agree Terms & Policy";
+"Name, Password and Code is required" = "Name, Password and Code is required";

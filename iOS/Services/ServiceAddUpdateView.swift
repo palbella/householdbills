@@ -75,7 +75,7 @@ struct ServiceAddUpdateView: View {
                 let fontColor = colorScheme != .dark ? ui.lightFieldFontColor: ui.darkFieldFontColor
 
              
-                TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "pencil", iconColor: .blue, label: "Name", value: $service.name)
+                TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "pencil", iconColor: .blue, maxLength: 20, label: "Name", value: $service.name)
                 NumericInput(labelColor: labelColor, fontColor: fontColor, iconContent: "", iconColor: .blue, label: "Every " + self.unitName, value: $service.amount, symbol: $unit)
                 NumericInput(labelColor: labelColor, fontColor: fontColor, iconContent: "", iconColor: .blue, label: "Every Months", value: $service.months, symbol: $monthLabel)
 

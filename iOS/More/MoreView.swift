@@ -123,7 +123,7 @@ struct MoreView: View {
                 HStack(spacing: 0) {
                        
                     Button(action: {
-                       
+                        self.save = false
                         self.isShowingCurrencies = true
                     }) {
                         CardMenu(prompt: "dollarsign.square", title: "Currency Management")
@@ -143,6 +143,7 @@ struct MoreView: View {
                         
                     
                     Button(action: {
+                        self.save = false
                         self.isShowingCar = true
                     }) {
                         CardMenu(prompt: "car", title: "Car Management")
@@ -165,6 +166,7 @@ struct MoreView: View {
                        
                         
                         Button(action: {
+                            self.save = false
                             if(settings.subscribed) {
                             self.isShowingPassword = true
                             } else {
@@ -185,7 +187,7 @@ struct MoreView: View {
                         
                         Spacer()
                         Button(action: {
-                          
+                            self.save = false
                             if(settings.subscribed) {
                             self.isShowingSplit = true
                             } else {
@@ -207,6 +209,7 @@ struct MoreView: View {
                     HStack(spacing: 0) {
                         
                         Button(action: {
+                            self.save = false
                             self.isShowingOrdering = true
                         }) {
                             CardMenu(prompt: "rectangle.grid.1x2", title: "Dashboard Cards")
@@ -225,6 +228,7 @@ struct MoreView: View {
                         Spacer()
                         
                         Button(action: {
+                            self.save = false
                             self.isShowingCategory = true
                         }) {
                             CardMenu(prompt: "line.horizontal.3.decrease.circle", title: "Categories")
