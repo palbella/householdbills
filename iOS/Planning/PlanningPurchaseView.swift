@@ -85,6 +85,7 @@ struct PlanningPurchaseBodyView: View {
                                     self.purchaseSelected.iconColor = "red"
                                     self.purchaseSelected.currency = settings.currency
                                     self.purchaseSelected.symbol = settings.symbol
+                                        self.isShowingNew = true
                                         self.save = false
                                     } else {
                                        

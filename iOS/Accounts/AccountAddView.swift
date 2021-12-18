@@ -11,8 +11,8 @@ import SwiftUI
 struct AccountAddView: View {
     
     @Environment(\.colorScheme) var colorScheme
-    @StateObject var settings: UserSettings = UserSettings()
-    @StateObject var ui: AppUI = AppUI()
+    @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var ui: AppUI
     @Environment(\.managedObjectContext) private var viewContext
    
     @Binding var account: AccountModel

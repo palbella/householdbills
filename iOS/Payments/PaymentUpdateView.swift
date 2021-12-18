@@ -12,7 +12,7 @@ struct PaymentUpdateView: View {
     
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var settings: UserSettings
-    @StateObject var ui: AppUI = AppUI()
+    @EnvironmentObject var ui: AppUI
     
     @Binding var payment: PaymentModel
     @Binding var transaction: TransactionModel

@@ -488,13 +488,14 @@ struct ModalView: View {
                     ZStack {
                         Capsule()
                             .frame(width: 40, height: 6)
+                            .padding(.top, 10)
                     }
                     .frame(height: 40)
                     .frame(maxWidth: .infinity)
                     .background(Color.white.opacity(0.00001))
                     
                     
-                    ZStack {
+//                    ZStack {
                         VStack {
                             Text(result)
                                 .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
@@ -511,19 +512,36 @@ struct ModalView: View {
                                 self.isShowingToast = true
                                 
                             }) {
-                                            HStack {
+                                          
                                                 Image(systemName: "square.and.arrow.up")
                                                     .font(.title)
-                                            }
+                                                  
                                         }
                             .foregroundColor(.green)
-                            Spacer()
+                                
+                            Text("")
+                                .padding()
+                               
+                                Button(action: {
+                                       
+                                    self.isShowing = false
+                                    
+                                }) {
+                                               
+                                                    Image(systemName: "chevron.down.square")
+                                                        .font(.title)
+                               
+                                                
+                                            }
+                                .foregroundColor(Color.black)
+                            
+                           Spacer()
                           
                         }
-                        .padding(30)
-                       
-                    }
-                    .frame(maxHeight: .infinity)
+//                        .padding(30)
+//
+//                    }
+//                    .frame(maxHeight: .infinity)
                     
                     
                    
@@ -581,7 +599,7 @@ struct ModalView: View {
 //
 //    static var previews: some View {
 //
-//        ServicecurrencyView(account: .constant(AccountModel()), modal: .constant(false), delete: .constant(false)).environmentObject(UserSettings())
+//        ModalView(account: .constant(AccountModel()), modal: .constant(false), delete: .constant(false)).environmentObject(UserSettings())
 //                .environmentObject(AppUI())
 //                .environment(\.managedObjectContext, viewContext)
 //
