@@ -111,7 +111,7 @@ struct GoalListView: View {
                                             goalData.addGoal(goal: self.$goalSelected.wrappedValue)
                                             getTotals()
                                         } else {
-                                            self.toastMessasge = "Name is required"
+                                            self.toastMessasge = LocalizedStringKey("Name is required").toString()
                                             self.isShowingToast = true
                                             self.toastError = true
                                         }

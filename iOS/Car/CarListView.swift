@@ -84,7 +84,7 @@
                                                            if(self.$carSelected.name.wrappedValue != "") {
                                                             addCar(car: self.$carSelected.wrappedValue)
                                                            } else {
-                                                               self.toastMessasge = "Name is required"
+                                                               self.toastMessasge = LocalizedStringKey("Name is required").toString()
                                                                self.isShowingToast = true
                                                                self.toastError = true
                                                            }

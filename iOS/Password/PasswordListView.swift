@@ -83,7 +83,7 @@ struct PasswordListView: View {
                 
                 VStack {
                   
-                    PinInput(label: "Encription Code", value: $pin)
+                    PinInput(label: LocalizedStringKey("Encription Code").toString(), value: $pin)
                     
                     CustomTextfield(label: "Password", text: $password, keyType: UIKeyboardType.alphabet, textAlignment: .center,
                                     maxLength: 50)

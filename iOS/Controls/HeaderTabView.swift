@@ -74,7 +74,7 @@ struct HeaderTabTitleView: View {
     var body: some View {
        
         if(settings.fastApply != true) {
-            Text(title)
+            Text(LocalizedStringKey(title))
                 .font(.system(size: 20, weight: .bold, design: .default))
                 .accessibilityAddTraits(.isHeader)
                 .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)

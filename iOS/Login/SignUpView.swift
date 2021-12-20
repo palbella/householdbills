@@ -132,7 +132,7 @@ struct SignUpView: View {
                 settings.showMonthBalance = true
                     settings.welcome = false
                 } else {
-                    self.toastMessasge = "Name, Email and Password is required"
+                    self.toastMessasge = LocalizedStringKey("Name, Email and Password is required").toString()
                     self.isShowingToast = true
                     self.toastError = true
                 }

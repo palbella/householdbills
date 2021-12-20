@@ -71,7 +71,7 @@ struct PasswordAddUpdateView: View {
                 TextInput(labelColor: labelColor, fontColor: fontColor, iconContent: "", iconColor: .blue, label: "Password", value: $password.password)
                 
                 
-                PinInput(label: "Encription Code", value: $password.code)
+                PinInput(label: LocalizedStringKey("Encription Code").toString(), value: $password.code)
              
             }
             .buttonStyle(BorderlessButtonStyle())
@@ -100,7 +100,7 @@ struct PasswordAddUpdateView: View {
                                             self.modal = false
                                             self.save = true
                                         } else {
-                                            self.toastMessasge = "Name, Password and Code is required"
+                                            self.toastMessasge = LocalizedStringKey("Name, Password and Code is required").toString()
                                             self.isShowingToast = true
                                             self.toastError = true
                                         }
