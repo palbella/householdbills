@@ -184,6 +184,7 @@ struct CustomTextfield: UIViewRepresentable {
 //        textfield.onEditingChanged = {}
         let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: textfield.frame.size.width, height: 44))
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(textfield.doneButtonTapped(button:)))
+        doneButton.tintColor = UIColor(red: 2,green: 179,blue: 0)
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         toolBar.items = [doneButton]
         toolBar.setItems([flexibleSpace, doneButton], animated: true)

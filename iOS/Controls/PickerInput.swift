@@ -21,7 +21,7 @@ struct PickerInput: View {
     @Binding var data: [String]
     @Binding var value: String?
     @Binding var index: Int
-   
+    @State var expand = false
   
     var body: some View {
        
@@ -40,7 +40,24 @@ struct PickerInput: View {
             Spacer()
                 TextFieldWithInputView(data: self.data, placeholder: placeholder, selectionIndex: self.$index, selectedText: self.$value)
                     .padding(.trailing, 10)
-                   
+                  
+//                VStack {
+//                           Button(action: {
+//                               self.expand.toggle()
+//                           }) {
+//                               Text("Click me \(data[index])")
+//                           }
+//                           if expand {
+//                               Picker(selection: $index, label: EmptyView()) {
+//                                   ForEach(0 ..< data.count) {
+//                                       Text(self.data[$0]).tag($0)
+//                                   }
+//                               }.labelsHidden()
+//                                   .pickerStyle(.menu)
+//
+//                           }
+//
+//                       }
                     
                 
         }
@@ -55,6 +72,7 @@ struct PickerInput: View {
 }
 
 
+
 struct TextFieldWithInputView : UIViewRepresentable {
 
   var data : [String]
@@ -65,6 +83,8 @@ struct TextFieldWithInputView : UIViewRepresentable {
 
   private let textField = UITextField()
   private let picker = UIPickerView()
+    
+
 
   func makeCoordinator() -> TextFieldWithInputView.Coordinator {
        Coordinator(textfield: self)
@@ -73,16 +93,32 @@ struct TextFieldWithInputView : UIViewRepresentable {
   func makeUIView(context: UIViewRepresentableContext<TextFieldWithInputView>) -> UITextField {
        picker.delegate = context.coordinator
        picker.dataSource = context.coordinator
-       picker.backgroundColor = .gray
+       picker.backgroundColor = UIColor.systemGray6
        picker.tintColor = .black
        textField.placeholder = placeholder
        textField.inputView = picker
        textField.delegate = context.coordinator
     textField.textAlignment = .right
     textField.textColor = UIColor.systemGray
+      
+      
+      let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: textField.frame.size.width, height: 44))
+      let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(textField.doneButtonTapped(button:)))
+      doneButton.tintColor = UIColor(red: 2,green: 179,blue: 0)
+      let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+      toolBar.items = [doneButton]
+      toolBar.setItems([flexibleSpace, doneButton], animated: true)
+      toolBar.backgroundColor = UIColor.systemGray6
+      
+      textField.inputAccessoryView = toolBar
+                                       
+                           
        return textField
   }
 
+                         
+  
+                                       
   func updateUIView(_ uiView: UITextField, context: UIViewRepresentableContext<TextFieldWithInputView>) {
        uiView.text = selectedText
   }
@@ -107,7 +143,7 @@ struct TextFieldWithInputView : UIViewRepresentable {
        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
             self.parent.$selectionIndex.wrappedValue = row
             self.parent.selectedText = self.parent.data[self.parent.selectionIndex]
-            self.parent.textField.endEditing(true)
+//            self.parent.textField.endEditing(true)
 
        }
        func textFieldDidEndEditing(_ textField: UITextField) {

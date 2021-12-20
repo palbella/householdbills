@@ -194,7 +194,12 @@ struct TransactionsAddView: View {
                             .padding(5)
                         PickerInput(iconContent: "", iconColor: .blue, label: "Budget", placeholder: LocalizedStringKey("Budget").toString(), data: $budgetList, value: $budgetSelected, index: $budgetIndex)
                             .onChange(of: budgetIndex, perform: { value in
-                                transaction.budget = budgets.items[budgetIndex - 1].id
+                                if(budgetIndex > 0) {
+                                    transaction.budget = budgets.items[budgetIndex - 1].id
+                                } else {
+                                    transaction.budget = nil
+                                }
+                                
                             })
                             .padding(.bottom, 5)
                         }
