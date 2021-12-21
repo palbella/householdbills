@@ -54,6 +54,9 @@ struct PaymentListView: View {
     @State var animationStatus = false
     @Binding var showTutorialPayment: Bool
     
+    @Binding var totalAccounts: Double
+    @Binding var totalGoalAccounts: Double
+    
     func onAppear() {
         
         self.categories.items = fetchCategories.fetch(viewContext: viewContext)
@@ -332,10 +335,40 @@ struct PaymentListView: View {
         } catch {
             print(error)
         }
-
+        getTotalAccounts()
     }
     
-    
+    private func getTotalAccounts()
+    {
+        self.totalAccounts = 0
+        self.totalGoalAccounts = 0
+        
+        
+        let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
+
+        do {
+            let savedAccounts =  try viewContext.fetch(fetchRequest)
+
+                            for index in 0..<savedAccounts.count {
+
+                                let amount: Double = currencies.convert(currencyFrom: savedAccounts[index].currency!, currencyTo: settings.currency, value: savedAccounts[index].amount)
+                                
+                                self.totalAccounts = self.totalAccounts + amount
+                                if(!savedAccounts[index].ignoreGoal) {
+                                self.totalGoalAccounts = self.totalGoalAccounts + amount
+                                }
+                             }
+            
+            self.totalAccounts = round(self.totalAccounts * 100) / 100
+            self.totalGoalAccounts = round(self.totalGoalAccounts * 100) / 100
+
+        } catch {
+
+        }
+
+
+
+    }
    
 }
 

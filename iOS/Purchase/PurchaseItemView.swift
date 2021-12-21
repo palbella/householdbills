@@ -72,7 +72,7 @@ struct PurchaseItemView: View {
                                   
                                     self.items.items.append(item)
                                     
-                                    self.totalPrices = self.totalPrices + savedMonthlyPurchaseItems[index].price
+                                    self.totalPrices = self.totalPrices + (savedMonthlyPurchaseItems[index].price * savedMonthlyPurchaseItems[index].amount)
                                     
                             }
             } else {
@@ -93,7 +93,7 @@ struct PurchaseItemView: View {
                                     self.items.items.append(item)
                                     
                                     if( savedPurchaseItems[index].purchased != true) {
-                                    self.totalPrices = self.totalPrices + savedPurchaseItems[index].price
+                                    self.totalPrices = self.totalPrices + (savedPurchaseItems[index].price * savedPurchaseItems[index].amount)
                                     }
                                         }
             }

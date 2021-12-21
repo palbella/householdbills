@@ -137,7 +137,7 @@ struct CryptocurrencyView: View {
                                                                       
                                                                       VStack (spacing: 0) {
                                                                           HStack (spacing: 0) {
-                                                                            Icon(content: "bitcoinsign.circle", color: Color.yellow).padding(5).padding(.leading, 5).padding(.trailing, 5)
+                                                                            Icon(content: "bitcoinsign.circle", color: Color.yellow).padding(8).padding(.leading, 5).padding(.trailing, 5)
 
                                                                               VStack (spacing: 0) {
                                                                                   
@@ -173,7 +173,7 @@ struct CryptocurrencyView: View {
 
                                                                               }
                                                                       }
-                                                                      .frame(maxWidth: .infinity)
+                                                                          .frame(maxWidth: .infinity)
 
                                                                       }
                                                                       

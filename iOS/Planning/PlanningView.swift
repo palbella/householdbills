@@ -31,7 +31,7 @@ struct PlanningView: View {
     var body: some View {
           
                             
-                            VStack {
+        VStack(spacing: 0) {
                             
                             GeometryReader { proxy in
                                 
@@ -50,7 +50,7 @@ struct PlanningView: View {
                                 
                             }
                                 Divider()
-                                
+                                    
                             }
                             .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
                             .modifier(OffsetModifier(offset: $offset))

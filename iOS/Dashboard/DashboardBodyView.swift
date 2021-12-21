@@ -145,7 +145,7 @@ struct DashboardBodyView: View {
                 if(card.name == "Budgets") {
                     
                     if(card.visible == true) {
-                        BudgetListView(totalBudgets: self.$totalBudgets, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData,isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError,  showSubscribe: self.$showSubscribe, showTutorialBudget: $showTutorialBudget)
+                        BudgetListView(totalBudgets: self.$totalBudgets, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData,isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError,  showSubscribe: self.$showSubscribe, showTutorialBudget: $showTutorialBudget, totalAccounts: self.$totalAccounts, totalGoalAccounts: self.$totalGoalAccounts)
                             .padding(.top, 10)
 
                         Spacer()
@@ -156,7 +156,7 @@ struct DashboardBodyView: View {
                 if(card.name == "Payments") {
                     
                     if(card.visible == true) {
-                        PaymentListView(totalPayments: self.$totalPayments, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData,isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError,  showSubscribe: self.$showSubscribe, showTutorialPayment: $showTutorialPayment)
+                        PaymentListView(totalPayments: self.$totalPayments, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData,isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError,  showSubscribe: self.$showSubscribe, showTutorialPayment: $showTutorialPayment, totalAccounts: self.$totalAccounts, totalGoalAccounts: self.$totalGoalAccounts)
                             .padding(.top, 10)
 
                         Spacer()
@@ -168,7 +168,7 @@ struct DashboardBodyView: View {
                 if(card.name == "Purchases") {
                     
                     if(card.visible == true) {
-                        PurchaseListView(totalPurchases: self.$totalPurchases, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData,isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError,  showSubscribe: self.$showSubscribe)
+                        PurchaseListView(totalPurchases: self.$totalPurchases, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData,isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError,  showSubscribe: self.$showSubscribe, totalAccounts: self.$totalAccounts, totalGoalAccounts: self.$totalGoalAccounts)
                             .padding(.top, 10)
 
                         Spacer()
@@ -311,7 +311,14 @@ Divider()
             
             let toDate : NSDate = toDateFormat != nil ? toDateFormat! as NSDate : endMonth as NSDate
             
-            if(Date() > toDate as Date || Date().get(.month) > (currentMonth.timestamp?.get(.month))! || Date().get(.year) > (currentMonth.timestamp?.get(.year))!) {
+//            print(toDate as Date)
+//            print(Date().get(.month))
+//            print(currentMonth.timestamp?.get(.month))
+//            print(Date().get(.year))
+//            print(currentMonth.timestamp?.get(.year))
+            if(Date() > toDate as Date ||
+               (Date().get(.month) > (currentMonth.timestamp?.get(.month))! && Date().get(.year) == (currentMonth.timestamp?.get(.year))!) ||
+               Date().get(.year) > (currentMonth.timestamp?.get(.year))!) {
                 self.monthChange = true
             } else {
                 self.monthChange = false

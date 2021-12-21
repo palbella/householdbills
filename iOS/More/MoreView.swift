@@ -57,7 +57,7 @@ struct MoreView: View {
     
     var body: some View {
         
-        VStack {
+        VStack(spacing: 0) {
         
         GeometryReader { proxy in
             
