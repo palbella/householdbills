@@ -477,6 +477,10 @@ struct AccountSettingsView: View {
     @State var ignoreGoalId = 0
     
     @State private var showConfirm = false
+    
+    @State var groups = GetGroups()
+    @State var groupIndex: Int = 0
+    @State var groupSelected: String? = ""
 
     var body: some View {
         
@@ -510,6 +514,16 @@ struct AccountSettingsView: View {
                             }
                                 }
                     .padding()
+                    
+                    PickerInput(iconContent: "", iconColor: .blue, label: "Group", placeholder: "Group", data: $groups.items, value: $groupSelected, index: $groupIndex)
+                        .onChange(of: groupIndex, perform: { value in
+                            if(groupSelected != nil) {
+                                account.group = groupSelected!
+                            } else {
+                                account.group = ""
+                            }
+                        })
+                        .padding(.bottom, 5)
         
                     Picker("Currency", selection: $account.currency) {
                                     ForEach(currencies.items) { item in
@@ -545,6 +559,22 @@ struct AccountSettingsView: View {
                         ignoreGoal = "Yes"
                     } else {
                         ignoreGoal = "No"
+                    }
+                    self.groupSelected = account.group
+                    if(self.account.group == "A") {
+                        self.groupIndex = 1
+                    }
+                    if(self.account.group == "B") {
+                        self.groupIndex = 2
+                    }
+                    if(self.account.group == "C") {
+                        self.groupIndex = 3
+                    }
+                    if(self.account.group == "D") {
+                        self.groupIndex = 4
+                    }
+                    if(self.account.group == "E") {
+                        self.groupIndex = 5
                     }
                 }
                  

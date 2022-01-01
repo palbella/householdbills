@@ -237,6 +237,7 @@ struct BudgetListView: View {
             self.transaction.account = self.$budgetSelected.name.wrappedValue
             self.transaction.amount = self.$budgetSelected.amount.wrappedValue
             self.transaction.symbol = self.$budgetSelected.symbol.wrappedValue
+            self.transaction.currency = self.$budgetSelected.currency.wrappedValue
             self.transaction.iconContent = self.$budgetSelected.iconContent.wrappedValue
             self.transaction.iconColor = self.$budgetSelected.iconColor.wrappedValue
             self.transaction.timestamp = Date()
@@ -262,6 +263,7 @@ struct BudgetListView: View {
             }
             self.transaction.symbol = self.$budgetSelected.symbol.wrappedValue
             self.transaction.iconContent = self.$budgetSelected.iconContent.wrappedValue
+            self.transaction.currency = self.$budgetSelected.currency.wrappedValue
             self.transaction.iconColor = self.$budgetSelected.iconColor.wrappedValue
             self.transaction.timestamp = Date()
             saveTransaction(transaction: self.transaction)

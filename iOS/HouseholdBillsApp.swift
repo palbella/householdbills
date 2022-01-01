@@ -84,7 +84,7 @@ struct HouseholdBillsApp: App {
     
     
     let fetchRequest: NSFetchRequest<Settings> = Settings.fetchRequest()
-   
+    let fetchRequestAPI: NSFetchRequest<API> = API.fetchRequest()
 
 
     var body: some Scene {
@@ -115,6 +115,7 @@ struct HouseholdBillsApp: App {
 
         do {
         let savedSettings =  try persistenceController.container.viewContext.fetch(fetchRequest)
+            let savedAPI =  try persistenceController.container.viewContext.fetch(fetchRequestAPI)
 
             if(savedSettings.count == 0) {
                 self.settings.welcome = true
@@ -145,6 +146,18 @@ struct HouseholdBillsApp: App {
                 self.settings.passwordAnswer2 = savedSettings[0].passwordAnswer2 ?? ""
                 self.settings.passwordAnswer3 = savedSettings[0].passwordAnswer3 ?? ""
 
+            }
+            
+            if(savedSettings.count == 0) {
+               
+            } else {
+                do {
+                    let newAPI = API(context: persistenceController.container.viewContext)
+                    newAPI.stockType = "GET"
+                    try persistenceController.container.viewContext.save()
+                    }
+                catch {
+                }
             }
 
             runTasks() // If subscribe

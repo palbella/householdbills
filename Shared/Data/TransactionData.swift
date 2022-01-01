@@ -31,9 +31,14 @@ class TransactionData: ObservableObject {
     }
 
     func fetchIncomes() -> Double{
+        let currencies = GetCurrencies()
+        currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
+        
         var total: Double = 0
         
         do {
+            let fetchRequest: NSFetchRequest<Settings> = Settings.fetchRequest()
+            let savedSettings =  try viewContext.fetch(fetchRequest)
             let results : NSArray = try viewContext.fetch(currentMonthTransactionsFetch()) as NSArray
 
                             for index in 0..<results.count {
@@ -41,7 +46,7 @@ class TransactionData: ObservableObject {
                                 let transaction = map(transaction: results[index] as! Transaction)
                                 
                                 if (transaction.amount >= 0) {
-                                    total = total + transaction.amount
+                                    total = total + currencies.convert(currencyFrom: transaction.currency, currencyTo: savedSettings[0].currency!, value: transaction.amount)
                                 }
                                 
                        }
@@ -52,8 +57,13 @@ class TransactionData: ObservableObject {
     }
     
     func fetchExpenses() -> Double{
+        let currencies = GetCurrencies()
+        currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
+        
         var total: Double = 0
         do {
+            let fetchRequest: NSFetchRequest<Settings> = Settings.fetchRequest()
+            let savedSettings =  try viewContext.fetch(fetchRequest)
             let results : NSArray = try viewContext.fetch(currentMonthTransactionsFetch()) as NSArray
 
                             for index in 0..<results.count {
@@ -61,7 +71,7 @@ class TransactionData: ObservableObject {
                                 let transaction = map(transaction: results[index] as! Transaction)
                          
                                 if (transaction.amount < 0) {
-                                    total = total + transaction.amount
+                                    total = total + currencies.convert(currencyFrom: transaction.currency, currencyTo: savedSettings[0].currency!, value: transaction.amount)
                                 }
                                 
                        }

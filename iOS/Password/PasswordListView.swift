@@ -134,7 +134,7 @@ struct PasswordListView: View {
                         
                         Button(action: {
                             password = ""
-                            pin = ""
+//                            self.pin = ""
                             UIApplication.shared.endEditing()
                         }) {
                                         HStack {

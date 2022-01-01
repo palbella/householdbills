@@ -49,20 +49,17 @@ struct InitialData {
         
         SaveContext()
         
-        let newTutorialA = Tutorial(context: viewContext)
+        let newSettingAPI = API(context: viewContext)
         
-        newTutorialA.id = UUID()
-        newTutorialA.name = "dashboard"
-        newTutorialA.step = 0
-        
-        SaveContext()
-        
-        let newTutorialB = Tutorial(context: viewContext)
-        
-        newTutorialB.id = UUID()
-        newTutorialB.name = "planning"
-        newTutorialB.step = 0
-        
+        newSettingAPI.stockType = "GET"
+        newSettingAPI.cryptoType = "GET"
+        newSettingAPI.stockAPI = ""
+        newSettingAPI.cryptoAPI = ""
+        newSettingAPI.stockRequest = ""
+        newSettingAPI.cryptoRequest = ""
+        newSettingAPI.stockResponse = ""
+        newSettingAPI.stockResponse = ""
+  
         SaveContext()
        
     }

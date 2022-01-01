@@ -41,7 +41,7 @@
         
         @State var tutorial: TutorialData = TutorialData()
         
-        @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
+        @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "group", ascending: true), NSSortDescriptor(key: "name", ascending: true)])
         var accountsFetch: FetchedResults<Account>
         
         @Binding var totalAccounts: Double
@@ -294,6 +294,7 @@
                   self.transaction.iconContent = self.$accountSelected.iconContent.wrappedValue
                   self.transaction.iconColor = self.$accountSelected.iconColor.wrappedValue
                   self.transaction.timestamp = Date()
+                  self.transaction.currency = self.$accountSelected.currency.wrappedValue
                   
                   saveTransaction(transaction: self.transaction)
                   tutorial.saveTutorial(name: "dashboard", tutorialStep: 0)
@@ -325,7 +326,7 @@
              if(existOne) {
                 self.transaction.name =  self.transferTypes.names[1]
                 self.transaction.account = self.$accountSelected.name.wrappedValue
-                self.transaction.amount = self.$accountSelected.amount.wrappedValue
+                self.transaction.amount = self.$accountSelected.amount.wrappedValue * -1
                 self.transaction.symbol = self.$accountSelected.symbol.wrappedValue
                 self.transaction.currency = self.$accountSelected.currency.wrappedValue
                 self.transaction.iconContent = self.$accountSelected.iconContent.wrappedValue

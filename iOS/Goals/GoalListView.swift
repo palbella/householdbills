@@ -254,10 +254,6 @@ struct GoalListView: View {
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
             getTotals()
             }
-//        .onReceive(timer) { _ in
-//            getGoals()
-//                   self.now = Date()
-//               }
        
         
      

@@ -102,6 +102,17 @@ class GetDays: ObservableObject {
 }
 
 
+class GetGroups: ObservableObject {
+    @Published var items = [String]()
+
+    init() {
+        self.items = [
+            "", "A", "B", "C","D", "E"]
+        
+    }
+}
+
+
 struct BalanceChartModel: Hashable {
 
      var date: Date?

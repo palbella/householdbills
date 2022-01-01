@@ -61,6 +61,7 @@ struct PurchaseItemView: View {
            
                                 for index in 0..<savedMonthlyPurchaseItems.count {
 
+                                    if(savedMonthlyPurchaseItems[index].purchaseId! == self.$purchase.wrappedValue.id) {
                                     var item = PurchaseItemModel()
                                     
                                     item.id = savedMonthlyPurchaseItems[index].id!
@@ -73,13 +74,14 @@ struct PurchaseItemView: View {
                                     self.items.items.append(item)
                                     
                                     self.totalPrices = self.totalPrices + (savedMonthlyPurchaseItems[index].price * savedMonthlyPurchaseItems[index].amount)
-                                    
+                                    }
                             }
             } else {
                 let savedPurchaseItems =  try viewContext.fetch(fetchRequest)
            
                                 for index in 0..<savedPurchaseItems.count {
 
+                                    if(savedPurchaseItems[index].purchaseId! == self.$purchase.wrappedValue.id) {
                                     var item = PurchaseItemModel()
                                     
                                     item.id = savedPurchaseItems[index].id!
@@ -96,6 +98,7 @@ struct PurchaseItemView: View {
                                     self.totalPrices = self.totalPrices + (savedPurchaseItems[index].price * savedPurchaseItems[index].amount)
                                     }
                                         }
+                                }
             }
             
             

@@ -30,6 +30,10 @@ struct AccountAddView: View {
     @State var ignoreGoal: String? = "No"
     @State var ignoreGoalId = 0
     
+    @State var groups = GetGroups()
+    @State var groupIndex: Int = 0
+    @State var groupSelected: String? = ""
+    
     @Binding var isShowingToast: Bool
     @Binding var toastMessasge: String
     @Binding var toastError: Bool
@@ -146,6 +150,14 @@ struct AccountAddView: View {
                     }
                         }
             .padding()
+            
+            PickerInput(iconContent: "", iconColor: .blue, label: "Group", placeholder: "Group", data: $groups.items, value: $groupSelected, index: $groupIndex)
+                .onChange(of: groupIndex, perform: { value in
+                    if(groupSelected != nil) {
+                        account.group = groupSelected!
+                    }
+                })
+                .padding(.bottom, 5)
             
             PickerInput(iconContent: "", iconColor: .blue, label: "Ignore month available", placeholder: "Selection", data: $yn.items, value: $ignoreGoal, index: $ignoreGoalId)
                 .onChange(of: ignoreGoal, perform: { value in

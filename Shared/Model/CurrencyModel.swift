@@ -66,6 +66,7 @@ class GetCurrencies: ObservableObject {
         if(currencyFrom == currencyTo) {
             amount = value
         } else {
+            print(self.getRate(currency: currencyFrom))
             let temp = value / self.getRate(currency: currencyFrom)
             if(currencyTo == "USD") {
                 amount = temp

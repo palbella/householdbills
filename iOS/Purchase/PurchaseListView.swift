@@ -112,6 +112,7 @@ struct PurchaseListView: View {
                                             self.transaction.account = self.$purchaseSelected.name.wrappedValue
                                             self.transaction.amount = self.$purchaseSelected.amount.wrappedValue
                                             self.transaction.symbol = self.$purchaseSelected.symbol.wrappedValue
+                                            self.transaction.currency = self.$purchaseSelected.currency.wrappedValue
                                             self.transaction.iconContent = self.$purchaseSelected.iconContent.wrappedValue
                                             self.transaction.iconColor = self.$purchaseSelected.iconColor.wrappedValue
                                             self.transaction.timestamp = Date()
@@ -209,6 +210,7 @@ struct PurchaseListView: View {
                                                         self.transaction.account = self.$purchaseSelected.name.wrappedValue
                                                         self.$transaction.amount.wrappedValue = self.$transaction.amount.wrappedValue * -1
                                                         self.transaction.symbol = self.$purchaseSelected.symbol.wrappedValue
+                                                        self.transaction.currency = self.$purchaseSelected.currency.wrappedValue
                                                         self.transaction.iconContent = self.$purchaseSelected.iconContent.wrappedValue
                                                         self.transaction.iconColor = self.$purchaseSelected.iconColor.wrappedValue
                                                         self.transaction.timestamp = Date()

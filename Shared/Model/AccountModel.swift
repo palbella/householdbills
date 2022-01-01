@@ -19,6 +19,7 @@ struct AccountModel: Hashable, Identifiable {
     var iconColor: String
     var type: String
     var ignoreGoal: Bool
+    var group: String
 
     
     init() {
@@ -31,6 +32,7 @@ struct AccountModel: Hashable, Identifiable {
         self.iconColor = ""
         self.type = ""
         self.ignoreGoal = false
+        self.group = ""
     }
 }
 

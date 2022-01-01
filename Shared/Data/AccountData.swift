@@ -61,6 +61,7 @@ class AccountData: ObservableObject {
                 newAccount.iconContent = account.iconContent
                 newAccount.type = account.type
                 newAccount.ignoreGoal = account.ignoreGoal
+                newAccount.group = account.group
                 
 
       SaveContext()
@@ -93,7 +94,7 @@ class AccountData: ObservableObject {
             savedAccount.iconContent = account.iconContent
             savedAccount.type = account.type
             savedAccount.ignoreGoal = account.ignoreGoal
-            
+            savedAccount.group = account.group
             
         } catch {
             print(error)
@@ -185,6 +186,9 @@ class AccountData: ObservableObject {
         accountModel.iconContent = account.iconContent ?? ""
         accountModel.type = account.type!
         accountModel.ignoreGoal = account.ignoreGoal
+        if(account.group != nil) {
+        accountModel.group = account.group!
+        }
 
         return accountModel
     }
