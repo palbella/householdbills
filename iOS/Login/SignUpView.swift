@@ -112,7 +112,7 @@ struct SignUpView: View {
                     self.agreeTerms = !self.agreeTerms
                 }) {
                     Text("Agree Terms & Policy")
-                        .foregroundColor(Color.black)
+                        .foregroundColor(colorScheme != .dark ? Color.black : Color.white)
                         .font(.system(size: 15))
                         .padding(.bottom, 15)
                 }

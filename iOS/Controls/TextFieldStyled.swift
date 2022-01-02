@@ -20,8 +20,8 @@ struct AppTextFieldStyle: TextFieldStyle {
 struct AppButtonStyle: ButtonStyle {
  
     @Environment(\.colorScheme) var colorScheme
-    @StateObject var settings: UserSettings = UserSettings()
-    @StateObject var ui: AppUI = AppUI()
+    @EnvironmentObject var settings: UserSettings
+    @EnvironmentObject var ui: AppUI
     
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
