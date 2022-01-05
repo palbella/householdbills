@@ -108,7 +108,7 @@ struct PlanningBodyView: View {
                 .foregroundColor(labelColor)
                     
             Spacer()
-                Text(String(settings.estimatedMontlyIncomes - totalPayments - totalBudgets))
+                Text("\((settings.estimatedMontlyIncomes - totalPayments - totalBudgets), specifier: "%.2f")")
                 .padding(5).padding(.leading, 5).padding(.trailing, 5)
                 .keyboardType(.decimalPad)
                 .multilineTextAlignment(.trailing)

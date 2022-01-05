@@ -22,8 +22,11 @@ struct MoreView: View {
     @State var isShowingCurrencies: Bool = false
     @State var isShowingPassword: Bool = false
     @State var isShowingNotification: Bool = false
+    @State var isShowingFeedback: Bool = false
+    @State var isShowingAPI: Bool = false
     
     @State var settingsObj: SettingsModel = SettingsModel()
+    @State var api: APIModel = APIModel()
     
     @State var orderingItems : [String] = []
     
@@ -51,7 +54,8 @@ struct MoreView: View {
 
     func onAppear() {
         self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext, includeNotSelected: true)
-        //                    EmailHelper.shared.send(subject: "SwiftMail", body: "Test", to: ["aaa@gmail.com"])
+       
+        
     }
     
     
@@ -242,6 +246,52 @@ struct MoreView: View {
                     }
                     .padding(.leading, 20)
                     .padding(.trailing, 20)
+                
+                HStack(spacing: 0) {
+                    
+                    Button(action: {
+//                        EmailHelper.shared.send(subject: "SwiftMail", body: "Test", to: ["aaa@gmail.com"])
+                        self.save = false
+                        self.isShowingFeedback = true
+                    }) {
+                        CardMenu(prompt: "hand.thumbsup", title: "Feedback")
+                    }
+                        .sheet(isPresented: self.$isShowingFeedback, onDismiss: {
+                            if(self.save) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    EmailHelper.shared.send(subject: "SwiftMail", body: "Test", to: ["aaa@gmail.com"])
+                                }
+                         
+                               
+                            }
+                        }) {
+                            FeedbackView(modal: $isShowingFeedback, save: $save )
+                            .environmentObject(self.ui)
+                                .environmentObject(self.settings)
+                        }
+                    
+                  
+                    Spacer()
+                    
+                    Button(action: {
+                        self.save = false
+                        self.isShowingAPI = true
+                    }) {
+                        CardMenu(prompt: "icloud.and.arrow.down", title: "API")
+                    }
+                        .sheet(isPresented: self.$isShowingAPI, onDismiss: {
+                            if(self.settings.fastApply || self.save) {
+                            saveOrder()
+                            }
+                        }) {
+                            APIView(modal: $isShowingAPI, save: $save, model: self.$api)
+                                .environmentObject(self.ui)
+                                    .environmentObject(self.settings)
+                        }
+                    
+                }
+                .padding(.leading, 20)
+                .padding(.trailing, 20)
                    
                
             }

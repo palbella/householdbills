@@ -338,7 +338,12 @@ extension  UITextField{
 
 }
 
+extension  UITextView{
+    @objc func doneButtonTapped(button:UIBarButtonItem) -> Void {
+       self.resignFirstResponder()
+    }
 
+}
 
 extension UIScreen{
    static let screenWidth = UIScreen.main.bounds.size.width

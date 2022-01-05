@@ -208,6 +208,13 @@
 		6EEF27E52736847A00614AB4 /* MontlyPurchaseItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEF27E42736847A00614AB4 /* MontlyPurchaseItemData.swift */; };
 		6EEF27E62736847A00614AB4 /* MontlyPurchaseItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEF27E42736847A00614AB4 /* MontlyPurchaseItemData.swift */; };
 		6EEF27E72736848300614AB4 /* PurchaseItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEF27E22735864E00614AB4 /* PurchaseItemData.swift */; };
+		6EF2E5F72784A40900C6A06F /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF2E5F62784A40900C6A06F /* FeedbackView.swift */; };
+		6EF2E5FD2784A41D00C6A06F /* APIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF2E5FC2784A41D00C6A06F /* APIView.swift */; };
+		6EF2E5FF2784C92D00C6A06F /* APIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF2E5FE2784C92D00C6A06F /* APIModel.swift */; };
+		6EF2E6002784C94400C6A06F /* APIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF2E5FE2784C92D00C6A06F /* APIModel.swift */; };
+		6EF2E6022784D1AD00C6A06F /* MultiLineText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF2E6012784D1AD00C6A06F /* MultiLineText.swift */; };
+		6EF2E6052785CEDD00C6A06F /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EF2E6042785CEDD00C6A06F /* CloudKit.framework */; };
+		6EF2E6082785D36400C6A06F /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EF2E6072785D36400C6A06F /* CloudKit.framework */; };
 		6EF536C0276CF60200E46CB5 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EF536BD276CF54600E46CB5 /* Charts.framework */; platformFilter = ios; };
 		6EF536C1276CF60200E46CB5 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6EF536BD276CF54600E46CB5 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -447,6 +454,15 @@
 		6EEF27ED273C445300614AB4 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6EEF27EE273C446400614AB4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6EEF27F2273C4AE700614AB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6EF2E5F62784A40900C6A06F /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
+		6EF2E5FC2784A41D00C6A06F /* APIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIView.swift; sourceTree = "<group>"; };
+		6EF2E5FE2784C92D00C6A06F /* APIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModel.swift; sourceTree = "<group>"; };
+		6EF2E6012784D1AD00C6A06F /* MultiLineText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiLineText.swift; sourceTree = "<group>"; };
+		6EF2E6032785CEBA00C6A06F /* HouseholdBills (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "HouseholdBills (iOS).entitlements"; sourceTree = "<group>"; };
+		6EF2E6042785CEDD00C6A06F /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
+		6EF2E6062785D00100C6A06F /* HouseholdBills (iOS)Release.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "HouseholdBills (iOS)Release.entitlements"; sourceTree = "<group>"; };
+		6EF2E6072785D36400C6A06F /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		6EF2E6092785D36C00C6A06F /* HouseholdBills (macOS)Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "HouseholdBills (macOS)Debug.entitlements"; sourceTree = "<group>"; };
 		6EF536B6276CF4CE00E46CB5 /* Charts-master */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Charts-master"; path = "Shared/Charts-master"; sourceTree = "<group>"; };
 		6EF536B7276CF54600E46CB5 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "Shared/Charts-master/Charts.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -457,6 +473,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EF536C0276CF60200E46CB5 /* Charts.framework in Frameworks */,
+				6EF2E6052785CEDD00C6A06F /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,6 +481,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EF2E6082785D36400C6A06F /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -537,6 +555,7 @@
 				6E6F0EEF2730036E002EEAC0 /* SplitBillsModel.swift */,
 				6E7192B32731D65E00DF4436 /* PurchaseModel.swift */,
 				6E7192C52732000800DF4436 /* PurchaseItemModel.swift */,
+				6EF2E5FE2784C92D00C6A06F /* APIModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -544,6 +563,9 @@
 		6E3F0C6726C99CD400A807BE = {
 			isa = PBXGroup;
 			children = (
+				6EF2E6092785D36C00C6A06F /* HouseholdBills (macOS)Debug.entitlements */,
+				6EF2E6062785D00100C6A06F /* HouseholdBills (iOS)Release.entitlements */,
+				6EF2E6032785CEBA00C6A06F /* HouseholdBills (iOS).entitlements */,
 				6E3E36552715308D002316B8 /* Localizable.strings */,
 				6E3F0C6C26C99CD400A807BE /* Shared */,
 				6E3F0C7926C99CD600A807BE /* iOS */,
@@ -762,6 +784,8 @@
 				6E5965C926F91C5600010966 /* CurrencyView.swift */,
 				6EB9C008270BB65C00FB234C /* NotificationView.swift */,
 				6E6F0EEB272FED56002EEAC0 /* SplitBillsView.swift */,
+				6EF2E5F62784A40900C6A06F /* FeedbackView.swift */,
+				6EF2E5FC2784A41D00C6A06F /* APIView.swift */,
 			);
 			path = More;
 			sourceTree = "<group>";
@@ -778,6 +802,8 @@
 		6E9258972700D93900D9CEEF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6EF2E6072785D36400C6A06F /* CloudKit.framework */,
+				6EF2E6042785CEDD00C6A06F /* CloudKit.framework */,
 				6EF536B7276CF54600E46CB5 /* Charts.xcodeproj */,
 				6EF536B6276CF4CE00E46CB5 /* Charts-master */,
 			);
@@ -876,6 +902,7 @@
 				6E674454275D6AE70003E17D /* PopupView.swift */,
 				6EAB9E9D2767881D005005F2 /* PinInput.swift */,
 				6EAB9E9F27678E03005005F2 /* PasscodeField.swift */,
+				6EF2E6012784D1AD00C6A06F /* MultiLineText.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -1185,6 +1212,7 @@
 				6E72D2ED26E934B7007C8C17 /* DecimalInput.swift in Sources */,
 				6E7C7CC426E3F12000C357D1 /* CardModel.swift in Sources */,
 				6EAB9E9E2767881D005005F2 /* PinInput.swift in Sources */,
+				6EF2E6022784D1AD00C6A06F /* MultiLineText.swift in Sources */,
 				6E3F0C9926C99CD600A807BE /* HouseholdBills.xcdatamodeld in Sources */,
 				6EE4FBA426CC051C00C6F987 /* AccountListView.swift in Sources */,
 				6EB21A5426E8EA88000AE5F3 /* ServiceModel.swift in Sources */,
@@ -1213,6 +1241,7 @@
 				6E9DBA8126E0168C00F0F15C /* DismissableViewModel.swift in Sources */,
 				6EB9C0112712553500FB234C /* TransactionFiltersModel.swift in Sources */,
 				6EE4FBAA26D41DF200C6F987 /* Icon.swift in Sources */,
+				6EF2E5FF2784C92D00C6A06F /* APIModel.swift in Sources */,
 				6E4B918F2702B8CE00E627E4 /* MonthModel.swift in Sources */,
 				6E78C008270148F300D793D4 /* PasswordModel.swift in Sources */,
 				6E4B919D270756C000E627E4 /* BackgroundThreadTask.swift in Sources */,
@@ -1260,6 +1289,8 @@
 				6E9A134826E2D59A00D3C827 /* ServicesListView.swift in Sources */,
 				6E4B919F27076AFC00E627E4 /* AppDelegator.swift in Sources */,
 				6E7C7CCA26E576C500C357D1 /* PlanningPaymentView.swift in Sources */,
+				6EF2E5FD2784A41D00C6A06F /* APIView.swift in Sources */,
+				6EF2E5F72784A40900C6A06F /* FeedbackView.swift in Sources */,
 				6E71902626DBF93C00E1CB48 /* CurrencyField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1272,6 +1303,7 @@
 				6E7192B82731D8D200DF4436 /* MonthlyPurchaseData.swift in Sources */,
 				6E7DDA5827287549006697FB /* SettingsModel.swift in Sources */,
 				6ED2AE3D2728ACF7007D275C /* StockData.swift in Sources */,
+				6EF2E6002784C94400C6A06F /* APIModel.swift in Sources */,
 				6E7DDA502728752A006697FB /* CarModel.swift in Sources */,
 				6ED2AE2C2728AC62007D275C /* CarTask.swift in Sources */,
 				6EEF27E62736847A00614AB4 /* MontlyPurchaseItemData.swift in Sources */,
@@ -1503,6 +1535,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "HouseholdBills (iOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L9KSTP9QJC;
 				ENABLE_PREVIEWS = YES;
@@ -1525,6 +1558,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "HouseholdBills (iOS)Release.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L9KSTP9QJC;
 				ENABLE_PREVIEWS = YES;
@@ -1548,8 +1582,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_ENTITLEMENTS = "HouseholdBills (macOS)Debug.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = L9KSTP9QJC;
@@ -1574,7 +1608,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = L9KSTP9QJC;

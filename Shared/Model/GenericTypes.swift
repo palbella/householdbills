@@ -112,6 +112,16 @@ class GetGroups: ObservableObject {
     }
 }
 
+class GetAPI: ObservableObject {
+    @Published var items = [String]()
+
+    init() {
+        self.items = [
+            "GET", "POST"]
+        
+    }
+}
+
 
 struct BalanceChartModel: Hashable {
 

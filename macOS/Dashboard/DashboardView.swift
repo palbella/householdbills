@@ -38,14 +38,14 @@ struct DashboardView: View {
   
     
     @State var currentMonthName: String = ""
-    @ObservedObject var fetchTransactions = FetchTransactions()
+    @ObservedObject var transactionData = TransactionData()
     
   
     
     func onAppear() {
         
-        self.expenses = abs(fetchTransactions.fetchExpenses(viewContext: viewContext))
-        self.incomes = fetchTransactions.fetchIncomes(viewContext: viewContext)
+        self.expenses = abs(transactionData.fetchExpenses())
+        self.incomes = transactionData.fetchIncomes()
        
     }
 
