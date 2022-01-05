@@ -148,7 +148,7 @@ struct HouseholdBillsApp: App {
 
             }
             
-            if(savedSettings.count == 0) {
+            if(savedAPI.count == 0) {
                
             } else {
                 do {

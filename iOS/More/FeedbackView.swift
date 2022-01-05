@@ -56,6 +56,7 @@ struct FeedbackView: View {
                     Button(action: {
                         self.save = false
                         self.modal = false
+                        rateApp()
                     }) {
                         CardMenu(prompt: "hand.thumbsup", title: "I like it")
                     }
@@ -126,7 +127,16 @@ struct FeedbackView: View {
        
     }
     
-    
+    func rateApp() {
+       if let url = URL(string: "itms-apps://itunes.apple.com/app/" + "id959379869") {
+            if #available(iOS 10, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        }
+    }
     
 }
 

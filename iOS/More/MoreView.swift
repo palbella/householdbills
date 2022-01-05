@@ -27,6 +27,8 @@ struct MoreView: View {
     
     @State var settingsObj: SettingsModel = SettingsModel()
     @State var api: APIModel = APIModel()
+  
+    @ObservedObject var apiData = APIData()
     
     @State var orderingItems : [String] = []
     
@@ -259,7 +261,7 @@ struct MoreView: View {
                         .sheet(isPresented: self.$isShowingFeedback, onDismiss: {
                             if(self.save) {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                    EmailHelper.shared.send(subject: "SwiftMail", body: "Test", to: ["aaa@gmail.com"])
+                                    EmailHelper.shared.send(subject: "Household Bills Feedback", body: "Share with us your experience...", to: ["householdbills.app@gmail.com"])
                                 }
                          
                                
@@ -276,12 +278,13 @@ struct MoreView: View {
                     Button(action: {
                         self.save = false
                         self.isShowingAPI = true
+                        self.api = self.apiData.get()
                     }) {
                         CardMenu(prompt: "icloud.and.arrow.down", title: "API")
                     }
                         .sheet(isPresented: self.$isShowingAPI, onDismiss: {
                             if(self.settings.fastApply || self.save) {
-                            saveOrder()
+                                self.apiData.update(api: self.api)
                             }
                         }) {
                             APIView(modal: $isShowingAPI, save: $save, model: self.$api)

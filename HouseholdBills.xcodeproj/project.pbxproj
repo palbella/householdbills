@@ -215,6 +215,8 @@
 		6EF2E6022784D1AD00C6A06F /* MultiLineText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF2E6012784D1AD00C6A06F /* MultiLineText.swift */; };
 		6EF2E6052785CEDD00C6A06F /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EF2E6042785CEDD00C6A06F /* CloudKit.framework */; };
 		6EF2E6082785D36400C6A06F /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EF2E6072785D36400C6A06F /* CloudKit.framework */; };
+		6EF2E60B2785D55A00C6A06F /* APIData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF2E60A2785D55A00C6A06F /* APIData.swift */; };
+		6EF2E60C2785D55A00C6A06F /* APIData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF2E60A2785D55A00C6A06F /* APIData.swift */; };
 		6EF536C0276CF60200E46CB5 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EF536BD276CF54600E46CB5 /* Charts.framework */; platformFilter = ios; };
 		6EF536C1276CF60200E46CB5 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6EF536BD276CF54600E46CB5 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -463,6 +465,7 @@
 		6EF2E6062785D00100C6A06F /* HouseholdBills (iOS)Release.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "HouseholdBills (iOS)Release.entitlements"; sourceTree = "<group>"; };
 		6EF2E6072785D36400C6A06F /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		6EF2E6092785D36C00C6A06F /* HouseholdBills (macOS)Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "HouseholdBills (macOS)Debug.entitlements"; sourceTree = "<group>"; };
+		6EF2E60A2785D55A00C6A06F /* APIData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIData.swift; sourceTree = "<group>"; };
 		6EF536B6276CF4CE00E46CB5 /* Charts-master */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Charts-master"; path = "Shared/Charts-master"; sourceTree = "<group>"; };
 		6EF536B7276CF54600E46CB5 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "Shared/Charts-master/Charts.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -701,6 +704,7 @@
 				6EEF27E22735864E00614AB4 /* PurchaseItemData.swift */,
 				6EEF27E42736847A00614AB4 /* MontlyPurchaseItemData.swift */,
 				6ED50C522746B80000E01A5E /* TutorialData.swift */,
+				6EF2E60A2785D55A00C6A06F /* APIData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1266,6 +1270,7 @@
 				6E6F0EEC272FED56002EEAC0 /* SplitBillsView.swift in Sources */,
 				6EB9C00F27124E3E00FB234C /* HeaderTabView.swift in Sources */,
 				6E9DBA9626E15B3C00F0F15C /* TransactionAddView.swift in Sources */,
+				6EF2E60B2785D55A00C6A06F /* APIData.swift in Sources */,
 				6E6F0EEE272FF0FD002EEAC0 /* TextFieldStyled.swift in Sources */,
 				6E2119F926D82DA2004248CE /* GoalPlanningView.swift in Sources */,
 				6E9DBA9226E1230B00F0F15C /* CarAddView.swift in Sources */,
@@ -1335,6 +1340,7 @@
 				6E7DDA592728754E006697FB /* CategoryModel.swift in Sources */,
 				6E7DDA4527287313006697FB /* SharedExtensions.swift in Sources */,
 				6E7DDA5627287541006697FB /* StockModel.swift in Sources */,
+				6EF2E60C2785D55A00C6A06F /* APIData.swift in Sources */,
 				6E7DDA4627287318006697FB /* SharedHelpers.swift in Sources */,
 				6ED2AE382728ACE2007D275C /* BudgetData.swift in Sources */,
 				6E7192C72732000800DF4436 /* PurchaseItemModel.swift in Sources */,
