@@ -50,7 +50,9 @@ class StockData: ObservableObject {
                 newStock.symbol = stock.symbol
                 newStock.avgPurchase = stock.avgPurchase
                 newStock.price = stock.price
-            
+                newStock.notificated = false
+                newStock.notificationPriceUp = stock.notificationPriceUp
+                newStock.notificationPriceDown = stock.notificationPriceDown
 
       SaveContext()
             }
@@ -77,6 +79,9 @@ class StockData: ObservableObject {
             savedStock.amount = stock.amount
             savedStock.avgPurchase = stock.avgPurchase
             savedStock.price = stock.price
+            savedStock.notificated = false
+            savedStock.notificationPriceUp = stock.notificationPriceUp
+            savedStock.notificationPriceDown = stock.notificationPriceDown
             
             
         } catch {
@@ -126,6 +131,9 @@ SaveContext()
         stockModel.accountId = stock.accountId!
         stockModel.avgPurchase = stock.avgPurchase
         stockModel.price = stock.price
+        stockModel.notificated = stock.notificated
+        stockModel.notificationPriceUp = stock.notificationPriceUp
+        stockModel.notificationPriceDown = stock.notificationPriceDown
 
         return stockModel
     }

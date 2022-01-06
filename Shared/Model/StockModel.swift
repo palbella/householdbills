@@ -18,7 +18,9 @@ struct StockModel: Hashable, Identifiable {
     var avgPurchase: Double
     var price: Double
     var accountId: UUID
- 
+    var notificated: Bool
+    var notificationPriceUp: Double
+    var notificationPriceDown: Double
 
 
     
@@ -30,7 +32,10 @@ struct StockModel: Hashable, Identifiable {
         self.avgPurchase = 0
         self.price = 0
         self.accountId = UUID()
-      
+        self.notificationPriceUp = 0
+        self.notificationPriceDown = 0
+        self.notificated = false
+        
     }
 }
 
