@@ -28,13 +28,13 @@ class APIData: ObservableObject {
                 
                 let saved = try  self.viewContext.fetch(request)[0]
             
-            if(api.api != "http://api.url.example") {
+            if(api.api != "http://api.url.example?token=$stock$") {
                 saved.stockAPI = api.api
             } else {
                 saved.stockAPI = ""
             }
             
-            if(api.response != "response.propertyExample.propertyPrice") {
+            if(api.response != "[anyProperty][propertyPrice]") {
                 saved.stockRequest = api.request
             } else {
                 saved.stockRequest = ""
@@ -74,10 +74,10 @@ class APIData: ObservableObject {
             model.response = (saved.stockResponse == nil ? "" : saved.stockResponse)! 
             
             if(model.api == "") {
-                model.api = "http://api.url.example"
+                model.api = "http://api.url.example?token=$stock$"
             }
             if(model.response == "") {
-                model.response = "response.propertyExample.propertyPrice"
+                model.response = "[anyProperty][propertyPrice]"
             }
             if(model.request == "") {
                 model.request = "{ json: { example: 'request body' } }"

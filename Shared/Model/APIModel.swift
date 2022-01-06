@@ -15,7 +15,6 @@ struct APIModel: Hashable {
     var response: String
     var type: String
 
-
     
     init() {
         self.api = ""

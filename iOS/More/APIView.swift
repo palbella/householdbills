@@ -91,11 +91,13 @@ struct APIView: View {
                                            .frame(width: 250, height: 100)
                                            .multilineTextAlignment(.center)
                                        }
+                                   
+                                   if(model.type == "GET") {
                                    Section(header:
                                                HStack {
                                                    VStack{
                                                        Spacer()
-                                                   Text("URL")
+                                                   Text("URL: https://url.example?symbol=$stock$")
                                                    .frame(maxWidth: .infinity, alignment: .leading)
                                                    .padding(.top, 10)
                                                    .padding(.leading, 20)
@@ -173,7 +175,7 @@ struct APIView: View {
                                                HStack {
                                                    VStack{
                                                        Spacer()
-                                                   Text("RESPONSE")
+                                                   Text("RESPONSE: [anyProperty][propertyPrice] or just [propertyPrice]")
                                                    .frame(maxWidth: .infinity, alignment: .leading)
                                                    .padding(.top, 10)
                                                    .padding(.leading, 20)
@@ -207,8 +209,11 @@ struct APIView: View {
                                                .multilineTextAlignment(.center)
                                            }
                                    }
-                              
+                                   } else {
+                                       CardMenu(prompt: "hammer", title: "Not supported yet")
+                                   }
                                }
+                               .padding(.top, 15)
                                case 1:
                                CardMenu(prompt: "hammer", title: "Not supported yet")
                                case 2:
