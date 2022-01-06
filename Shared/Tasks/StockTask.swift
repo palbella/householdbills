@@ -13,18 +13,22 @@ import CoreData
 
 struct GetMarketStocks {
     @State var viewContext: NSManagedObjectContext
-  
+    @State var notification: Bool
     @State var apiData = APIData()
     
     let request: NSFetchRequest<Stock> = Stock.fetchRequest()
     
-    init(viewContext: NSManagedObjectContext) {
+    init(viewContext: NSManagedObjectContext, notification: Bool = false) {
         self.viewContext = viewContext
-      
+        if(notification == true) {
+            self.notification = true
+    } else {
+            self.notification = false
+        }
     }
     
     func run() {
-        getPricing(notification: false)
+        getPricing(notification: self.notification)
     }
     
     
@@ -90,7 +94,7 @@ struct GetMarketStocks {
             saveStockPrice(price: price, stockId: stockId, notification: notification)
             }
             } catch {
-                
+               
             }
                                                
            }

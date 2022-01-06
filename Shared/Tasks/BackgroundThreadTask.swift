@@ -35,6 +35,9 @@ class BackgroundThreadTask: ObservableObject {
             if(savedSettings[0].notificationCrypto) {
                 GetMarketCriptocurrencies(viewContext: persistenceController.container.viewContext, notification: true).run()
             }
+            if(savedSettings[0].notificationStock) {
+                GetMarketStocks(viewContext: persistenceController.container.viewContext, notification: true).run()
+            }
         
         } catch {
             

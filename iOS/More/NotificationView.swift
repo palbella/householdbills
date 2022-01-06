@@ -55,8 +55,8 @@ struct NotificationView: View {
                     .padding()
                 Toggle("Cryptocurrency Alert price", isOn: $settings.notificationCrypto)
                     .padding()
-//                Toggle("Is Paid", isOn: $settings.notificationStock)
-//                    .padding()
+                Toggle("Stock Alert price", isOn: $settings.notificationStock)
+                    .padding()
             }
           
         }
