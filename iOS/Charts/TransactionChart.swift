@@ -49,7 +49,7 @@ struct TransactionChart: View {
                 ) {
               
                  Text("")
-                    PieChartSwiftUI(categories: $categories.wrappedValue, items: $items.wrappedValue)
+                    PieChartSwiftUI(categories: $categories.wrappedValue, items: $items.wrappedValue, currencyTo: self.settings.currency)
                                     .frame(height: 400)
                     
 //                                Picker(selection: $category, label: Text("Category")) {
@@ -86,6 +86,7 @@ struct PieChartSwiftUI: UIViewRepresentable {
     
     var categories : [CategoryModel]
     var items : [TransactionModel]
+    var currencyTo: String
     
     var entries: [PieChartDataEntry] = []
    
@@ -96,9 +97,16 @@ struct PieChartSwiftUI: UIViewRepresentable {
         return pieChart
     }
     
-    init(categories: [CategoryModel], items: [TransactionModel]) {
+    init(categories: [CategoryModel], items: [TransactionModel], currencyTo: String) {
+        
+        let fetchCurrencies = CurrencyData()
+        let currencies = GetCurrencies()
+        currencies.items = fetchCurrencies.fetch()
+        
+        
         self.items = items
         self.categories = categories
+        self.currencyTo = currencyTo
         entries = []
         
         var cats : [CategoryChartModel] = []
@@ -110,7 +118,7 @@ struct PieChartSwiftUI: UIViewRepresentable {
             for item in items {
                 if(item.category == cat.id) {
                     if(item.amount < 0) {
-                    catChart.amount = catChart.amount + item.amount
+                        catChart.amount = catChart.amount + currencies.convert(currencyFrom: item.currency, currencyTo: self.currencyTo, value: item.amount)
                     }
                 }
             }

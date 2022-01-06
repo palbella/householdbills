@@ -117,6 +117,7 @@
 		6E8C468326D6D3D3004917D1 /* PlanningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C468226D6D3D3004917D1 /* PlanningView.swift */; };
 		6E8D0AEF2723645800A2067B /* CryptoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8D0AEE2723645800A2067B /* CryptoData.swift */; };
 		6E8D0AF12724646400A2067B /* StockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8D0AF02724646400A2067B /* StockData.swift */; };
+		6E91212C2787771B00085637 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E91212B2787771B00085637 /* StoreKit.framework */; };
 		6E92589C2700DB2900D9CEEF /* BalanceChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E92589B2700DB2900D9CEEF /* BalanceChart.swift */; };
 		6E9A133B26E29DAD00D3C827 /* BudgetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9A133A26E29DAD00D3C827 /* BudgetListView.swift */; };
 		6E9A133D26E29E1100D3C827 /* BudgetAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9A133C26E29E1100D3C827 /* BudgetAddView.swift */; };
@@ -379,6 +380,7 @@
 		6E8C468226D6D3D3004917D1 /* PlanningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningView.swift; sourceTree = "<group>"; };
 		6E8D0AEE2723645800A2067B /* CryptoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoData.swift; sourceTree = "<group>"; };
 		6E8D0AF02724646400A2067B /* StockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockData.swift; sourceTree = "<group>"; };
+		6E91212B2787771B00085637 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		6E9258962700D90200D9CEEF /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "Charts-master/Charts.xcodeproj"; sourceTree = "<group>"; };
 		6E92589B2700DB2900D9CEEF /* BalanceChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceChart.swift; sourceTree = "<group>"; };
 		6E9A133A26E29DAD00D3C827 /* BudgetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetListView.swift; sourceTree = "<group>"; };
@@ -485,6 +487,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EF2E6082785D36400C6A06F /* CloudKit.framework in Frameworks */,
+				6E91212C2787771B00085637 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -806,6 +809,7 @@
 		6E9258972700D93900D9CEEF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6E91212B2787771B00085637 /* StoreKit.framework */,
 				6EF2E6072785D36400C6A06F /* CloudKit.framework */,
 				6EF2E6042785CEDD00C6A06F /* CloudKit.framework */,
 				6EF536B7276CF54600E46CB5 /* Charts.xcodeproj */,

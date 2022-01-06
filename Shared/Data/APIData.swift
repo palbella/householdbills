@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 
+
 class APIData: ObservableObject {
    
     var viewContext: NSManagedObjectContext = PersistenceController.shared.container.viewContext
@@ -28,7 +29,7 @@ class APIData: ObservableObject {
                 
                 let saved = try  self.viewContext.fetch(request)[0]
             
-            if(api.api != "http://api.url.example?token=$stock$") {
+            if(api.api != "https://api.url.example?token=$stock$") {
                 saved.stockAPI = api.api
             } else {
                 saved.stockAPI = ""
@@ -74,7 +75,7 @@ class APIData: ObservableObject {
             model.response = (saved.stockResponse == nil ? "" : saved.stockResponse)! 
             
             if(model.api == "") {
-                model.api = "http://api.url.example?token=$stock$"
+                model.api = "https://api.url.example?token=$stock$"
             }
             if(model.response == "") {
                 model.response = "[anyProperty][propertyPrice]"

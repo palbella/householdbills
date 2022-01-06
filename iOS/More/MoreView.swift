@@ -55,7 +55,7 @@ struct MoreView: View {
     @Binding var popupImage: String
 
     func onAppear() {
-        self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext, includeNotSelected: true)
+        self.currencies.items = fetchCurrencies.fetch(includeNotSelected: true)
        
         
     }

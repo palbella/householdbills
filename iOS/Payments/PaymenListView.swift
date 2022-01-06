@@ -60,7 +60,7 @@ struct PaymentListView: View {
     func onAppear() {
         
         self.categories.items = fetchCategories.fetch(viewContext: viewContext)
-        self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
+        self.currencies.items = fetchCurrencies.fetch()
         self.accounts.items = fetchAccounts.fetch()
         getTotals()
     }

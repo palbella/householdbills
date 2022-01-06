@@ -108,7 +108,7 @@ class AccountData: ObservableObject {
     func transferAccount(destination: UUID, amount: Double, currencyFrom: String)
     {
         let currencies = GetCurrencies()
-        currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
+        currencies.items = fetchCurrencies.fetch()
        
         do {
                 let request: NSFetchRequest<Account> = Account.fetchRequest()

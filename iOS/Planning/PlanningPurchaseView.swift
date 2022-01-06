@@ -51,7 +51,7 @@ struct PlanningPurchaseBodyView: View {
   
     
     func onAppear() {
-        self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
+        self.currencies.items = fetchCurrencies.fetch()
         self.categories.items = fetchCategories.fetch(viewContext: viewContext)
         self.accounts.items = fetchAccounts.fetch()
         getTotals()

@@ -64,7 +64,7 @@ struct TransactionsAddView: View {
         
         self.categories.items = fetchCategories.fetch(viewContext: viewContext)
         self.accounts.items = fetchAccounts.fetch()
-        self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
+        self.currencies.items = fetchCurrencies.fetch()
         
         for index in 0..<accounts.items.count {
             accountList.append(accounts.items[index].name)

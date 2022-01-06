@@ -62,7 +62,7 @@ struct BudgetListView: View {
         
         self.categories.items = fetchCategories.fetch(viewContext: viewContext)
         self.accounts.items = fetchAccounts.fetch()
-        self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
+        self.currencies.items = fetchCurrencies.fetch()
         getTotals()
     }
     

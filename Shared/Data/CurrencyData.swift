@@ -23,7 +23,7 @@ class CurrencyData: ObservableObject {
         self.items = []
     }
     
-    func fetch(viewContext: NSManagedObjectContext, includeNotSelected: Bool = false) ->  [CurrencyModel]{
+    func fetch(includeNotSelected: Bool = false) ->  [CurrencyModel]{
         
         if(!includeNotSelected) {
             request.predicate = NSPredicate(format: "selected = true")

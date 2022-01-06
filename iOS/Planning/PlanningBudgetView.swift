@@ -180,7 +180,7 @@ struct PlanningBudgetBodyView: View {
      
     }
         .onAppear {
-            self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
+            self.currencies.items = fetchCurrencies.fetch()
             getTotals()
         }
 //        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in

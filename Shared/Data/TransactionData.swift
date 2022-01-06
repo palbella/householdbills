@@ -32,7 +32,7 @@ class TransactionData: ObservableObject {
 
     func fetchIncomes() -> Double{
         let currencies = GetCurrencies()
-        currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
+        currencies.items = fetchCurrencies.fetch()
         
         var total: Double = 0
         
@@ -58,7 +58,7 @@ class TransactionData: ObservableObject {
     
     func fetchExpenses() -> Double{
         let currencies = GetCurrencies()
-        currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
+        currencies.items = fetchCurrencies.fetch()
         
         var total: Double = 0
         do {
@@ -278,7 +278,7 @@ class TransactionData: ObservableObject {
     func budgetTransaction(destination: UUID, amount: Double, currencyFrom: String)
     {
         let currencies = GetCurrencies()
-        currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
+        currencies.items = fetchCurrencies.fetch()
        
         do {
                 let request: NSFetchRequest<Budget> = Budget.fetchRequest()

@@ -45,6 +45,11 @@ struct APIView: View {
         appearance.backgroundColor = colorScheme != .dark ? UIColor(Color.white): UIColor(ui.darkBackgroundColor)
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        
+        if(model.type == "POST") {
+            self.apiTypesIndex = 1
+            self.apiTypesSelected = "POST"
+        }
     }
     
  
@@ -97,7 +102,7 @@ struct APIView: View {
                                                HStack {
                                                    VStack{
                                                        Spacer()
-                                                   Text("URL: https://url.example?symbol=$stock$")
+                                                   Text(verbatim: "URL: https://url.example?symbol=$stock$")
                                                    .frame(maxWidth: .infinity, alignment: .leading)
                                                    .padding(.top, 10)
                                                    .padding(.leading, 20)

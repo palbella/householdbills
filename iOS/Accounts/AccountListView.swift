@@ -63,7 +63,7 @@
             self.categories.items = fetchCategories.fetch(viewContext: viewContext)
             self.accounts.items = accountData.fetch()
             self.budgets.items = budgetData.fetch()
-            self.currencies.items = fetchCurrencies.fetch(viewContext: viewContext)
+            self.currencies.items = fetchCurrencies.fetch()
             getTotals()
         }
         
