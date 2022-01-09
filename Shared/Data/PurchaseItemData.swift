@@ -167,7 +167,7 @@ class PurchaseItemData: ObservableObject {
         newItem.id = UUID()
         newItem.name = "Item"
         newItem.price = 0
-        newItem.amount = 0
+        newItem.amount = 1
         newItem.unit = "u"
         newItem.purchaseId = purchaseId
      

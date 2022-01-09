@@ -97,7 +97,7 @@ struct MainView: View {
                         .accentColor(colorScheme != .dark ? ui.lightFontColor: ui.darkFontColor)
                         
                         .onAppear(){
-                          
+                           
                             settings.lastLogin = Date()
                         }
                         

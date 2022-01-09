@@ -118,6 +118,9 @@
 		6E8D0AEF2723645800A2067B /* CryptoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8D0AEE2723645800A2067B /* CryptoData.swift */; };
 		6E8D0AF12724646400A2067B /* StockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8D0AF02724646400A2067B /* StockData.swift */; };
 		6E91212C2787771B00085637 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E91212B2787771B00085637 /* StoreKit.framework */; };
+		6E912132278851E000085637 /* PurchaseTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E912131278851E000085637 /* PurchaseTask.swift */; };
+		6E912133278851E000085637 /* PurchaseTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E912131278851E000085637 /* PurchaseTask.swift */; };
+		6E912135278859E900085637 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E912134278859E900085637 /* StoreKit.framework */; };
 		6E92589C2700DB2900D9CEEF /* BalanceChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E92589B2700DB2900D9CEEF /* BalanceChart.swift */; };
 		6E9A133B26E29DAD00D3C827 /* BudgetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9A133A26E29DAD00D3C827 /* BudgetListView.swift */; };
 		6E9A133D26E29E1100D3C827 /* BudgetAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9A133C26E29E1100D3C827 /* BudgetAddView.swift */; };
@@ -381,6 +384,8 @@
 		6E8D0AEE2723645800A2067B /* CryptoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoData.swift; sourceTree = "<group>"; };
 		6E8D0AF02724646400A2067B /* StockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockData.swift; sourceTree = "<group>"; };
 		6E91212B2787771B00085637 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		6E912131278851E000085637 /* PurchaseTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseTask.swift; sourceTree = "<group>"; };
+		6E912134278859E900085637 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		6E9258962700D90200D9CEEF /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "Charts-master/Charts.xcodeproj"; sourceTree = "<group>"; };
 		6E92589B2700DB2900D9CEEF /* BalanceChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceChart.swift; sourceTree = "<group>"; };
 		6E9A133A26E29DAD00D3C827 /* BudgetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetListView.swift; sourceTree = "<group>"; };
@@ -477,6 +482,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E912135278859E900085637 /* StoreKit.framework in Frameworks */,
 				6EF536C0276CF60200E46CB5 /* Charts.framework in Frameworks */,
 				6EF2E6052785CEDD00C6A06F /* CloudKit.framework in Frameworks */,
 			);
@@ -683,6 +689,7 @@
 				6E4B919C270756C000E627E4 /* BackgroundThreadTask.swift */,
 				6E4B91A12707AAA800E627E4 /* NotificationTask.swift */,
 				6EB9C00A270F9C0000FB234C /* DailyBalanceTask.swift */,
+				6E912131278851E000085637 /* PurchaseTask.swift */,
 			);
 			path = Tasks;
 			sourceTree = "<group>";
@@ -809,6 +816,7 @@
 		6E9258972700D93900D9CEEF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6E912134278859E900085637 /* StoreKit.framework */,
 				6E91212B2787771B00085637 /* StoreKit.framework */,
 				6EF2E6072785D36400C6A06F /* CloudKit.framework */,
 				6EF2E6042785CEDD00C6A06F /* CloudKit.framework */,
@@ -1225,6 +1233,7 @@
 				6EE4FBA426CC051C00C6F987 /* AccountListView.swift in Sources */,
 				6EB21A5426E8EA88000AE5F3 /* ServiceModel.swift in Sources */,
 				6E7DDA5D27287584006697FB /* Helpers.swift in Sources */,
+				6E912132278851E000085637 /* PurchaseTask.swift in Sources */,
 				6E78C00D27014BB200D793D4 /* PasswordAddUpdateView.swift in Sources */,
 				6EE4FBA626CC065000C6F987 /* GoalListView.swift in Sources */,
 				6E3F0CBE26C9A13200A807BE /* MoreView.swift in Sources */,
@@ -1336,6 +1345,7 @@
 				6E7DDA5327287536006697FB /* AccountTypesModel.swift in Sources */,
 				6E7DDA4D2728751D006697FB /* PaymentModel.swift in Sources */,
 				6E7DDA5227287532006697FB /* CardModel.swift in Sources */,
+				6E912133278851E000085637 /* PurchaseTask.swift in Sources */,
 				6ED2AE2F2728AC70007D275C /* InitialDataTask.swift in Sources */,
 				6E7DDA42272871BA006697FB /* TransactionData.swift in Sources */,
 				6ED2AE372728ACDE007D275C /* PaymentData.swift in Sources */,
@@ -1555,7 +1565,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Ulala.HouseholdBills;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ulala.householdbills;
 				PRODUCT_NAME = HouseholdBills;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -1578,7 +1588,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Ulala.HouseholdBills;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ulala.householdbills;
 				PRODUCT_NAME = HouseholdBills;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -1605,7 +1615,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Ulala.HouseholdBills;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ulala.householdbills;
 				PRODUCT_NAME = HouseholdBills;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
@@ -1630,7 +1640,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Ulala.HouseholdBills;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ulala.householdbills;
 				PRODUCT_NAME = HouseholdBills;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;

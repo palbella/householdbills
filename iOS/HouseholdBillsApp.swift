@@ -8,7 +8,7 @@ import SwiftUI
 import Combine
 import CoreData
 import UserNotifications
-
+import StoreKit
 
 class UserSettings: ObservableObject {
     @Published var loggedIn : Bool = false
@@ -112,8 +112,13 @@ struct HouseholdBillsApp: App {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
         }
 
+   
+//        var products = IPAService.shared.products
+        
+//        IPAService.shared.purchase(product: .year)
 
         do {
+            
         let savedSettings =  try persistenceController.container.viewContext.fetch(fetchRequest)
             let savedAPI =  try persistenceController.container.viewContext.fetch(fetchRequestAPI)
 

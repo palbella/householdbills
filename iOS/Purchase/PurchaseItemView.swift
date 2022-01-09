@@ -51,7 +51,10 @@ struct PurchaseItemView: View {
         
         self.totalPrices = 0
         let fetchRequest: NSFetchRequest<PurchaseItem> = PurchaseItem.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        
         let fetchRequestMonthly: NSFetchRequest<MonthlyPurchaseItem> = MonthlyPurchaseItem.fetchRequest()
+        fetchRequestMonthly.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         self.items.items = []
         
         do {
@@ -225,6 +228,7 @@ struct PurchaseItemView: View {
                                         .onChange(of: self.$items.items[index].amount.wrappedValue, perform: { value in
                                             self.onAmountChange(id: self.$items.items[index].id.wrappedValue, value: self.$items.items[index].amount.wrappedValue)
                                         })
+                                        
                                        
                                     
                                     Text("x")
