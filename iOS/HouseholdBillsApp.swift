@@ -115,6 +115,8 @@ struct HouseholdBillsApp: App {
    
 //        var products = IPAService.shared.products
         
+        IPAService.shared.getProduct()
+        
 //        IPAService.shared.purchase(product: .year)
 
         do {

@@ -37,7 +37,31 @@ class IPAService: NSObject {
         paymentQueue.add(payment)
     }
     
+    func restoreProducts() {
+        print("Restoring products ...")
+        SKPaymentQueue.default().restoreCompletedTransactions()
+    }
+    
+    private func refreshReceipt(){
+        let request = SKReceiptRefreshRequest(receiptProperties: nil)
+        request.delegate = self
+        request.start()
+    }
 
+    func requestDidFinish(_ request: SKRequest) {
+      // call refresh subscriptions method again with same blocks
+        if request is SKReceiptRefreshRequest {
+//            refreshSubscriptionsStatus(callback: self.successBlock ?? {}, failure: self.failureBlock ?? {_ in})
+        }
+    }
+
+    func request(_ request: SKRequest, didFailWithError error: Error){
+            if request is SKReceiptRefreshRequest {
+//                self.refreshSubscriptionFailureBlock?(error)
+//                self.cleanUpRefeshReceiptBlocks()
+            }
+            print("error: \(error.localizedDescription)")
+    }
    
 }
 
