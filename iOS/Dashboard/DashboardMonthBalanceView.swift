@@ -15,6 +15,7 @@ struct MonthBalanceView: View {
     @Environment(\.colorScheme) var colorScheme
     
     @State var isShowingBalance: Bool = false
+    @State var isShowingAdjustment: Bool = false
     
     @Binding var totalAccounts: Double
     @Binding var totalGoalAccounts: Double
@@ -26,6 +27,14 @@ struct MonthBalanceView: View {
     @Binding var expenses: Double
     @Binding var hideData: Bool
 //    @State var incomeCalculation: Double = 0
+    
+    @State var goal: UUID? = nil
+    @State var amount: Double = 0
+    @State var modal: Bool = false
+    @State var save: Bool = false
+    
+    
+    @State var goals = GetGoals()
     
     func onAppear() {
    
@@ -190,6 +199,10 @@ struct MonthBalanceView: View {
                     
                     let fontColorMonth = (getCalc()) >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
 
+                    Button(action: {
+                        self.amount = getCalc()
+                        self.isShowingAdjustment = true
+                    }) {
                             VStack(alignment: .center){
                                 
                                 if(!self.hideData) {
@@ -210,6 +223,13 @@ struct MonthBalanceView: View {
                                 
                                
                             }
+                    }
+                    .sheet(isPresented: self.$isShowingAdjustment, onDismiss: {
+
+                        }) {
+                            GoalAdjustmentView(goals: self.$goals, goal: self.$goal, amount: self.$amount, modal: self.$isShowingAdjustment, save: self.$save)
+                                .padding(.top, 10)
+                        }
 
                     Spacer()
                 Divider()
