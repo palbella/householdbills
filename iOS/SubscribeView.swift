@@ -72,6 +72,7 @@ struct SubscribeView: View {
                 Spacer()
                 
                 Button(action: {
+                    IPAService.shared.purchase(product: .year)
                     presentationMode.wrappedValue.dismiss()
                 }) {
                     HStack {

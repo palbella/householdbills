@@ -10,9 +10,10 @@ import CoreData
 
 struct MonthBalanceView: View {
     
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var ui: AppUI
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.managedObjectContext) private var viewContext
     
     @State var isShowingBalance: Bool = false
     @State var isShowingAdjustment: Bool = false
@@ -28,17 +29,26 @@ struct MonthBalanceView: View {
     @Binding var hideData: Bool
 //    @State var incomeCalculation: Double = 0
     
+    @State var currencies = GetCurrencies()
+    @ObservedObject var fetchCurrencies = CurrencyData()
+    
     @State var goal: UUID? = nil
     @State var amount: Double = 0
     @State var modal: Bool = false
     @State var save: Bool = false
     
+    @State var goalData : GoalData = GoalData()
     
     @State var goals = GetGoals()
     
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "name", ascending: true)])
+    var goalsFetch: FetchedResults<Goal>
+    
     func onAppear() {
    
-
+        self.currencies.items = fetchCurrencies.fetch()
+        goalData.fetchCurrencies.items = self.currencies.items
+        self.goals.items = goalData.fetch()
        
     }
     
@@ -190,19 +200,21 @@ struct MonthBalanceView: View {
             }
                         
             ) {
-                VStack(spacing:0) {
-                   
-                Divider()
-                    Spacer()
-
-                  
-                    
-                    let fontColorMonth = (getCalc()) >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
+               
 
                     Button(action: {
                         self.amount = getCalc()
                         self.isShowingAdjustment = true
                     }) {
+                        VStack(spacing:0) {
+                           
+                        Divider()
+                            Spacer()
+
+                          
+                            
+                            let fontColorMonth = (getCalc()) >= -0.5 ? ui.lightItemFontAmountColor: ui.lightItemNegativeFontAmountColor
+                            
                             VStack(alignment: .center){
                                 
                                 if(!self.hideData) {
@@ -223,21 +235,33 @@ struct MonthBalanceView: View {
                                 
                                
                             }
+                            .onAppear() {
+                                self.onAppear()
+                            }
+                            
+                            Spacer()
+                        Divider()
+                      
+                    }
+                        .frame(height: ui.itemHeight)
+                        .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
+        //                                .padding(.bottom, 10)
                     }
                     .sheet(isPresented: self.$isShowingAdjustment, onDismiss: {
+                        
+                        if(settings.fastApply || self.save) {
+                            if (self.goal != nil) {
+                                self.goalData.upjustmentGoal(id: self.goal!, amount: self.amount, currencyFrom: settings.currency)
+                                self.getTotals()
+                            }
+                        }
 
                         }) {
                             GoalAdjustmentView(goals: self.$goals, goal: self.$goal, amount: self.$amount, modal: self.$isShowingAdjustment, save: self.$save)
                                 .padding(.top, 10)
                         }
 
-                    Spacer()
-                Divider()
-              
-            }
-                .frame(height: ui.itemHeight)
-                .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
-//                                .padding(.bottom, 10)
+                  
                
             }
 
@@ -260,6 +284,27 @@ struct MonthBalanceView: View {
         }
         
         return self.totalGoalAccounts + settings.estimatedMontlyIncomes - incomeCalculation - self.totalPurchases - self.totalGoals - self.totalBudgets - self.totalPayments
+    }
+    
+    private func getTotals()
+    {
+        self.totalGoals = 0
+        let fetchRequest: NSFetchRequest<Goal> = Goal.fetchRequest()
+        self.goals.items = [GoalModel]()
+        
+        do {
+            let savedGoals =  try viewContext.fetch(fetchRequest)
+       
+                            for index in 0..<savedGoals.count {
+
+                                let amount: Double = currencies.convert(currencyFrom: self.goalsFetch[index].currency!, currencyTo: settings.currency, value: self.goalsFetch[index].amount)
+                                
+                                self.totalGoals = self.totalGoals + amount
+                                    }
+        } catch {
+           
+        }
+
     }
 }
 

@@ -134,7 +134,7 @@ struct StockUpdateView: View {
             Button(action: {
                 self.showConfirm = true
             }) {
-                Text("Delete Crypto")
+                Text("Delete Stock")
                    .foregroundColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
             }
             .padding()
@@ -147,7 +147,7 @@ struct StockUpdateView: View {
     }
     
     var confirmDelete: Alert {
-        Alert(title: Text("Delete Crypto?"), message: Text("Are you sure you want to delete this stock?"),
+        Alert(title: Text("Delete Stock?"), message: Text("Are you sure you want to delete this stock?"),
             primaryButton: .default (Text("Yes")) {
                 self.$delete.wrappedValue = true
                 self.$modal.wrappedValue = false

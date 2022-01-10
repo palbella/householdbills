@@ -13,7 +13,7 @@ import StoreKit
 class UserSettings: ObservableObject {
     @Published var loggedIn : Bool = false
     @Published var welcome : Bool = true
-    @Published var subscribed : Bool = true
+    @Published var subscribed : Bool = false
     @Published var navigateNowToLogIn: Bool = false
     @Published var navigateNowToSignup: Bool = false
     @Published var currencyUpdate: Bool = false
@@ -112,12 +112,6 @@ struct HouseholdBillsApp: App {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
         }
 
-   
-//        var products = IPAService.shared.products
-        
-        IPAService.shared.getProduct()
-        
-//        IPAService.shared.purchase(product: .year)
 
         do {
             
@@ -138,7 +132,7 @@ struct HouseholdBillsApp: App {
                 self.settings.unit = savedSettings[0].unit!
                 self.settings.estimatedMontlyIncomes = savedSettings[0].monthIncome
                 self.settings.fastApply = savedSettings[0].fastApply
-//                self.settings.subscribed = savedSettings[0].subscribed
+                self.settings.subscribed = savedSettings[0].subscribed
                 self.settings.dayChangeMonth = savedSettings[0].dayChangeMonth
                 self.settings.showMonthBalance = savedSettings[0].showMonthBalance
                 self.settings.notificationStock = savedSettings[0].notificationStock
@@ -152,6 +146,9 @@ struct HouseholdBillsApp: App {
                 self.settings.passwordAnswer1 = savedSettings[0].passwordAnswer1 ?? ""
                 self.settings.passwordAnswer2 = savedSettings[0].passwordAnswer2 ?? ""
                 self.settings.passwordAnswer3 = savedSettings[0].passwordAnswer3 ?? ""
+                
+                IPAService.shared.getProduct()
+                IPAService.shared.subscriptionVerification(settings: self.settings)
 
             }
             

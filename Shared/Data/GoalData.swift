@@ -17,7 +17,7 @@ class GoalData: ObservableObject {
 
     let request: NSFetchRequest<Goal> = Goal.fetchRequest()
   
-    
+    @ObservedObject var fetchCurrencies = CurrencyData()
     
     init() {
         self.items = []
@@ -113,6 +113,30 @@ class GoalData: ObservableObject {
             }
   
     }
+    
+    func upjustmentGoal(id: UUID, amount: Double, currencyFrom: String)
+    {
+        let currencies = GetCurrencies()
+        currencies.items = fetchCurrencies.fetch()
+          
+        do {
+                let request: NSFetchRequest<Goal> = Goal.fetchRequest()
+                request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+                
+                let savedGoal = try  self.viewContext.fetch(request)[0]
+                
+            savedGoal.amount = savedGoal.amount + currencies.convert(currencyFrom: currencyFrom, currencyTo: savedGoal.currency!, value: amount)
+            
+            
+        } catch {
+            print(error)
+        }
+
+      SaveContext()
+   
+
+    }
+    
     
     private func SaveContext () {
     do {

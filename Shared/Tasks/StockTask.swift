@@ -28,6 +28,7 @@ struct GetMarketStocks {
     }
     
     func run() {
+       
         getPricing(notification: self.notification)
     }
     
@@ -92,6 +93,8 @@ struct GetMarketStocks {
 
             if(price > 0) {
             saveStockPrice(price: price, stockId: stockId, notification: notification)
+            } else {
+                saveTotalAccounts ()
             }
             } catch {
                

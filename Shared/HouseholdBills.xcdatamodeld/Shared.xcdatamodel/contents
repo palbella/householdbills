@@ -303,6 +303,7 @@
         <attribute name="showMonthBalance" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="subscribed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="subscriptionDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="subscriptionVerification" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="symbol" optional="YES" attributeType="String"/>
         <attribute name="unit" optional="YES" attributeType="String"/>
     </entity>
@@ -340,6 +341,7 @@
     </entity>
     <elements>
         <element name="Account" positionX="-63" positionY="-18" width="128" height="224"/>
+        <element name="API" positionX="-18" positionY="144" width="128" height="149"/>
         <element name="Budget" positionX="-54" positionY="81" width="128" height="194"/>
         <element name="Car" positionX="-27" positionY="144" width="128" height="179"/>
         <element name="Card" positionX="-27" positionY="144" width="128" height="89"/>
@@ -365,10 +367,9 @@
         <element name="Payment" positionX="-36" positionY="99" width="128" height="299"/>
         <element name="Purchase" positionX="9" positionY="171" width="128" height="194"/>
         <element name="PurchaseItem" positionX="18" positionY="180" width="128" height="149"/>
-        <element name="Settings" positionX="-27" positionY="144" width="128" height="404"/>
+        <element name="Settings" positionX="-27" positionY="144" width="128" height="419"/>
         <element name="Stock" positionX="0" positionY="171" width="128" height="194"/>
         <element name="Transaction" positionX="-18" positionY="153" width="128" height="209"/>
         <element name="Tutorial" positionX="-18" positionY="144" width="128" height="74"/>
-        <element name="API" positionX="-18" positionY="144" width="128" height="149"/>
     </elements>
 </model>

@@ -75,6 +75,8 @@ struct GoalAdjustmentView: View {
                 .onChange(of: goalIndex, perform: { value in
                     if(goalIndex > 0) {
                         self.goal = goals.items[goalIndex - 1].id
+                    } else {
+                        self.goal = nil
                     }
                 })
                 .padding(.bottom, 5)

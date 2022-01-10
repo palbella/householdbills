@@ -57,7 +57,7 @@ class StockData: ObservableObject {
       SaveContext()
             }
         GetMarketStocks(viewContext: viewContext).run()
-//        getTotals()
+
 
     }
     
@@ -90,7 +90,7 @@ class StockData: ObservableObject {
 
       SaveContext()
         GetMarketStocks(viewContext: viewContext).run()
-//        getTotals()
+
 
     }
     
@@ -115,7 +115,7 @@ class StockData: ObservableObject {
             }
 SaveContext()
         GetMarketStocks(viewContext: viewContext).run()
-//        getTotals()
+
        
     }
     
