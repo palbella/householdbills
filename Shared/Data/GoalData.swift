@@ -169,6 +169,20 @@ class GoalData: ObservableObject {
     }
     
    
-    
+    func stringToEntityMap(goal: GoalModel) -> CSVFields
+    {
+        var fields = CSVFields()
+        
+        fields.field1 = goal.id.uuidString
+        fields.field2 = goal.name
+        fields.field3 = goal.symbol
+        fields.field4 = goal.currency
+        fields.field5 = String(goal.amount)
+        fields.field6 = goal.iconColor
+        fields.field7 = goal.iconContent
+        fields.field8 = String(goal.target)
+        
+        return fields
+    }
    
 }

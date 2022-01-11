@@ -255,7 +255,30 @@ class PaymentData: ObservableObject {
         return paymentModel
     }
     
+    
+    func stringToEntityMap(payment: PaymentModel) -> CSVFields
+    {
+        var fields = CSVFields()
+        
+        fields.field1 = payment.id.uuidString
+        fields.field2 = payment.name
+        fields.field3 = payment.symbol
+        fields.field4 = payment.currency
+        fields.field5 = String(payment.amount)
+        fields.field6 = payment.iconColor
+        fields.field7 = payment.iconContent
+        fields.field8 = String(payment.isPaid)
+        fields.field8 = String(payment.isGoal)
+        if(payment.goalId != nil) {
+            fields.field8 = payment.goalId!.uuidString
+        }
+        fields.field9 = payment.account.uuidString
+        fields.field10 = String(payment.notificationDay)
+        fields.field10 = String(payment.notificated)
+        fields.field10 = String(payment.category)
 
+        return fields
+    }
     
    
 }

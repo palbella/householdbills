@@ -33,6 +33,69 @@ class ExportImportTask: ObservableObject {
             file.append("\(fields.field1), \(fields.field2), \(fields.field3), \(fields.field4), \(fields.field5), \(fields.field6), \(fields.field7), \(fields.field8), \(fields.field9), \(fields.field10),\(fields.field11), \(fields.field12), \(fields.field13), \(fields.field14), \(fields.field15), \(fields.field16), \(fields.field17), \(fields.field18), \(fields.field19), \(fields.field20) \n")
         }
         
+        file.append("[Cryptocurrency], , , , , , , , , , , , , , , , , , , \n")
+       
+        let cryptos = CryptocurrencyData().fetch()
+        for i in 0..<cryptos.count {
+            fields = CryptocurrencyData().stringToEntityMap(crypto: cryptos[i])
+            
+            file.append("\(fields.field1), \(fields.field2), \(fields.field3), \(fields.field4), \(fields.field5), \(fields.field6), \(fields.field7), \(fields.field8), \(fields.field9), \(fields.field10),\(fields.field11), \(fields.field12), \(fields.field13), \(fields.field14), \(fields.field15), \(fields.field16), \(fields.field17), \(fields.field18), \(fields.field19), \(fields.field20) \n")
+        }
+        
+        file.append("[Stock], , , , , , , , , , , , , , , , , , , \n")
+       
+        let stocks = StockData().fetch()
+        for i in 0..<stocks.count {
+            fields = StockData().stringToEntityMap(stock: stocks[i])
+            
+            file.append("\(fields.field1), \(fields.field2), \(fields.field3), \(fields.field4), \(fields.field5), \(fields.field6), \(fields.field7), \(fields.field8), \(fields.field9), \(fields.field10),\(fields.field11), \(fields.field12), \(fields.field13), \(fields.field14), \(fields.field15), \(fields.field16), \(fields.field17), \(fields.field18), \(fields.field19), \(fields.field20) \n")
+        }
+        
+        file.append("[Goal], , , , , , , , , , , , , , , , , , , \n")
+       
+        let goals = GoalData().fetch()
+        for i in 0..<goals.count {
+            fields = GoalData().stringToEntityMap(goal: goals[i])
+            
+            file.append("\(fields.field1), \(fields.field2), \(fields.field3), \(fields.field4), \(fields.field5), \(fields.field6), \(fields.field7), \(fields.field8), \(fields.field9), \(fields.field10),\(fields.field11), \(fields.field12), \(fields.field13), \(fields.field14), \(fields.field15), \(fields.field16), \(fields.field17), \(fields.field18), \(fields.field19), \(fields.field20) \n")
+        }
+        
+        file.append("[Budget], , , , , , , , , , , , , , , , , , , \n")
+       
+        let budgets = BudgetData().fetch()
+        for i in 0..<budgets.count {
+            fields = BudgetData().stringToEntityMap(budget: budgets[i])
+            
+            file.append("\(fields.field1), \(fields.field2), \(fields.field3), \(fields.field4), \(fields.field5), \(fields.field6), \(fields.field7), \(fields.field8), \(fields.field9), \(fields.field10),\(fields.field11), \(fields.field12), \(fields.field13), \(fields.field14), \(fields.field15), \(fields.field16), \(fields.field17), \(fields.field18), \(fields.field19), \(fields.field20) \n")
+        }
+        
+        file.append("[Payment], , , , , , , , , , , , , , , , , , , \n")
+        
+        let payments = PaymentData().fetch()
+        for i in 0..<payments.count {
+            fields = PaymentData().stringToEntityMap(payment: payments[i])
+            
+            file.append("\(fields.field1), \(fields.field2), \(fields.field3), \(fields.field4), \(fields.field5), \(fields.field6), \(fields.field7), \(fields.field8), \(fields.field9), \(fields.field10),\(fields.field11), \(fields.field12), \(fields.field13), \(fields.field14), \(fields.field15), \(fields.field16), \(fields.field17), \(fields.field18), \(fields.field19), \(fields.field20) \n")
+        }
+        
+        file.append("[MonthlyBudget], , , , , , , , , , , , , , , , , , , \n")
+       
+        let monthlyBudgets = MonthlyBudgetData().fetch()
+        for i in 0..<monthlyBudgets.count {
+            fields = MonthlyBudgetData().stringToEntityMap(budget: monthlyBudgets[i])
+            
+            file.append("\(fields.field1), \(fields.field2), \(fields.field3), \(fields.field4), \(fields.field5), \(fields.field6), \(fields.field7), \(fields.field8), \(fields.field9), \(fields.field10),\(fields.field11), \(fields.field12), \(fields.field13), \(fields.field14), \(fields.field15), \(fields.field16), \(fields.field17), \(fields.field18), \(fields.field19), \(fields.field20) \n")
+        }
+        
+        file.append("[MonthlyPayment], , , , , , , , , , , , , , , , , , , \n")
+        
+        let monthlyPayments = MonthlyPaymentData().fetch()
+        for i in 0..<monthlyPayments.count {
+            fields = MonthlyPaymentData().stringToEntityMap(payment: monthlyPayments[i])
+            
+            file.append("\(fields.field1), \(fields.field2), \(fields.field3), \(fields.field4), \(fields.field5), \(fields.field6), \(fields.field7), \(fields.field8), \(fields.field9), \(fields.field10),\(fields.field11), \(fields.field12), \(fields.field13), \(fields.field14), \(fields.field15), \(fields.field16), \(fields.field17), \(fields.field18), \(fields.field19), \(fields.field20) \n")
+        }
+        
         file.append("[Password], , , , , , , , , , , , , , , , , , , \n")
        
         let passwords = PasswordData().fetch()

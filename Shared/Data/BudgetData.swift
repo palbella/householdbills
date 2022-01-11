@@ -168,7 +168,21 @@ class BudgetData: ObservableObject {
         return budgetModel
     }
     
+    func stringToEntityMap(budget: BudgetModel) -> CSVFields
+    {
+        var fields = CSVFields()
+        
+        fields.field1 = budget.id.uuidString
+        fields.field2 = budget.name
+        fields.field3 = budget.symbol
+        fields.field4 = budget.currency
+        fields.field5 = String(budget.amount)
+        fields.field6 = budget.iconColor
+        fields.field7 = budget.iconContent
+        
 
+        return fields
+    }
     
    
 }

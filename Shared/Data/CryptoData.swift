@@ -150,5 +150,24 @@ SaveContext()
       
     }
     }
+    
+    func stringToEntityMap(crypto: CryptocurrencyModel) -> CSVFields
+    {
+        var fields = CSVFields()
+        
+        fields.field1 = crypto.id.uuidString
+        fields.field2 = crypto.name
+        fields.field3 = crypto.symbol
+        fields.field4 = String(crypto.amount)
+        fields.field6 = crypto.accountId.uuidString
+        fields.field7 = String(crypto.avgPurchase)
+        fields.field8 = String(crypto.price)
+        fields.field9 = String(crypto.notificated)
+        fields.field10 = String(crypto.notificationPriceUp)
+        fields.field11 = String(crypto.notificationPriceDown)
+        
+
+        return fields
+    }
    
 }
