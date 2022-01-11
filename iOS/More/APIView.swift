@@ -71,6 +71,8 @@ struct APIView: View {
                                Text("Currency").tag(2)
                            }
                            .pickerStyle(SegmentedPickerStyle())
+                           .padding(.leading, 15)
+                           .padding(.trailing, 15)
 
                            switch(selectedTab) {
                                case 0:
@@ -276,7 +278,7 @@ struct APIView: View {
        
     }
     
-    
+   
     
 }
 

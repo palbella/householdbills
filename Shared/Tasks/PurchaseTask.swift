@@ -62,11 +62,11 @@ class IPAService: NSObject {
             if(savedSettings[0].subscriptionVerification != nil) {
                 if(savedSettings[0].subscriptionVerification! < pastMonth!) {
                     print("Restoring products ...")
-                    SKPaymentQueue.default().restoreCompletedTransactions()
+//                    SKPaymentQueue.default().restoreCompletedTransactions()
                 }
             } else {
                 print("Restoring products ...")
-                SKPaymentQueue.default().restoreCompletedTransactions()
+//                SKPaymentQueue.default().restoreCompletedTransactions()
             }
            
         } catch {

@@ -23,6 +23,7 @@ struct MoreView: View {
     @State var isShowingPassword: Bool = false
     @State var isShowingNotification: Bool = false
     @State var isShowingFeedback: Bool = false
+    @State var isShowingEI: Bool = false
     @State var isShowingAPI: Bool = false
     
     @State var settingsObj: SettingsModel = SettingsModel()
@@ -53,6 +54,11 @@ struct MoreView: View {
     @Binding var popupMessasge: String
     @Binding var popupTitle: String
     @Binding var popupImage: String
+    
+    @State private var isImporting: Bool = false
+       @State private var fileContentString = ""
+       @State var alertMsg = ""
+       @State var showAlert = false
 
     func onAppear() {
         self.currencies.items = fetchCurrencies.fetch(includeNotSelected: true)
@@ -296,6 +302,39 @@ struct MoreView: View {
                 .padding(.leading, 20)
                 .padding(.trailing, 20)
                    
+                HStack(spacing: 0) {
+                    
+                    Button(action: {
+                        self.exportData()
+                    }) {
+                        CardMenu(prompt: "tray.and.arrow.up", title: "Export")
+                    }
+                    
+                  
+                    Spacer()
+                    
+                    Button(action: {
+                        self.isImporting = true
+                    }) {
+                        CardMenu(prompt: "tray.and.arrow.down", title: "Import")
+                    }
+                    
+                    
+                }
+                .padding(.leading, 20)
+                .padding(.trailing, 20)
+                .fileImporter(
+                            isPresented: $isImporting,
+                            allowedContentTypes: [.commaSeparatedText],
+                            allowsMultipleSelection: false
+                        ) { result in
+                            self.importData(result: result)
+                        }
+                        .alert(isPresented: $showAlert, content: {
+                            Alert(title: Text("Message"), message: Text(alertMsg), dismissButton: .destructive(Text("OK"), action: {
+                                
+                            }))
+                        })
                
             }
             .padding(.top, 80)
@@ -312,6 +351,89 @@ struct MoreView: View {
           
     
 }
+    
+    func exportData() {
+        
+        let task: ExportImportTask = ExportImportTask()
+        
+            let file_name = "householdBills.csv" // my file name
+            let path = NSURL(fileURLWithPath:
+            NSTemporaryDirectory()).appendingPathComponent(file_name) // Where the file    will be saved temporary in your ios device
+         
+        let csvHead = task.exportData(csv: "")
+          
+            do {
+                try csvHead.write(to: path!, atomically: true, encoding: .utf8)
+                let exportSheet = UIActivityViewController(activityItems: [path as Any], applicationActivities: nil)
+
+                UIApplication.shared.windows.first?.rootViewController?.present(exportSheet, animated: true, completion: nil)
+
+                print("Exported")
+            } catch {}
+                                                                       
+    }
+    
+    func importData(result: Result<[URL], Error>) {
+        
+        let task: ExportImportTask = ExportImportTask()
+        
+        do {
+            guard let selectedFileURL: URL = try result.get().first else {
+                alertMsg = "ERROR: Result.get() failed"
+//                                        self.reportError(error: alertMsg)
+                return
+                
+            }
+            print("selectedFileURL is \(selectedFileURL)")
+            
+            if selectedFileURL.startAccessingSecurityScopedResource() {
+                let fileManager = FileManager.default
+                if fileManager.fileExists(atPath: selectedFileURL.path) {
+                    print("FILE AVAILABLE")
+                } else {
+                    print("FILE NOT AVAILABLE")
+                }
+                
+                var error: NSError?
+                
+                NSFileCoordinator().coordinate(
+                    readingItemAt: selectedFileURL, options: .forUploading, error: &error) { url in
+                    print("coordinated URL", url)
+//                    let coordinatedURL = url
+                    
+//                                            isShowingFileDetails = false
+//                                            importedFileURL = selectedFileURL
+                    
+                    do {
+                        let resources = try selectedFileURL.resourceValues(forKeys:[.fileSizeKey])
+                        let fileSize = resources.fileSize!
+                        print ("File Size is \(fileSize)")
+                    } catch {
+                        print("Error: \(error)")
+                    }
+                }
+                
+                do {
+                    print("Getting Data from URL...")
+                    let inputData = try Data(contentsOf: selectedFileURL)
+                    task.importData(csv: inputData)
+                }
+            } else {
+                // Handle denied access
+                alertMsg = "ERROR: Unable to read file contents - Access Denied"
+//                                        self.reportError(error: alertMsg)
+                print(alertMsg)
+            }
+        } catch {
+            // Handle failure.
+            alertMsg = "ERROR: Unable to read file contents - \(error.localizedDescription)"
+//                                    self.reportError(error: alertMsg)
+            print(alertMsg)
+        }
+        
+    }
+    
+    
     private func saveSettings() {
         
         do {
