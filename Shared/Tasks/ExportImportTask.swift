@@ -110,15 +110,63 @@ class ExportImportTask: ObservableObject {
     
     func importData(url: URL) {
         
-//        let inputData = try Data(contentsOf: selectedFileURL)
-//        var file = csv
         
         do {
                    var contents = try String(contentsOf: url, encoding: .utf8)
                    contents = cleanRows(file: contents)
-            var records = csv(data: contents)
+            let records = csv(data: contents)
             
-            print(records[1])
+            var entity = ""
+            var isEntity = false
+            
+            for i in 0..<records.count {
+                let line = records[i]
+                
+                if(line[0].contains("[Account]")) {
+                    entity = "Account"
+                    isEntity = true
+                }
+                if(line[0].contains("[Goal]")) {
+                    entity = "Goal"
+                    isEntity = true
+                }
+                if(line[0].contains("[Budget]")) {
+                    entity = "Budget"
+                    isEntity = true
+                }
+                if(line[0].contains("[Payment]")) {
+                    entity = "Payment"
+                    isEntity = true
+                }
+                if(line[0].contains("[Password]")) {
+                    entity = "Password"
+                    isEntity = true
+                }
+                if(line[0].contains("[MonthlyBudget]")) {
+                    entity = "Budget"
+                    isEntity = true
+                }
+                if(line[0].contains("[MonthlyPayment]")) {
+                    entity = "Payment"
+                    isEntity = true
+                }
+                if(line[0].contains("[Stock]")) {
+                    entity = "Stock"
+                    isEntity = true
+                }
+                if(line[0].contains("[Cryptocurrency]")) {
+                    entity = "Cryptocurrency"
+                    isEntity = true
+                }
+                
+                if( isEntity != true) {
+                    importLine(line: line[0], entity: entity)
+                } else {
+                    isEntity = false
+                }
+                
+            }
+          
                } catch {
                    print("File Read Error for file \(url)")
                    
@@ -144,6 +192,10 @@ class ExportImportTask: ObservableObject {
         return result
     }
     
+    
+    func importLine(line: String, entity: String) {
+        print(line)
+    }
     
 }
 
