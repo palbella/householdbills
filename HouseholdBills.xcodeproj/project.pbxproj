@@ -124,6 +124,8 @@
 		6E912137278C71A800085637 /* GoalAdjustmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E912136278C71A800085637 /* GoalAdjustmentView.swift */; };
 		6E91213B278DC06D00085637 /* ExportImportTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91213A278DC06D00085637 /* ExportImportTask.swift */; };
 		6E91213C278DC06D00085637 /* ExportImportTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91213A278DC06D00085637 /* ExportImportTask.swift */; };
+		6E91213E278E1F1B00085637 /* PasswordData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91213D278E1F1B00085637 /* PasswordData.swift */; };
+		6E91213F278E1F1B00085637 /* PasswordData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91213D278E1F1B00085637 /* PasswordData.swift */; };
 		6E92589C2700DB2900D9CEEF /* BalanceChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E92589B2700DB2900D9CEEF /* BalanceChart.swift */; };
 		6E9A133B26E29DAD00D3C827 /* BudgetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9A133A26E29DAD00D3C827 /* BudgetListView.swift */; };
 		6E9A133D26E29E1100D3C827 /* BudgetAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9A133C26E29E1100D3C827 /* BudgetAddView.swift */; };
@@ -391,6 +393,7 @@
 		6E912134278859E900085637 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		6E912136278C71A800085637 /* GoalAdjustmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalAdjustmentView.swift; sourceTree = "<group>"; };
 		6E91213A278DC06D00085637 /* ExportImportTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportImportTask.swift; sourceTree = "<group>"; };
+		6E91213D278E1F1B00085637 /* PasswordData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordData.swift; sourceTree = "<group>"; };
 		6E9258962700D90200D9CEEF /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "Charts-master/Charts.xcodeproj"; sourceTree = "<group>"; };
 		6E92589B2700DB2900D9CEEF /* BalanceChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceChart.swift; sourceTree = "<group>"; };
 		6E9A133A26E29DAD00D3C827 /* BudgetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetListView.swift; sourceTree = "<group>"; };
@@ -722,6 +725,7 @@
 				6EEF27E42736847A00614AB4 /* MontlyPurchaseItemData.swift */,
 				6ED50C522746B80000E01A5E /* TutorialData.swift */,
 				6EF2E60A2785D55A00C6A06F /* APIData.swift */,
+				6E91213D278E1F1B00085637 /* PasswordData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1252,6 +1256,7 @@
 				6E7192B72731D8D200DF4436 /* MonthlyPurchaseData.swift in Sources */,
 				6E674455275D6AE70003E17D /* PopupView.swift in Sources */,
 				6E5965C826F8F0D500010966 /* CurrencyData.swift in Sources */,
+				6E91213E278E1F1B00085637 /* PasswordData.swift in Sources */,
 				6E7192C02731EECA00DF4436 /* PurchaseAddView.swift in Sources */,
 				6ED1907526D7EC4D001D1C2D /* HeaderView.swift in Sources */,
 				6E9DBA7C26E00A2600F0F15C /* SharedHelpers.swift in Sources */,
@@ -1351,6 +1356,7 @@
 				6E7DDA43272872B4006697FB /* TransactionModel.swift in Sources */,
 				6ED2AE2E2728AC6C007D275C /* CurrencyTask.swift in Sources */,
 				6E7192BB2731EC9700DF4436 /* PurchaseData.swift in Sources */,
+				6E91213F278E1F1B00085637 /* PasswordData.swift in Sources */,
 				6E7DDA5327287536006697FB /* AccountTypesModel.swift in Sources */,
 				6E7DDA4D2728751D006697FB /* PaymentModel.swift in Sources */,
 				6E7DDA5227287532006697FB /* CardModel.swift in Sources */,

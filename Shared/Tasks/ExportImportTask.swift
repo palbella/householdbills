@@ -22,22 +22,113 @@ class ExportImportTask: ObservableObject {
         
         var file = csv
         
-        file = "No, Name, email, phone\n" // These are the columns titles
-            let number = 0
-        let name = "aaa"
-        let email = "ffff"
-            // 1st Step
+        file = "[Account], , , , , , , , , , , , , , , , , , , \n"
         
-        file.append("\(number), \(name), \(email), \(email) \n")
-        file.append("\(number), \(name), \(email), \(email) \n")
+        var fields = CSVFields()
+       
+        let accounts = AccountData().fetch()
+        for i in 0..<accounts.count {
+            fields = AccountData().stringToEntityMap(account: accounts[i])
+            
+            file.append("\(fields.field1), \(fields.field2), \(fields.field3), \(fields.field4), \(fields.field5), \(fields.field6), \(fields.field7), \(fields.field8), \(fields.field9), \(fields.field10),\(fields.field11), \(fields.field12), \(fields.field13), \(fields.field14), \(fields.field15), \(fields.field16), \(fields.field17), \(fields.field18), \(fields.field19), \(fields.field20) \n")
+        }
+        
+        file.append("[Password], , , , , , , , , , , , , , , , , , , \n")
+       
+        let passwords = PasswordData().fetch()
+        for i in 0..<passwords.count {
+            fields = PasswordData().stringToEntityMap(password: passwords[i])
+            
+            file.append("\(fields.field1), \(fields.field2), \(fields.field3), \(fields.field4), \(fields.field5), \(fields.field6), \(fields.field7), \(fields.field8), \(fields.field9), \(fields.field10),\(fields.field11), \(fields.field12), \(fields.field13), \(fields.field14), \(fields.field15), \(fields.field16), \(fields.field17), \(fields.field18), \(fields.field19), \(fields.field20) \n")
+        }
      
         return file
     }
     
-    func importData(csv: Data) -> String {
+    func importData(url: URL) {
         
-        var file = csv
+//        let inputData = try Data(contentsOf: selectedFileURL)
+//        var file = csv
+        
+        do {
+                   var contents = try String(contentsOf: url, encoding: .utf8)
+                   contents = cleanRows(file: contents)
+            var records = csv(data: contents)
+            
+            print(records[1])
+               } catch {
+                   print("File Read Error for file \(url)")
+                   
+               }
      
-        return "file"
+     
+    }
+    
+    func cleanRows(file:String)->String{
+        var cleanFile = file
+        cleanFile = cleanFile.replacingOccurrences(of: "\r", with: "\n")
+        cleanFile = cleanFile.replacingOccurrences(of: "\n\n", with: "\n")
+        return cleanFile
+    }
+    
+    func csv(data: String) -> [[String]] {
+        var result: [[String]] = []
+        let rows = data.components(separatedBy: "\n")
+        for row in rows {
+            let columns = row.components(separatedBy: ";")
+            result.append(columns)
+        }
+        return result
+    }
+    
+    
+}
+
+
+struct CSVFields: Hashable {
+
+     
+    var field1: String
+    var field2: String
+    var field3: String
+    var field4: String
+    var field5: String
+    var field6: String
+    var field7: String
+    var field8: String
+    var field9: String
+    var field10: String
+    var field11: String
+    var field12: String
+    var field13: String
+    var field14: String
+    var field15: String
+    var field16: String
+    var field17: String
+    var field18: String
+    var field19: String
+    var field20: String
+    
+    init() {
+        self.field1 = ""
+        self.field2 = ""
+        self.field3 = ""
+        self.field4 = ""
+        self.field5 = ""
+        self.field6 = ""
+        self.field7 = ""
+        self.field8 = ""
+        self.field9 = ""
+        self.field10 = ""
+        self.field11 = ""
+        self.field12 = ""
+        self.field13 = ""
+        self.field14 = ""
+        self.field15 = ""
+        self.field16 = ""
+        self.field17 = ""
+        self.field18 = ""
+        self.field19 = ""
+        self.field20 = ""
     }
 }

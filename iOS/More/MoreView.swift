@@ -415,8 +415,7 @@ struct MoreView: View {
                 
                 do {
                     print("Getting Data from URL...")
-                    let inputData = try Data(contentsOf: selectedFileURL)
-                    task.importData(csv: inputData)
+                    task.importData(url: selectedFileURL)
                 }
             } else {
                 // Handle denied access

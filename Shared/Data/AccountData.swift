@@ -193,5 +193,24 @@ class AccountData: ObservableObject {
         return accountModel
     }
     
+    func stringToEntityMap(account: AccountModel) -> CSVFields
+    {
+        var fields = CSVFields()
+        
+        fields.field1 = account.id.uuidString
+        fields.field2 = account.name
+        fields.field3 = account.symbol
+        fields.field4 = account.currency
+        fields.field5 = String(account.amount)
+        fields.field6 = account.iconColor
+        fields.field7 = account.iconContent
+        fields.field8 = account.type
+        fields.field9 = String(account.ignoreGoal)
+        fields.field10 = account.group
+        
+
+        return fields
+    }
+    
    
 }
