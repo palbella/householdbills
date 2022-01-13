@@ -369,6 +369,11 @@ struct MoreView: View {
                 UIApplication.shared.windows.first?.rootViewController?.present(exportSheet, animated: true, completion: nil)
 
                 print("Exported")
+              
+                self.toastMessasge = LocalizedStringKey("Data Exported").toString()
+                self.isShowingToast = true
+                self.toastError = false
+                
             } catch {}
                                                                        
     }
@@ -380,7 +385,6 @@ struct MoreView: View {
         do {
             guard let selectedFileURL: URL = try result.get().first else {
                 alertMsg = "ERROR: Result.get() failed"
-//                                        self.reportError(error: alertMsg)
                 return
                 
             }
@@ -392,17 +396,15 @@ struct MoreView: View {
                     print("FILE AVAILABLE")
                 } else {
                     print("FILE NOT AVAILABLE")
+                    self.toastMessasge = LocalizedStringKey("File Not Available").toString()
+                    self.isShowingToast = true
+                    self.toastError = true
                 }
                 
                 var error: NSError?
                 
                 NSFileCoordinator().coordinate(
                     readingItemAt: selectedFileURL, options: .forUploading, error: &error) { url in
-                    print("coordinated URL", url)
-//                    let coordinatedURL = url
-                    
-//                                            isShowingFileDetails = false
-//                                            importedFileURL = selectedFileURL
                     
                     do {
                         let resources = try selectedFileURL.resourceValues(forKeys:[.fileSizeKey])
@@ -410,24 +412,34 @@ struct MoreView: View {
                         print ("File Size is \(fileSize)")
                     } catch {
                         print("Error: \(error)")
+                        self.toastMessasge = LocalizedStringKey("Import Error").toString()
+                        self.isShowingToast = true
+                        self.toastError = true
                     }
                 }
                 
                 do {
                     print("Getting Data from URL...")
                     task.importData(url: selectedFileURL)
+                    self.toastMessasge = LocalizedStringKey("Data Imported").toString()
+                    self.isShowingToast = true
+                    self.toastError = false
                 }
             } else {
                 // Handle denied access
                 alertMsg = "ERROR: Unable to read file contents - Access Denied"
-//                                        self.reportError(error: alertMsg)
                 print(alertMsg)
+                self.toastMessasge = LocalizedStringKey("Import Error").toString()
+                self.isShowingToast = true
+                self.toastError = true
             }
         } catch {
             // Handle failure.
             alertMsg = "ERROR: Unable to read file contents - \(error.localizedDescription)"
-//                                    self.reportError(error: alertMsg)
             print(alertMsg)
+            self.toastMessasge = LocalizedStringKey("Import Error").toString()
+            self.isShowingToast = true
+            self.toastError = true
         }
         
     }

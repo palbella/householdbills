@@ -184,5 +184,45 @@ class GoalData: ObservableObject {
         
         return fields
     }
+    
+    func entityToStringMap (line: String)
+    {
+        let array = line.components(separatedBy: ",")
+        if(array.count == 20) {
+            
+            do {
+                    let request: NSFetchRequest<Goal> = Goal.fetchRequest()
+                    request.predicate = NSPredicate(format: "id = %@", array[0].trimmingCharacters(in: .whitespacesAndNewlines) as CVarArg)
+                let savedGoal = try  self.viewContext.fetch(request)
+                
+                var validator = ExportImportTask().validateCurrency(currency: array[3].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateColor(color: array[5].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateIcon(icon: array[6].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateDouble(value: array[7].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateDouble(value: array[4].trimmingCharacters(in: .whitespacesAndNewlines))
+                
+                if(savedGoal.count < 1 && validator) {
+                    
+                    let newGoal = Goal(context: viewContext)
+                    newGoal.id = UUID(uuidString: array[0].trimmingCharacters(in: .whitespacesAndNewlines))
+                    newGoal.name = array[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newGoal.symbol = array[2].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newGoal.currency = array[3].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newGoal.amount = Double(array[4].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    newGoal.iconColor = array[5].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newGoal.iconContent = array[6].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newGoal.target = Double(array[7].trimmingCharacters(in: .whitespacesAndNewlines))!
+                  
+                    
+
+          SaveContext()
+                }
+                
+            } catch {
+                print(error)
+            }
+            
+        }
+    }
    
 }

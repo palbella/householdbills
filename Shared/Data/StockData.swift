@@ -171,6 +171,47 @@ SaveContext()
 
         return fields
     }
+    
+    func entityToStringMap (line: String)
+    {
+        let array = line.components(separatedBy: ",")
+        if(array.count == 20) {
+            
+            do {
+                    let request: NSFetchRequest<Stock> = Stock.fetchRequest()
+                    request.predicate = NSPredicate(format: "id = %@", array[0].trimmingCharacters(in: .whitespacesAndNewlines) as CVarArg)
+                let savedStock = try  self.viewContext.fetch(request)
+                
+                var validator = ExportImportTask().validateDouble(value: array[3].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateDouble(value: array[5].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateDouble(value: array[6].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateDouble(value: array[8].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateDouble(value: array[9].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateBoolean(value: array[7].trimmingCharacters(in: .whitespacesAndNewlines))
+                
+                if(savedStock.count < 1 && validator) {
+                    
+                    let newStock = Stock(context: viewContext)
+                    newStock.id = UUID(uuidString: array[0].trimmingCharacters(in: .whitespacesAndNewlines))
+                    newStock.name = array[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newStock.symbol = array[2].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newStock.amount = Double(array[3].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    newStock.accountId = UUID(uuidString: array[4].trimmingCharacters(in: .whitespacesAndNewlines))
+                    newStock.avgPurchase = Double(array[5].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    newStock.price = Double(array[6].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    newStock.notificated = (array[7].trimmingCharacters(in: .whitespacesAndNewlines) as NSString).boolValue
+                    newStock.notificationPriceUp = Double(array[8].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    newStock.notificationPriceDown = Double(array[9].trimmingCharacters(in: .whitespacesAndNewlines))!
+
+          SaveContext()
+                }
+                
+            } catch {
+                print(error)
+            }
+            
+        }
+    }
    
 }
 

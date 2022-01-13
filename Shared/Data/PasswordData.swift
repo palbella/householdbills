@@ -40,6 +40,22 @@ class PasswordData: ObservableObject {
     }
     
   
+    func addPassword(password: PasswordModel)
+    {
+      
+            withAnimation {
+               
+                let newPassword = Password(context: viewContext)
+                newPassword.id = UUID()
+                newPassword.name = password.name
+                newPassword.password = password.password
+               
+                
+
+      SaveContext()
+            }
+   
+    }
  
     
     private func SaveContext () {
@@ -79,5 +95,35 @@ class PasswordData: ObservableObject {
         return fields
     }
     
+    
+    func entityToStringMap (line: String)
+    {
+        let array = line.components(separatedBy: ",")
+        if(array.count == 20) {
+            
+            do {
+                    let request: NSFetchRequest<Password> = Password.fetchRequest()
+                    request.predicate = NSPredicate(format: "id = %@", array[0].trimmingCharacters(in: .whitespacesAndNewlines) as CVarArg)
+                let savedPassword = try  self.viewContext.fetch(request)
+                
+                
+                if(savedPassword.count < 1) {
+                    
+                    let newPassword = Password(context: viewContext)
+                    newPassword.id = UUID(uuidString: array[0].trimmingCharacters(in: .whitespacesAndNewlines))
+                    newPassword.name = array[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newPassword.password = array[2].trimmingCharacters(in: .whitespacesAndNewlines)
+                   
+                    
+
+          SaveContext()
+                }
+                
+            } catch {
+                print(error)
+            }
+            
+        }
+    }
    
 }

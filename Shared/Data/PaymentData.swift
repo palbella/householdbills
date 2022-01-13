@@ -268,17 +268,63 @@ class PaymentData: ObservableObject {
         fields.field6 = payment.iconColor
         fields.field7 = payment.iconContent
         fields.field8 = String(payment.isPaid)
-        fields.field8 = String(payment.isGoal)
+        fields.field9 = String(payment.isGoal)
         if(payment.goalId != nil) {
-            fields.field8 = payment.goalId!.uuidString
+            fields.field10 = payment.goalId!.uuidString
         }
-        fields.field9 = payment.account.uuidString
-        fields.field10 = String(payment.notificationDay)
-        fields.field10 = String(payment.notificated)
-        fields.field10 = String(payment.category)
+        fields.field11 = payment.account.uuidString
+        fields.field12 = String(payment.notificationDay)
+        fields.field13 = String(payment.notificated)
+        fields.field14 = String(payment.category)
 
         return fields
     }
     
+    func entityToStringMap (line: String)
+    {
+        let array = line.components(separatedBy: ",")
+        if(array.count == 20) {
+            
+            do {
+                    let request: NSFetchRequest<Payment> = Payment.fetchRequest()
+                    request.predicate = NSPredicate(format: "id = %@", array[0].trimmingCharacters(in: .whitespacesAndNewlines) as CVarArg)
+                let savedPayment = try  self.viewContext.fetch(request)
+                
+                var validator = ExportImportTask().validateCurrency(currency: array[3].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateColor(color: array[5].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateIcon(icon: array[6].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateDouble(value: array[4].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateBoolean(value: array[8].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateBoolean(value: array[7].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateBoolean(value: array[12].trimmingCharacters(in: .whitespacesAndNewlines))
+                
+                if(savedPayment.count < 1 && validator) {
+                    
+                    let newPayment = Payment(context: viewContext)
+                    newPayment.id = UUID(uuidString: array[0].trimmingCharacters(in: .whitespacesAndNewlines))
+                    newPayment.name = array[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newPayment.symbol = array[2].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newPayment.currency = array[3].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newPayment.amount = Double(array[4].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    newPayment.iconColor = array[5].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newPayment.iconContent = array[6].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newPayment.isPaid = (array[7].trimmingCharacters(in: .whitespacesAndNewlines) as NSString).boolValue
+                    newPayment.isGoal = (array[8].trimmingCharacters(in: .whitespacesAndNewlines) as NSString).boolValue
+                    newPayment.goalId = UUID(uuidString: array[9].trimmingCharacters(in: .whitespacesAndNewlines))
+                    newPayment.account = UUID(uuidString: array[10].trimmingCharacters(in: .whitespacesAndNewlines))
+                    newPayment.notificationDay = Int32(array[11].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    newPayment.notificated = (array[12].trimmingCharacters(in: .whitespacesAndNewlines) as NSString).boolValue
+                    newPayment.category = Int32(array[13].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    
+
+          SaveContext()
+                }
+                
+            } catch {
+                print(error)
+            }
+            
+        }
+    }
    
 }

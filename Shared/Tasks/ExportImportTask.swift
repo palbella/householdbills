@@ -143,11 +143,11 @@ class ExportImportTask: ObservableObject {
                     isEntity = true
                 }
                 if(line[0].contains("[MonthlyBudget]")) {
-                    entity = "Budget"
+                    entity = "MonthlyBudget"
                     isEntity = true
                 }
                 if(line[0].contains("[MonthlyPayment]")) {
-                    entity = "Payment"
+                    entity = "MonthlyPayment"
                     isEntity = true
                 }
                 if(line[0].contains("[Stock]")) {
@@ -194,7 +194,105 @@ class ExportImportTask: ObservableObject {
     
     
     func importLine(line: String, entity: String) {
-        print(line)
+        if(entity == "Account") {
+            AccountData().entityToStringMap(line: line)
+        }
+        if(entity == "Goal") {
+            GoalData().entityToStringMap(line: line)
+        }
+        if(entity == "Budget") {
+            BudgetData().entityToStringMap(line: line)
+        }
+        if(entity == "Payment") {
+            PaymentData().entityToStringMap(line: line)
+        }
+        if(entity == "Password") {
+            PasswordData().entityToStringMap(line: line)
+        }
+        if(entity == "MonthlyBudget") {
+            MonthlyBudgetData().entityToStringMap(line: line)
+        }
+        if(entity == "MonthlyPayment") {
+            MonthlyPaymentData().entityToStringMap(line: line)
+        }
+        if(entity == "Stock") {
+            StockData().entityToStringMap(line: line)
+        }
+        if(entity == "Cryptocurrency") {
+            CryptocurrencyData().entityToStringMap(line: line)
+        }
+    }
+    
+    func validateCurrency(currency: String) -> Bool {
+        var validator = false
+        
+        let currencies = CurrencyData().fetch(includeNotSelected: true)
+        
+        for i in 0..<currencies.count {
+            validator = validator || (currencies[i].code == currency)
+        }
+        
+        return validator
+    }
+    
+    func validateColor(color: String) -> Bool {
+        var validator = false
+        
+        let colors = GetColors().items
+
+        for i in 0..<colors.count {
+            validator = validator || (colors[i].content == color)
+        }
+
+        return validator
+    }
+    
+    func validateIcon(icon: String) -> Bool {
+        var validator = false
+        
+        let icons = GetIcons().items
+
+        for i in 0..<icons.count {
+            validator = validator || (icons[i].content == icon)
+        }
+
+        return validator
+    }
+    
+    func validateAccountType(type: String) -> Bool {
+        var validator = false
+        
+        let types = ["saving", "cash", "stock", "crypto"]
+
+        for i in 0..<types.count {
+            validator = validator || (types[i] == type)
+        }
+
+        return validator
+    }
+    
+    func validateBoolean(value: String) -> Bool {
+        var validator = false
+        
+        let types = ["true", "false"]
+
+        for i in 0..<types.count {
+            validator = validator || (types[i] == value)
+        }
+
+        return validator
+    }
+    
+    func validateDouble(value: String) -> Bool {
+        var validator = false
+        
+        if Double(value) != nil  {
+            validator = true
+        } else {
+            validator = false
+        }
+
+        return validator
     }
     
 }

@@ -212,5 +212,48 @@ class AccountData: ObservableObject {
         return fields
     }
     
+    
+    func entityToStringMap (line: String)
+    {
+        let array = line.components(separatedBy: ",")
+        if(array.count == 20) {
+            
+            do {
+                    let request: NSFetchRequest<Account> = Account.fetchRequest()
+                    request.predicate = NSPredicate(format: "id = %@", array[0].trimmingCharacters(in: .whitespacesAndNewlines) as CVarArg)
+                let savedAccount = try  self.viewContext.fetch(request)
+                
+                var validator = ExportImportTask().validateCurrency(currency: array[3].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateColor(color: array[5].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateIcon(icon: array[6].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateAccountType(type: array[7].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateBoolean(value: array[8].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateDouble(value: array[4].trimmingCharacters(in: .whitespacesAndNewlines))
+                
+                if(savedAccount.count < 1 && validator) {
+                    
+                    let newAccount = Account(context: viewContext)
+                      newAccount.id = UUID(uuidString: array[0].trimmingCharacters(in: .whitespacesAndNewlines))
+                      newAccount.name = array[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newAccount.symbol = array[2].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newAccount.currency = array[3].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newAccount.amount = Double(array[4].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    newAccount.iconColor = array[5].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newAccount.iconContent = array[6].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newAccount.type = array[7].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newAccount.ignoreGoal = (array[8].trimmingCharacters(in: .whitespacesAndNewlines) as NSString).boolValue
+                    newAccount.group = array[9].trimmingCharacters(in: .whitespacesAndNewlines)
+                    
+
+          SaveContext()
+                }
+                
+            } catch {
+                print(error)
+            }
+            
+        }
+    }
+    
    
 }

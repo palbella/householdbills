@@ -158,5 +158,42 @@ class MonthlyBudgetData: ObservableObject {
 
         return fields
     }
+    
+    func entityToStringMap (line: String)
+    {
+        let array = line.components(separatedBy: ",")
+        if(array.count == 20) {
+            
+            do {
+                    let request: NSFetchRequest<MonthlyBudget> = MonthlyBudget.fetchRequest()
+                    request.predicate = NSPredicate(format: "id = %@", array[0].trimmingCharacters(in: .whitespacesAndNewlines) as CVarArg)
+                let savedBudget = try  self.viewContext.fetch(request)
+                
+                var validator = ExportImportTask().validateCurrency(currency: array[3].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateColor(color: array[5].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateIcon(icon: array[6].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateDouble(value: array[4].trimmingCharacters(in: .whitespacesAndNewlines))
+                
+                if(savedBudget.count < 1 && validator) {
+                    
+                    let newBudget = MonthlyBudget(context: viewContext)
+                    newBudget.id = UUID(uuidString: array[0].trimmingCharacters(in: .whitespacesAndNewlines))
+                    newBudget.name = array[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newBudget.symbol = array[2].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newBudget.currency = array[3].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newBudget.amount = Double(array[4].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    newBudget.iconColor = array[5].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newBudget.iconContent = array[6].trimmingCharacters(in: .whitespacesAndNewlines)
+                    
+
+          SaveContext()
+                }
+                
+            } catch {
+                print(error)
+            }
+            
+        }
+    }
    
 }
