@@ -159,12 +159,12 @@ SaveContext()
         fields.field2 = crypto.name
         fields.field3 = crypto.symbol
         fields.field4 = String(crypto.amount)
-        fields.field6 = crypto.accountId.uuidString
-        fields.field7 = String(crypto.avgPurchase)
-        fields.field8 = String(crypto.price)
-        fields.field9 = String(crypto.notificated)
-        fields.field10 = String(crypto.notificationPriceUp)
-        fields.field11 = String(crypto.notificationPriceDown)
+        fields.field5 = crypto.accountId.uuidString
+        fields.field6 = String(crypto.avgPurchase)
+        fields.field7 = String(crypto.price)
+        fields.field8 = String(crypto.notificated)
+        fields.field9 = String(crypto.notificationPriceUp)
+        fields.field10 = String(crypto.notificationPriceDown)
         
 
         return fields
