@@ -21,6 +21,8 @@ struct StockView: View {
     @Binding var deleteStock: Bool
     @Binding var modalStock: Bool
     
+    @State var isShowingChart: Bool = false
+    
     @ObservedObject var icons = GetIcons()
     @ObservedObject var colors = GetColors()
     @ObservedObject var fetchCurrencies = CurrencyData()
@@ -94,7 +96,24 @@ struct StockView: View {
                                 Spacer()
                                 
                                 VStack {
-                                   
+                                    Spacer()
+                                    HStack {
+                                        Button(action: {
+                                            self.isShowingChart = true
+                                        }) {
+                                            
+                                            CommandButton(content: "chart.pie")
+                                        }
+                                        .sheet(isPresented: self.$isShowingChart, onDismiss: {
+                                            
+                                       
+                                            }) {
+                                                InvestmentChart(items: getChartValues(), modal: $isShowingChart)
+                                        }
+                                        .frame(width: 15, height: 15)
+                                        .padding(.leading, 10)
+                                        .padding(.bottom, 12)
+                                        
                                     Button(action: {
                                         if(settings.subscribed || self.stockFetchResult.count < 1) {
                                         self.stockSelected = StockModel()
@@ -113,6 +132,7 @@ struct StockView: View {
                                     .padding(.trailing, 17)
                                     .padding(.bottom, 12)
                                 }
+                }
                                
                             }
                           
@@ -320,7 +340,36 @@ struct StockView: View {
        
     }
     
-   
+    func getChartValues() -> [ChartModel]
+    {
+        var items:[ChartModel] = []
+        
+        let request: NSFetchRequest<Stock> = Stock.fetchRequest()
+
+        request.predicate = NSPredicate(format: "accountId = %@", self.$account.wrappedValue.id as CVarArg)
+
+            do {
+                let savedStocks = try self.viewContext.fetch(request)
+                
+                for item in savedStocks {
+                    
+                    let amount: Double = currencies.convert(currencyFrom: "USD", currencyTo: self.account.currency, value: (item.price * item.amount))
+                    
+                    var newItem = ChartModel()
+                    newItem.name = item.name!
+                    newItem.amount = amount
+                    
+                    items.append(newItem)
+                    
+                }
+               
+            } catch {
+                print(error)
+            }
+        
+        return items
+    }
+    
     private func getTotals() {
         
         self.totalPrices = 0

@@ -23,6 +23,8 @@ struct CryptocurrencyView: View {
     @ObservedObject var colors = GetColors()
     @ObservedObject var fetchCurrencies = CurrencyData()
     
+    @State var isShowingChart: Bool = false
+    
     @Binding var isShowing: Bool
     @Binding var isShowingNew: Bool
     @Binding var deleteCrypto: Bool
@@ -99,6 +101,23 @@ struct CryptocurrencyView: View {
                                 Spacer()
                                 
                                 VStack {
+                                    Spacer()
+                                    HStack {
+                                        Button(action: {
+                                            self.isShowingChart = true
+                                        }) {
+                                            
+                                            CommandButton(content: "chart.pie")
+                                        }
+                                        .sheet(isPresented: self.$isShowingChart, onDismiss: {
+                                            
+                                       
+                                            }) {
+                                                InvestmentChart(items: getChartValues(), modal: $isShowingChart)
+                                        }
+                                        .frame(width: 15, height: 15)
+                                        .padding(.leading, 10)
+                                        .padding(.bottom, 12)
                                    
                                     Button(action: {
                                         if(settings.subscribed || self.cryptoFetchResult.count < 1) {
@@ -118,6 +137,7 @@ struct CryptocurrencyView: View {
                                     .padding(.trailing, 17)
                                     .padding(.bottom, 12)
                                 }
+                }
                                
                             }
                           
@@ -324,6 +344,36 @@ struct CryptocurrencyView: View {
        
     }
     
+    
+    func getChartValues() -> [ChartModel]
+    {
+        var items:[ChartModel] = []
+        
+        let request: NSFetchRequest<Cryptocurrency> = Cryptocurrency.fetchRequest()
+
+        request.predicate = NSPredicate(format: "accountId = %@", self.$account.wrappedValue.id as CVarArg)
+
+            do {
+                let savedCryptos = try self.viewContext.fetch(request)
+                
+                for item in savedCryptos {
+                    
+                    let amount: Double = currencies.convert(currencyFrom: "USD", currencyTo: self.account.currency, value: (item.price * item.amount))
+                    
+                    var newItem = ChartModel()
+                    newItem.name = item.name!
+                    newItem.amount = amount
+                    
+                    items.append(newItem)
+                    
+                }
+               
+            } catch {
+                print(error)
+            }
+        
+        return items
+    }
     
     private func getTotals() {
         

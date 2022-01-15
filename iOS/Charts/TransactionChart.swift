@@ -33,7 +33,7 @@ struct TransactionChart: View {
                 Section(header:
                             VStack(spacing: 20) {
                 
-                                Text("CATEGORIES")
+                    Text("CATEGORIES")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.top, 15)
                                 .padding(.leading, 10)
