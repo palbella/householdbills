@@ -99,34 +99,34 @@ struct MonthBalanceView: View {
                                         .padding(1)
                                 }
                                     
-                                    VStack(alignment: .center, spacing: 0) {
-                                        
-                                        Text("+")
-                                            .padding(1)
-                                    
-                                    Text("MONTLY ESTIMATED INCOME")
-                                            .font(.footnote)
-                                            .padding(1)
-                                        
-                                        Text("(\((settings.estimatedMontlyIncomes), specifier: "%.2f"))")
-                                            .font(.footnote)
-                                            .padding(1)
-                                       
-                                        
-                                    }
-                                    
-                                VStack(alignment: .center, spacing: 0) {
-                                    Text("-")
-                                            .padding(1)
-                                    
-                                    Text("ACQUIRED MONTHLY INCOME")
-                                        .font(.footnote)
-                                        .padding(1)
-                                    
-                                    Text("(\((self.incomes > settings.estimatedMontlyIncomes ? settings.estimatedMontlyIncomes : self.incomes), specifier: "%.2f"))")
-                                   .font(.footnote)
-                                        .padding(1)
-                                }
+//                                    VStack(alignment: .center, spacing: 0) {
+//
+//                                        Text("+")
+//                                            .padding(1)
+//
+//                                    Text("MONTLY ESTIMATED INCOME")
+//                                            .font(.footnote)
+//                                            .padding(1)
+//
+//                                        Text("(\((settings.estimatedMontlyIncomes), specifier: "%.2f"))")
+//                                            .font(.footnote)
+//                                            .padding(1)
+//
+//
+//                                    }
+//
+//                                VStack(alignment: .center, spacing: 0) {
+//                                    Text("-")
+//                                            .padding(1)
+//
+//                                    Text("ACQUIRED MONTHLY INCOME")
+//                                        .font(.footnote)
+//                                        .padding(1)
+//
+//                                    Text("(\((self.incomes > settings.estimatedMontlyIncomes ? settings.estimatedMontlyIncomes : self.incomes), specifier: "%.2f"))")
+//                                   .font(.footnote)
+//                                        .padding(1)
+//                                }
                                     
                                 VStack(alignment: .center, spacing: 0) {
                                     Text("-")
@@ -277,13 +277,14 @@ struct MonthBalanceView: View {
     
     func getCalc() -> Double {
         
-        var incomeCalculation = settings.estimatedMontlyIncomes
-        if(self.incomes < settings.estimatedMontlyIncomes) {
-
-            incomeCalculation = self.incomes
-        }
+//        var incomeCalculation = settings.estimatedMontlyIncomes
+//        if(self.incomes < settings.estimatedMontlyIncomes) {
+//
+//            incomeCalculation = self.incomes
+//        }
         
-        return self.totalGoalAccounts + settings.estimatedMontlyIncomes - incomeCalculation - self.totalPurchases - self.totalGoals - self.totalBudgets - self.totalPayments
+//        + settings.estimatedMontlyIncomes - incomeCalculation
+        return self.totalGoalAccounts  - self.totalPurchases - self.totalGoals - self.totalBudgets - self.totalPayments
     }
     
     private func getTotals()
