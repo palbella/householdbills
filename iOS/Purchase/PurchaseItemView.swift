@@ -21,6 +21,11 @@ struct PurchaseItemView: View {
     @ObservedObject var colors = GetColors()
     
     @Binding var purchase: PurchaseModel
+    @State var isShowingNew: Bool = false
+    
+    @State var name: String = ""
+    @State var amount: Decimal = 0
+    @State var price: Double = 0
     
     @Binding var totalPrices: Double
     
@@ -34,6 +39,11 @@ struct PurchaseItemView: View {
     @State var removeMode : Bool = false
     
     @Binding var isPlanning: Bool
+    
+    @State var isShowingToast: Bool = false
+    @State var toastMessasge: String = ""
+    @State var toastError: Bool = false
+    @State var save: Bool = false
     
     init(purchase: Binding<PurchaseModel>, totalPrices: Binding<Double>, isPlanning: Binding<Bool>  ) {
         
@@ -145,10 +155,25 @@ struct PurchaseItemView: View {
                     .padding(.bottom, 12)
                                    
                                     Button(action: {
-                                        self.addItem()
+                                        self.isShowingNew = true
+                                        self.save = false
                                     }) {
                                         
                                         CommandButton(content: "plus.circle")
+                                    }
+                                    .sheet(isPresented: self.$isShowingNew, onDismiss: {
+                                    
+                                        if(settings.fastApply || self.save) {
+                                            if(self.name != "") {
+                                                self.addItem()
+                                            }
+                                        }
+
+                                        }) {
+                                            PurchaseItemAddView(name: self.$name, amount: self.$amount, price: self.$price, modal: self.$isShowingNew, save: self.$save, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
+                                            .environmentObject(self.ui)
+                                                .environmentObject(self.settings)
+                                        
                                     }
                                     .frame(width: 15, height: 15)
                                     .padding(.leading, 10)
@@ -365,9 +390,11 @@ struct PurchaseItemView: View {
     func addItem () {
         
         if(self.isPlanning == true) {
-            self.purchaseItemMonthlyData.add(purchaseId: self.$purchase.wrappedValue.id)
+            let amount = Double(truncating: self.amount as NSNumber)
+            self.purchaseItemMonthlyData.add(purchaseId: self.$purchase.wrappedValue.id, name: self.name, amount: amount, price: self.price)
         } else {
-            self.purchaseItemData.add(purchaseId: self.$purchase.wrappedValue.id)
+            let amount = Double(truncating: self.amount as NSNumber)
+            self.purchaseItemData.add(purchaseId: self.$purchase.wrappedValue.id, name: self.name, amount: amount, price: self.price)
         }
         
        

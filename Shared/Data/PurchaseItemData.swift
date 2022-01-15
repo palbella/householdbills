@@ -161,13 +161,13 @@ class PurchaseItemData: ObservableObject {
     
     }
     
-    func add (purchaseId: UUID) {
+    func add (purchaseId: UUID, name: String, amount: Double, price: Double) {
         
         let newItem = PurchaseItem(context: viewContext)
         newItem.id = UUID()
-        newItem.name = "Item"
-        newItem.price = 0
-        newItem.amount = 1
+        newItem.name = name
+        newItem.price = price
+        newItem.amount = amount
         newItem.unit = "u"
         newItem.purchaseId = purchaseId
      
