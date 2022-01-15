@@ -305,7 +305,12 @@ struct MoreView: View {
                 HStack(spacing: 0) {
                     
                     Button(action: {
-                        self.exportData()
+                        if(settings.subscribed) {
+                            self.exportData()
+                        } else {
+                            self.showSubscribe = true
+                        }
+                        
                     }) {
                         CardMenu(prompt: "tray.and.arrow.up", title: "Export")
                     }
@@ -314,7 +319,12 @@ struct MoreView: View {
                     Spacer()
                     
                     Button(action: {
-                        self.isImporting = true
+                        if(settings.subscribed) {
+                            self.isImporting = true
+                        } else {
+                            self.showSubscribe = true
+                        }
+                        
                     }) {
                         CardMenu(prompt: "tray.and.arrow.down", title: "Import")
                     }

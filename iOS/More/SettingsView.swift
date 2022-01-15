@@ -179,6 +179,7 @@ struct SettingsView: View {
                 deleteAllData(entity: "Card")
                 deleteAllData(entity: "Transaction")
                 deleteAllData(entity: "Account")
+            deleteAllData(entity: "API")
                 deleteAllData(entity: "Goal")
                 deleteAllData(entity: "Budget")
                 deleteAllData(entity: "Payment")

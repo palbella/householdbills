@@ -16,6 +16,9 @@ struct GetMarketStocks {
     @State var notification: Bool
     @State var apiData = APIData()
     
+    @State var currencies = GetCurrencies()
+    @State var fetchCurrencies = CurrencyData()
+    
     let request: NSFetchRequest<Stock> = Stock.fetchRequest()
     
     init(viewContext: NSManagedObjectContext, notification: Bool = false) {
@@ -25,6 +28,7 @@ struct GetMarketStocks {
     } else {
             self.notification = false
         }
+        self.currencies.items = fetchCurrencies.fetch()
     }
     
     func run() {
@@ -157,7 +161,8 @@ struct GetMarketStocks {
                 
                 for index in 0..<savedStocks.count {
                     
-                    total = total + (savedStocks[index].price * savedStocks[index].amount)
+                    let amount: Double = currencies.convert(currencyFrom: "USD", currencyTo: savedAccounts[i].currency!, value: (savedStocks[index].price * savedStocks[index].amount))
+                    total = total + amount
                     
             }
                 savedAccounts[i].amount = total

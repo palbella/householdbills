@@ -21,6 +21,7 @@ struct CryptocurrencyView: View {
     
     @ObservedObject var icons = GetIcons()
     @ObservedObject var colors = GetColors()
+    @ObservedObject var fetchCurrencies = CurrencyData()
     
     @Binding var isShowing: Bool
     @Binding var isShowingNew: Bool
@@ -33,6 +34,7 @@ struct CryptocurrencyView: View {
     @Binding var totalInvestments: Double
     
     @State var cryptoData : CryptocurrencyData = CryptocurrencyData()
+    @State var currencies = GetCurrencies()
     
     public let predicate: NSPredicate
 
@@ -70,7 +72,12 @@ struct CryptocurrencyView: View {
         cryptoFetch = FetchRequest<Cryptocurrency>(entity: Cryptocurrency.entity(), sortDescriptors: [], predicate: predicate)
        }
     
- 
+ func onAppears() {
+     self.currencies.items = fetchCurrencies.fetch()
+     GetMarketCriptocurrencies(viewContext: viewContext).run()
+     getTotals()
+     
+    }
 
     var body: some View {
 
@@ -148,7 +155,7 @@ struct CryptocurrencyView: View {
                                                                                 
                                                                                 Spacer()
                                                                                 
-                                                                                Text(self.account.symbol + " " + String(item.price))
+                                                                                Text("$ " + String(item.price))
                                                                               .font(.system(size: 12))
                                                                                     .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor )
                                                                              
@@ -161,7 +168,7 @@ struct CryptocurrencyView: View {
                                                                                         .multilineTextAlignment(.trailing)
 
                                                                                    
-                                                                                    Text(self.account.symbol + " " + String(format: "%.2f", (item.price * item.amount))).padding(.leading, 5).padding(.trailing, 5).padding(.bottom, 5)
+                                                                                    Text(self.account.symbol + " " + String(format: "%.2f", currencies.convert(currencyFrom: "USD", currencyTo: self.account.currency, value: (item.price * item.amount)))).padding(.leading, 5).padding(.trailing, 5).padding(.bottom, 5)
                                                                                   .foregroundColor(fontColor)
                                                                                         .multilineTextAlignment(.trailing)
                                                                                   .font(.system(size: 10))
@@ -310,9 +317,8 @@ struct CryptocurrencyView: View {
             .padding(.top, 40)
             .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
             .onAppear() {
-                GetMarketCriptocurrencies(viewContext: viewContext).run()
-                getTotals()
-                        }
+                self.onAppears()
+            }
         }
         .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
        
@@ -331,8 +337,12 @@ struct CryptocurrencyView: View {
                 let savedCryptos = try self.viewContext.fetch(request)
                 
                 for item in savedCryptos {
-                    self.totalPrices = self.totalPrices + (item.price * item.amount)
-                    self.totalInvestments = self.totalInvestments + (item.avgPurchase * item.amount)
+                    
+                    let amount: Double = currencies.convert(currencyFrom: "USD", currencyTo: self.account.currency, value: (item.price * item.amount))
+                    let amountInvestment: Double = currencies.convert(currencyFrom: "USD", currencyTo: self.account.currency, value: (item.avgPurchase * item.amount))
+                    
+                    self.totalPrices = self.totalPrices + amount
+                    self.totalInvestments = self.totalInvestments + amountInvestment
                 }
                
             } catch {

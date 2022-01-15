@@ -14,6 +14,9 @@ struct GetMarketCriptocurrencies {
     @State var viewContext: NSManagedObjectContext
     @State var notification: Bool
     
+    @State var currencies = GetCurrencies()
+    @State var fetchCurrencies = CurrencyData()
+    
     let request: NSFetchRequest<Cryptocurrency> = Cryptocurrency.fetchRequest()
     
     init(viewContext: NSManagedObjectContext, notification: Bool = false) {
@@ -23,6 +26,7 @@ struct GetMarketCriptocurrencies {
         } else {
             self.notification = false
         }
+        self.currencies.items = fetchCurrencies.fetch()
     }
     
     func run() {
@@ -174,7 +178,8 @@ struct GetMarketCriptocurrencies {
                 
                 for index in 0..<savedCryptos.count {
                     
-                    total = total + (savedCryptos[index].price * savedCryptos[index].amount)
+                    let amount: Double = currencies.convert(currencyFrom: "USD", currencyTo: savedAccounts[i].currency!, value: (savedCryptos[index].price * savedCryptos[index].amount))
+                    total = total + amount
                     
             }
                 savedAccounts[i].amount = total

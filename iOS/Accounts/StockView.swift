@@ -23,11 +23,13 @@ struct StockView: View {
     
     @ObservedObject var icons = GetIcons()
     @ObservedObject var colors = GetColors()
+    @ObservedObject var fetchCurrencies = CurrencyData()
     
     @Binding var isShowing: Bool
     @Binding var isShowingNew: Bool
     
     @State var stockData : StockData = StockData()
+    @State var currencies = GetCurrencies()
     
     @Binding var stockSelected : StockModel
     
@@ -65,7 +67,12 @@ struct StockView: View {
         stockFetch = FetchRequest<Stock>(entity: Stock.entity(), sortDescriptors: [], predicate: predicate)
        }
     
- 
+    func onAppears() {
+        self.currencies.items = fetchCurrencies.fetch()
+        GetMarketStocks(viewContext: viewContext).run()
+        getTotals()
+        
+       }
 
     var body: some View {
 
@@ -156,7 +163,7 @@ struct StockView: View {
                                                                                         .multilineTextAlignment(.trailing)
 
 
-                                                                                    Text(self.account.symbol + " " + String(format: "%.2f", (item.price * item.amount))).padding(.leading, 5).padding(.trailing, 5).padding(.bottom, 5)
+                                                                                    Text(self.account.symbol + " " + String(format: "%.2f", currencies.convert(currencyFrom: "USD", currencyTo: self.account.currency, value: (item.price * item.amount)))).padding(.leading, 5).padding(.trailing, 5).padding(.bottom, 5)
                                                                                   .foregroundColor(fontColor)
                                                                                         .multilineTextAlignment(.trailing)
                                                                                   .font(.system(size: 10))
@@ -306,8 +313,7 @@ struct StockView: View {
             .padding(.top, 40)
             .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
             .onAppear() {
-                GetMarketStocks(viewContext: viewContext).run()
-                getTotals()
+                self.onAppears()
                         }
         }
         .background(colorScheme != .dark ? ui.lightBackgroundColor: ui.darkBackgroundColor)
@@ -326,8 +332,11 @@ struct StockView: View {
                 let savedStocks = try self.viewContext.fetch(request)
                 
                 for item in savedStocks {
-                    self.totalPrices = self.totalPrices + (item.price * item.amount)
-                    self.totalInvestments = self.totalInvestments + (item.avgPurchase * item.amount)
+                    let amount: Double = currencies.convert(currencyFrom: "USD", currencyTo: self.account.currency, value: (item.price * item.amount))
+                    let amountInvestment: Double = currencies.convert(currencyFrom: "USD", currencyTo: self.account.currency, value: (item.avgPurchase * item.amount))
+                    
+                    self.totalPrices = self.totalPrices + amount
+                    self.totalInvestments = self.totalInvestments + amountInvestment
                 }
                
             } catch {

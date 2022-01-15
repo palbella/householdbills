@@ -52,18 +52,19 @@ class IPAService: NSObject {
         
         do {
             
-            var dateComponent = DateComponents()
-            dateComponent.month = -1
-            
-            let pastMonth = Calendar.current.date(byAdding: dateComponent, to: Date())
+//            var dateComponent = DateComponents()
+//            dateComponent.month = -1
+//
+//            let pastMonth = Calendar.current.date(byAdding: dateComponent, to: Date())
             
         let savedSettings =  try viewContext.fetch(fetchRequest)
             
             if(savedSettings[0].subscriptionVerification != nil) {
-                if(savedSettings[0].subscriptionVerification! < pastMonth!) {
-                    print("Restoring products ...")
+                self.handleSubscription(dateTransaction: savedSettings[0].subscriptionVerification)
+//                if(savedSettings[0].subscriptionVerification! < pastMonth!) {
+//                    print("Restoring products ...")
 //                    SKPaymentQueue.default().restoreCompletedTransactions()
-                }
+//                }
             } else {
                 print("Restoring products ...")
 //                SKPaymentQueue.default().restoreCompletedTransactions()

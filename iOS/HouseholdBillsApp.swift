@@ -114,6 +114,7 @@ struct HouseholdBillsApp: App {
 
 
         do {
+          
             
         let savedSettings =  try persistenceController.container.viewContext.fetch(fetchRequest)
             let savedAPI =  try persistenceController.container.viewContext.fetch(fetchRequestAPI)
@@ -121,7 +122,7 @@ struct HouseholdBillsApp: App {
             if(savedSettings.count == 0) {
                 self.settings.welcome = true
             } else {
-              
+                
                 self.settings.welcome = false
                 self.settings.password = savedSettings[0].password!
                 self.settings.symbol = savedSettings[0].symbol!
