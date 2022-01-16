@@ -15,7 +15,7 @@ struct BalanceChart: View {
     @EnvironmentObject var settings: UserSettings
     @EnvironmentObject var ui: AppUI
     @Environment(\.managedObjectContext) private var viewContext
-    @State var showYear: Bool = true
+    @State var showYear: Bool = false
     @State var refresh: Bool = false
     
     var body: some View {
@@ -25,7 +25,7 @@ struct BalanceChart: View {
                 Section(header:
                             VStack(spacing: 0) {
                 
-                                Text("ANUAL BALANCE")
+                                Text("HISTORY BALANCE")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.top, 15)
                                 .padding(.leading, 10)

@@ -165,7 +165,8 @@ struct HouseholdBillsApp: App {
                 }
             }
 
-            runTasks() // If subscribe
+           
+            runTasks() 
             
 
         } catch {
@@ -177,10 +178,12 @@ struct HouseholdBillsApp: App {
         BackgroundThreadTask().scheduleAppRefresh()
         DailyBalanceTask(viewContext: persistenceController.container.viewContext, settings: settings).run()
         GetCarAlerts(viewContext: persistenceController.container.viewContext).run()
-        GetMarketCriptocurrencies(viewContext: persistenceController.container.viewContext).run()
-        GetMarketStocks(viewContext: persistenceController.container.viewContext).run()
-        if(settings.currencyUpdate == true) {
-        CurrencyTask(viewContext: persistenceController.container.viewContext).run()
+        if(settings.subscribed == true) {
+            GetMarketCriptocurrencies(viewContext: persistenceController.container.viewContext).run()
+            GetMarketStocks(viewContext: persistenceController.container.viewContext).run()
+            if(settings.currencyUpdate == true) {
+                CurrencyTask(viewContext: persistenceController.container.viewContext).run()
+            }
         }
     }
 

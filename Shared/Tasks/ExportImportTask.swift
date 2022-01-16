@@ -78,6 +78,24 @@ class ExportImportTask: ObservableObject {
             file.append("\(fields.field1), \(fields.field2), \(fields.field3), \(fields.field4), \(fields.field5), \(fields.field6), \(fields.field7), \(fields.field8), \(fields.field9), \(fields.field10),\(fields.field11), \(fields.field12), \(fields.field13), \(fields.field14), \(fields.field15), \(fields.field16), \(fields.field17), \(fields.field18), \(fields.field19), \(fields.field20) \n")
         }
         
+        file.append("[Purchase], , , , , , , , , , , , , , , , , , , \n")
+        
+        let purchases = PurchaseData().fetch()
+        for i in 0..<purchases.count {
+            fields = PurchaseData().stringToEntityMap(purchase: purchases[i])
+            
+            file.append("\(fields.field1), \(fields.field2), \(fields.field3), \(fields.field4), \(fields.field5), \(fields.field6), \(fields.field7), \(fields.field8), \(fields.field9), \(fields.field10),\(fields.field11), \(fields.field12), \(fields.field13), \(fields.field14), \(fields.field15), \(fields.field16), \(fields.field17), \(fields.field18), \(fields.field19), \(fields.field20) \n")
+        }
+        
+        file.append("[PurchaseItem], , , , , , , , , , , , , , , , , , , \n")
+        
+        let purchaseItems = PurchaseItemData().fetch()
+        for i in 0..<purchaseItems.count {
+            fields = PurchaseItemData().stringToEntityMap(purchaseItem: purchaseItems[i])
+            
+            file.append("\(fields.field1), \(fields.field2), \(fields.field3), \(fields.field4), \(fields.field5), \(fields.field6), \(fields.field7), \(fields.field8), \(fields.field9), \(fields.field10),\(fields.field11), \(fields.field12), \(fields.field13), \(fields.field14), \(fields.field15), \(fields.field16), \(fields.field17), \(fields.field18), \(fields.field19), \(fields.field20) \n")
+        }
+        
         file.append("[MonthlyBudget], , , , , , , , , , , , , , , , , , , \n")
        
         let monthlyBudgets = MonthlyBudgetData().fetch()
@@ -92,6 +110,24 @@ class ExportImportTask: ObservableObject {
         let monthlyPayments = MonthlyPaymentData().fetch()
         for i in 0..<monthlyPayments.count {
             fields = MonthlyPaymentData().stringToEntityMap(payment: monthlyPayments[i])
+            
+            file.append("\(fields.field1), \(fields.field2), \(fields.field3), \(fields.field4), \(fields.field5), \(fields.field6), \(fields.field7), \(fields.field8), \(fields.field9), \(fields.field10),\(fields.field11), \(fields.field12), \(fields.field13), \(fields.field14), \(fields.field15), \(fields.field16), \(fields.field17), \(fields.field18), \(fields.field19), \(fields.field20) \n")
+        }
+        
+        file.append("[MonthlyPurchase], , , , , , , , , , , , , , , , , , , \n")
+        
+        let monthlyPurchases = MonthlyPurchaseData().fetch()
+        for i in 0..<monthlyPurchases.count {
+            fields = MonthlyPurchaseData().stringToEntityMap(purchase: monthlyPurchases[i])
+            
+            file.append("\(fields.field1), \(fields.field2), \(fields.field3), \(fields.field4), \(fields.field5), \(fields.field6), \(fields.field7), \(fields.field8), \(fields.field9), \(fields.field10),\(fields.field11), \(fields.field12), \(fields.field13), \(fields.field14), \(fields.field15), \(fields.field16), \(fields.field17), \(fields.field18), \(fields.field19), \(fields.field20) \n")
+        }
+        
+        file.append("[MonthlyPurchaseItem], , , , , , , , , , , , , , , , , , , \n")
+        
+        let monthlyPurchaseItems = MonthlyPurchaseItemData().fetch()
+        for i in 0..<monthlyPurchaseItems.count {
+            fields = MonthlyPurchaseItemData().stringToEntityMap(purchaseItem: monthlyPurchaseItems[i])
             
             file.append("\(fields.field1), \(fields.field2), \(fields.field3), \(fields.field4), \(fields.field5), \(fields.field6), \(fields.field7), \(fields.field8), \(fields.field9), \(fields.field10),\(fields.field11), \(fields.field12), \(fields.field13), \(fields.field14), \(fields.field15), \(fields.field16), \(fields.field17), \(fields.field18), \(fields.field19), \(fields.field20) \n")
         }
@@ -158,6 +194,22 @@ class ExportImportTask: ObservableObject {
                     entity = "Cryptocurrency"
                     isEntity = true
                 }
+                if(line[0].contains("[Purchase]")) {
+                    entity = "Purchase"
+                    isEntity = true
+                }
+                if(line[0].contains("[PurchaseItem]")) {
+                    entity = "PurchaseItem"
+                    isEntity = true
+                }
+                if(line[0].contains("[MonthlyPurchase]")) {
+                    entity = "MonthlyPurchase"
+                    isEntity = true
+                }
+                if(line[0].contains("[MonthlyPurchaseItem]")) {
+                    entity = "MonthlyPurchaseItem"
+                    isEntity = true
+                }
                 
                 if( isEntity != true) {
                     importLine(line: line[0], entity: entity)
@@ -206,6 +258,12 @@ class ExportImportTask: ObservableObject {
         if(entity == "Payment") {
             PaymentData().entityToStringMap(line: line)
         }
+        if(entity == "Purchase") {
+            PurchaseData().entityToStringMap(line: line)
+        }
+        if(entity == "PurchaseItem") {
+            PurchaseItemData().entityToStringMap(line: line)
+        }
         if(entity == "Password") {
             PasswordData().entityToStringMap(line: line)
         }
@@ -214,6 +272,12 @@ class ExportImportTask: ObservableObject {
         }
         if(entity == "MonthlyPayment") {
             MonthlyPaymentData().entityToStringMap(line: line)
+        }
+        if(entity == "MonthlyPurchase") {
+            MonthlyPurchaseData().entityToStringMap(line: line)
+        }
+        if(entity == "MonthlyPurchaseItem") {
+            MonthlyPurchaseItemData().entityToStringMap(line: line)
         }
         if(entity == "Stock") {
             StockData().entityToStringMap(line: line)
@@ -287,6 +351,18 @@ class ExportImportTask: ObservableObject {
         var validator = false
         
         if Double(value) != nil  {
+            validator = true
+        } else {
+            validator = false
+        }
+
+        return validator
+    }
+    
+    func validateInt(value: String) -> Bool {
+        var validator = false
+        
+        if Int32(value) != nil  {
             validator = true
         } else {
             validator = false

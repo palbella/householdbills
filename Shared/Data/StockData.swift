@@ -161,12 +161,12 @@ SaveContext()
         fields.field2 = stock.name
         fields.field3 = stock.symbol
         fields.field4 = String(stock.amount)
-        fields.field6 = stock.accountId.uuidString
-        fields.field7 = String(stock.avgPurchase)
-        fields.field8 = String(stock.price)
-        fields.field9 = String(stock.notificated)
-        fields.field10 = String(stock.notificationPriceUp)
-        fields.field11 = String(stock.notificationPriceDown)
+        fields.field5 = stock.accountId.uuidString
+        fields.field6 = String(stock.avgPurchase)
+        fields.field7 = String(stock.price)
+        fields.field8 = String(stock.notificated)
+        fields.field9 = String(stock.notificationPriceUp)
+        fields.field10 = String(stock.notificationPriceDown)
         
 
         return fields

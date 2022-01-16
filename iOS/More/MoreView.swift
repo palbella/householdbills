@@ -381,8 +381,8 @@ struct MoreView: View {
                 print("Exported")
               
                 self.toastMessasge = LocalizedStringKey("Data Exported").toString()
-                self.isShowingToast = true
                 self.toastError = false
+                self.isShowingToast = true
                 
             } catch {}
                                                                        

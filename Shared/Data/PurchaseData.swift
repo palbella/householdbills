@@ -178,7 +178,72 @@ class PurchaseData: ObservableObject {
         return purchaseModel
     }
     
+    func stringToEntityMap(purchase: PurchaseModel) -> CSVFields
+    {
+        var fields = CSVFields()
+        
+        fields.field1 = purchase.id.uuidString
+        fields.field2 = purchase.name
+        fields.field3 = purchase.symbol
+        fields.field4 = purchase.currency
+        fields.field5 = String(purchase.amount)
+        fields.field6 = purchase.iconColor
+        fields.field7 = purchase.iconContent
+        if(purchase.account != nil) {
+            fields.field8 = purchase.account!.uuidString
+        } else {
+            fields.field8 = ""
+        }
+        fields.field9 = String(purchase.category)
+        
 
+        return fields
+    }
+    
+    
+    func entityToStringMap (line: String)
+    {
+        let array = line.components(separatedBy: ",")
+        if(array.count == 20) {
+            
+            do {
+                    let request: NSFetchRequest<Purchase> = Purchase.fetchRequest()
+                    request.predicate = NSPredicate(format: "id = %@", array[0].trimmingCharacters(in: .whitespacesAndNewlines) as CVarArg)
+                let savedPurchase = try  self.viewContext.fetch(request)
+                
+                var validator = ExportImportTask().validateCurrency(currency: array[3].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateColor(color: array[5].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateIcon(icon: array[6].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateInt(value: array[8].trimmingCharacters(in: .whitespacesAndNewlines))
+               
+                
+                if(savedPurchase.count < 1 && validator) {
+                    
+                    let newPurchase = Purchase(context: viewContext)
+                    newPurchase.id = UUID(uuidString: array[0].trimmingCharacters(in: .whitespacesAndNewlines))
+                    newPurchase.name = array[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newPurchase.symbol = array[2].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newPurchase.currency = array[3].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newPurchase.amount = Double(array[4].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    newPurchase.iconColor = array[5].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newPurchase.iconContent = array[6].trimmingCharacters(in: .whitespacesAndNewlines)
+                    if(array[7].trimmingCharacters(in: .whitespacesAndNewlines) != "") {
+                        newPurchase.account =  UUID(uuidString: array[7].trimmingCharacters(in: .whitespacesAndNewlines))
+                    }
+                    newPurchase.category = Int32(array[8].trimmingCharacters(in: .whitespacesAndNewlines))!
+                   
+                    
+
+          SaveContext()
+                }
+                
+            } catch {
+                print(error)
+            }
+            
+        }
+    }
+    
     
    
 }

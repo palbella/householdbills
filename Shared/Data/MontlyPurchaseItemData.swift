@@ -186,7 +186,56 @@ SaveContext()
         return purchaseItemModel
     }
     
+    func stringToEntityMap(purchaseItem: PurchaseItemModel) -> CSVFields
+    {
+        var fields = CSVFields()
+        
+        fields.field1 = purchaseItem.id.uuidString
+        fields.field2 = purchaseItem.name
+        fields.field3 = purchaseItem.unit
+        fields.field4 = String(purchaseItem.price)
+        fields.field5 = String(purchaseItem.amount)
+        
 
+        return fields
+    }
     
-   
+    
+    func entityToStringMap (line: String)
+    {
+        let array = line.components(separatedBy: ",")
+        if(array.count == 20) {
+            
+            do {
+                    let request: NSFetchRequest<MonthlyPurchaseItem> = MonthlyPurchaseItem.fetchRequest()
+                    request.predicate = NSPredicate(format: "id = %@", array[0].trimmingCharacters(in: .whitespacesAndNewlines) as CVarArg)
+                let savedPurchaseItem = try  self.viewContext.fetch(request)
+
+                var validator = ExportImportTask().validateDouble(value: array[3].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateDouble(value: array[4].trimmingCharacters(in: .whitespacesAndNewlines))
+
+
+                if(savedPurchaseItem.count < 1 && validator) {
+
+                    let newPurchase = MonthlyPurchaseItem(context: viewContext)
+                    newPurchase.id = UUID(uuidString: array[0].trimmingCharacters(in: .whitespacesAndNewlines))
+                    newPurchase.name = array[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newPurchase.unit = array[2].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newPurchase.price = Double(array[3].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    newPurchase.amount = Double(array[4].trimmingCharacters(in: .whitespacesAndNewlines))!
+                   
+
+          SaveContext()
+                }
+                
+            } catch {
+                print(error)
+            }
+            
+        }
+    }
+    
+    
+    
+    
 }

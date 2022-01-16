@@ -273,8 +273,10 @@
 "Stock Alert price" = "Stock Alert price";
 "Goal Adjustment" = "Goal Adjustment";
 "Data Exported" = "Data Exported";
+"Data Imported" = "Data Imported";
 "File Not Available" = "File Not Available";
 "Error" = "Error";
 "Import Error" = "Import Error";
 "Total Positions" = "Total Positions";
 "POSITIONS" = "POSITIONS";
+"HISTORY BALANCE" = "HISTORY BALANCE";
