@@ -116,7 +116,7 @@ class CarData: ObservableObject {
                     request.predicate = NSPredicate(format: "id = %@", array[0].trimmingCharacters(in: .whitespacesAndNewlines) as CVarArg)
                 let savedCar = try  self.viewContext.fetch(request)
                 
-                var validator = ExportImportTask().validateInt(value: array[5].trimmingCharacters(in: .whitespacesAndNewlines))
+                var validator = ExportImportTask().validateInt(value: array[3].trimmingCharacters(in: .whitespacesAndNewlines))
                 validator = validator && ExportImportTask().validateBoolean(value: array[6].trimmingCharacters(in: .whitespacesAndNewlines))
               
                
