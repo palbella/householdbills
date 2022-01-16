@@ -235,7 +235,11 @@ class PurchaseData: ObservableObject {
                         newPurchase.account =  UUID(uuidString: array[7].trimmingCharacters(in: .whitespacesAndNewlines))
                     }
                     newPurchase.category = Int32(array[8].trimmingCharacters(in: .whitespacesAndNewlines))!
-                    newPurchase.monthlyId = UUID(uuidString: array[9].trimmingCharacters(in: .whitespacesAndNewlines))
+                    
+                    if(array[9].trimmingCharacters(in: .whitespacesAndNewlines) != "")
+                    {
+                        newPurchase.monthlyId = UUID(uuidString: array[9].trimmingCharacters(in: .whitespacesAndNewlines))
+                    }
                     
 
           SaveContext()

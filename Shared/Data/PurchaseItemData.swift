@@ -214,6 +214,12 @@ SaveContext()
         fields.field3 = purchaseItem.unit
         fields.field4 = String(purchaseItem.price)
         fields.field5 = String(purchaseItem.amount)
+        fields.field6 = String(purchaseItem.purchased)
+        fields.field7 = purchaseItem.purchaseId.uuidString
+        if(purchaseItem.monthlyId != nil)
+        {
+            fields.field8 = purchaseItem.monthlyId!.uuidString
+        }
         
 
         return fields
@@ -242,7 +248,12 @@ SaveContext()
                     newPurchase.unit = array[2].trimmingCharacters(in: .whitespacesAndNewlines)
                     newPurchase.price = Double(array[3].trimmingCharacters(in: .whitespacesAndNewlines))!
                     newPurchase.amount = Double(array[4].trimmingCharacters(in: .whitespacesAndNewlines))!
-                   
+                    newPurchase.purchased = Bool(array[5].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    newPurchase.purchaseId = UUID(uuidString: array[6].trimmingCharacters(in: .whitespacesAndNewlines))
+                    if(array[7].trimmingCharacters(in: .whitespacesAndNewlines) != "")
+                    {
+                        newPurchase.monthlyId = UUID(uuidString: array[7].trimmingCharacters(in: .whitespacesAndNewlines))
+                    }
 
           SaveContext()
                 }

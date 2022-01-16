@@ -214,7 +214,11 @@ class BudgetData: ObservableObject {
                     newBudget.amount = Double(array[4].trimmingCharacters(in: .whitespacesAndNewlines))!
                     newBudget.iconColor = array[5].trimmingCharacters(in: .whitespacesAndNewlines)
                     newBudget.iconContent = array[6].trimmingCharacters(in: .whitespacesAndNewlines)
-                    newBudget.monthlyId = UUID(uuidString: array[7].trimmingCharacters(in: .whitespacesAndNewlines))
+                   
+                    if(array[7].trimmingCharacters(in: .whitespacesAndNewlines) != "")
+                    {
+                        newBudget.monthlyId = UUID(uuidString: array[7].trimmingCharacters(in: .whitespacesAndNewlines))
+                    }
                     
 
           SaveContext()

@@ -320,7 +320,11 @@ class PaymentData: ObservableObject {
                     newPayment.notificationDay = Int32(array[11].trimmingCharacters(in: .whitespacesAndNewlines))!
                     newPayment.notificated = (array[12].trimmingCharacters(in: .whitespacesAndNewlines) as NSString).boolValue
                     newPayment.category = Int32(array[13].trimmingCharacters(in: .whitespacesAndNewlines))!
-                    newPayment.monthlyId = UUID(uuidString: array[14].trimmingCharacters(in: .whitespacesAndNewlines))
+               
+                    if(array[14].trimmingCharacters(in: .whitespacesAndNewlines) != "")
+                    {
+                        newPayment.monthlyId = UUID(uuidString: array[14].trimmingCharacters(in: .whitespacesAndNewlines))
+                    }
 
           SaveContext()
                 }

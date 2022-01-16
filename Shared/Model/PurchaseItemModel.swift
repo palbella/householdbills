@@ -18,7 +18,7 @@ struct PurchaseItemModel: Hashable, Identifiable {
     var purchased: Bool
     var unit: String
     var lastone: Bool
-
+    var monthlyId: UUID?
     
     init() {
         self.id = UUID()
@@ -29,6 +29,7 @@ struct PurchaseItemModel: Hashable, Identifiable {
         self.amount = 0
         self.unit = ""
         self.lastone = false
+        self.monthlyId = nil
     }
 }
 
