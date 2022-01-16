@@ -200,7 +200,7 @@ SaveContext()
         purchaseItemModel.unit = purchaseItem.unit ?? ""
         purchaseItemModel.price = purchaseItem.price
         purchaseItemModel.amount = purchaseItem.amount
-   
+        purchaseItemModel.purchaseId = purchaseItem.purchaseId!
 
         return purchaseItemModel
     }

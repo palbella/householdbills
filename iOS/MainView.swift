@@ -129,6 +129,9 @@ struct MainView: View {
                              self.transaction.timestamp = Date()
                             self.updateAccount()
                            
+                            if(self.transaction.type == LocalizedStringKey("Expense").toString()) {
+                                self.transaction.amount = self.transaction.amount * -1
+                            }
                            
                             self.transactionData.addTransactions(transaction: transaction)
                         }
