@@ -155,6 +155,9 @@ struct PurchaseItemView: View {
                     .padding(.bottom, 12)
                                    
                                     Button(action: {
+                                        self.amount = 0
+                                        self.name = ""
+                                        self.price = 0
                                         self.isShowingNew = true
                                         self.save = false
                                     }) {
