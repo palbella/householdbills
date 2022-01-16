@@ -19,7 +19,7 @@ struct PurchaseModel: Hashable, Identifiable {
     var iconColor: String
     var account: UUID?
     var category: Int32
-
+    var monthlyId: UUID?
     
     init() {
         self.id = UUID()
@@ -31,6 +31,7 @@ struct PurchaseModel: Hashable, Identifiable {
         self.iconColor = ""
         self.account = nil
         self.category = 99
+        self.monthlyId = nil
     }
 }
 

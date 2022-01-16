@@ -174,6 +174,7 @@ class PurchaseData: ObservableObject {
         purchaseModel.iconContent = purchase.iconContent ?? ""
         purchaseModel.account = purchase.account
         purchaseModel.category = purchase.category
+        purchaseModel.monthlyId = purchase.monthlyId
 
         return purchaseModel
     }
@@ -195,7 +196,10 @@ class PurchaseData: ObservableObject {
             fields.field8 = ""
         }
         fields.field9 = String(purchase.category)
-        
+        if(purchase.monthlyId != nil)
+        {
+            fields.field10 = purchase.monthlyId!.uuidString
+        }
 
         return fields
     }
@@ -231,7 +235,7 @@ class PurchaseData: ObservableObject {
                         newPurchase.account =  UUID(uuidString: array[7].trimmingCharacters(in: .whitespacesAndNewlines))
                     }
                     newPurchase.category = Int32(array[8].trimmingCharacters(in: .whitespacesAndNewlines))!
-                   
+                    newPurchase.monthlyId = UUID(uuidString: array[9].trimmingCharacters(in: .whitespacesAndNewlines))
                     
 
           SaveContext()

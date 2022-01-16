@@ -164,6 +164,7 @@ class BudgetData: ObservableObject {
         budgetModel.amount = budget.amount
         budgetModel.iconColor = budget.iconColor ?? ""
         budgetModel.iconContent = budget.iconContent ?? ""
+        budgetModel.monthlyId = budget.monthlyId
 
         return budgetModel
     }
@@ -179,7 +180,10 @@ class BudgetData: ObservableObject {
         fields.field5 = String(budget.amount)
         fields.field6 = budget.iconColor
         fields.field7 = budget.iconContent
-        
+        if(budget.monthlyId != nil)
+        {
+            fields.field8 = budget.monthlyId!.uuidString
+        }
 
         return fields
     }
@@ -210,6 +214,7 @@ class BudgetData: ObservableObject {
                     newBudget.amount = Double(array[4].trimmingCharacters(in: .whitespacesAndNewlines))!
                     newBudget.iconColor = array[5].trimmingCharacters(in: .whitespacesAndNewlines)
                     newBudget.iconContent = array[6].trimmingCharacters(in: .whitespacesAndNewlines)
+                    newBudget.monthlyId = UUID(uuidString: array[7].trimmingCharacters(in: .whitespacesAndNewlines))
                     
 
           SaveContext()

@@ -17,7 +17,7 @@ struct BudgetModel: Hashable, Identifiable {
      var amount: Double
     var iconContent: String
     var iconColor: String
-
+    var monthlyId: UUID?
 
     
     init() {
@@ -28,6 +28,7 @@ struct BudgetModel: Hashable, Identifiable {
         self.amount = 0
         self.iconContent = ""
         self.iconColor = ""
+        self.monthlyId = nil
     }
 }
 
