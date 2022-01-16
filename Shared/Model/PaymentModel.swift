@@ -26,7 +26,7 @@ struct PaymentModel: Hashable, Identifiable {
     var priority: Int32
     var notificationDay: Int32
     var notificated: Bool
-    
+    var monthlyId: UUID?
 
     
     init() {
@@ -46,6 +46,7 @@ struct PaymentModel: Hashable, Identifiable {
         self.priority = 0
         self.notificated = false
         self.notificationDay = 0
+        self.monthlyId = nil
     }
 }
 

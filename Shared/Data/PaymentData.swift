@@ -251,6 +251,7 @@ class PaymentData: ObservableObject {
         paymentModel.notificationDay = payment.notificationDay
         paymentModel.notificated = payment.notificated
         paymentModel.category = payment.category
+        paymentModel.monthlyId = payment.monthlyId
 
         return paymentModel
     }
@@ -276,6 +277,10 @@ class PaymentData: ObservableObject {
         fields.field12 = String(payment.notificationDay)
         fields.field13 = String(payment.notificated)
         fields.field14 = String(payment.category)
+        if(payment.monthlyId != nil)
+        {
+            fields.field15 = payment.monthlyId!.uuidString
+        }
 
         return fields
     }
@@ -315,7 +320,7 @@ class PaymentData: ObservableObject {
                     newPayment.notificationDay = Int32(array[11].trimmingCharacters(in: .whitespacesAndNewlines))!
                     newPayment.notificated = (array[12].trimmingCharacters(in: .whitespacesAndNewlines) as NSString).boolValue
                     newPayment.category = Int32(array[13].trimmingCharacters(in: .whitespacesAndNewlines))!
-                    
+                    newPayment.monthlyId = UUID(uuidString: array[14].trimmingCharacters(in: .whitespacesAndNewlines))
 
           SaveContext()
                 }

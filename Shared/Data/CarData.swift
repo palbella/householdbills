@@ -117,11 +117,11 @@ class CarData: ObservableObject {
                 let savedCar = try  self.viewContext.fetch(request)
                 
                 var validator = ExportImportTask().validateInt(value: array[5].trimmingCharacters(in: .whitespacesAndNewlines))
-                validator = validator && ExportImportTask().validateBoolean(value: array[8].trimmingCharacters(in: .whitespacesAndNewlines))
+                validator = validator && ExportImportTask().validateBoolean(value: array[6].trimmingCharacters(in: .whitespacesAndNewlines))
               
                
                 
-                if(savedCar.count < 1 && validator) {
+                if(savedCar.count < 1 && validator) {                                                                       
                     
                     let newCar = Car(context: viewContext)
                     newCar.id = UUID(uuidString: array[0].trimmingCharacters(in: .whitespacesAndNewlines))
