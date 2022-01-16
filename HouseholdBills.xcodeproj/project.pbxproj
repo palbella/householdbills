@@ -15,6 +15,8 @@
 		6E25C06526F6A4CE003D4E0D /* DateInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E25C06426F6A4CE003D4E0D /* DateInput.swift */; };
 		6E334D8527930FE700D241B1 /* InvestmentChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E334D8427930FE600D241B1 /* InvestmentChart.swift */; };
 		6E334D8B2793260B00D241B1 /* PurchaseItemAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E334D8A2793260B00D241B1 /* PurchaseItemAddView.swift */; };
+		6E334D8D279468E600D241B1 /* CarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E334D8C279468E600D241B1 /* CarData.swift */; };
+		6E334D8E279468E700D241B1 /* CarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E334D8C279468E600D241B1 /* CarData.swift */; };
 		6E3DF14426E90E830066E928 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E3DF14326E90E830066E928 /* CategoryView.swift */; };
 		6E3E36532715308D002316B8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E3E36552715308D002316B8 /* Localizable.strings */; };
 		6E3F0C8C26C99CD600A807BE /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E3F0C8B26C99CD600A807BE /* Tests_iOS.swift */; };
@@ -303,6 +305,7 @@
 		6E25C06426F6A4CE003D4E0D /* DateInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateInput.swift; sourceTree = "<group>"; };
 		6E334D8427930FE600D241B1 /* InvestmentChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestmentChart.swift; sourceTree = "<group>"; };
 		6E334D8A2793260B00D241B1 /* PurchaseItemAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseItemAddView.swift; sourceTree = "<group>"; };
+		6E334D8C279468E600D241B1 /* CarData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarData.swift; sourceTree = "<group>"; };
 		6E3DF14326E90E830066E928 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		6E3E36542715308D002316B8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6E3E36562715342D002316B8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -730,6 +733,7 @@
 				6ED50C522746B80000E01A5E /* TutorialData.swift */,
 				6EF2E60A2785D55A00C6A06F /* APIData.swift */,
 				6E91213D278E1F1B00085637 /* PasswordData.swift */,
+				6E334D8C279468E600D241B1 /* CarData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1203,6 +1207,7 @@
 				6E5965B726F8BEEF00010966 /* CryptoTask.swift in Sources */,
 				6E9A134A26E3C81900D3C827 /* OrderingView.swift in Sources */,
 				6EB9C00D270FE3F500FB234C /* TransactionChart.swift in Sources */,
+				6E334D8D279468E600D241B1 /* CarData.swift in Sources */,
 				6E5965B426F7DADF00010966 /* StockModel.swift in Sources */,
 				6E25C06526F6A4CE003D4E0D /* DateInput.swift in Sources */,
 				6E72D2EF26E93EF4007C8C17 /* NumericInput.swift in Sources */,
@@ -1371,6 +1376,7 @@
 				6E912133278851E000085637 /* PurchaseTask.swift in Sources */,
 				6ED2AE2F2728AC70007D275C /* InitialDataTask.swift in Sources */,
 				6E7DDA42272871BA006697FB /* TransactionData.swift in Sources */,
+				6E334D8E279468E700D241B1 /* CarData.swift in Sources */,
 				6ED2AE372728ACDE007D275C /* PaymentData.swift in Sources */,
 				6E7DDA44272872E7006697FB /* TransactionFiltersModel.swift in Sources */,
 				6ED2AE292728AC37007D275C /* CryptoTask.swift in Sources */,

@@ -140,6 +140,15 @@ class ExportImportTask: ObservableObject {
             
             file.append("\(fields.field1), \(fields.field2), \(fields.field3), \(fields.field4), \(fields.field5), \(fields.field6), \(fields.field7), \(fields.field8), \(fields.field9), \(fields.field10),\(fields.field11), \(fields.field12), \(fields.field13), \(fields.field14), \(fields.field15), \(fields.field16), \(fields.field17), \(fields.field18), \(fields.field19), \(fields.field20) \n")
         }
+        
+        file.append("[Car], , , , , , , , , , , , , , , , , , , \n")
+       
+        let cars = CarData().fetch()
+        for i in 0..<cars.count {
+            fields = CarData().stringToEntityMap(car: cars[i])
+            
+            file.append("\(fields.field1), \(fields.field2), \(fields.field3), \(fields.field4), \(fields.field5), \(fields.field6), \(fields.field7), \(fields.field8), \(fields.field9), \(fields.field10),\(fields.field11), \(fields.field12), \(fields.field13), \(fields.field14), \(fields.field15), \(fields.field16), \(fields.field17), \(fields.field18), \(fields.field19), \(fields.field20) \n")
+        }
      
         return file
     }
@@ -210,6 +219,10 @@ class ExportImportTask: ObservableObject {
                     entity = "MonthlyPurchaseItem"
                     isEntity = true
                 }
+                if(line[0].contains("[Car]")) {
+                    entity = "Car"
+                    isEntity = true
+                }
                 
                 if( isEntity != true) {
                     importLine(line: line[0], entity: entity)
@@ -266,6 +279,9 @@ class ExportImportTask: ObservableObject {
         }
         if(entity == "Password") {
             PasswordData().entityToStringMap(line: line)
+        }
+        if(entity == "Car") {
+            CarData().entityToStringMap(line: line)
         }
         if(entity == "MonthlyBudget") {
             MonthlyBudgetData().entityToStringMap(line: line)
