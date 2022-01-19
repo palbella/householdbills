@@ -165,7 +165,7 @@ struct MainView: View {
                 savedAccount.amount = savedAccount.amount + amountConverted
             }
             if(transaction.type == LocalizedStringKey("Transfer").toString()) {
-                savedAccount.amount = savedAccount.amount - transaction.amount
+                savedAccount.amount = savedAccount.amount - amountConverted
                 
                 let requestB: NSFetchRequest<Account> = Account.fetchRequest()
                 requestB.predicate = NSPredicate(format: "id = %@", self.transaction.destinationId as CVarArg)
@@ -174,8 +174,8 @@ struct MainView: View {
                 let destination = try  self.viewContext.fetch(requestB)[0]
                 
                 let amountTransferConverted: Double = currencies.convert(currencyFrom: savedAccount.currency!, currencyTo: destination.currency!, value: transaction.amount)
-                
-                destination.amount = destination.amount - amountTransferConverted
+             
+                destination.amount = destination.amount + amountTransferConverted
             }
             if(transaction.type == LocalizedStringKey("Income").toString()) {
                 transaction.amount = transaction.amount * -1

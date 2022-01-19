@@ -175,10 +175,15 @@ struct CryptocurrencyView: View {
                                                                                 
                                                                                 Spacer()
                                                                                 
+                                                                                  VStack(alignment: .trailing, spacing: 0) {
                                                                                 Text("$ " + String(item.price))
                                                                               .font(.system(size: 12))
                                                                                     .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor )
-                                                                             
+                                                                                      
+                                                                                      Text(self.account.symbol + " " + String(item.avgPurchase))
+                                                                                    .font(.system(size: 10))
+                                                                                          .foregroundColor(item.price < item.avgPurchase ? Color(UIColor(red: 153,green: 0,blue: 0)): Color(UIColor(red: 0,green: 102,blue: 0)))
+                                                                                  }
 
                                                                           
                                                                                 VStack(alignment: .trailing, spacing: 0) {

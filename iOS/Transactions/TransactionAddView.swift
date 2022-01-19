@@ -172,10 +172,10 @@ struct TransactionsAddView: View {
                 
                     if(transaction.type == LocalizedStringKey("Transfer").toString()) {
                       
-                    PickerInput(iconContent: "", iconColor: .blue, label: "Destination", placeholder: "Account", data: $accountList, value: $destinationSelected, index: $accountIndex)
-                        .onChange(of: accountIndex, perform: { value in
+                    PickerInput(iconContent: "", iconColor: .blue, label: "Destination", placeholder: "Account", data: $accountList, value: $destinationSelected, index: $destinationIndex)
+                        .onChange(of: destinationIndex, perform: { value in
                             transaction.destinationId = accounts.items[destinationIndex].id
-                            
+                            print(accounts.items[destinationIndex].name)
                         })
                         Divider()
                     }
