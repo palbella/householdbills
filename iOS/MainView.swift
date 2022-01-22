@@ -132,7 +132,9 @@ struct MainView: View {
                             if(self.transaction.type == LocalizedStringKey("Expense").toString()) {
                                 self.transaction.amount = self.transaction.amount * -1
                             }
-                           
+                            if(transaction.name == "") {
+                                transaction.name = LocalizedStringKey("Adjustment").toString()
+                            }
                             self.transactionData.addTransactions(transaction: transaction)
                         }
                     }                    
