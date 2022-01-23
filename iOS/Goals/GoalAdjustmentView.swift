@@ -21,6 +21,7 @@ struct GoalAdjustmentView: View {
     
     
     @Binding var goals : GetGoals
+    @State var goalData: GoalData = GoalData()
     
     @State var goalIndex: Int = 0
     @State var goalList: [String] = []
@@ -45,6 +46,8 @@ struct GoalAdjustmentView: View {
         appearance.backgroundColor = colorScheme != .dark ? UIColor(Color.white): UIColor(ui.darkBackgroundColor)
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        
+        self.goals.items = goalData.fetch()
         
         goalList = ["None"]
         for index in 0..<goals.items.count {

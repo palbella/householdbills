@@ -37,9 +37,16 @@ class GetAccountTypes: ObservableObject {
         self.items = [
             AccountType(id: 0, name: LocalizedStringKey("Cash/Wallet").toString(), type: "cash"),
             AccountType(id: 1, name: LocalizedStringKey("Saving Bank Account").toString(), type: "saving"),
-            AccountType(id: 2, name: LocalizedStringKey("Checking Bank Account").toString(), type: "checking"),
+            AccountType(id: 2, name: LocalizedStringKey("Checking Bank Account").toString(), type: "checking")]
+    }
+}
+
+class GetInvestmentTypes: ObservableObject {
+    @Published var items = [AccountType]()
+
+    init() {
+        self.items = [
             AccountType(id: 3, name: LocalizedStringKey("Cryptocurrency Wallet").toString(), type: "crypto"),
             AccountType(id: 4, name: LocalizedStringKey("Stock Investment").toString(), type: "stock"),]
     }
 }
-

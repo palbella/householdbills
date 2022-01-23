@@ -551,11 +551,20 @@ struct InitialData {
      
  SaveContext()
         
+        let newCardInvestment = Card(context: viewContext)
+      
+        newCardInvestment.name = "Investments"
+        newCardInvestment.id = 2
+        newCardInvestment.order = 2
+        newCardInvestment.visible = true
+     
+ SaveContext()
+        
         let newCardGoal = Card(context: viewContext)
       
         newCardGoal.name = "Goals"
-        newCardGoal.id = 2
-        newCardGoal.order = 2
+        newCardGoal.id = 3
+        newCardGoal.order = 3
         newCardGoal.visible = true
      
  SaveContext()
@@ -563,8 +572,8 @@ struct InitialData {
         let newCardBudget = Card(context: viewContext)
       
         newCardBudget.name = "Budgets"
-        newCardBudget.id = 3
-        newCardBudget.order = 3
+        newCardBudget.id = 4
+        newCardBudget.order = 4
         newCardBudget.visible = true
      
  SaveContext()
@@ -572,8 +581,8 @@ struct InitialData {
         let newCardPayment = Card(context: viewContext)
       
         newCardPayment.name = "Payments"
-        newCardPayment.id = 4
-        newCardPayment.order = 4
+        newCardPayment.id = 5
+        newCardPayment.order = 5
         newCardPayment.visible = true
      
  SaveContext()
@@ -583,8 +592,8 @@ struct InitialData {
         let newCardPurchase = Card(context: viewContext)
       
         newCardPurchase.name = "Purchases"
-        newCardPurchase.id = 5
-        newCardPurchase.order = 5
+        newCardPurchase.id = 6
+        newCardPurchase.order = 6
         newCardPurchase.visible = true
      
  SaveContext()
@@ -592,8 +601,8 @@ struct InitialData {
         let newCardCars = Card(context: viewContext)
       
         newCardCars.name = "Cars"
-        newCardCars.id = 6
-        newCardCars.order = 6
+        newCardCars.id = 7
+        newCardCars.order = 7
         newCardCars.visible = true
      
  SaveContext()
@@ -602,8 +611,8 @@ struct InitialData {
         let newCardChart = Card(context: viewContext)
       
         newCardChart.name = "Chart"
-        newCardChart.id = 7
-        newCardChart.order = 7
+        newCardChart.id = 8
+        newCardChart.order = 8
         newCardChart.visible = true
      
  SaveContext()

@@ -180,6 +180,9 @@
 		6EB9C01A27138EB700FB234C /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB9C01927138EB700FB234C /* SignUpView.swift */; };
 		6EB9C01C27148EBB00FB234C /* SubscribeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB9C01B27148EBA00FB234C /* SubscribeView.swift */; };
 		6EB9C01E2714905D00FB234C /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB9C01D2714905D00FB234C /* UserView.swift */; };
+		6ED0AB61279DDF3400A57645 /* InvestmentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED0AB60279DDF3400A57645 /* InvestmentListView.swift */; };
+		6ED0AB63279DE12700A57645 /* InvestmentAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED0AB62279DE12700A57645 /* InvestmentAddView.swift */; };
+		6ED0AB65279DE19200A57645 /* InvestmentUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED0AB64279DE19200A57645 /* InvestmentUpdateView.swift */; };
 		6ED1907126D7E3F6001D1C2D /* TransactionBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED1907026D7E3F6001D1C2D /* TransactionBodyView.swift */; };
 		6ED1907526D7EC4D001D1C2D /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED1907426D7EC4D001D1C2D /* HeaderView.swift */; };
 		6ED1907726D7EE08001D1C2D /* PlanningBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED1907626D7EE08001D1C2D /* PlanningBodyView.swift */; };
@@ -453,6 +456,9 @@
 		6EB9C01927138EB700FB234C /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		6EB9C01B27148EBA00FB234C /* SubscribeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeView.swift; sourceTree = "<group>"; };
 		6EB9C01D2714905D00FB234C /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
+		6ED0AB60279DDF3400A57645 /* InvestmentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestmentListView.swift; sourceTree = "<group>"; };
+		6ED0AB62279DE12700A57645 /* InvestmentAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestmentAddView.swift; sourceTree = "<group>"; };
+		6ED0AB64279DE19200A57645 /* InvestmentUpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestmentUpdateView.swift; sourceTree = "<group>"; };
 		6ED1907026D7E3F6001D1C2D /* TransactionBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionBodyView.swift; sourceTree = "<group>"; };
 		6ED1907426D7EC4D001D1C2D /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		6ED1907626D7EE08001D1C2D /* PlanningBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningBodyView.swift; sourceTree = "<group>"; };
@@ -538,12 +544,6 @@
 				6EE4FBA326CC051C00C6F987 /* AccountListView.swift */,
 				6E9DBA8426E0563000F0F15C /* AccountAddView.swift */,
 				6E2119F326D82BFD004248CE /* AccountUpdateView.swift */,
-				6EB21A4B26E667BB000AE5F3 /* CryptocurrencyView.swift */,
-				6EB21A4F26E6A170000AE5F3 /* CryptocurrencyAddView.swift */,
-				6EB21A5126E6ACF2000AE5F3 /* CryptocurrencyUpdateView.swift */,
-				6E5965AD26F7D91800010966 /* StockView.swift */,
-				6E5965AF26F7D94600010966 /* StockAddView.swift */,
-				6E5965B126F7D97400010966 /* StockUpdateView.swift */,
 			);
 			path = Accounts;
 			sourceTree = "<group>";
@@ -637,6 +637,7 @@
 		6E3F0C7926C99CD600A807BE /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				6ED0AB5B279DDF0000A57645 /* Investments */,
 				6E7192BC2731ED4100DF4436 /* Purchase */,
 				6E92589A2700DB0500D9CEEF /* Charts */,
 				6EE4FB9826CBEC3E00C6F987 /* Controls */,
@@ -917,6 +918,22 @@
 				6E6F0EE9272F2DB1002EEAC0 /* LoginView.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		6ED0AB5B279DDF0000A57645 /* Investments */ = {
+			isa = PBXGroup;
+			children = (
+				6EB21A4B26E667BB000AE5F3 /* CryptocurrencyView.swift */,
+				6EB21A4F26E6A170000AE5F3 /* CryptocurrencyAddView.swift */,
+				6EB21A5126E6ACF2000AE5F3 /* CryptocurrencyUpdateView.swift */,
+				6E5965AD26F7D91800010966 /* StockView.swift */,
+				6E5965AF26F7D94600010966 /* StockAddView.swift */,
+				6E5965B126F7D97400010966 /* StockUpdateView.swift */,
+				6ED0AB60279DDF3400A57645 /* InvestmentListView.swift */,
+				6ED0AB62279DE12700A57645 /* InvestmentAddView.swift */,
+				6ED0AB64279DE19200A57645 /* InvestmentUpdateView.swift */,
+			);
+			path = Investments;
 			sourceTree = "<group>";
 		};
 		6EE4FB9826CBEC3E00C6F987 /* Controls */ = {
@@ -1211,6 +1228,7 @@
 				6E5965B726F8BEEF00010966 /* CryptoTask.swift in Sources */,
 				6E9A134A26E3C81900D3C827 /* OrderingView.swift in Sources */,
 				6EB9C00D270FE3F500FB234C /* TransactionChart.swift in Sources */,
+				6ED0AB63279DE12700A57645 /* InvestmentAddView.swift in Sources */,
 				6E334D8D279468E600D241B1 /* CarData.swift in Sources */,
 				6E5965B426F7DADF00010966 /* StockModel.swift in Sources */,
 				6E25C06526F6A4CE003D4E0D /* DateInput.swift in Sources */,
@@ -1232,6 +1250,7 @@
 				6E7192C22731EF9100DF4436 /* PurchaseUpdateView.swift in Sources */,
 				6EAB9EA027678E03005005F2 /* PasscodeField.swift in Sources */,
 				6E9A133B26E29DAD00D3C827 /* BudgetListView.swift in Sources */,
+				6ED0AB65279DE19200A57645 /* InvestmentUpdateView.swift in Sources */,
 				6E334D8B2793260B00D241B1 /* PurchaseItemAddView.swift in Sources */,
 				6EE81F0E26E1DBFA00AC7D5F /* SettingsView.swift in Sources */,
 				6EB9C009270BB65C00FB234C /* NotificationView.swift in Sources */,
@@ -1250,6 +1269,7 @@
 				6EB9C0132712576A00FB234C /* TransactionFilterView.swift in Sources */,
 				6E22BCDF26D9221500C8A67B /* AccountModel.swift in Sources */,
 				6EB9C01A27138EB700FB234C /* SignUpView.swift in Sources */,
+				6ED0AB61279DDF3400A57645 /* InvestmentListView.swift in Sources */,
 				6E6F0EE8272F1BB6002EEAC0 /* SettingsData.swift in Sources */,
 				6E9DBA8326E016B800F0F15C /* Toast.swift in Sources */,
 				6E3F0CBB26C99FB900A807BE /* TransactionView.swift in Sources */,

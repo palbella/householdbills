@@ -137,7 +137,8 @@
                        
                                               ForEach(self.accountsFetch.indexed(), id: \.1.id) { index, item in
                                                   
-                                                  
+                                                  if(item.type != "crypto" && item.type != "stock")
+                                                  {
                                                   
                                                   let fontColor = item.amount >= 0 ? colorScheme != .dark ? ui.lightItemFontAmountColor: ui.darkItemFontAmountColor : colorScheme != .dark ? ui.lightItemNegativeFontAmountColor: ui.darkItemNegativeFontAmountColor
                                                   
@@ -214,7 +215,7 @@
                                                                         
                                                                           
                                                     }
-                                              
+                                              }
                                                   
                                               }
                                                               .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)

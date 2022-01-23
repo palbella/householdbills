@@ -110,6 +110,12 @@ struct AccountUpdateView: View {
             transferTypes.items.remove(at: 2)
         }
         
+        if(accountIds.count > 0) {
+            transaction.destinationId = accountIds[0]
+            accountIndex = 0
+            accountSelected = accountList[0]
+        }
+        
         categoryList = []
         for index in 0..<categories.items.count {
             if(categories.items[index].id != 99) {
@@ -218,7 +224,7 @@ struct AccountUpdateView: View {
                                 self.account.amount = transaction.initialAmount + transaction.amount
                             }
                             if(transaction.type == LocalizedStringKey("Transfer").toString()) {
-                                transaction.destinationId = accounts.items[0].id
+                                transaction.destinationId = accountIds[0]
                                 accountIndex = 0
                                 accountSelected = accountList[0]
                               
@@ -267,21 +273,6 @@ struct AccountUpdateView: View {
             
             }
             
-            if(self.account.type == "crypto")
-            {
-                CryptocurrencyView(account: self.$account, cryptoSelected: self.$cryptoSelected, isShowingNew: self.$isShowingCryptoNew, isShowingUpdate: self.$isShowingCryptoUpdate,
-                                   deleteCrypto: self.$deleteCrypto, modalCrypto: self.$modalCrypto, totalPrices: self.$totalPricesCrypto, totalInvestments: self.$totalInvestmentsCrypto, showSubscribe: self.$showSubscribe, modalMain: self.$modal, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
-                    .environmentObject(self.ui)
-                        .environmentObject(self.settings)
-            }
-            
-            if(self.account.type == "stock")
-            {
-                StockView(account: self.$account, stockSelected: self.$stockSelected, isShowingNew: self.$isShowingStockNew, isShowingUpdate: self.$isShowingStockUpdate,
-                          deleteStock: self.$deleteStock, modalStock: self.$modalStock, totalPrices: self.$totalPricesStock, totalInvestments: self.$totalInvestmentsStock, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError)
-                    .environmentObject(self.ui)
-                        .environmentObject(self.settings)
-            }
             
             Divider()
             NavigationLink(destination:

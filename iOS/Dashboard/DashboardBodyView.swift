@@ -130,6 +130,17 @@ struct DashboardBodyView: View {
                    
                 }
                 
+                if(card.name == "Investments") {
+                    
+                    if(card.visible == true) {
+                        InvestmentListView(totalAccounts: self.$totalAccounts, totalGoalAccounts: self.$totalGoalAccounts, incomes: self.$incomes, expenses: self.$expenses, hideData: self.$hideData, isShowingToast: $isShowingToast, toastMessasge: $toastMessasge, toastError: self.$toastError, showSubscribe: self.$showSubscribe, showTutorialBank: $showTutorialBank)
+                            .padding(.top, 10)
+
+                         Spacer()
+                    }
+                   
+                }
+                
                 if(card.name == "Goals") {
                     
                     if(card.visible == true) {
