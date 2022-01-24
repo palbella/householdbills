@@ -811,7 +811,12 @@ struct InitialData {
         newCategoryZ.iconContent = "briefcase"
         SaveContext()
         
-      
+        let newCategoryZA = Category(context: viewContext)
+        newCategoryZA.name = "Goal"
+        newCategoryZA.id = 26
+        newCategoryZA.iconColor = "yellow"
+        newCategoryZA.iconContent = "rosette"
+        SaveContext()
         
     }
     

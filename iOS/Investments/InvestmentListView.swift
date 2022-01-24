@@ -92,9 +92,9 @@ struct InvestmentListView: View {
                                         if(settings.subscribed || self.accountsFetch.count < 1) {
                                         self.accountSelected = AccountModel()
                                         self.transaction = TransactionModel()
-                                        self.accountSelected.iconContent = "bank"
-                                        self.accountSelected.iconColor = "blue"
-                                        self.accountSelected.type = "crypto"
+                                        self.accountSelected.iconContent = "stocks"
+                                        self.accountSelected.iconColor = "darkBlue"
+                                        self.accountSelected.type = "stock"
                                         self.accountSelected.currency = settings.currency
                                         self.accountSelected.symbol = settings.symbol
                                         self.isShowingNew = true

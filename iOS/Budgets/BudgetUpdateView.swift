@@ -72,7 +72,8 @@ struct BudgetUpdateView: View {
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         
-        transactionType = transaction.type
+        transactionType = LocalizedStringKey("Budget Adjustment").toString()
+        transactionTypeId = 0
         
         for index in 0..<accounts.items.count {
             accountList.append(accounts.items[index].name)
@@ -129,12 +130,20 @@ struct BudgetUpdateView: View {
                             if(!initialAmountFlag) {
                                 self.initialAmountFlag = true
                                 transaction.amount = abs(transaction.initialAmount - self.budget.amount)
-                                if(self.budget.amount < transaction.initialAmount) {
-                                    transaction.type = LocalizedStringKey("Expense").toString()
-                                    transactionType = LocalizedStringKey("Expense").toString()
+                                if(transaction.type != LocalizedStringKey("Budget Adjustment").toString()) {
+                                    if(self.budget.amount < transaction.initialAmount) {
+                                        transaction.type = LocalizedStringKey("Expense").toString()
+                                        transactionType = LocalizedStringKey("Expense").toString()
+                                    } else {
+                                        transaction.type = LocalizedStringKey("Income").toString()
+                                        transactionType = LocalizedStringKey("Income").toString()
+                                    }
                                 } else {
-                                    transaction.type = LocalizedStringKey("Income").toString()
-                                    transactionType = LocalizedStringKey("Income").toString()
+                                    if(self.budget.amount < transaction.initialAmount) {
+                                    
+                                            transaction.amount = transaction.amount * -1
+                                        
+                                    }
                                 }
                              
                             } else {
@@ -152,10 +161,13 @@ struct BudgetUpdateView: View {
                             if(!initialAmountFlag) {
                                 self.initialAmountFlag = true
                               
-                                if(transaction.type == LocalizedStringKey("Expense").toString() || transaction.type == LocalizedStringKey("Budget Adjustment").toString()) {
+                                if(transaction.type == LocalizedStringKey("Expense").toString()) {
                                     self.budget.amount = transaction.initialAmount - transaction.amount
                                 }
                                 if(transaction.type == LocalizedStringKey("Income").toString()) {
+                                    self.budget.amount = transaction.initialAmount + transaction.amount
+                                }
+                                if(transaction.type == LocalizedStringKey("Budget Adjustment").toString()) {
                                     self.budget.amount = transaction.initialAmount + transaction.amount
                                 }
                                 
@@ -167,10 +179,11 @@ struct BudgetUpdateView: View {
                     Divider()
                     
                     PickerInput(iconContent: "", iconColor: .blue, label: "Transaction", placeholder: "Type", data: $transferTypes.items, value: $transactionType, index: $transactionTypeId)
-                        .onChange(of: transactionType, perform: { value in
+                        .onChange(of: transactionTypeId, perform: { value in
                            
-                            transaction.type = $transactionType.wrappedValue!
-                            if(transaction.type == LocalizedStringKey("Expense").toString() || transaction.type == LocalizedStringKey("Budget Adjustment").toString()) {
+                            transaction.type = transferTypes.items[transactionTypeId]
+                            transactionType = transaction.type
+                            if(transaction.type == LocalizedStringKey("Expense").toString()) {
                                 self.budget.amount = transaction.initialAmount - transaction.amount
                                 transaction.destinationId = accounts.items[0].id
                                 accountIndex = 0
@@ -183,7 +196,7 @@ struct BudgetUpdateView: View {
                                 accountSelected = accountList[0]
                             }
                             if(transaction.type == LocalizedStringKey("Budget Adjustment").toString()) {
-                                self.budget.amount = transaction.initialAmount - transaction.amount
+                                self.budget.amount = transaction.initialAmount + transaction.amount
                             }
                         })
                     

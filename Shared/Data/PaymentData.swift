@@ -154,6 +154,14 @@ class PaymentData: ObservableObject {
                 transaction.iconColor = payment.iconColor
                 transaction.timestamp = Date()
                 transaction.amount = amount
+                
+                if(payment.isGoal == true && payment.goalId == nil) {
+                    if(payment.category != 0) {
+                        transaction.category = payment.category
+                    } else {
+                        transaction.category = 26
+                    }
+                }
                
                 self.transactionData.addTransactions(transaction: transaction)
                 SaveContext()

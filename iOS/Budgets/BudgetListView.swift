@@ -254,7 +254,7 @@ struct BudgetListView: View {
     
     func onUpdate() {
         if(settings.fastApply || self.save) {
-        if(self.$transaction.amount.wrappedValue > 0 && (self.$transaction.type.wrappedValue == LocalizedStringKey("Expense").toString() || self.$transaction.type.wrappedValue == LocalizedStringKey("Income").toString())) {
+            
             self.transaction.name =  self.transferTypes.names[2]
             self.transaction.account = self.$budgetSelected.name.wrappedValue
             self.transaction.amount = self.$transaction.amount.wrappedValue
@@ -268,13 +268,17 @@ struct BudgetListView: View {
             self.transaction.timestamp = Date()
             saveTransaction(transaction: self.transaction)
             
+        if(self.$transaction.amount.wrappedValue > 0 && (self.$transaction.type.wrappedValue == LocalizedStringKey("Expense").toString() || self.$transaction.type.wrappedValue == LocalizedStringKey("Income").toString())) {
+           
             budgetData.accountAdjustment(destination: self.$transaction.destinationId.wrappedValue, amount: self.$transaction.amount.wrappedValue)
+            
+        }
             
             tutorial.saveTutorial(name: "dashboard", tutorialStep: 1)
             self.showTutorialBudget = false
-        }
-        budgetData.updateBudget(budget: self.$budgetSelected.wrappedValue)
-        getTotals()
+            
+            budgetData.updateBudget(budget: self.$budgetSelected.wrappedValue)
+            getTotals()
         }
     }
     
