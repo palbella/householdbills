@@ -93,7 +93,9 @@ struct GetMarketCriptocurrencies {
                                                 let coingeckoPrice = (coingeckoPriceObj as AnyObject)["usd"] as Any?
                                                 
                                                 if(coingeckoPrice != nil) {
+                                                if(object_getClass(coingeckoPrice)?.description() != "NSNull") {
                                                     saveCoingeckoPrice(price: coingeckoPrice as! Double, cryptoId: cryptoId, notification: notification)
+                                                }
                                                 }
                                                
                                             }
