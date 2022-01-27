@@ -280,9 +280,9 @@
 "POSITIONS" = "职位";
 "HISTORY BALANCE" = "历史余额";
 "Delete Car Service" = "删除汽车服务";
-"Last Service Km" = "最后服务公里";
+"Last Service " = "最后服务公里";
 "Last Service Date" = "最后服务日期";
-"Next Service Km" = "下一服务公里";
+"Next Service " = "下一服务公里";
 "Next Service Date" = "下一个服务日期";
 "Months" = "月";
 "Investments" = "投资";

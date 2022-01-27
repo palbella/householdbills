@@ -280,9 +280,9 @@
 "POSITIONS" = "位置";
 "HISTORY BALANCE" = "ヒストリーバランス";
 "Delete Car Service" = "車のサービスを削除";
-"Last Service Km" = "ラストサービスKm";
+"Last Service " = "ラストサービスKm";
 "Last Service Date" = "最終サービス日";
-"Next Service Km" = "次のサービスKm";
+"Next Service " = "次のサービスKm";
 "Next Service Date" = "次のサービス日";
 "Months" = "月";
 "Investments" = "投資";

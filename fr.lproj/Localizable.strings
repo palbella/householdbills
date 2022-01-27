@@ -280,9 +280,9 @@
 "POSITIONS" = "POSTES";
 "HISTORY BALANCE" = "SOLDE HISTORIQUE";
 "Delete Car Service" = "Supprimer le service de voiture";
-"Last Service Km" = "Dernier km d'entretien";
+"Last Service " = "Dernier d'entretien";
 "Last Service Date" = "Dernière révision";
-"Next Service Km" = "Km d'entretien suivant";
+"Next Service " = " d'entretien suivant";
 "Next Service Date" = "Prochaine date d'entretien";
 "Months" = "Mois";
 "Investments" = "Investissements";

@@ -280,9 +280,9 @@
 "POSITIONS" = "POSICIONES";
 "HISTORY BALANCE" = "HISTORICO BALANCE";
 "Delete Car Service" = "Borrar Servicio de Automovil";
-"Last Service Km" = "Ultimo Servicio Km";
+"Last Service " = "Ultimo Servicio ";
 "Last Service Date" = "Ultimo Servicio Fecha";
-"Next Service Km" = "Próximo Servicio Km";
+"Next Service " = "Próximo Servicio ";
 "Next Service Date" = "Próximo Servicio Fecha";
 "Months" = "Meses";
 "Investments" = "Inversiones";
