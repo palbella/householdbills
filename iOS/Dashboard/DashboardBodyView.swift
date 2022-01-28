@@ -77,15 +77,15 @@ struct DashboardBodyView: View {
                     HStack (spacing: 0) {
                         
                         VStack (alignment: .leading, spacing: 0) {
-                          Text("Close balance month " + currentMonthName)
+                          Text(LocalizedStringKey("Close balance month ").toString() + currentMonthName)
                                 .padding(.leading, 10)
                                 .padding(.top, 10)
                                 .padding(.bottom, 1)
                         .font(.system(size: 15))
                         .foregroundColor(Color.white)
                    
-                        
-                            Text("Open balance month " + nextMonthName)
+                            
+                            Text(LocalizedStringKey("Open balance month ").toString() + nextMonthName)
                                   .padding(.leading, 10)
                                   .padding(.bottom, 10)
                                   .padding(.top, 2)
@@ -247,24 +247,24 @@ Divider()
     func showTutorial() {
         
             self.showTutorialBank = tutorial.needTutorial(name: "dashboard", tutorialStep: 0)
-            self.popupTitle = "Tutorial"
-            self.popupMessasge = "Click on the bank account and set your current bank balance."
+            self.popupTitle = LocalizedStringKey("Tutorial").toString() 
+            self.popupMessasge = LocalizedStringKey("Click on the bank account and set your current bank balance.").toString()
             self.popupImage = "tutorial1"
             self.isShowingPopup = self.showTutorialBank
         
         
         if( self.showTutorialBank == false) {
             self.showTutorialBudget = tutorial.needTutorial(name: "dashboard", tutorialStep: 1)
-            self.popupTitle = "Tutorial"
-            self.popupMessasge = "Set how much do you want to spend this month in bars and restaurants."
+            self.popupTitle = LocalizedStringKey("Tutorial").toString()
+            self.popupMessasge = LocalizedStringKey("Set how much do you want to spend this month in bars and restaurants.").toString()
             self.popupImage = "tutorial2"
             self.isShowingPopup = self.showTutorialBudget
         }
         
         if( self.showTutorialBank == false  && self.showTutorialBudget == false) {
             self.showTutorialPayment = tutorial.needTutorial(name: "dashboard", tutorialStep: 2)
-            self.popupTitle = "Tutorial"
-            self.popupMessasge = "Do not forget to pay your bills, create a new payment, you will be able to mark as paid later."
+            self.popupTitle = LocalizedStringKey("Tutorial").toString()
+            self.popupMessasge = LocalizedStringKey("Do not forget to pay your bills, create a new payment, you will be able to mark as paid later.").toString()
             self.popupImage = "tutorial3"
             self.isShowingPopup = self.showTutorialPayment
         }

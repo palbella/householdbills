@@ -222,7 +222,7 @@ struct CurrencyView: View {
         
         self.showTutorialInfo = tutorial.needTutorial(name: "currency", tutorialStep: 0)
         if( self.showTutorialInfo == true) {
-            self.popupTitle = "Tutorial"
+            self.popupTitle = LocalizedStringKey("Tutorial").toString()
             self.popupMessasge = LocalizedStringKey("tutorial5-planning").toString()
             self.popupImage = "tutorial5"
             self.isShowingPopup = self.showTutorialInfo

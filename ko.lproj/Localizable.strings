@@ -290,3 +290,10 @@
 "INVESTMENTS" = "투자";
 "INVESTMENT" = "투자";
 "Goal deposit" = "목표 예금";
+"Do not forget to pay your bills, create a new payment, you will be able to mark as paid later." = "청구서를 지불하는 것을 잊지 마십시오. 새 지불을 생성하십시오. 나중에 지불된 것으로 표시할 수 있습니다.";
+"Open balance month " = "오픈 밸런스 월 ";
+"Close balance month " = "잔액 마감 월 ";
+"Stock" = "스톡";
+"Crypto" = "Crypto";
+"Import" = "가져오기";
+"Export" = "내보내기";

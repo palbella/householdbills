@@ -324,7 +324,7 @@ struct PasswordListView: View {
         
         self.showTutorialInfoA = tutorial.needTutorial(name: "password", tutorialStep: 0)
         if( self.showTutorialInfoA == true) {
-            self.popupTitle = "Tutorial"
+            self.popupTitle = LocalizedStringKey("Tutorial").toString()
             self.popupMessasge = LocalizedStringKey("tutorial7-planning").toString()
             self.popupImage = "tutorial7"
             self.isShowingPopup = self.showTutorialInfoA
@@ -332,7 +332,7 @@ struct PasswordListView: View {
         
         self.showTutorialInfoB = tutorial.needTutorial(name: "password", tutorialStep: 1)
         if( self.showTutorialInfoB == true && self.showTutorialInfoA == false) {
-            self.popupTitle = "Tutorial"
+            self.popupTitle = LocalizedStringKey("Tutorial").toString()
             self.popupMessasge = LocalizedStringKey("tutorial8-planning").toString()
             self.popupImage = "tutorial8"
             self.isShowingPopup = self.showTutorialInfoB

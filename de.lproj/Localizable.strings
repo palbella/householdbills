@@ -290,3 +290,10 @@
 "INVESTMENTS" = "INVESTITIONEN";
 "INVESTMENT" = "INVESTITION";
 "Goal deposit" = "Toreinzahlung";
+"Do not forget to pay your bills, create a new payment, you will be able to mark as paid later." = "Vergessen Sie nicht, Ihre Rechnungen zu bezahlen, erstellen Sie eine neue Zahlung, Sie können sie später als bezahlt markieren.";
+"Open balance month " = "Offener Saldo Monat ";
+"Close balance month " = "Monat Schlusssaldo ";
+"Stock" = "Lager";
+"Crypto" = "Krypto";
+"Import" = "Importieren";
+"Export" = "Exportieren";

@@ -139,7 +139,7 @@ struct OrderingView: View {
         
         self.showTutorialInfo = tutorial.needTutorial(name: "cards", tutorialStep: 0)
         if( self.showTutorialInfo == true) {
-            self.popupTitle = "Tutorial"
+            self.popupTitle = LocalizedStringKey("Tutorial").toString()
             self.popupMessasge = LocalizedStringKey("tutorial6-planning").toString()
             self.popupImage = "tutorial6"
             self.isShowingPopup = self.showTutorialInfo

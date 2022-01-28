@@ -290,3 +290,10 @@
 "INVESTMENTS" = "投资";
 "INVESTMENT" = "投资";
 "Goal deposit" = "目标存款";
+"Do not forget to pay your bills, create a new payment, you will be able to mark as paid later." = "不要忘记支付账单，创建一个新的付款，您以后可以标记为已付款。";
+"Open balance month " = "未结余额月份 ";
+"Close balance month " = "期末余额月 ";
+"Stock" = "股票";
+"Crypto" = "加密货币";
+"Import" = "进口";
+"Export" = "出口";

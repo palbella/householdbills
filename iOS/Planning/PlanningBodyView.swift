@@ -335,7 +335,7 @@ struct PlanningBodyView: View {
         
         if( self.showTutorialInfo == false) {
             self.showSync = tutorial.needTutorial(name: "planning", tutorialStep: 1)
-            self.popupTitle = "Tutorial"
+            self.popupTitle = LocalizedStringKey("Tutorial").toString()
             self.popupMessasge = LocalizedStringKey("tutorial4-planning").toString()
             self.popupImage = "tutorial4"
             self.isShowingPopup = self.showSync

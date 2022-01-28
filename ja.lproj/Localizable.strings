@@ -290,3 +290,10 @@
 "INVESTMENTS" = "投資";
 "INVESTMENT" = "投資";
 "Goal deposit" = "目標預金";
+"Do not forget to pay your bills, create a new payment, you will be able to mark as paid later." = "請求書の支払いを忘れずに、新しい支払いを作成してください。後で支払い済みとしてマークすることができます。";
+"Open balance month " = "オープンバランス月 ";
+"Close balance month " = "締めくくりの月 残高 ";
+"Stock" = "株式";
+"Crypto" = "暗号通貨";
+"Import" = "インポート";
+"Export" = "エクスポート";

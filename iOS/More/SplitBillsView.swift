@@ -252,7 +252,7 @@ Spacer()
         
         self.showTutorialInfo = tutorial.needTutorial(name: "splitbills", tutorialStep: 0)
         if( self.showTutorialInfo == true) {
-            self.popupTitle = "Tutorial"
+            self.popupTitle = LocalizedStringKey("Tutorial").toString()
             self.popupMessasge = LocalizedStringKey("tutorial9-planning").toString()
             self.popupImage = "tutorial9"
             self.isShowingPopup = self.showTutorialInfo

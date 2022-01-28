@@ -215,7 +215,7 @@ struct BudgetUpdateView: View {
                     
                     Divider()
                         .padding(5)
-                    PickerInput(iconContent: "", iconColor: .blue, label: "Category", placeholder: "Category", data: $categoryList, value: $categorySelected, index: $categoryIndex)
+                    PickerInput(iconContent: "", iconColor: .blue, label: "Category", placeholder: LocalizedStringKey("Category").toString(), data: $categoryList, value: $categorySelected, index: $categoryIndex)
                         .onChange(of: categoryIndex, perform: { value in
                             transaction.category = categories.items[categoryIndex + 1].id
                         })
