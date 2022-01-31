@@ -99,6 +99,9 @@ struct SettingsView: View {
             Toggle("Swipe Down for apply changes", isOn: $settings.fastApply)
                 .padding()
             
+            Toggle("English", isOn: $settings.forceEnglish)
+                .padding()
+            
             VStack {
 
                 

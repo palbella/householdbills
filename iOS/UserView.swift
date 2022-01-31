@@ -14,9 +14,12 @@ struct UserView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
   
-  
     @State var settingsData : SettingsData = SettingsData()
     @State var showTerms = false
+    
+    @State var isShowingToast: Bool = false
+    @State var toastMessasge: String = ""
+    @State var toastError: Bool = false
     
     func onAppear() {
         let appearance = UINavigationBarAppearance()
@@ -149,6 +152,18 @@ struct UserView: View {
 
                 
                 Spacer()
+                Button(action: {
+                    IPAService.shared.restorePurchase()
+                    self.toastMessasge = LocalizedStringKey("Restored").toString()
+                    self.isShowingToast = true
+                    self.toastError = false
+                }) {
+                    Text("Restore Purchasing")
+                        .padding(.bottom, 10)
+                        .padding(.top, 20)
+                        .font(.system(size: 12))
+                        .foregroundColor(ui.lightCommandFontColor)
+                }
                 
             }
             .navigationBarHidden(true)
@@ -158,6 +173,7 @@ struct UserView: View {
             }
         }
             .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
+            .modifier(Toast(isShowing: $isShowingToast, message: self.toastMessasge, isError: self.$toastError))
         }
         } else {
             TermsView(back: self.$showTerms)

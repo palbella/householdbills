@@ -93,6 +93,7 @@ struct MoreView: View {
                         self.settingsObj.dayChangeMonth = self.settings.dayChangeMonth
                         self.settingsObj.showMonthBalance = self.settings.showMonthBalance
                         self.settingsObj.fastApply = self.settings.fastApply
+                        self.settingsObj.forceEnglish = self.settings.forceEnglish
                         self.isShowingSettings = true
                         self.save = false
                     }) {
@@ -467,6 +468,7 @@ struct MoreView: View {
             savedSettings[0].dayChangeMonth = self.settingsObj.dayChangeMonth
             savedSettings[0].showMonthBalance = self.settingsObj.showMonthBalance
             savedSettings[0].fastApply = self.settingsObj.fastApply
+            savedSettings[0].english = self.settingsObj.forceEnglish
             
             settings.symbol = self.settingsObj.symbol
             settings.currency = self.settingsObj.currency
@@ -475,8 +477,15 @@ struct MoreView: View {
             settings.dayChangeMonth = self.settingsObj.dayChangeMonth
             settings.showMonthBalance = self.settingsObj.showMonthBalance
             settings.fastApply = self.settingsObj.fastApply
+            settings.forceEnglish = self.settingsObj.forceEnglish
            
             SaveContext()
+            
+            if(Locale.current.languageCode != nil && self.settings.forceEnglish == false) {
+                Bundle.set(language: "Base")
+            } else {
+                Bundle.set(language: "en")
+            }
            
         } catch {
         }

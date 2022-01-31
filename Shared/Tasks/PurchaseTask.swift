@@ -47,28 +47,19 @@ class IPAService: NSObject {
         paymentQueue.add(payment)
     }
     
+    func restorePurchase() {
+        
+        SKPaymentQueue.default().restoreCompletedTransactions()
+        
+    }
+    
     func subscriptionVerification(settings: UserSettings) {
         self.settings = settings
         
         do {
             
-//            var dateComponent = DateComponents()
-//            dateComponent.month = -1
-//
-//            let pastMonth = Calendar.current.date(byAdding: dateComponent, to: Date())
-            
         let savedSettings =  try viewContext.fetch(fetchRequest)
-            
-            if(savedSettings[0].subscriptionVerification != nil) {
-                self.handleSubscription(dateTransaction: savedSettings[0].subscriptionVerification)
-//                if(savedSettings[0].subscriptionVerification! < pastMonth!) {
-//                    print("Restoring products ...")
-//                    SKPaymentQueue.default().restoreCompletedTransactions()
-//                }
-            } else {
-                print("Restoring products ...")
-//                SKPaymentQueue.default().restoreCompletedTransactions()
-            }
+            self.handleSubscription(dateTransaction: savedSettings[0].subscriptionDate)
            
         } catch {
         }

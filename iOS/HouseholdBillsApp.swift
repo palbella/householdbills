@@ -38,6 +38,7 @@ class UserSettings: ObservableObject {
     @Published var passwordAnswer1 : String = ""
     @Published var passwordAnswer2 : String = ""
     @Published var passwordAnswer3 : String = ""
+    @Published var forceEnglish : Bool = false
 }
 
 class AppUI: ObservableObject {
@@ -140,6 +141,7 @@ struct HouseholdBillsApp: App {
                 self.settings.notificationCrypto = savedSettings[0].notificationCrypto
                 self.settings.notificationPayment = savedSettings[0].notificationPayment
                 self.settings.notificationService = savedSettings[0].notificationService
+                self.settings.forceEnglish = savedSettings[0].english
                 
                 self.settings.passwordQuestion1 = savedSettings[0].passwordQuestion1 ?? ""
                 self.settings.passwordQuestion2 = savedSettings[0].passwordQuestion2 ?? ""
@@ -150,6 +152,17 @@ struct HouseholdBillsApp: App {
                 
                 IPAService.shared.getProduct()
                 IPAService.shared.subscriptionVerification(settings: self.settings)
+                
+                if(Locale.current.languageCode != nil && self.settings.forceEnglish == false) {
+                    Bundle.set(language: "Base")
+                } else {
+                    Bundle.set(language: "en")
+                }
+                
+                
+//                print(NSLocale.current.languageCode)
+                
+                
 
             }
             
