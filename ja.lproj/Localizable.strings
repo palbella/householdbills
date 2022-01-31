@@ -297,4 +297,5 @@
 "Crypto" = "暗号通貨";
 "Import" = "インポート";
 "Export" = "エクスポート";
-"Restore Purchasing" = "Restore Purchasing";
+"Restore Purchasing" = "購入の復元";
+"Restored" = "復元済み";

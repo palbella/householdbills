@@ -297,4 +297,5 @@
 "Crypto" = "Crypto";
 "Import" = "Importer";
 "Export" = "Exporter";
-"Restore Purchasing" = "Restore Purchasing";
+"Restore Purchasing" = "Restaurer les achats";
+"Restored" = "Restauré";
