@@ -481,11 +481,14 @@ struct MoreView: View {
            
             SaveContext()
             
-            if(Locale.current.languageCode != nil && self.settings.forceEnglish == false) {
-                Bundle.set(language: "Base")
-            } else {
-                Bundle.set(language: "en")
-            }
+//            var language = NSLocale.preferredLanguages[0] as String
+//            if(Locale.current.languageCode != nil && self.settings.forceEnglish == false) {
+//                Bundle.set(language: language)
+//            } else {
+//                Bundle.set(language: "en")
+//                language = "en"
+//            }
+        
            
         } catch {
         }

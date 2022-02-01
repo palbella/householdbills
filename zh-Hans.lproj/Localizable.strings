@@ -20,7 +20,7 @@
 "Transactions" = "交易";
 "More" = "更多";
 "Monthly Planning" = "月计划";
-"MONTLY ESTIMATED INCOME" = "每月估计收入";
+"MONTHLY ESTIMATED INCOME" = "每月估计收入";
 "Estimated Income" = "估计收入";
 "Unassigned Amount" = "未分配金额";
 "Budgets" = "预算";
@@ -299,3 +299,7 @@
 "Export" = "出口";
 "Restore Purchasing" = "恢复采购";
 "Restored" = "恢复";
+"Goal Planning" = "目标规划";
+"Cars" = "汽车";
+"Save Account" = "保存帐户";
+"Edit Account" = "编辑账户";

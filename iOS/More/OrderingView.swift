@@ -70,7 +70,7 @@ struct OrderingView: View {
 //                        .font(.system(size: 15, weight: .heavy))
 //                        .padding()
                     
-                    Text(item)
+                    Text(LocalizedStringKey(item).toString())
                         .frame(minWidth:0, maxWidth:.infinity, minHeight:50)
                     
 //                    CheckBoxView(checked: $checked)

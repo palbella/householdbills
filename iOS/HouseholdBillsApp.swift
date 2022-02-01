@@ -9,6 +9,8 @@ import Combine
 import CoreData
 import UserNotifications
 import StoreKit
+import Foundation
+import UIKit
 
 class UserSettings: ObservableObject {
     @Published var loggedIn : Bool = false
@@ -153,15 +155,16 @@ struct HouseholdBillsApp: App {
                 IPAService.shared.getProduct()
                 IPAService.shared.subscriptionVerification(settings: self.settings)
                 
-                if(Locale.current.languageCode != nil && self.settings.forceEnglish == false) {
-                    Bundle.set(language: "Base")
-                } else {
-                    Bundle.set(language: "en")
-                }
                 
-                
+//                if(Locale.current.languageCode != nil && self.settings.forceEnglish == false) {
+//                    let pref_Language = NSLocale.preferredLanguages[0] as String
+//                    Bundle.set(language: pref_Language)
+//                } else {
+//                    Bundle.set(language: "en")
+//                }
+//                
+//                
 //                print(NSLocale.current.languageCode)
-                
                 
 
             }

@@ -220,17 +220,24 @@ extension Bundle {
         let isLanguageRTL = Locale.characterDirection(forLanguage: language) == .rightToLeft
         UIView.appearance().semanticContentAttribute = isLanguageRTL == true ? .forceRightToLeft : .forceLeftToRight
 
-       
+//        let domain = Bundle.main.bundleIdentifier!
+//        UserDefaults.standard.removePersistentDomain(forName: domain)
+        DispatchQueue.main.async {
         UserDefaults.standard.set(isLanguageRTL,   forKey: "AppleTe  zxtDirection")
         UserDefaults.standard.set(isLanguageRTL,   forKey: "NSForceRightToLeftWritingDirection")
         UserDefaults.standard.set([language], forKey: "AppleLanguages")
-        UserDefaults.standard.synchronize()
+//        UserDefaults.standard.synchronize()
+            
+            guard let path = Bundle.main.path(forResource: language, ofType: "lproj") else {
+                return
+            }
 
-        guard let path = Bundle.main.path(forResource: language, ofType: "lproj") else {
-            return
+            objc_setAssociatedObject(Bundle.main, &bundleKey, Bundle(path: path), objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+      
         }
+        
 
-        objc_setAssociatedObject(Bundle.main, &bundleKey, Bundle(path: path), objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+       
     }
 }
 

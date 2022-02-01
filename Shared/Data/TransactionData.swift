@@ -86,11 +86,19 @@ class TransactionData: ObservableObject {
 
         let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        let dateComponents = NSDateComponents()
+        dateComponents.year = Date().get(.year)
+        dateComponents.month = Date().get(.month)
+        let calendar = NSCalendar.current
+        let dateTemp = calendar.date(from: dateComponents as DateComponents)!
+        let range = calendar.range(of: .day, in: .month, for: dateTemp)!
+        let numDays = range.count
 
         let currentMonth: String = String(Date().get(.month))
         let currentYear: String = String(Date().get(.year))
         let startDate:NSDate = dateFormatter.date(from: currentYear + "-" + currentMonth + "-1")! as NSDate
-        let endDate:NSDate = dateFormatter.date(from: currentYear + "-" + currentMonth + "-30")! as NSDate
+        let endDate:NSDate = dateFormatter.date(from: currentYear + "-" + currentMonth + "-" + String(numDays))! as NSDate
 
 
             let predicate1 = NSPredicate(format: "%@ <= timestamp AND %@ >= timestamp", argumentArray: [startDate, endDate])

@@ -113,9 +113,6 @@ class IPAService: NSObject {
 
 extension IPAService: SKProductsRequestDelegate{
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        for product in response.products{
-        print(product.productIdentifier)
-    }
         products = response.products
     }
 }

@@ -99,8 +99,11 @@ struct SettingsView: View {
             Toggle("Swipe Down for apply changes", isOn: $settings.fastApply)
                 .padding()
             
-            Toggle("English", isOn: $settings.forceEnglish)
+            Text("For English language you can set up on Settings -> Household Bills -> Language")
                 .padding()
+           
+//            Toggle("English", isOn: $settings.forceEnglish)
+//                .padding()
             
             VStack {
 
@@ -162,12 +165,14 @@ struct SettingsView: View {
                                     }
                 }
                                 }
+            
+            
         }
         .onAppear(){
             self.onAppear()
         }
         }
-        
+          
         }
         .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
     

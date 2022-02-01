@@ -20,7 +20,7 @@
 "Transactions" = "トランザクション";
 "More" = "もっと";
 "Monthly Planning" = "月次計画";
-"MONTLY ESTIMATED INCOME" = "推定の毎月の収入";
+"MONTHLY ESTIMATED INCOME" = "推定の毎月の収入";
 "Estimated Income" = "推定収入";
 "Unassigned Amount" = "未割り当て金額";
 "Budgets" = "予算";
@@ -299,3 +299,7 @@
 "Export" = "エクスポート";
 "Restore Purchasing" = "購入の復元";
 "Restored" = "復元済み";
+"Goal Planning" = "目標計画";
+"Cars" = "車";
+"Save Account" = "アカウントの保存";
+"Edit Account" = "アカウントの編集";

@@ -15,7 +15,7 @@ public struct PasscodeField: View {
     
     var maxDigits: Int = 6
     
-    @State var label: String = "Type below to introduce password"
+    @State var label: String = LocalizedStringKey("Type below to introduce password").toString()
     @State var pin: String = ""
     @State var showPin = false
     @State var isDisabled = false

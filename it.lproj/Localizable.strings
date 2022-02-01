@@ -20,7 +20,7 @@
 "Transactions" = "Transazioni";
 "More" = "Di più";
 "Monthly Planning" = "Pianificazione Mensile";
-"MONTLY ESTIMATED INCOME" = "REDDITO STIMATO MENSILE";
+"MONTHLY ESTIMATED INCOME" = "REDDITO STIMATO MENSILE";
 "Estimated Income" = "Stima del reddito";
 "Unassigned Amount" = "Importo non assegnato";
 "Budgets" = "Budgets";
@@ -299,3 +299,7 @@
 "Export" = "Esporta";
 "Restore Purchasing" = "Ripristina acquisti";
 "Restored" = "Restaurato";
+"Goal Planning" = "Pianificazione degli obiettivi";
+"Cars" = "Auto";
+"Save Account" = "Salva account";
+"Edit Account" = "Modifica conto";

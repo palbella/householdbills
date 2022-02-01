@@ -20,7 +20,7 @@
 "Transactions" = "Transactions";
 "More" = "More";
 "Monthly Planning" = "Monthly Planning";
-"MONTLY ESTIMATED INCOME" = "ESTIMATED MONTLY INCOME";
+"MONTHLY ESTIMATED INCOME" = "MONTHLY ESTIMATED INCOME";
 "Estimated Income" = "Estimated Income";
 "Unassigned Amount" = "Unallocated Amount";
 "Budgets" = "Budgets";
@@ -299,3 +299,10 @@
 "Export" = "Export";
 "Restore Purchasing" = "Restore Purchasing";
 "Restored" = "Restored";
+"Goal Planning" = "Goal Planning";
+"Cars" = "Cars";
+"Save Account" = "Save Account";
+"Edit Account" = "Edit Account";
+"Cars" = "Cars";
+"Save Account" = "Save Account";
+"Edit Account" = "Edit Account";

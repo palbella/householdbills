@@ -20,7 +20,7 @@
 "Transactions" = "Транзакции";
 "More" = "Еще";
 "Monthly Planning" = "Ежемесячное планирование";
-"MONTLY ESTIMATED INCOME" = "РАСЧЕТНЫЙ ЕЖЕМЕСЯЧНЫЙ ДОХОД";
+"MONTHLY ESTIMATED INCOME" = "РАСЧЕТНЫЙ ЕЖЕМЕСЯЧНЫЙ ДОХОД";
 "Estimated Income" = "Расчетный доход";
 "Unassigned Amount" = "Нераспределенная сумма";
 "Budgets" = "Бюджеты";
@@ -299,3 +299,7 @@
 "Export" = "Экспорт";
 "Restore Purchasing" = "Восстановить покупку";
 "Restored" = "Восстановлено";
+"Goal Planning" = "Планирование цели";
+"Cars" = "Автомобили";
+"Save Account" = "Сохранить учетную запись";
+"Edit Account" = "Редактировать учетную запись";
