@@ -31,34 +31,8 @@ struct WelcomeView: View {
     
     var body: some View {
         
-        if UIDevice.current.userInterfaceIdiom == .pad {
+//        if UIDevice.current.userInterfaceIdiom == .pad {
             
-            NavigationView {
-        GeometryReader { geometry in
-       
-                    ZStack {
-                        NavigationLink(destination: LogInView(), isActive: self.$settings.navigateNowToLogIn) { EmptyView() }
-                        NavigationLink(destination: SignUpView(), isActive: self.$settings.navigateNowToSignup) { EmptyView() }
-                        
-                        WelcomeScrollView(axis: .horizontal, numberOfPages: self.onboardingDataArray.count, pagingEnabled: true, pageControlEnabled: true, hideScrollIndicators: true, currentPageIndicator: .black, pageIndicatorTintColor: .gray) {
-                                    HStack(spacing: 0) {
-                                        ForEach(self.onboardingDataArray, id: \.id) { item in
-                                              OnboardingView(onboardingData: item)
-                                                    .frame(width: geometry.size.width, height: geometry.size.height)
-                                           }
-                                    }
-                                }.frame(width: geometry.size.width, height: geometry.size.height)
-                    }
-                 
-                    
-                }
-            }
-            .navigationViewStyle(StackNavigationViewStyle())
-            .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
-            
-            
-            
-        } else {
         NavigationView {
     GeometryReader { geometry in
    
@@ -79,8 +53,9 @@ struct WelcomeView: View {
                 
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
         .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
-    }
+    
     }
 }
 

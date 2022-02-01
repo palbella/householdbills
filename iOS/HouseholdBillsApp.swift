@@ -166,7 +166,7 @@ struct HouseholdBillsApp: App {
 //                
 //                print(NSLocale.current.languageCode)
                 
-                
+                self.settings.subscribed = true
                 
 
             }

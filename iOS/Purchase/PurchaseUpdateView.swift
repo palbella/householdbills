@@ -150,7 +150,7 @@ struct PurchaseUpdateView: View {
         }
         .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
         .modifier(Toast(isShowing: $isShowingToast, message: self.toastMessasge, isError: self.$toastError))
-           
+        .navigationViewStyle(StackNavigationViewStyle())
     
 }
     
