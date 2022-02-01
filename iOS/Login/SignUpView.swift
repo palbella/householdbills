@@ -39,13 +39,13 @@ struct SignUpView: View {
                 Text("Household Bills")
                     .font(.system(size: 12))
                     
-            }.padding(.top, 30)
+            }.padding(.top, 20)
             .padding(.bottom, 10)
             
             Text("Create an Account")
                 .font(.title)
                 .font(.system(size: 14, weight: .bold, design: Font.Design.default))
-                .padding(.bottom, 50)
+                .padding(.bottom, 40)
             
 //            Button(action: {
 //                print("Add photo")
