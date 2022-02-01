@@ -149,6 +149,7 @@ struct LogInView: View {
             .onAppear(perform: authenticate)
            
             }
+        .navigationViewStyle(StackNavigationViewStyle())
         .accentColor(colorScheme != .dark ? ui.lightPrimaryColor: ui.darkPrimaryColor)
     }
     }

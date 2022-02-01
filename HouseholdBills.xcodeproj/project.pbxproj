@@ -323,7 +323,7 @@
 		6E3F0C6E26C99CD400A807BE /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		6E3F0C7126C99CD400A807BE /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		6E3F0C7226C99CD600A807BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		6E3F0C7726C99CD600A807BE /* HouseholdBills.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HouseholdBills.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E3F0C7726C99CD600A807BE /* Household Bills.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Household Bills.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E3F0C7A26C99CD600A807BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E3F0C7F26C99CD600A807BE /* HouseholdBills.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HouseholdBills.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E3F0C8126C99CD600A807BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -626,7 +626,7 @@
 		6E3F0C7826C99CD600A807BE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6E3F0C7726C99CD600A807BE /* HouseholdBills.app */,
+				6E3F0C7726C99CD600A807BE /* Household Bills.app */,
 				6E3F0C7F26C99CD600A807BE /* HouseholdBills.app */,
 				6E3F0C8726C99CD600A807BE /* Tests iOS.xctest */,
 				6E3F0C9226C99CD600A807BE /* Tests macOS.xctest */,
@@ -1005,7 +1005,7 @@
 			packageProductDependencies = (
 			);
 			productName = "HouseholdBills (iOS)";
-			productReference = 6E3F0C7726C99CD600A807BE /* HouseholdBills.app */;
+			productReference = 6E3F0C7726C99CD600A807BE /* Household Bills.app */;
 			productType = "com.apple.product-type.application";
 		};
 		6E3F0C7E26C99CD600A807BE /* HouseholdBills (macOS) */ = {
@@ -1622,7 +1622,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ulala.householdbills;
-				PRODUCT_NAME = HouseholdBills;
+				PRODUCT_NAME = "Household Bills";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1645,7 +1645,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ulala.householdbills;
-				PRODUCT_NAME = HouseholdBills;
+				PRODUCT_NAME = "Household Bills";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

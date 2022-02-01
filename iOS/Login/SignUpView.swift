@@ -101,16 +101,17 @@ struct SignUpView: View {
             }
             HStack {
                 Spacer()
-                if(self.agreeTerms != true) {
-                    Icon(content: "multiply", color: Color.red)
-                        .padding(.bottom, 15)
-                } else {
-                    Icon(content: "checkmark", color: Color.green)
-                        .padding(.bottom, 15)
-                }
+               
                 Button(action: {
                     self.agreeTerms = !self.agreeTerms
                 }) {
+                    if(self.agreeTerms != true) {
+                        Icon(content: "multiply", color: Color.red)
+                            .padding(.bottom, 15)
+                    } else {
+                        Icon(content: "checkmark", color: Color.green)
+                            .padding(.bottom, 15)
+                    }
                     Text("Agree Terms & Policy")
                         .foregroundColor(colorScheme != .dark ? Color.black : Color.white)
                         .font(.system(size: 15))
