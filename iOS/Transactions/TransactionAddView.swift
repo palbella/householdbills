@@ -160,6 +160,7 @@ struct TransactionsAddView: View {
                     VStack(spacing: 0) {
                     PickerInput(iconContent: "", iconColor: .blue, label: "Account", placeholder: "Account", data: $accountList, value: $accountSelected, index: $accountIndex)
                         .onChange(of: accountIndex, perform: { value in
+                            self.accountId = accounts.items[accountIndex].id
                             transaction.destinationId = accounts.items[accountIndex].id
                             transaction.account = accounts.items[accountIndex].name
                         })
