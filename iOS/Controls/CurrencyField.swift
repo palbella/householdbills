@@ -13,7 +13,7 @@ public struct CurrencyField: View {
     // for the user's settings
     let currencyFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
+        formatter.numberStyle = .decimal
         return formatter
     }()
     
@@ -27,6 +27,7 @@ public struct CurrencyField: View {
     
     // Constant properties not managed by SwiftUI
     let title: String
+    let symbol: String = "$"
     let value: Binding<NSNumber?>
     let foregroundColor: UIColor
     let font: Font?
@@ -68,7 +69,7 @@ public struct CurrencyField: View {
                     // formatted version
                     self.isEditing ?
                         self.valueWhileEditing :
-                        self.formattedValue
+                    symbol + " " + self.formattedValue
                 },
                 // set the new value
                 set: { newValue in
