@@ -88,7 +88,7 @@ struct PaymentUpdateView: View {
 
                 
                     CurrencyField(
-                                "Amount",
+                                "Amount", symbol: self.$payment.wrappedValue.symbol,
                                 value: Binding(get: {
                                     return Decimal(payment.amount) as NSDecimalNumber
                                 }, set: { number in

@@ -264,7 +264,7 @@ struct PurchaseItemView: View {
                                         .padding(.leading, 5)
                                   
                                     CurrencyField(
-                                                "Price",
+                                        "Price", symbol: self.$purchase.wrappedValue.symbol,
                                                 value: Binding(get: {
                                                     return self.$items.items[index].price.wrappedValue as NSNumber
                                                 }, set: { number in

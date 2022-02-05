@@ -38,7 +38,7 @@ struct DoubleInput: View {
                     
             Spacer()
                 CurrencyField(
-                            "Amount",
+                            "Amount", symbol: "",
                             value: Binding(get: {
                                 return Decimal(value) as NSDecimalNumber
                             }, set: { number in

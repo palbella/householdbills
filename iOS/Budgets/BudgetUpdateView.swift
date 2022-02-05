@@ -108,7 +108,7 @@ struct BudgetUpdateView: View {
                     let fontColor = colorScheme != .dark ? ui.lightFieldFontColor: ui.darkFieldFontColor
                     
                     CurrencyField(
-                                "Amount",
+                                "Amount", symbol: self.$budget.wrappedValue.symbol,
                                 value: Binding(get: {
                                     return Decimal(budget.amount) as NSDecimalNumber
                                 }, set: { number in

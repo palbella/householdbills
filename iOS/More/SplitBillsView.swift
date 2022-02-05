@@ -63,7 +63,7 @@ struct SplitBillsView: View {
                   
                      
                     
-                    CurrencyField("Amount", value: $amount, foregroundColor: UIColor(Color(UIColor.lightGray)),
+                    CurrencyField("Amount", symbol: settings.symbol, value: $amount, foregroundColor: UIColor(Color(UIColor.lightGray)),
                                   maxLength: 10)
                         .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 10))
                         .accentColor(.red)

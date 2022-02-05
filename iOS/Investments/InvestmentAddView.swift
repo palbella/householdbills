@@ -79,7 +79,7 @@ struct InvestmentAddView: View {
                 let fontColor = colorScheme != .dark ? ui.lightFieldFontColor: ui.darkFieldFontColor
 
                 CurrencyField(
-                            "Amount",
+                            "Amount", symbol: self.$account.wrappedValue.symbol,
                             value: Binding(get: {
                                 return Decimal(account.amount) as NSDecimalNumber
                             }, set: { number in

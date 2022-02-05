@@ -27,7 +27,7 @@ public struct CurrencyField: View {
     
     // Constant properties not managed by SwiftUI
     let title: String
-    let symbol: String = "$"
+    let symbol: String
     let value: Binding<NSNumber?>
     let foregroundColor: UIColor
     let font: Font?
@@ -43,7 +43,7 @@ public struct CurrencyField: View {
     /// - Parameters:
     ///   - title: The title of the component
     ///   - value: The desired value of the component
-    public init(_ title: String,
+    public init(_ title: String, symbol: String,
                 value: Binding<NSNumber?>,
                 foregroundColor: UIColor,
                 font: Font? = nil,
@@ -51,6 +51,7 @@ public struct CurrencyField: View {
                 maxLength: Int? = nil
     ) {
         self.title = title
+        self.symbol = symbol
         self.value = value
         self.foregroundColor = foregroundColor
         self.font = font

@@ -110,7 +110,7 @@ struct PaymentAddView: View {
                 let fontColor = colorScheme != .dark ? ui.lightFieldFontColor: ui.darkFieldFontColor
 
                 CurrencyField(
-                            "Amount",
+                            "Amount", symbol: self.$payment.wrappedValue.symbol,
                             value: Binding(get: {
                                 return Decimal(payment.amount) as NSDecimalNumber
                             }, set: { number in

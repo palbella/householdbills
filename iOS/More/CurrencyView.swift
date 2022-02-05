@@ -126,7 +126,7 @@ struct CurrencyView: View {
 
                                 if(index != 0) {
                                 CurrencyField(
-                                            "Amount",
+                                            "Amount", symbol: settings.symbol,
                                             value: Binding(get: {
                                                 return self.$currencies.items[index].rate.wrappedValue as NSNumber
                                             }, set: { number in
