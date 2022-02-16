@@ -81,7 +81,9 @@ struct HouseholdBillsApp: App {
     
     let fetchRequest: NSFetchRequest<Settings> = Settings.fetchRequest()
    
-
+    init() {
+        dataStart()
+      }
 
     var body: some Scene {
         WindowGroup {
@@ -89,9 +91,9 @@ struct HouseholdBillsApp: App {
                     .environmentObject(settings)
                     .environmentObject(appUI)
                     .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                    .onAppear {
-                        dataStart()
-                    }
+//                    .onAppear {
+//                        dataStart()
+//                    }
 //                    .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
 //                        dataStart()
 //                    }
@@ -165,17 +167,17 @@ struct StartView: View {
 
     var body: some View {
         if (settings.welcome) {
-           return DashboardView()
+           return AnyView(WelcomeView())
 //            return AnyView(WelcomeView())
         } else {
             let calendar = Calendar.current
             let date = calendar.date(byAdding: .minute, value: -30, to: Date())
             if (settings.loggedIn && settings.lastLogin != nil && settings.lastLogin! > date!){
 //                return AnyView(MainView())
-                return DashboardView()
+                return AnyView(MainView())
             }else {
 //                return AnyView(LogInView())
-                return DashboardView()
+                return AnyView(MainView())
             }
         }
        

@@ -54,11 +54,24 @@ struct FeedbackView: View {
                 HStack(spacing: 0) {
                     
                     Button(action: {
+                        self.save = true
+                        self.modal = false
+                    }) {
+                        CardMenu(prompt: "exclamationmark.bubble", title: "Feedback")
+                    }
+                }
+                .padding(.leading, 20)
+                .padding(.trailing, 20)
+                
+                HStack(spacing: 0) {
+                    
+                    Button(action: {
                         self.save = false
                         self.modal = false
                         rateApp()
                     }) {
                         CardMenu(prompt: "hand.thumbsup", title: "I like it")
+                        
                     }
                     
                     
@@ -66,10 +79,11 @@ struct FeedbackView: View {
                     Spacer()
                     
                     Button(action: {
-                        self.save = true
+                        self.save = false
                         self.modal = false
+                        rateApp()
                     }) {
-                        CardMenu(prompt: "hand.thumbsdown", title: "I have an issue")
+                        CardMenu(prompt: "hand.thumbsdown", title: "I don't like it")
                     }
                       
                     

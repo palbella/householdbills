@@ -185,11 +185,15 @@ extension String {
             language = "en"
         }
         
-        let path = Bundle.main.path(forResource: language, ofType: "lproj")!
-        let bundle = Bundle(path: path)!
-        let localizedString = NSLocalizedString(key, bundle: bundle, comment: "")
-        
-        return localizedString
+        if((Bundle.main.path(forResource: language, ofType: "lproj")) != nil) {
+            let path = Bundle.main.path(forResource: language, ofType: "lproj")!
+            let bundle = Bundle(path: path)!
+            let localizedString = NSLocalizedString(key, bundle: bundle, comment: "")
+            
+            return localizedString
+        } else {
+            return key
+        }
     }
 }
 
@@ -218,7 +222,7 @@ extension Bundle {
         Bundle.once
 
         let isLanguageRTL = Locale.characterDirection(forLanguage: language) == .rightToLeft
-        UIView.appearance().semanticContentAttribute = isLanguageRTL == true ? .forceRightToLeft : .forceLeftToRight
+//        UIView.appearance().semanticContentAttribute = isLanguageRTL == true ? .forceRightToLeft : .forceLeftToRight
 
 //        let domain = Bundle.main.bundleIdentifier!
 //        UserDefaults.standard.removePersistentDomain(forName: domain)
