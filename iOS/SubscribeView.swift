@@ -76,7 +76,7 @@ struct SubscribeView: View {
                     presentationMode.wrappedValue.dismiss()
                 }) {
                     HStack {
-                        Text("Subscribe")
+                        Text("Subscribe ") + Text(IPAService.shared.products[0].localizedPrice) + Text(" / Year")
                     }
                     .padding()
                     .frame(width: geometry.size.width - 40, height: 40)
