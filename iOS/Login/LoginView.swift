@@ -375,7 +375,7 @@ struct PassCodeField: UIViewRepresentable {
         uiView.text = text
         if isFirstResponder && !context.coordinator.didBecomeFirstResponder  {
             uiView.becomeFirstResponder()
-            context.coordinator.didBecomeFirstResponder = true
+            context.coordinator.didBecomeFirstResponder = false
         }
     }
 }
