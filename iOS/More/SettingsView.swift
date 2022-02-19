@@ -99,8 +99,38 @@ struct SettingsView: View {
             Toggle("Swipe Down for apply changes", isOn: $settings.fastApply)
                 .padding()
             
-            Text("For English language you can set up on Settings -> Household Bills -> Language")
-                .padding()
+            HStack() {
+                Button(action: {
+                    let url = URL(string:UIApplication.openSettingsURLString)
+                            if UIApplication.shared.canOpenURL(url!){
+                                // can open succeeded.. opening the url
+                                UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+                            }
+                }) {
+                    
+                    HStack (spacing: 0) {
+                        Text("")
+         
+                    Text("Change Language")
+                        .foregroundColor(labelColor)
+                        .padding(.leading, 10)
+
+                            
+                    Spacer()
+                            Text(">").padding(5).padding(.leading, 5).padding(.trailing, 5)
+                                .multilineTextAlignment(.trailing)
+                                .foregroundColor(fontColor)
+
+                
+                        
+                }
+                    .padding(.top, 16)
+                    .padding(.bottom, 16)
+              
+                }
+            }
+//            Text("For English language you can set up on Settings -> Household Bills -> Language")
+//                .padding()
            
 //            Toggle("English", isOn: $settings.forceEnglish)
 //                .padding()

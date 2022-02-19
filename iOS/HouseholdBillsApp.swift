@@ -166,6 +166,7 @@ struct HouseholdBillsApp: App {
 //                
 //                print(NSLocale.current.languageCode)
                 
+                //Used for testing do not commit uncomented 
 //                self.settings.subscribed = false
                 
 
