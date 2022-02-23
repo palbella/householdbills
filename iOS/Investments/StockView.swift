@@ -38,6 +38,8 @@ struct StockView: View {
     @Binding var totalPrices: Double
     @Binding var totalInvestments: Double
     
+    @State var totalDividend: Double = 0
+    
     public let predicate: NSPredicate
 
     var stockFetch: FetchRequest<Stock>
@@ -157,17 +159,22 @@ struct StockView: View {
                                                                       self.isShowing = true
                                                                   }) {
                                                                       
-                                                                      VStack (spacing: 0) {
+                                                                      VStack (spacing: 10) {
                                                                           HStack (spacing: 0) {
                                                                             Icon(content: "stocks", color: Color.yellow).padding(8).padding(.leading, 5).padding(.trailing, 5)
 
                                                                               VStack (spacing: 0) {
 
                                                                               HStack (spacing: 0) {
+                                                                                  
+                                                                                  VStack(alignment: .leading, spacing: 0) {
                                                                                 Text(item.name!)
                                                                               .font(.system(size: 15))
                                                                               .foregroundColor(colorScheme != .dark ? ui.lightItemFontColor: ui.darkItemFontColor)
-
+                                                                                      
+                                                                                  
+                                                                                      
+                                                                                  }
                                                                                 Spacer()
 
                                                                                   VStack(alignment: .trailing, spacing: 0) {
@@ -193,7 +200,7 @@ struct StockView: View {
                                                                                         .multilineTextAlignment(.trailing)
                                                                                   .font(.system(size: 10))
                                                                                 }
-                                                                                .frame(width: 180, alignment: .trailing)
+                                                                                .frame(width: 150, alignment: .trailing)
                                                                               }
 
                                                                               
@@ -330,7 +337,36 @@ struct StockView: View {
 
                     }
                   
-                    
+                    VStack (spacing: 0) {
+                        HStack (spacing: 0) {
+                          Icon(content: "info", color: Color.blue).padding(5).padding(.leading, 5).padding(.trailing, 5)
+
+                            VStack (spacing: 0) {
+
+                            HStack (spacing: 0) {
+                              Text("Total Annual Dividends")
+                            .font(.system(size: 15))
+                            .foregroundColor(colorScheme != .dark ? ui.lightItemFontColor: ui.darkItemFontColor)
+
+                        Spacer()
+                                Text(self.account.symbol + " " + String(format: "%.2f", (self.totalDividend))).padding(.leading, 5).padding(.trailing, 5).padding(.top, 5)
+                            .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor )
+                            .font(.system(size: 15))
+                                      .multilineTextAlignment(.trailing)
+
+
+
+                            }
+
+                          
+
+                            }
+                    }
+                    .frame(maxWidth: .infinity)
+                        .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
+
+                    }
+                  
                 }
                 Spacer()
          
@@ -379,6 +415,7 @@ struct StockView: View {
         
         self.totalPrices = 0
         self.totalInvestments = 0
+        self.totalDividend = 0
         let request: NSFetchRequest<Stock> = Stock.fetchRequest()
         request.predicate = NSPredicate(format: "accountId = %@", self.$account.wrappedValue.id as CVarArg)
 
@@ -388,9 +425,11 @@ struct StockView: View {
                 for item in savedStocks {
                     let amount: Double = currencies.convert(currencyFrom: "USD", currencyTo: self.account.currency, value: (item.price * item.amount))
                     let amountInvestment: Double = currencies.convert(currencyFrom: "USD", currencyTo: self.account.currency, value: (item.avgPurchase * item.amount))
+                    let dividend: Double = currencies.convert(currencyFrom: "USD", currencyTo: self.account.currency, value: (item.dividend * item.amount))
                     
                     self.totalPrices = self.totalPrices + amount
                     self.totalInvestments = self.totalInvestments + amountInvestment
+                    self.totalDividend = self.totalDividend + dividend
                 }
                
             } catch {

@@ -27,6 +27,10 @@ struct APIView: View {
     @State var apiTypesIndex: Int = 0
     @State var apiTypesSelected: String? = "GET"
     
+    @State var apiCryptoTypes = ["Binance"]
+    @State var apiCryptoTypesIndex: Int = 0
+    @State var apiCryptoTypesSelected: String? = "Binance"
+    
     @State var responseExample: String = "GET"
     @State var requestExample: String = "GET"
     
@@ -60,6 +64,7 @@ struct APIView: View {
             self.apiTypesIndex = 0
             self.apiTypesSelected = "Yahoo!"
         }
+   
     }
     
  
@@ -236,9 +241,55 @@ struct APIView: View {
                                }
                                .padding(.top, 15)
                                case 1:
-                               CardMenu(prompt: "hammer", title: "Not supported yet")
+                               VStack {
+                                   ZStack {
+                                               RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                                   .fill(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
+                                                   .clipped()
+                                                   .shadow(color: colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor,radius: 1, x: 0, y: 0)
+                                                   .padding()
+
+                                               VStack {
+                                            
+                                                   PickerInput(iconContent: "", iconColor: .blue, label: "Type", placeholder: "Type", data: $apiCryptoTypes, value: $apiCryptoTypesSelected, index: $apiCryptoTypesIndex)
+                                                       .onChange(of: apiCryptoTypesSelected, perform: { value in
+                                                           if(apiCryptoTypesSelected != nil) {
+                                                               model.type = apiCryptoTypesSelected!
+                                                           }
+                                                       })
+                                                       .padding(.bottom, 5)
+                                                 
+                                               }
+                                               .frame(width: 250, height: 100)
+                                               .multilineTextAlignment(.center)
+                                           }
+                               }
+                               .padding(.top, 15)
                                case 2:
-                               CardMenu(prompt: "hammer", title: "Not supported yet")
+                               VStack {
+                                   ZStack {
+                                               RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                                   .fill(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
+                                                   .clipped()
+                                                   .shadow(color: colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor,radius: 1, x: 0, y: 0)
+                                                   .padding()
+
+                                               VStack {
+                                            
+                                                   PickerInput(iconContent: "", iconColor: .blue, label: "Type", placeholder: "Type", data: $apiCryptoTypes, value: $apiCryptoTypesSelected, index: $apiCryptoTypesIndex)
+                                                       .onChange(of: apiCryptoTypesSelected, perform: { value in
+                                                           if(apiCryptoTypesSelected != nil) {
+                                                               model.type = apiCryptoTypesSelected!
+                                                           }
+                                                       })
+                                                       .padding(.bottom, 5)
+                                                 
+                                               }
+                                               .frame(width: 250, height: 100)
+                                               .multilineTextAlignment(.center)
+                                           }
+                               }
+                               .padding(.top, 15)
                            default:
                                CardMenu(prompt: "metronome", title: "Something Went Wrong")
                            }

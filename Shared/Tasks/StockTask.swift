@@ -87,8 +87,12 @@ struct GetMarketStocks {
                             let symbol = record["symbol"] as! String
                             let name = record["shortName"] as! String
                             let price = record["regularMarketPrice"] as! Double
+                            let exchange = record["exchange"] as! String
+                            let dividend = record["trailingAnnualDividendYield"] as! Double
+                            let dividendPercent = record["trailingAnnualDividendRate"] as! Double
+                            let pe = record["trailingPE"] as! Double
                             
-                            saveStockPriceSymbol(price: price, symbol: symbol, name: name, notification: notification)
+                            saveStockPriceSymbol(price: price, symbol: symbol, name: name, exchange: exchange, dividend: dividend, dividendPercent: dividendPercent, pe: pe, notification: notification)
                             
                         }
                     }
@@ -191,7 +195,7 @@ struct GetMarketStocks {
 
     }
     
-    func saveStockPriceSymbol(price: Double, symbol: String, name: String, notification: Bool)
+    func saveStockPriceSymbol(price: Double, symbol: String, name: String, exchange: String, dividend: Double, dividendPercent: Double, pe: Double, notification: Bool)
     {
                       
         do {
@@ -207,8 +211,24 @@ struct GetMarketStocks {
                                                                             }
                                                                             savedStocks[index].notificated = true
                                                                         }
+                                                                        
+                                                                       
+                                                                        let arrName = name.components(separatedBy: " ")
+                                                                        var shortName = arrName[0]
+                                                                        for i in 1..<arrName.count {
+                                                                            let count = shortName.digits.count + arrName[i].digits.count
+                                                                            if(count < 20) {
+                                                                                shortName = shortName + " " + arrName[i]
+                                                                            }
+                                                                        }
+                                                                        
                                                                         savedStocks[index].price = price
-                                                                        savedStocks[index].name = name
+                                                                        savedStocks[index].name = shortName
+                                                                        savedStocks[index].exchange = exchange
+                                                                        savedStocks[index].pe = pe
+                                                                        savedStocks[index].dividend = dividend
+                                                                        savedStocks[index].dividendPercent = dividendPercent
+                                                                        
                                                                              SaveContext()
                                                                         
                                                                         saveTotalAccounts ()

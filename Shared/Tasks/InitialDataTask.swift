@@ -17,6 +17,28 @@ struct InitialData {
         self.viewContext = viewContext
         
     }
+    func sync() {
+       
+        do {
+                let request: NSFetchRequest<Card> = Card.fetchRequest()
+                
+                let savedCardss = try  self.viewContext.fetch(request)
+                
+            if(savedCardss.count > 10) {
+                deleteAllData(entity: "Card")
+                deleteAllData(entity: "Category")
+                deleteAllData(entity: "Currency")
+                initialDataCards()
+                initialDataCategories()
+                initialCurrencies()
+            }
+            
+        } catch {
+            print(error)
+        }
+        
+    
+    }
     
     func run(password: String, name: String, email: String) {
         initialSettings(password: password, name: name, email: email)
@@ -828,6 +850,14 @@ struct InitialData {
         newMigration.date = Date()
       
         SaveContext()
+    }
+    
+    func deleteAllData(entity: String)
+    {
+        let ReqVar = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+        let DelAllReqVar = NSBatchDeleteRequest(fetchRequest: ReqVar)
+        do { try viewContext.execute(DelAllReqVar) }
+        catch { print(error) }
     }
     
     private func SaveContext () {

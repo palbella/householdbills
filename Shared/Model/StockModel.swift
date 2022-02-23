@@ -21,7 +21,9 @@ struct StockModel: Hashable, Identifiable {
     var notificated: Bool
     var notificationPriceUp: Double
     var notificationPriceDown: Double
-
+    var exchange: String
+    var dividend: Double
+    var dividendPercent: Double
 
     
     init() {
@@ -35,6 +37,9 @@ struct StockModel: Hashable, Identifiable {
         self.notificationPriceUp = 0
         self.notificationPriceDown = 0
         self.notificated = false
+        self.exchange = ""
+        self.dividend = 0
+        self.dividendPercent = 0
         
     }
 }

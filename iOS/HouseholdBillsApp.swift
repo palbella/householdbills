@@ -197,6 +197,7 @@ struct HouseholdBillsApp: App {
         BackgroundThreadTask().scheduleAppRefresh()
         DailyBalanceTask(viewContext: persistenceController.container.viewContext, settings: settings).run()
         GetCarAlerts(viewContext: persistenceController.container.viewContext).run()
+        InitialData(viewContext: persistenceController.container.viewContext).sync()
         if(settings.subscribed == true) {
             GetMarketCriptocurrencies(viewContext: persistenceController.container.viewContext).run()
             GetMarketStocks(viewContext: persistenceController.container.viewContext).run()

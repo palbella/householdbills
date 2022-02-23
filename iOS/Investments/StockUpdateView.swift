@@ -88,7 +88,120 @@ struct StockUpdateView: View {
                 DoubleInput(labelColor: labelColor, fontColor: fontColor, iconContent: "", iconColor: .blue, label: "Alert Price Below", value: $stock.notificationPriceDown)
             
                
+                Section(header:
+                            HStack {
+                                VStack{
+                               
+                                Text("Details")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(.top, 5)
+                                    .padding(.leading, 10)
+                                    .padding(.bottom, 5)
+                                    .font(.system(size: 12))
+                                    .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor)
+                                }
+                       
+                               
+                            }
+                            .padding(.top, 15)
+                          
+                ) {
+                    Divider()
+                    VStack (spacing: 0) {
+                        HStack (spacing: 0) {
+                            Icon(content: "info", color: Color.blue).padding(5).padding(.leading, 5).padding(.trailing, 5)
 
+                            VStack (spacing: 0) {
+
+                            HStack (spacing: 0) {
+                              Text("Exchange")
+                            .font(.system(size: 15))
+                            .foregroundColor(colorScheme != .dark ? ui.lightItemFontColor: ui.darkItemFontColor)
+
+                        Spacer()
+
+                            Text(self.stock.exchange).padding(.leading, 5).padding(.trailing, 5).padding(.top, 5)
+                            .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor )
+                            .font(.system(size: 15))
+                                      .multilineTextAlignment(.trailing)
+
+
+
+                            }
+
+                             
+
+                            }
+                    }
+                    .frame(maxWidth: .infinity)
+                        .padding(.top, 5)
+                        .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
+
+                    }
+                    
+                    VStack (spacing: 0) {
+                        HStack (spacing: 0) {
+                          Icon(content: "info", color: Color.blue).padding(5).padding(.leading, 5).padding(.trailing, 5)
+
+                            VStack (spacing: 0) {
+
+                            HStack (spacing: 0) {
+                              Text("Dividend")
+                            .font(.system(size: 15))
+                            .foregroundColor(colorScheme != .dark ? ui.lightItemFontColor: ui.darkItemFontColor)
+
+                        Spacer()
+
+                                Text("$ " + String(format: "%.2f", self.stock.dividend)).padding(.leading, 5).padding(.trailing, 5).padding(.top, 5)
+                            .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor )
+                            .font(.system(size: 15))
+                                      .multilineTextAlignment(.trailing)
+
+
+
+                            }
+
+                             
+
+                            }
+                    }
+                    .frame(maxWidth: .infinity)
+                        .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
+
+                    }
+                    
+                    VStack (spacing: 0) {
+                        HStack (spacing: 0) {
+                          Icon(content: "info", color: Color.blue).padding(5).padding(.leading, 5).padding(.trailing, 5)
+
+                            VStack (spacing: 0) {
+
+                            HStack (spacing: 0) {
+                              Text("Dividend Percent")
+                            .font(.system(size: 15))
+                            .foregroundColor(colorScheme != .dark ? ui.lightItemFontColor: ui.darkItemFontColor)
+
+                        Spacer()
+                                Text("% " + String(format: "%.2f", self.stock.dividendPercent)).padding(.leading, 5).padding(.trailing, 5).padding(.top, 5)
+                            .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor )
+                            .font(.system(size: 15))
+                                      .multilineTextAlignment(.trailing)
+
+
+
+                            }
+
+                          
+
+                            }
+                    }
+                    .frame(maxWidth: .infinity)
+                        .background(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
+
+                    }
+                    .padding(.bottom, 5)
+                    
+                }
                 
             }
             
@@ -128,6 +241,7 @@ struct StockUpdateView: View {
             self.onAppear()
         }
             
+               
             
            
                 Divider()
