@@ -36,17 +36,17 @@ class APIData: ObservableObject {
             }
             
             if(api.response != "[anyProperty][propertyPrice]") {
+                saved.stockResponse = api.response
+            } else {
+                saved.stockResponse = ""
+            }
+            
+            if(api.request != "{ json: { example: 'request body' } }") {
                 saved.stockRequest = api.request
             } else {
                 saved.stockRequest = ""
             }
             
-            if(api.request == "{ json: { example: 'request body' } }") {
-                saved.stockResponse = api.response
-            } else {
-                saved.stockResponse = ""
-            }
-                
             saved.stockType = api.type
             
         } catch {
@@ -81,7 +81,11 @@ class APIData: ObservableObject {
                 model.response = "[anyProperty][propertyPrice]"
             }
             if(model.request == "") {
-                model.request = "{ json: { example: 'request body' } }"
+                model.request = ""
+            }
+            
+            if(model.type == "Yahoo!") {
+                model.api = "https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=$stock$"
             }
             
             

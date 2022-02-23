@@ -117,7 +117,7 @@ class GetAPI: ObservableObject {
 
     init() {
         self.items = [
-            "GET", "POST"]
+            "Yahoo!", "GET", "POST"]
         
     }
 }

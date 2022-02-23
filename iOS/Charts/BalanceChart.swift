@@ -175,12 +175,14 @@ struct LineChartSwiftUI: UIViewRepresentable {
                 scope = 365
             }
             
+            if(scope > records.count) {
             for index in 0..<(scope - records.count) {
                 dateComponent.day = -1 * (scope - records.count - index)
                 var element = BalanceChartModel();
                 element.balance = 0
                 element.date = Calendar.current.date(byAdding: dateComponent, to: records[0].date!)
                 dataCollection.append(element)
+            }
             }
             
             for object in records {

@@ -41,14 +41,26 @@ struct GetMarketStocks {
         
       
         do {
- 
+            let api = self.apiData.get()
+            var stocks = ""
             let savedStocks = try  viewContext.fetch(request)
 
                             for index in 0..<savedStocks.count {
                                 
-                                getStockPrice(symbol: savedStocks[index].symbol!, stockId: savedStocks[index].id!, notification: notification)
-                                
+                                if(api.type != "Yahoo!") {
+                                    getStockPrice(symbol: savedStocks[index].symbol!, stockId: savedStocks[index].id!, notification: notification)
+                                } else {
+                                    if(stocks == "") {
+                                        stocks = savedStocks[index].symbol!
+                                    } else {
+                                        stocks = stocks + "," + savedStocks[index].symbol!
+                                    }
+                                }
                         }
+            
+            if(api.type == "Yahoo!") {
+                getStockYahooPrice(symbols: stocks, notification: notification)
+            }
             
             
         } catch {
@@ -58,7 +70,49 @@ struct GetMarketStocks {
   
     }
     
-    
+    func getStockYahooPrice(symbols: String, notification: Bool)
+    {
+        GetStockAPI().loadData (symbol: symbols) { [self]  (res) in
+            
+            do {
+          
+                let quote = res["quoteResponse"] as? [String: Any?]
+                if(quote != nil) {
+                 
+                    let result = quote!["result"] as? [Any?]
+                    if(result != nil) {
+                        for index in 0..<result!.count {
+                            let record = result![index] as AnyObject
+                            
+                            let symbol = record["symbol"] as! String
+                            let name = record["shortName"] as! String
+                            let price = record["regularMarketPrice"] as! Double
+                            
+                            saveStockPriceSymbol(price: price, symbol: symbol, name: name, notification: notification)
+                            
+                        }
+                    }
+                }
+                
+           
+               
+
+//            var price: Double = 0
+//
+//                if let p = Double(value) {
+//                    price = p
+//                }
+//
+
+//            if(price > 0) {
+//            saveStockPrice(price: price, stockId: stockId, notification: notification)
+//            } else {
+//                saveTotalAccounts ()
+//            }
+            }
+                                               
+           }
+    }
     
     func getStockPrice(symbol: String, stockId: UUID, notification: Bool)
     {
@@ -76,7 +130,7 @@ struct GetMarketStocks {
                 var value: String = ""
                 
                 if let prices = res[properties[0]] as? [String: Any?] {
-                    value = prices[properties[1]] as! String
+                    value = prices[properties[1]] as? String ?? "0"
                 } else {
                     if let price = res[properties[0]] as? String {
                         value = price
@@ -100,8 +154,6 @@ struct GetMarketStocks {
             } else {
                 saveTotalAccounts ()
             }
-            } catch {
-               
             }
                                                
            }
@@ -125,6 +177,38 @@ struct GetMarketStocks {
                                                                             savedStocks[index].notificated = true
                                                                         }
                                                                         savedStocks[index].price = price
+                                                                             SaveContext()
+                                                                        
+                                                                        saveTotalAccounts ()
+                                                                    }
+                                                                }
+                                               
+            
+        } catch {
+            print(error)
+        }
+        
+
+    }
+    
+    func saveStockPriceSymbol(price: Double, symbol: String, name: String, notification: Bool)
+    {
+                      
+        do {
+                                                let savedStocks = try  viewContext.fetch(request)
+                                                                for index in 0..<savedStocks.count {
+                                                                    if(savedStocks[index].symbol == symbol) {
+                                                                        if(notification) {
+                                                                            if(savedStocks[index].price > savedStocks[index].notificationPriceUp && !savedStocks[index].notificated) {
+                                                                                NotificationTask().run(title: savedStocks[index].name! + " price alert!", subtitle: String(savedStocks[index].price))
+                                                                            }
+                                                                            if(savedStocks[index].price < savedStocks[index].notificationPriceDown && !savedStocks[index].notificated) {
+                                                                                NotificationTask().run(title: savedStocks[index].name! + " price alert!", subtitle: String(savedStocks[index].price))
+                                                                            }
+                                                                            savedStocks[index].notificated = true
+                                                                        }
+                                                                        savedStocks[index].price = price
+                                                                        savedStocks[index].name = name
                                                                              SaveContext()
                                                                         
                                                                         saveTotalAccounts ()
@@ -199,12 +283,20 @@ class GetStockAPI: ObservableObject {
     func loadData(symbol: String, completion:@escaping ([String: Any?]) -> ()) {
         let api = self.apiData.get()
         let url = api.api.replacingOccurrences(of: "$stock$", with: symbol)
+        let token = api.request
         
            guard let url = URL(string: url) else {
                print("Invalid url...")
                return
            }
-           URLSession.shared.dataTask(with: url) { data, response, error in
+        var request = URLRequest(url: url)
+                request.httpMethod = "GET"
+        
+        if(api.type == "Yahoo!") {
+                request.setValue("\(token)", forHTTPHeaderField: "x-api-key")
+        }
+        
+           URLSession.shared.dataTask(with: request) { data, response, error in
 
 //                        let str = String(data: data!, encoding: .utf8)
 //                        print(str as Any)
@@ -226,3 +318,4 @@ class GetStockAPI: ObservableObject {
            
        }
 }
+

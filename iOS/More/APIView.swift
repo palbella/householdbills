@@ -46,9 +46,19 @@ struct APIView: View {
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         
-        if(model.type == "POST") {
+        if(model.type == "GET") {
             self.apiTypesIndex = 1
+            self.apiTypesSelected = "GET"
+        }
+        
+        if(model.type == "POST") {
+            self.apiTypesIndex = 2
             self.apiTypesSelected = "POST"
+        }
+        
+        if(model.type == "Yahoo!") {
+            self.apiTypesIndex = 0
+            self.apiTypesSelected = "Yahoo!"
         }
     }
     
@@ -87,7 +97,7 @@ struct APIView: View {
                                            VStack {
                                         
                                                PickerInput(iconContent: "", iconColor: .blue, label: "Type", placeholder: "Type", data: $apiTypes.items, value: $apiTypesSelected, index: $apiTypesIndex)
-                                                   .onChange(of: apiTypesIndex, perform: { value in
+                                                   .onChange(of: apiTypesSelected, perform: { value in
                                                        if(apiTypesSelected != nil) {
                                                            model.type = apiTypesSelected!
                                                        }
@@ -137,86 +147,90 @@ struct APIView: View {
                                                .frame(width: 250, height: 150)
                                                .multilineTextAlignment(.center)
                                            }
+                                       
+                                       Section(header:
+                                           HStack {
+                                               VStack{
+                                                   Spacer()
+                                               Text("RESPONSE: [anyProperty][propertyPrice] or just [propertyPrice]")
+                                               .frame(maxWidth: .infinity, alignment: .leading)
+                                               .padding(.top, 10)
+                                               .padding(.leading, 20)
+                                               .padding(.bottom, 0)
+                                               .font(.system(size: 12))
+                                               .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor)
+                                               }
+                                               Spacer()
+                                               
+                                              
+                                           }
+                                         
+                                           
+                               ) {
+                               ZStack {
+                                           RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                               .fill(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
+                                               .clipped()
+                                               .shadow(color: colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor,radius: 1, x: 0, y: 0)
+                                               .padding()
+
+                                           VStack {
+     
+                                               MultilineTextView(text: $model.response)
+                                                   .frame(width: 250, height: 100)
+                                                       .multilineTextAlignment(.trailing)
+                                             
+                                           }
+
+                                           .frame(width: 250, height: 150)
+                                           .multilineTextAlignment(.center)
+                                       }
+                                       }
                                    }
+                                   }
+                                       if(model.type == "Yahoo!") {
+                                       Section(header:
+                                                   HStack {
+                                                       VStack{
+                                                           Spacer()
+                                                       Text(verbatim: "API key")
+                                                       .frame(maxWidth: .infinity, alignment: .leading)
+                                                       .padding(.top, 10)
+                                                       .padding(.leading, 20)
+                                                       .padding(.bottom, 0)
+                                                       .font(.system(size: 12))
+                                                       .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor)
+                                                       }
+                                                       Spacer()
+                                                       
+                                                      
+                                                   }
+                                                 
+                                                   
+                                       ) {
+                                       ZStack {
+                                                   RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                                       .fill(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
+                                                       .clipped()
+                                                       .shadow(color: colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor,radius: 1, x: 0, y: 0)
+                                                       .padding()
+
+                                                   VStack {
+             
+                                                       MultilineTextView(text: $model.request)
+                                                           .frame(width: 250, height: 100)
+                                                               .multilineTextAlignment(.trailing)
+                                                     
+                                                   }
+
+                                                   .frame(width: 250, height: 150)
+                                                   .multilineTextAlignment(.center)
+                                               }
+                                       }
+                                       }
+                                   
                                    if(model.type == "POST") {
-                                   Section(header:
-                                               HStack {
-                                                   VStack{
-                                                       Spacer()
-                                                   Text("REQUEST")
-                                                   .frame(maxWidth: .infinity, alignment: .leading)
-                                                   .padding(.top, 10)
-                                                   .padding(.leading, 20)
-                                                   .padding(.bottom, 0)
-                                                   .font(.system(size: 12))
-                                                   .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor)
-                                                   }
-                                                   Spacer()
-                                                   
-                                                  
-                                               }
-                                             
-                                               
-                                   ) {
-                                   ZStack {
-                                               RoundedRectangle(cornerRadius: 8, style: .continuous)
-                                                   .fill(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
-                                                   .clipped()
-                                                   .shadow(color: colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor,radius: 1, x: 0, y: 0)
-                                                   .padding()
-
-                                               VStack {
-         
-                                                   MultilineTextView(text: $model.request)
-                                                       .frame(width: 250, height: 100)
-                                                           .multilineTextAlignment(.trailing)
-                                                 
-                                               }
-
-                                               .frame(width: 250, height: 150)
-                                               .multilineTextAlignment(.center)
-                                           }
-                                   }
-                                   }
-                                   Section(header:
-                                               HStack {
-                                                   VStack{
-                                                       Spacer()
-                                                   Text("RESPONSE: [anyProperty][propertyPrice] or just [propertyPrice]")
-                                                   .frame(maxWidth: .infinity, alignment: .leading)
-                                                   .padding(.top, 10)
-                                                   .padding(.leading, 20)
-                                                   .padding(.bottom, 0)
-                                                   .font(.system(size: 12))
-                                                   .foregroundColor(colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor)
-                                                   }
-                                                   Spacer()
-                                                   
-                                                  
-                                               }
-                                             
-                                               
-                                   ) {
-                                   ZStack {
-                                               RoundedRectangle(cornerRadius: 8, style: .continuous)
-                                                   .fill(colorScheme != .dark ? ui.lightItemBackgroundColor: ui.darkItemBackgroundColor)
-                                                   .clipped()
-                                                   .shadow(color: colorScheme != .dark ? ui.lightCommandFontColor: ui.darkCommandFontColor,radius: 1, x: 0, y: 0)
-                                                   .padding()
-
-                                               VStack {
-         
-                                                   MultilineTextView(text: $model.response)
-                                                       .frame(width: 250, height: 100)
-                                                           .multilineTextAlignment(.trailing)
-                                                 
-                                               }
-
-                                               .frame(width: 250, height: 150)
-                                               .multilineTextAlignment(.center)
-                                           }
-                                   }
-                                   } else {
+                               
                                        CardMenu(prompt: "hammer", title: "Not supported yet")
                                    }
                                }
