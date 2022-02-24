@@ -84,15 +84,16 @@ struct GetMarketStocks {
                         for index in 0..<result!.count {
                             let record = result![index] as AnyObject
                             
-                            let symbol = record["symbol"] as! String
-                            let name = record["shortName"] as! String
-                            let price = record["regularMarketPrice"] as! Double
-                            let exchange = record["exchange"] as! String
-                            let dividend = record["trailingAnnualDividendYield"] as! Double
-                            let dividendPercent = record["trailingAnnualDividendRate"] as! Double
-                            let pe = record["trailingPE"] as! Double
+                            let symbol = record["symbol"] as? String
+                            let name = record["shortName"] as? String
+                            let price = record["regularMarketPrice"] as? Double
+                            let exchange = record["exchange"] as? String
+                            let dividend = record["trailingAnnualDividendYield"] as? Double
+                            let dividendPercent = record["trailingAnnualDividendRate"] as? Double
+                            let pe = record["trailingPE"] as? Double
+
                             
-                            saveStockPriceSymbol(price: price, symbol: symbol, name: name, exchange: exchange, dividend: dividend, dividendPercent: dividendPercent, pe: pe, notification: notification)
+                            saveStockPriceSymbol(price: price ?? 0, symbol: symbol ?? "", name: name ?? "", exchange: exchange ?? "", dividend: dividend ?? 0, dividendPercent: dividendPercent ?? 0, pe: pe ?? 0, notification: notification)
                             
                         }
                     }
@@ -201,7 +202,7 @@ struct GetMarketStocks {
         do {
                                                 let savedStocks = try  viewContext.fetch(request)
                                                                 for index in 0..<savedStocks.count {
-                                                                    if(savedStocks[index].symbol == symbol) {
+                                                                    if(savedStocks[index].symbol!.replacingOccurrences(of: " ", with: "") == symbol) {
                                                                         if(notification) {
                                                                             if(savedStocks[index].price > savedStocks[index].notificationPriceUp && !savedStocks[index].notificated) {
                                                                                 NotificationTask().run(title: savedStocks[index].name! + " price alert!", subtitle: String(savedStocks[index].price))
@@ -216,7 +217,7 @@ struct GetMarketStocks {
                                                                         let arrName = name.components(separatedBy: " ")
                                                                         var shortName = arrName[0]
                                                                         for i in 1..<arrName.count {
-                                                                            let count = shortName.digits.count + arrName[i].digits.count
+                                                                            let count = shortName.count + arrName[i].count
                                                                             if(count < 20) {
                                                                                 shortName = shortName + " " + arrName[i]
                                                                             }
@@ -302,9 +303,9 @@ class GetStockAPI: ObservableObject {
     
     func loadData(symbol: String, completion:@escaping ([String: Any?]) -> ()) {
         let api = self.apiData.get()
-        let url = api.api.replacingOccurrences(of: "$stock$", with: symbol)
+        let url = api.api.replacingOccurrences(of: "$stock$", with: symbol).replacingOccurrences(of: " ", with: "")
         let token = api.request
-        
+        print(url)
            guard let url = URL(string: url) else {
                print("Invalid url...")
                return
