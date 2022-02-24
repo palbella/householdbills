@@ -14,6 +14,7 @@ struct APIModel: Hashable {
     var request: String
     var response: String
     var type: String
+    var typeApi: String
 
     
     init() {
@@ -21,6 +22,8 @@ struct APIModel: Hashable {
         self.request = ""
         self.response = ""
         self.type = ""
+        self.typeApi = ""
+        
     }
 }
 

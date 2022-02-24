@@ -198,7 +198,7 @@ struct APIView: View {
                                                    HStack {
                                                        VStack{
                                                            Spacer()
-                                                       Text(verbatim: "API key")
+                                                       Text(verbatim: "API key: (subscribe on https://yfapi.net)")
                                                        .frame(maxWidth: .infinity, alignment: .leading)
                                                        .padding(.top, 10)
                                                        .padding(.leading, 20)

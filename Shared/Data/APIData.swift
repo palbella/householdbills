@@ -85,7 +85,7 @@ class APIData: ObservableObject {
             }
             
             if(model.type == "Yahoo!") {
-                model.api = "https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=$stock$"
+                model.typeApi = "https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols=$stock$"
             }
             
             

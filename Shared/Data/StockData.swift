@@ -134,6 +134,9 @@ SaveContext()
         stockModel.notificated = stock.notificated
         stockModel.notificationPriceUp = stock.notificationPriceUp
         stockModel.notificationPriceDown = stock.notificationPriceDown
+        stockModel.exchange = stock.exchange!
+        stockModel.dividend = stock.dividend
+        stockModel.dividendPercent = stock.dividendPercent
 
         return stockModel
     }

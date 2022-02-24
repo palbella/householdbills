@@ -88,8 +88,8 @@ struct GetMarketStocks {
                             let name = record["shortName"] as? String
                             let price = record["regularMarketPrice"] as? Double
                             let exchange = record["exchange"] as? String
-                            let dividend = record["trailingAnnualDividendYield"] as? Double
-                            let dividendPercent = record["trailingAnnualDividendRate"] as? Double
+                            let dividend = record["trailingAnnualDividendRate"] as? Double
+                            let dividendPercent = record["trailingAnnualDividendYield"] as? Double
                             let pe = record["trailingPE"] as? Double
 
                             
@@ -228,7 +228,7 @@ struct GetMarketStocks {
                                                                         savedStocks[index].exchange = exchange
                                                                         savedStocks[index].pe = pe
                                                                         savedStocks[index].dividend = dividend
-                                                                        savedStocks[index].dividendPercent = dividendPercent
+                                                                        savedStocks[index].dividendPercent = dividendPercent * 100
                                                                         
                                                                              SaveContext()
                                                                         
@@ -303,7 +303,10 @@ class GetStockAPI: ObservableObject {
     
     func loadData(symbol: String, completion:@escaping ([String: Any?]) -> ()) {
         let api = self.apiData.get()
-        let url = api.api.replacingOccurrences(of: "$stock$", with: symbol).replacingOccurrences(of: " ", with: "")
+        var url = api.api.replacingOccurrences(of: "$stock$", with: symbol).replacingOccurrences(of: " ", with: "")
+        if(api.type == "Yahoo!") {
+            url = api.typeApi.replacingOccurrences(of: "$stock$", with: symbol).replacingOccurrences(of: " ", with: "")
+        }
         let token = api.request
         print(url)
            guard let url = URL(string: url) else {
