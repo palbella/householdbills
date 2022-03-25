@@ -155,7 +155,6 @@ struct HouseholdBillsApp: App {
                 IPAService.shared.getProduct()
                 IPAService.shared.subscriptionVerification(settings: self.settings)
                 
-                
 //                if(Locale.current.languageCode != nil && self.settings.forceEnglish == false) {
 //                    let pref_Language = NSLocale.preferredLanguages[0] as String
 //                    Bundle.set(language: pref_Language)
@@ -192,8 +191,25 @@ struct HouseholdBillsApp: App {
         }
     }
 
+    func checkMonth(date: Date) {
+        
+        do {
+        let fetchMonthRequest: NSFetchRequest<Month> = Month.fetchRequest()
+            fetchMonthRequest.predicate = NSPredicate(format: "%@ == month AND %@ == year", argumentArray: [Int32(date.get(.month)), Int32(date.get(.year))])
+            let months : NSArray = try persistenceController.container.viewContext.fetch(fetchMonthRequest) as NSArray
+            
+            if(months.count < 1) {
+                MonthBalance().createMonth(totalBalance: 0, dayChangeMonth: 50)
+            }
+           
+        } catch {
+            
+        }
+        
+    }
 
     func runTasks() {
+        checkMonth(date: Date())
         BackgroundThreadTask().scheduleAppRefresh()
         DailyBalanceTask(viewContext: persistenceController.container.viewContext, settings: settings).run()
         GetCarAlerts(viewContext: persistenceController.container.viewContext).run()

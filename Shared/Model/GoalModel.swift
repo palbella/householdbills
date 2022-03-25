@@ -20,6 +20,7 @@ struct GoalModel: Hashable, Identifiable {
     var iconColor: String
     var planning: [GoalModel]
     var planningMonth: String
+    var ignoreBalance: Bool
     
     init() {
         self.id = UUID()
@@ -32,6 +33,7 @@ struct GoalModel: Hashable, Identifiable {
         self.iconColor = ""
         self.planning = []
         self.planningMonth = ""
+        self.ignoreBalance = false
     }
 }
 

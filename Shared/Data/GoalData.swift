@@ -54,6 +54,7 @@ class GoalData: ObservableObject {
                 newGoal.currency = goal.currency
                 newGoal.iconColor = goal.iconColor
                 newGoal.iconContent = goal.iconContent
+                newGoal.ignoreBalance = goal.ignoreBalance
                 
 
       SaveContext()
@@ -79,6 +80,7 @@ class GoalData: ObservableObject {
             savedGoal.target = goal.target
             savedGoal.iconColor = goal.iconColor
             savedGoal.iconContent = goal.iconContent
+            savedGoal.ignoreBalance = goal.ignoreBalance
             
             
         } catch {
@@ -164,6 +166,7 @@ class GoalData: ObservableObject {
         goalModel.target = goal.target
         goalModel.iconColor = goal.iconColor ?? ""
         goalModel.iconContent = goal.iconContent ?? ""
+        goalModel.ignoreBalance = goal.ignoreBalance
 
         return goalModel
     }

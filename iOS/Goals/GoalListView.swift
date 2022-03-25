@@ -270,10 +270,12 @@ struct GoalListView: View {
        
                             for index in 0..<savedGoals.count {
 
+                                if(self.goalsFetch[index].ignoreBalance != true) {
                                 let amount: Double = currencies.convert(currencyFrom: self.goalsFetch[index].currency!, currencyTo: settings.currency, value: self.goalsFetch[index].amount)
                                 
                                 self.totalGoals = self.totalGoals + amount
                                     }
+                            }
         } catch {
            
         }

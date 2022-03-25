@@ -1649,6 +1649,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ulala.householdbills;
 				PRODUCT_NAME = "Household Bills";
 				SDKROOT = iphoneos;
@@ -1672,6 +1673,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ulala.householdbills;
 				PRODUCT_NAME = "Household Bills";
 				SDKROOT = iphoneos;

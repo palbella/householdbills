@@ -195,6 +195,11 @@ struct GoalSettingsView: View {
     @ObservedObject var icons = GetIcons()
     @ObservedObject var colors = GetColors()
     @State var currencies: GetCurrencies
+    
+    @ObservedObject var yn = GetYesNo()
+    
+    @State var ignoreBalance: String? = "No"
+    @State var ignoreBalanceId = 0
 
     @State private var showConfirm = false
     
@@ -241,6 +246,16 @@ struct GoalSettingsView: View {
                     })
                                 .padding()
                     
+                    PickerInput(iconContent: "", iconColor: .blue, label: "Ignore month available", placeholder: "Selection", data: $yn.items, value: $ignoreBalance, index: $ignoreBalanceId)
+                        .onChange(of: ignoreBalance, perform: { value in
+                                if(value == "Yes") {
+                                    self.goal.ignoreBalance = true
+                                }
+                                else {
+                                    self.goal.ignoreBalance = false
+                                }
+                        })
+                    
                    
             }
                
@@ -260,6 +275,13 @@ struct GoalSettingsView: View {
      
         }
         .alert(isPresented: $showConfirm, content: { confirmDelete })
+        .onAppear() {
+            if(goal.ignoreBalance == true) {
+                ignoreBalance = "Yes"
+            } else {
+                ignoreBalance = "No"
+            }
+        }
         
     }
     
