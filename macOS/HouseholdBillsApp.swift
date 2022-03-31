@@ -18,6 +18,7 @@ class UserSettings: ObservableObject {
     @Published var navigateNowToLogIn: Bool = false
     @Published var navigateNowToSignup: Bool = false
     @Published var currencyUpdate: Bool = false
+    @Published var showAds: Bool = false
     @Published var lastLogin: Date? = nil
     @Published var currency: String = "USD"
     @Published var symbol: String = "$"
@@ -125,6 +126,7 @@ struct HouseholdBillsApp: App {
                 self.settings.symbol = savedSettings[0].symbol!
                 self.settings.currency = savedSettings[0].currency!
                 self.settings.currencyUpdate = savedSettings[0].currencyUpdate
+                self.settings.showAds = savedSettings[0].showAds
                 self.settings.name = savedSettings[0].name!
                 self.settings.email = savedSettings[0].email!
                 self.settings.unit = savedSettings[0].unit!

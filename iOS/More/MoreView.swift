@@ -88,6 +88,7 @@ struct MoreView: View {
                     Button(action: {
                         self.settingsObj.currency = self.settings.currency
                         self.settingsObj.currencyUpdate = self.settings.currencyUpdate
+                        self.settingsObj.showAds = self.settings.showAds
                         self.settingsObj.unit = self.settings.unit
                         self.settingsObj.symbol = self.settings.symbol
                         self.settingsObj.dayChangeMonth = self.settings.dayChangeMonth
@@ -464,6 +465,7 @@ struct MoreView: View {
             savedSettings[0].symbol = self.settingsObj.symbol
             savedSettings[0].currency = self.settingsObj.currency
             savedSettings[0].currencyUpdate = self.settingsObj.currencyUpdate
+            savedSettings[0].showAds = self.settingsObj.showAds
             savedSettings[0].unit = self.settingsObj.unit
             savedSettings[0].dayChangeMonth = self.settingsObj.dayChangeMonth
             savedSettings[0].showMonthBalance = self.settingsObj.showMonthBalance
@@ -478,6 +480,7 @@ struct MoreView: View {
             settings.showMonthBalance = self.settingsObj.showMonthBalance
             settings.fastApply = self.settingsObj.fastApply
             settings.forceEnglish = self.settingsObj.forceEnglish
+            settings.showAds = self.settingsObj.showAds
            
             SaveContext()
             

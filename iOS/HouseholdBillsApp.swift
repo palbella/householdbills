@@ -16,6 +16,7 @@ class UserSettings: ObservableObject {
     @Published var loggedIn : Bool = false
     @Published var welcome : Bool = true
     @Published var subscribed : Bool = false
+    @Published var showAds : Bool = false
     @Published var navigateNowToLogIn: Bool = false
     @Published var navigateNowToSignup: Bool = false
     @Published var currencyUpdate: Bool = false
@@ -82,8 +83,11 @@ struct HouseholdBillsApp: App {
     @Environment(\.colorScheme) var colorScheme
     
    let persistenceController = PersistenceController.shared
+    let adsController = AdsController.shared
     let settings = UserSettings()
     let appUI = AppUI()
+    
+
     
     
     let fetchRequest: NSFetchRequest<Settings> = Settings.fetchRequest()
@@ -137,6 +141,7 @@ struct HouseholdBillsApp: App {
                 self.settings.estimatedMontlyIncomes = savedSettings[0].monthIncome
                 self.settings.fastApply = savedSettings[0].fastApply
                 self.settings.subscribed = savedSettings[0].subscribed
+                self.settings.showAds = savedSettings[0].showAds
                 self.settings.dayChangeMonth = savedSettings[0].dayChangeMonth
                 self.settings.showMonthBalance = savedSettings[0].showMonthBalance
                 self.settings.notificationStock = savedSettings[0].notificationStock
@@ -167,6 +172,8 @@ struct HouseholdBillsApp: App {
                 
                 //Used for testing do not commit uncomented 
 //                self.settings.subscribed = false
+                
+               
                 
 
             }

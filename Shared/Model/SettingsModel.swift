@@ -22,6 +22,7 @@ struct SettingsModel: Hashable {
     var notificationService: Bool
     var showMonthBalance: Bool
     var fastApply: Bool
+    var showAds: Bool
     var forceEnglish: Bool
 
     
@@ -39,6 +40,7 @@ struct SettingsModel: Hashable {
         self.showMonthBalance = false
         self.fastApply = false
         self.forceEnglish = false
+        self.showAds = true
     }
 }
 

@@ -105,6 +105,16 @@ struct DashboardBodyView: View {
                 .padding(.bottom, 20)
             }
             
+         
+            if(settings.showAds == true) {
+                    HStack{
+                        Spacer()
+                        BannerAd().padding()
+                        Spacer()
+                    }
+            }
+            
+            
             ForEach(self.cardsFetch.indexed(), id: \.1.id) { index, card in
                 
                 if(card.name == "Month Available Balance") {

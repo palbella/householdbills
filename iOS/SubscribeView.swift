@@ -17,9 +17,12 @@ struct SubscribeModel {
 
 struct SubscribeView: View {
     @EnvironmentObject var ui: AppUI
+    @EnvironmentObject var settings: UserSettings
     @Environment(\.presentationMode) var presentationMode
   
     @State var showTerms = false
+    
+    var ads: RewardedAd = AdsController.shared.ads
     
     var carusel: [SubscribeModel] = [
         SubscribeModel(id: 1, image: "subscribe1", titleText: LocalizedStringKey("subscribe1").toString(), descriptionText: LocalizedStringKey("").toString()),
@@ -30,7 +33,12 @@ struct SubscribeView: View {
     ]
     
     func onAppear() {
-   
+        if(settings.showAds == true) {
+            settings.subscribed = ads.showAd() {}
+            if(settings.subscribed == true) {
+                ads.load()
+            }
+        }
     }
     
     var body: some View {
@@ -71,6 +79,7 @@ struct SubscribeView: View {
                 
                 Spacer()
                 
+                VStack(spacing: 0) {
                 Button(action: {
                     IPAService.shared.purchase(product: .year)
                     presentationMode.wrappedValue.dismiss()
@@ -84,7 +93,11 @@ struct SubscribeView: View {
                     .background(Color.blue)
                     .cornerRadius(5)
                 }.padding(.bottom, 10)
-                
+                Text("Remove ads and unlock features.")
+                    .foregroundColor(Color.white)
+                    .padding(.bottom, 0)
+                    .font(.system(size: 12))
+                    .padding(.bottom, 10)
                 
 
                 Button(action: {
@@ -93,6 +106,7 @@ struct SubscribeView: View {
                     Text("Maybe Later")
                         .foregroundColor(Color.black)
                         .padding(.bottom, 30)
+                }
                 }
 
                 Spacer()

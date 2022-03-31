@@ -44,9 +44,14 @@ struct MainView: View {
     
     @State var save: Bool = false
     
+    
     init() {
         UITabBar.appearance().isTranslucent = false
       }
+    
+    func onAppears() {
+       
+    }
     
     var body: some View {
         
@@ -119,6 +124,7 @@ struct MainView: View {
 
             PopUpWindow(isShowingPopup: $isShowingPopup, popupTitle: $popupTitle, popupMessasge: $popupMessasge, popupImage: $popupImage)
         }
+        .onAppear{self.onAppears()}
         .fullScreenCover(isPresented: $showSubscribe, content: SubscribeView.init)
         .fullScreenCover(isPresented: $showUser, content: UserView.init)
                 .sheet(isPresented: $showActionSheet, onDismiss: {

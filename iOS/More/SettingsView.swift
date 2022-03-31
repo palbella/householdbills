@@ -99,6 +99,9 @@ struct SettingsView: View {
             Toggle("Swipe Down for apply changes", isOn: $settings.fastApply)
                 .padding()
             
+            Toggle("Ads to Unlock Features", isOn: $settings.showAds)
+                .padding()
+            
             HStack() {
                 Button(action: {
                     let url = URL(string:UIApplication.openSettingsURLString)
