@@ -67,6 +67,7 @@ struct InitialData {
         newSetting.showMonthBalance = true
         newSetting.dayChangeMonth = 28
         newSetting.monthIncome = 0
+        newSetting.showAds = true
         
         
         SaveContext()

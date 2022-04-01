@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct SignUpView: View {
     @EnvironmentObject var settings: UserSettings
@@ -23,6 +24,8 @@ struct SignUpView: View {
     @State var toastMessasge: String = ""
     @State var toastError: Bool = false
     @State var agreeTerms: Bool = false
+    
+    
     
     var disableForm: Bool {
         !(self.name != "" && self.emailAddress != "" && self.password.count == 6)
@@ -132,6 +135,51 @@ struct SignUpView: View {
                 settings.email = emailAddress
                 settings.showMonthBalance = true
                     settings.welcome = false
+                    
+                    IPAService.shared.getProduct()
+                    IPAService.shared.subscriptionVerification(settings: self.settings)
+                    
+                    do {
+                        
+                        let fetchRequest: NSFetchRequest<Settings> = Settings.fetchRequest()
+                        let fetchRequestAPI: NSFetchRequest<API> = API.fetchRequest()
+                        let savedSettings =  try viewContext.fetch(fetchRequest)
+                        let savedAPI =  try viewContext.fetch(fetchRequestAPI)
+                        
+                        self.settings.password = savedSettings[0].password!
+                        self.settings.symbol = savedSettings[0].symbol!
+                        self.settings.currency = savedSettings[0].currency!
+                        self.settings.currencyUpdate = savedSettings[0].currencyUpdate
+                        self.settings.name = savedSettings[0].name!
+                        self.settings.email = savedSettings[0].email!
+                        self.settings.unit = savedSettings[0].unit!
+                        self.settings.estimatedMontlyIncomes = savedSettings[0].monthIncome
+                        self.settings.fastApply = savedSettings[0].fastApply
+                        self.settings.subscribed = savedSettings[0].subscribed
+                        self.settings.showAds = savedSettings[0].showAds
+                        self.settings.dayChangeMonth = savedSettings[0].dayChangeMonth
+                        self.settings.showMonthBalance = savedSettings[0].showMonthBalance
+                        self.settings.notificationStock = savedSettings[0].notificationStock
+                        self.settings.notificationCrypto = savedSettings[0].notificationCrypto
+                        self.settings.notificationPayment = savedSettings[0].notificationPayment
+                        self.settings.notificationService = savedSettings[0].notificationService
+                        self.settings.forceEnglish = savedSettings[0].english
+                        
+                        if(savedAPI.count == 0) {
+                           
+                        } else {
+                            do {
+                                let newAPI = API(context: viewContext)
+                                newAPI.stockType = "GET"
+                                try viewContext.save()
+                                }
+                            catch {
+                            }
+                        }
+                        
+                    } catch {
+                    }
+                    
                 } else {
                     self.toastMessasge = LocalizedStringKey("Name, Email and Password is required").toString()
                     self.isShowingToast = true

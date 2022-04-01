@@ -85,7 +85,7 @@ struct SubscribeView: View {
                     presentationMode.wrappedValue.dismiss()
                 }) {
                     HStack {
-                        Text("Subscribe ") + Text(IPAService.shared.products[0].localizedPrice) + Text(" / Year")
+                        Text("Subscribe ") + (IPAService.shared.products.count > 0 ? Text(IPAService.shared.products[0].localizedPrice) + Text(" / Year") : Text(""))
                     }
                     .padding()
                     .frame(width: geometry.size.width - 40, height: 40)

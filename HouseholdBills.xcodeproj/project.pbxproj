@@ -503,7 +503,6 @@
 		6EEF27EA273C434900614AB4 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6EEF27EB273C435700614AB4 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6EEF27EC273C43DB00614AB4 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		6EEF27ED273C445300614AB4 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6EEF27EE273C446400614AB4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6EEF27F2273C4AE700614AB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6EF2E5F62784A40900C6A06F /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
@@ -1156,7 +1155,6 @@
 				"pt-PT",
 				"pt-BR",
 				"zh-HK",
-				ru,
 				de,
 				ko,
 			);
@@ -1537,7 +1535,6 @@
 				6EEF27EA273C434900614AB4 /* pt-PT */,
 				6EEF27EB273C435700614AB4 /* pt-BR */,
 				6EEF27EC273C43DB00614AB4 /* zh-HK */,
-				6EEF27ED273C445300614AB4 /* ru */,
 				6EEF27EE273C446400614AB4 /* de */,
 				6EEF27F2273C4AE700614AB4 /* ko */,
 			);

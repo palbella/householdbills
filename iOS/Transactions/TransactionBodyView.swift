@@ -36,6 +36,18 @@ struct TransactionsBodyView: View {
     var body: some View {
         
         VStack {
+            
+            if(settings.showAds == true) {
+                VStack {
+                    HStack{
+                        Spacer()
+                        BannerAd().padding()
+                        Spacer()
+                    }
+                }
+                .padding(.bottom, 20)
+            }
+            
             ForEach(self.transactions.months.indexed(), id: \.1.id) { index, month in
         
             
@@ -77,6 +89,8 @@ struct TransactionsBodyView: View {
             ) {
 
                 Divider()
+                
+          
                 
                
                 ForEach (self.transactions.months[index].items.indexed(), id: \.1.id) { i, item in

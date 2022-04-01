@@ -182,6 +182,8 @@ struct PlanningBodyView: View {
         
                 }
                 
+          
+                
             VStack (spacing: 0) {
 
     
@@ -273,7 +275,17 @@ struct PlanningBodyView: View {
       
        
         }
-        
+            if(settings.showAds == true) {
+                VStack {
+                    HStack{
+                        Spacer()
+                        BannerAd().padding()
+                        Spacer()
+                    }
+                }
+                .padding(.bottom, 20)
+            }
+            
             PlanningBudgetBodyView(totalBudgets: self.$totalBudgets, isShowingToast: self.$isShowingToast, toastMessasge: self.$toastMessasge, toastError: self.$toastError, showSubscribe: self.$showSubscribe)
                 .padding(.top, 10)
                 .padding(.bottom, 20)
