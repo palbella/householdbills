@@ -179,7 +179,7 @@ struct GoalListView: View {
                                                             ProgressView(item.symbol! + " " + String(format: "%.2f", item.target), value: percent, total: 100)
                                                             .font(.system(size: 10))
                                                             .foregroundColor(colorScheme != .dark ? Color(UIColor.darkGray): ui.darkCommandFontColor)
-                                                            .frame(width: 60)
+                                                            .frame(width: 63)
                                                         
                                                             if(!self.hideData) {
                                                                 Text(item.symbol! + " " + String(format: "%.2f", abs(item.amount))).padding(5).padding(.leading, 5).padding(.trailing, 5)

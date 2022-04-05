@@ -213,8 +213,8 @@ struct GetMarketStocks {
                                                                             savedStocks[index].notificated = true
                                                                         }
                                                                         
-                                                                       
-                                                                        let arrName = name.components(separatedBy: " ")
+                                                                       let nameFormat = name.replacingOccurrences(of: ",", with: "")
+                                                                        let arrName = nameFormat.components(separatedBy: " ")
                                                                         var shortName = arrName[0]
                                                                         for i in 1..<arrName.count {
                                                                             let count = shortName.count + arrName[i].count
