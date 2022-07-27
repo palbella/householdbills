@@ -178,7 +178,7 @@ SaveContext()
             do {
                     let request: NSFetchRequest<Cryptocurrency> = Cryptocurrency.fetchRequest()
                     request.predicate = NSPredicate(format: "id = %@", array[0].trimmingCharacters(in: .whitespacesAndNewlines) as CVarArg)
-                let savedCryptocurrency = try  self.viewContext.fetch(request)
+                let savedCryptocurrencyList = try  self.viewContext.fetch(request)
                 
                 var validator = ExportImportTask().validateDouble(value: array[3].trimmingCharacters(in: .whitespacesAndNewlines))
                 validator = validator && ExportImportTask().validateDouble(value: array[5].trimmingCharacters(in: .whitespacesAndNewlines))
@@ -187,7 +187,7 @@ SaveContext()
                 validator = validator && ExportImportTask().validateDouble(value: array[9].trimmingCharacters(in: .whitespacesAndNewlines))
                 validator = validator && ExportImportTask().validateBoolean(value: array[7].trimmingCharacters(in: .whitespacesAndNewlines))
                 
-                if(savedCryptocurrency.count < 1 && validator) {
+                if(savedCryptocurrencyList.count < 1 && validator) {
                     
                     let newCryptocurrency = Cryptocurrency(context: viewContext)
                     newCryptocurrency.id = UUID(uuidString: array[0].trimmingCharacters(in: .whitespacesAndNewlines))
@@ -200,6 +200,22 @@ SaveContext()
                     newCryptocurrency.notificated = (array[7].trimmingCharacters(in: .whitespacesAndNewlines) as NSString).boolValue
                     newCryptocurrency.notificationPriceUp = Double(array[8].trimmingCharacters(in: .whitespacesAndNewlines))!
                     newCryptocurrency.notificationPriceDown = Double(array[9].trimmingCharacters(in: .whitespacesAndNewlines))!
+
+          SaveContext()
+                }
+                
+                if(savedCryptocurrencyList.count == 1 && validator) {
+                    
+                    let savedCryptocurrency = savedCryptocurrencyList[0]
+                    savedCryptocurrency.name = array[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                    savedCryptocurrency.symbol = array[2].trimmingCharacters(in: .whitespacesAndNewlines)
+                    savedCryptocurrency.amount = Double(array[3].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    savedCryptocurrency.accountId = UUID(uuidString: array[4].trimmingCharacters(in: .whitespacesAndNewlines))
+                    savedCryptocurrency.avgPurchase = Double(array[5].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    savedCryptocurrency.price = Double(array[6].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    savedCryptocurrency.notificated = (array[7].trimmingCharacters(in: .whitespacesAndNewlines) as NSString).boolValue
+                    savedCryptocurrency.notificationPriceUp = Double(array[8].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    savedCryptocurrency.notificationPriceDown = Double(array[9].trimmingCharacters(in: .whitespacesAndNewlines))!
 
           SaveContext()
                 }
