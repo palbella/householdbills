@@ -151,8 +151,9 @@ struct LineChartSwiftUI: UIViewRepresentable {
             if(previousMonth == 0) {
                 previousMonth = 12
                 previousYear = String(currentYear - 1)
-            startDate = dateFormatter.date(from: previousYear + "-" + String(previousMonth) + "-" + currentDay)! as NSDate
             }
+            startDate = dateFormatter.date(from: previousYear + "-" + String(previousMonth) + "-" + currentDay)! as NSDate
+            
         }
 
         

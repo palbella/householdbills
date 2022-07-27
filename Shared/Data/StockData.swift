@@ -183,7 +183,7 @@ SaveContext()
             do {
                     let request: NSFetchRequest<Stock> = Stock.fetchRequest()
                     request.predicate = NSPredicate(format: "id = %@", array[0].trimmingCharacters(in: .whitespacesAndNewlines) as CVarArg)
-                let savedStock = try  self.viewContext.fetch(request)
+                let savedStockList = try  self.viewContext.fetch(request)
                 
                 var validator = ExportImportTask().validateDouble(value: array[3].trimmingCharacters(in: .whitespacesAndNewlines))
                 validator = validator && ExportImportTask().validateDouble(value: array[5].trimmingCharacters(in: .whitespacesAndNewlines))
@@ -192,7 +192,7 @@ SaveContext()
                 validator = validator && ExportImportTask().validateDouble(value: array[9].trimmingCharacters(in: .whitespacesAndNewlines))
                 validator = validator && ExportImportTask().validateBoolean(value: array[7].trimmingCharacters(in: .whitespacesAndNewlines))
                 
-                if(savedStock.count < 1 && validator) {
+                if(savedStockList.count < 1 && validator) {
                     
                     let newStock = Stock(context: viewContext)
                     newStock.id = UUID(uuidString: array[0].trimmingCharacters(in: .whitespacesAndNewlines))
@@ -205,6 +205,23 @@ SaveContext()
                     newStock.notificated = (array[7].trimmingCharacters(in: .whitespacesAndNewlines) as NSString).boolValue
                     newStock.notificationPriceUp = Double(array[8].trimmingCharacters(in: .whitespacesAndNewlines))!
                     newStock.notificationPriceDown = Double(array[9].trimmingCharacters(in: .whitespacesAndNewlines))!
+
+          SaveContext()
+                }
+                
+                if(savedStockList.count == 1 && validator) {
+                    
+                    let savedStock = savedStockList[0]
+                   
+                    savedStock.name = array[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                    savedStock.symbol = array[2].trimmingCharacters(in: .whitespacesAndNewlines)
+                    savedStock.amount = Double(array[3].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    savedStock.accountId = UUID(uuidString: array[4].trimmingCharacters(in: .whitespacesAndNewlines))
+                    savedStock.avgPurchase = Double(array[5].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    savedStock.price = Double(array[6].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    savedStock.notificated = (array[7].trimmingCharacters(in: .whitespacesAndNewlines) as NSString).boolValue
+                    savedStock.notificationPriceUp = Double(array[8].trimmingCharacters(in: .whitespacesAndNewlines))!
+                    savedStock.notificationPriceDown = Double(array[9].trimmingCharacters(in: .whitespacesAndNewlines))!
 
           SaveContext()
                 }
